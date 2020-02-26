@@ -8,8 +8,8 @@ from pathlib import Path
 
 from ophyd.sim import NullStatus, new_uid
 
-from sirepo_bluesky import SirepoBluesky
-from srw_handler import read_srw_file
+from .sirepo_bluesky import SirepoBluesky
+from sirepo_bluesky.srw_handler import read_srw_file
 
 
 class BlueskyFlyer:
@@ -37,6 +37,50 @@ class BlueskyFlyer:
 
 
 class SirepoFlyer(BlueskyFlyer):
+    """
+    Multiprocessing "flyer" for Sirepo simulations
+
+    Parameters
+    ----------
+    sim_id : str
+        Simulation ID corresponding to Sirepo simulation being run on local server
+    server_name : str
+        Address that identifies access to local Sirepo server
+    params_to_change : list of dicts of dicts
+        # example here???
+        List of dictionaries containing optical elements that contain dictionaries of parameters to modify and their
+        values
+    root_dir : str
+        Root directory for DataBroker to store data from simulations
+    sim_code : str, optional
+        Simulation code
+    watch_name : str, optional
+        The name of the watchpoint viewing the simulation
+    run_parallel : bool
+        States whether the user want to run flyer using multiprocessing or serially
+
+    Examples
+    --------
+    if __name__ == '__main__':
+        from sirepo_bluesky.re_config import *
+        from sirepo_bluesky import sirepo_flyer as sf
+
+        params_to_change = []
+        for i in range(1, 5+1):
+            key1 = 'Aperture'
+            parameters_update1 = {'horizontalSize': i * .1, 'verticalSize': (6 - i) * .1}
+            key2 = 'Lens'
+            parameters_update2 = {'horizontalFocalLength': i + 10}
+
+            params_to_change.append({key1: parameters_update1,
+                                     key2: parameters_update2})
+
+        sirepo_flyer = sf.SirepoFlyer(sim_id='87XJ4oEb', server_name='http://10.10.10.10:8000',
+                                      root_dir=ROOT_DIR, params_to_change=params_to_change,
+                                      watch_name='W60')
+
+        RE(bp.fly([sirepo_flyer]))
+    """
     def __init__(self, sim_id, server_name, params_to_change, root_dir, sim_code='srw',
                  watch_name='Watchpoint', run_parallel=True):
         super().__init__()
@@ -304,24 +348,3 @@ class SirepoFlyer(BlueskyFlyer):
         status = sim.run_simulation()
         print('Status:', status['state'])
         return_status[sim.sim_id] = status['state']
-
-
-if __name__ == '__main__':
-    # from re_config import *
-    from re_config import ROOT_DIR
-
-    params_to_change = []
-    for i in range(1, 5+1):
-        key1 = 'Aperture'
-        parameters_update1 = {'horizontalSize': i * .1, 'verticalSize': (6 - i) * .1}
-        key2 = 'Lens'
-        parameters_update2 = {'horizontalFocalLength': i + 10}
-
-        params_to_change.append({key1: parameters_update1,
-                                 key2: parameters_update2})
-
-    sirepo_flyer = SirepoFlyer(sim_id='87XJ4oEb', server_name='http://10.10.10.10:8000',
-                               root_dir=ROOT_DIR, params_to_change=params_to_change,
-                               watch_name='W60')
-
-    # RE(bp.fly([sirepo_flyer]))
