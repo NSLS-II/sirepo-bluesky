@@ -15,7 +15,7 @@ from databroker import Broker, temp_config
 
 from ophyd.utils import make_dir_tree
 
-from srw_handler import SRWFileHandler
+from .srw_handler import SRWFileHandler
 import matplotlib.pyplot as plt
 
 
