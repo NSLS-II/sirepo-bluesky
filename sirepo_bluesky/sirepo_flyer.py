@@ -264,22 +264,12 @@ class SirepoFlyer(BlueskyFlyer):
                          f'{self.name}_status': {'source': f'{self.name}_status',
                                                  'dtype': 'string',
                                                  'shape': []},
+                         f'{self.name}_parameters': {'source': f'{self.name}_parameters',
+                                                     'dtype': 'string',
+                                                     'shape': []}
                         }
                        }
 
-        elem_name = []
-        curr_param = []
-        for inputs in self.params_to_change:
-            for key, parameters_to_update in inputs.items():
-                elem_name.append(key)  # e.g., 'Aperture'
-                curr_param.append(list(parameters_to_update.keys()))  # e.g., 'horizontalSize'
-
-        for i in range(len(elem_name)):
-            for j in range(len(curr_param[i])):
-                return_dict[self.name][f'{self.name}_{elem_name[i]}_{curr_param[i][j]}'] = {
-                    'source': f'{self.name}_{elem_name[i]}_{curr_param[i][j]}',
-                    'dtype': 'number',
-                    'shape': []}
         return return_dict
 
     def collect(self):
@@ -325,18 +315,8 @@ class SirepoFlyer(BlueskyFlyer):
                     f'{self.name}_vertical_extent': vertical_extents[i],
                     f'{self.name}_hash_value': hash_values[i],
                     f'{self.name}_status': statuses[i],
+                    f'{self.name}_parameters': self.params_to_change[i],
                     }
-
-            for j in range(len(self.params_to_change)):
-                inputs = self.params_to_change[j]
-                for key, parameters_to_update in inputs.items():
-                    elem_name.append(key)  # e.g., 'Aperture'
-                    curr_param.append(list(parameters_to_update.keys()))  # e.g., 'horizontalSize'
-
-            for ii in range(len(elem_name)):
-                for jj in range(len(curr_param[ii])):
-                    data[f'{self.name}_{elem_name[ii]}_{curr_param[ii][jj]}'] =\
-                        self.params_to_change[i][elem_name[ii]][curr_param[ii][jj]]
 
             yield {'data': data,
                    'timestamps': {key: now for key in data}, 'time': now,
