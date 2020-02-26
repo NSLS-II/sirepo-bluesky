@@ -40,16 +40,20 @@ class SirepoFlyer(BlueskyFlyer):
     """
     Multiprocessing "flyer" for Sirepo simulations
 
-    Parameters
+    Attributes
     ----------
     sim_id : str
         Simulation ID corresponding to Sirepo simulation being run on local server
     server_name : str
         Address that identifies access to local Sirepo server
     params_to_change : list of dicts of dicts
-        # example here???
-        List of dictionaries containing optical elements that contain dictionaries of parameters to modify and their
-        values
+        List of dictionaries with string optic element names for keys and values that are dictionaries
+        with string optic element parameter names for keys and new positions as values
+
+        Example: [{'Aperture': {'horizontalSize': 1, 'verticalSize':2},
+                   'Lens': {'horizontalFocalLength': 10}},
+                  {'Aperture': {'horizontalSize': 3, 'verticalSize':6},
+                   'Lens': {'horizontalFocalLength': 15}}]
     root_dir : str
         Root directory for DataBroker to store data from simulations
     sim_code : str, optional
@@ -96,7 +100,7 @@ class SirepoFlyer(BlueskyFlyer):
         self.return_status = {}
         self._copies = None
         self._srw_files = None
-    
+
     def __repr__(self):
         return (f'{self.name} with sim_code="{self._sim_code}" and '
                 f'sim_id="{self._sim_id}" at {self._server_name}')
@@ -243,30 +247,30 @@ class SirepoFlyer(BlueskyFlyer):
                                                'dtype': 'array',
                                                'shape': [-1, -1],
                                                'external': 'FILESTORE:'},
-                         f'{self.name}_shape': {'source': f'{self.name}_shape',
-                                                'dtype': 'array',
-                                                'shape': [2]},
-                         f'{self.name}_mean': {'source': f'{self.name}_mean',
-                                               'dtype': 'number',
-                                               'shape': []},
-                         f'{self.name}_photon_energy': {'source': f'{self.name}_photon_energy',
-                                                        'dtype': 'number',
-                                                        'shape': []},
-                         f'{self.name}_horizontal_extent': {'source': f'{self.name}_horizontal_extent',
-                                                            'dtype': 'array',
-                                                            'shape': [2]},
-                         f'{self.name}_vertical_extent': {'source': f'{self.name}_vertical_extent',
-                                                          'dtype': 'array',
-                                                          'shape': [2]},
-                         f'{self.name}_hash_value': {'source': f'{self.name}_hash_value',
-                                                     'dtype': 'string',
-                                                     'shape': []},
-                         f'{self.name}_status': {'source': f'{self.name}_status',
-                                                 'dtype': 'string',
-                                                 'shape': []},
-                         f'{self.name}_parameters': {'source': f'{self.name}_parameters',
-                                                     'dtype': 'string',
-                                                     'shape': []}
+                        f'{self.name}_shape': {'source': f'{self.name}_shape',
+                                               'dtype': 'array',
+                                               'shape': [2]},
+                        f'{self.name}_mean': {'source': f'{self.name}_mean',
+                                              'dtype': 'number',
+                                              'shape': []},
+                        f'{self.name}_photon_energy': {'source': f'{self.name}_photon_energy',
+                                                       'dtype': 'number',
+                                                       'shape': []},
+                        f'{self.name}_horizontal_extent': {'source': f'{self.name}_horizontal_extent',
+                                                           'dtype': 'array',
+                                                           'shape': [2]},
+                        f'{self.name}_vertical_extent': {'source': f'{self.name}_vertical_extent',
+                                                         'dtype': 'array',
+                                                         'shape': [2]},
+                        f'{self.name}_hash_value': {'source': f'{self.name}_hash_value',
+                                                    'dtype': 'string',
+                                                    'shape': []},
+                        f'{self.name}_status': {'source': f'{self.name}_status',
+                                                'dtype': 'string',
+                                                'shape': []},
+                        f'{self.name}_parameters': {'source': f'{self.name}_parameters',
+                                                    'dtype': 'string',
+                                                    'shape': []}
                         }
                        }
 
@@ -305,8 +309,6 @@ class SirepoFlyer(BlueskyFlyer):
 
         now = ttime.time()
         for i, datum_id in enumerate(self._datum_ids):
-            elem_name = []
-            curr_param = []
             data = {f'{self.name}_image': datum_id,
                     f'{self.name}_shape': shapes[i],
                     f'{self.name}_mean': means[i],

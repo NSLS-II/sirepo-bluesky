@@ -3,7 +3,7 @@ import vcr
 from sirepo_bluesky.sirepo_bluesky import SirepoBluesky
 
 
-@vcr.use_cassette('sirepo_bluesky/tests/vcr_cassettes/test_smoke_sirepo.yml')
+@vcr.use_cassette('tests/vcr_cassettes/test_smoke_sirepo.yml')
 def test_smoke_sirepo():
     sim_id = '87XJ4oEb'
     sb = SirepoBluesky('http://10.10.10.10:8000')
@@ -11,9 +11,9 @@ def test_smoke_sirepo():
     assert 'beamline' in data['models']
 
 
-@vcr.use_cassette('sirepo_bluesky/tests/vcr_cassettes/test_sirepo_flyer.yml')
+@vcr.use_cassette('tests/vcr_cassettes/test_sirepo_flyer.yml')
 def test_sirepo_flyer():
-    from ..re_config import RE, db, ROOT_DIR
+    from ..re_config import RE, ROOT_DIR  # , db
     from ..sirepo_flyer import SirepoFlyer
     import bluesky.plans as bp
     params_to_change = []

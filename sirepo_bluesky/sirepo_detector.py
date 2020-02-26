@@ -85,8 +85,8 @@ class SirepoDetector(Device):
         return converted_unit
 
     """
-    Get new parameter values from Sirepo server 
-    
+    Get new parameter values from Sirepo server
+
     """
     def update_parameters(self):
         data, sirepo_schema = self.sb.auth('srw', self._sim_id)
@@ -103,7 +103,7 @@ class SirepoDetector(Device):
         datum_id = new_uid()
         date = datetime.datetime.now()
         srw_file = Path('/tmp/data') / Path(date.strftime('%Y/%m/%d')) / \
-                   Path('{}.dat'.format(datum_id))
+            Path('{}.dat'.format(datum_id))
 
         if not self.source_simulation:
             if self.sirepo_component is not None:
@@ -195,6 +195,7 @@ class SirepoDetector(Device):
             # Create source components
             self.source_parameters = {f'sirepo_intensityReport_{k}': v for k, v in
                                       data['models']['intensityReport'].items()}
+
             def source_class_factory(cls_name):
                 dd = {k: Cpt(SynAxis) for k in self.source_parameters}
                 return type(cls_name, (Device,), dd)
@@ -210,8 +211,7 @@ class SirepoDetector(Device):
                 self.watch_name = self.optic_parameters[k]['sirepo_title']
 
     """
-    Get list of available sirepo components / parameters / watchpoints 
-    
+    Get list of available sirepo components / parameters / watchpoints
     """
     def view_sirepo_components(self):
         watchpoints = []
@@ -223,26 +223,26 @@ class SirepoDetector(Device):
         print(f'WATCHPOINTS: {watchpoints}')
 
     """
-    Selects specific optical component for any scan 
-        - Any parameter selected must be of this component 
-        
+    Selects specific optical component for any scan
+        - Any parameter selected must be of this component
+
     Parameters
     ----------
-    name : str 
-        name of optic 
+    name : str
+        name of optic
     """
     def select_optic(self, name):
         self.sirepo_component = self.sirepo_components[name]
 
     """
-    Returns a parameter based on Ophyd objects created in connect() 
-        - User can specify any parameter name of the selected component 
+    Returns a parameter based on Ophyd objects created in connect()
+        - User can specify any parameter name of the selected component
         - No need to put "sirepo_" before the name
-        
-    Parameters 
+
+    Parameters
     ----------
     name : str
-        name of parameter to create 
+        name of parameter to create
     """
     def create_parameter(self, name):
         real_name = f"sirepo_{name}"
@@ -261,12 +261,12 @@ class SirepoDetector(Device):
         return param
 
     """
-    Sets active watchpoint for the trigger() method 
-    
+    Sets active watchpoint for the trigger() method
+
     Parameters
     ----------
-    name : str 
-        name of watchpoint 
+    name : str
+        name of watchpoint
     """
     def set_watchpoint(self, name):
         self.watch_name = name
@@ -275,7 +275,7 @@ class SirepoDetector(Device):
 
     How to run beamline library example
     -----------------------------------
-    
+
      % run -i re_config.py
      import sirepo_detector as sd
      sirepo_det = sd.SirepoDetector(sim_id='qyQ4yILz', reg=db.reg)
@@ -289,40 +289,35 @@ class SirepoDetector(Device):
 
     Grid scan
     ---------
-    
     RE(bp.grid_scan([sirepo_det],
                     param1, 0, 1, 10,
                     param2, 0, 1, 10,
                     True))
-                    
+
     1D scan
     -------
-    
     RE(bps.mov(param2, 1))
     RE(bp.scan([sirepo_det], param1, 0, 1, 10))
 
     count
     -----
-    
     RE(bp.count([sirepo_det]))
 
 
     How to run source page example
     ------------------------------
-    
     % run -i re_config.py
     import sirepo_detector as sd
     sirepo_det = sd.SirepoDetector(sim_id='8GJJWLFh', reg=db.reg, source_simulation=True)
     sirepo_det.read_attrs = ['image', 'mean', 'photon_energy']
     sirepo_det.configuration_attrs = ['horizontal_extent', 'vertical_extent', 'shape']
-    
+
     RE(bp.count([sirepo_det]))
-    
+
     To see image:
-    ------------- 
-    
+    -------------
     hdr = db[-1]
     imgs = list(hdr.data('sirepo_det_image'))
     plt.plot(imgs[-1])
-    
+
     """

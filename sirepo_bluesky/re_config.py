@@ -28,7 +28,7 @@ RE.subscribe(bec)
 db = Broker.named('local')  # mongodb backend
 try:
     databroker.assets.utils.install_sentinels(db.reg.config, version=1)
-except:
+except Exception:
     pass
 
 RE.subscribe(db.insert)
