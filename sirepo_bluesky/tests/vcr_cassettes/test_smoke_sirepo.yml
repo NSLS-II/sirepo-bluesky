@@ -1,7 +1,7 @@
 interactions:
 - request:
-    body: '{"simulationType": "srw", "simulationId": "87XJ4oEb", "authNonce": "1582726173-5hjoja1BrAVjSWAeNg4h7ZbuOLAPiV1K",
-      "authHash": "v1:IvOk-r2UQbxzoefX4nhOtv9JEH4Qb_dDskT1Z_schOg="}'
+    body: '{"simulationType": "srw", "simulationId": "87XJ4oEb", "authNonce": "1582748040-PSdr6Cq5DWtdJf4rig4vmIZAkbwFAmLy",
+      "authHash": "v1:r2C0FREIEyvzFNWzzoM8xBl7JfBZQRSc1sp66kxti2g="}'
     headers:
       Accept:
       - '*/*'
@@ -14,7 +14,7 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.23.0
+      - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/bluesky-auth
   response:
@@ -502,12 +502,12 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 26 Feb 2020 14:09:33 GMT
+      - Wed, 26 Feb 2020 20:14:00 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
       Set-Cookie:
-      - sirepo_dev=Z0FBQUFBQmVWbndkeFhOaHNBOTZJSVYzWFdPZGNnZ3hxclJKdW00MWRQSmZWTWROOC1iMlhMWVVRc04ybF9qTjNlWnNQNWFYWW81RHlYdVlFaGZrRnJzR2hYS0QyNUxRdC1LRFNlWmlfbEV0NGpzUFY1aEQ1ZVF0UzNTNjBNUFFaRWoyOFEzM0hxU3g=;
-        Expires=Sat, 23-Feb-2030 14:09:33 GMT; Max-Age=315360000; HttpOnly; Path=/
+      - sirepo_dev=Z0FBQUFBQmVWdEdJOG1kWUpYOThQbF9WOWxKQnlYN0xQWVZ6bWk5anhOX2JQNzM1ZEZRRGdEc2NmU2w5M3dNcUVJRVQxQ0s1SzB5VEI1bjVCeS1UcXlJcExoaUd4X2JScUVNVW55TXBjanlacE1fWDM3S2dhUUtJN3lLM3lrOFZOdVdFTDZUZUZQQUY=;
+        Expires=Sat, 23-Feb-2030 20:14:00 GMT; Max-Age=315360000; HttpOnly; Path=/
     status:
       code: 200
       message: OK
