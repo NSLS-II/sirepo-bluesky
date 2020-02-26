@@ -11,3 +11,5 @@ pyqt5
 pytest
 requests
 unyt
+srwpy
+numpy
