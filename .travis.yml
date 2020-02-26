@@ -1,8 +1,14 @@
 language: python
 services:
   - mongodb
+  - xvfb
 python:
   - 3.6
+
+env:
+  global:
+    - MPLBACKEND: Qt5Agg
+
 cache:
   directories:
     - $HOME/.cache/pip
