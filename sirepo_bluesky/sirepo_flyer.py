@@ -40,7 +40,7 @@ class SirepoFlyer(BlueskyFlyer):
     """
     Multiprocessing "flyer" for Sirepo simulations
 
-    Attributes
+    Parameters
     ----------
     sim_id : str
         Simulation ID corresponding to Sirepo simulation being run on local server
@@ -327,6 +327,7 @@ class SirepoFlyer(BlueskyFlyer):
 
     @staticmethod
     def _run(sim, return_status):
+        """ Run simulations using multiprocessing. """
         print(f'running sim {sim.sim_id}')
         status = sim.run_simulation()
         print('Status:', status['state'])

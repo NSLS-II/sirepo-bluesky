@@ -275,17 +275,18 @@ class SirepoDetector(Device):
 
     How to run beamline library example
     -----------------------------------
-
-     % run -i re_config.py
-     import sirepo_detector as sd
-     sirepo_det = sd.SirepoDetector(sim_id='qyQ4yILz', reg=db.reg)
-     sirepo_det.select_optic('Aperture')
-     param1 = sirepo_det.create_parameter('horizontalSize')
-     param2 = sirepo_det.create_parameter('verticalSize')
-     sirepo_det.read_attrs = ['image', 'mean', 'photon_energy']
-     sirepo_det.configuration_attrs = ['horizontal_extent',
-                                       'vertical_extent',
-                                       'shape']
+    import bluesky.plans as bp
+    import blueksy.plan_stubs as bps
+    from sirepo_bluesky.re_config import *
+    import sirepo_blueksy.sirepo_detector as sd
+    sirepo_det = sd.SirepoDetector(sim_id='qyQ4yILz', reg=db.reg)
+    sirepo_det.select_optic('Aperture')
+    param1 = sirepo_det.create_parameter('horizontalSize')
+    param2 = sirepo_det.create_parameter('verticalSize')
+    sirepo_det.read_attrs = ['image', 'mean', 'photon_energy']
+    sirepo_det.configuration_attrs = ['horizontal_extent',
+                                      'vertical_extent',
+                                      'shape']
 
     Grid scan
     ---------
@@ -306,8 +307,9 @@ class SirepoDetector(Device):
 
     How to run source page example
     ------------------------------
-    % run -i re_config.py
-    import sirepo_detector as sd
+    import bluesky.plans as bp
+    from sirepo_bluesky.re_config import *
+    import sirepo_bluesky.sirepo_detector as sd
     sirepo_det = sd.SirepoDetector(sim_id='8GJJWLFh', reg=db.reg, source_simulation=True)
     sirepo_det.read_attrs = ['image', 'mean', 'photon_energy']
     sirepo_det.configuration_attrs = ['horizontal_extent', 'vertical_extent', 'shape']

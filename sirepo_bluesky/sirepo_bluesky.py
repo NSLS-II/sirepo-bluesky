@@ -17,6 +17,8 @@ class SirepoBluesky(object):
 
     Examples
     --------
+    # sim_id is the last section from the simulation url
+    # e.g., '.../1tNWph0M'
     sim_id = '1tNWph0M'
     sb = SirepoBluesky('http://localhost:8000')
     data, schema = sb.auth('srw', sim_id)
@@ -103,14 +105,14 @@ class SirepoBluesky(object):
         assert False, 'element not found, {}={}'.format(field, value)
 
     def find_optic_id_by_name(self, optic_name):
-        """ Returns optic element from simulation data """
+        """ Return optic element from simulation data. """
         for optic_id in range(len(self.data['models']['beamline'])):
             if self.data['models']['beamline'][optic_id]['title'] == optic_name:
                 return optic_id
         raise ValueError(f'Not valid optic {optic_name}')
 
     def get_datafile(self):
-        """ Requests the raw datafile of simulation results from the server.
+        """ Request the raw datafile of simulation results from the server.
 
             Notes
             -----
@@ -129,7 +131,7 @@ class SirepoBluesky(object):
         ----------
         max_status_calls: int, optional
             Maximum calls to check a running simulation's status. Roughly in seconds.
-            Defaults is 1000.
+            Default is 1000.
 
         """
         assert hasattr(self, 'cookies'), 'call auth() before run_simulation()'
