@@ -13,7 +13,7 @@ def test_smoke_sirepo():
 
 @vcr.use_cassette('sirepo_bluesky/tests/vcr_cassettes/test_sirepo_flyer.yml')
 def test_sirepo_flyer():
-    from ..re_config import RE, db, ROOT_DIR
+    from ..re_config import RE, ROOT_DIR  # , db
     from ..sirepo_flyer import SirepoFlyer
     import bluesky.plans as bp
     params_to_change = []

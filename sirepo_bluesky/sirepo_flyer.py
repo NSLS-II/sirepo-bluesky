@@ -40,16 +40,20 @@ class SirepoFlyer(BlueskyFlyer):
     """
     Multiprocessing "flyer" for Sirepo simulations
 
-    Parameters
+    Attributes
     ----------
     sim_id : str
         Simulation ID corresponding to Sirepo simulation being run on local server
     server_name : str
         Address that identifies access to local Sirepo server
     params_to_change : list of dicts of dicts
-        # example here???
-        List of dictionaries containing optical elements that contain dictionaries of parameters to modify and their
-        values
+        List of dictionaries with string optic element names for keys and values that are dictionaries
+        with string optic element parameter names for keys and new positions as values
+
+        Example: [{'Aperture': {'horizontalSize': 1, 'verticalSize':2},
+                   'Lens': {'horizontalFocalLength': 10}},
+                  {'Aperture': {'horizontalSize': 3, 'verticalSize':6},
+                   'Lens': {'horizontalFocalLength': 15}}]
     root_dir : str
         Root directory for DataBroker to store data from simulations
     sim_code : str, optional
@@ -62,6 +66,7 @@ class SirepoFlyer(BlueskyFlyer):
     Examples
     --------
     if __name__ == '__main__':
+        import bluesky.plans as bp
         from sirepo_bluesky.re_config import *
         from sirepo_bluesky import sirepo_flyer as sf
 
@@ -96,7 +101,7 @@ class SirepoFlyer(BlueskyFlyer):
         self.return_status = {}
         self._copies = None
         self._srw_files = None
-    
+
     def __repr__(self):
         return (f'{self.name} with sim_code="{self._sim_code}" and '
                 f'sim_id="{self._sim_id}" at {self._server_name}')
@@ -243,43 +248,33 @@ class SirepoFlyer(BlueskyFlyer):
                                                'dtype': 'array',
                                                'shape': [-1, -1],
                                                'external': 'FILESTORE:'},
-                         f'{self.name}_shape': {'source': f'{self.name}_shape',
-                                                'dtype': 'array',
-                                                'shape': [2]},
-                         f'{self.name}_mean': {'source': f'{self.name}_mean',
-                                               'dtype': 'number',
-                                               'shape': []},
-                         f'{self.name}_photon_energy': {'source': f'{self.name}_photon_energy',
-                                                        'dtype': 'number',
-                                                        'shape': []},
-                         f'{self.name}_horizontal_extent': {'source': f'{self.name}_horizontal_extent',
-                                                            'dtype': 'array',
-                                                            'shape': [2]},
-                         f'{self.name}_vertical_extent': {'source': f'{self.name}_vertical_extent',
-                                                          'dtype': 'array',
-                                                          'shape': [2]},
-                         f'{self.name}_hash_value': {'source': f'{self.name}_hash_value',
-                                                     'dtype': 'string',
-                                                     'shape': []},
-                         f'{self.name}_status': {'source': f'{self.name}_status',
-                                                 'dtype': 'string',
-                                                 'shape': []},
+                        f'{self.name}_shape': {'source': f'{self.name}_shape',
+                                               'dtype': 'array',
+                                               'shape': [2]},
+                        f'{self.name}_mean': {'source': f'{self.name}_mean',
+                                              'dtype': 'number',
+                                              'shape': []},
+                        f'{self.name}_photon_energy': {'source': f'{self.name}_photon_energy',
+                                                       'dtype': 'number',
+                                                       'shape': []},
+                        f'{self.name}_horizontal_extent': {'source': f'{self.name}_horizontal_extent',
+                                                           'dtype': 'array',
+                                                           'shape': [2]},
+                        f'{self.name}_vertical_extent': {'source': f'{self.name}_vertical_extent',
+                                                         'dtype': 'array',
+                                                         'shape': [2]},
+                        f'{self.name}_hash_value': {'source': f'{self.name}_hash_value',
+                                                    'dtype': 'string',
+                                                    'shape': []},
+                        f'{self.name}_status': {'source': f'{self.name}_status',
+                                                'dtype': 'string',
+                                                'shape': []},
+                        f'{self.name}_parameters': {'source': f'{self.name}_parameters',
+                                                    'dtype': 'string',
+                                                    'shape': []}
                         }
                        }
 
-        elem_name = []
-        curr_param = []
-        for inputs in self.params_to_change:
-            for key, parameters_to_update in inputs.items():
-                elem_name.append(key)  # e.g., 'Aperture'
-                curr_param.append(list(parameters_to_update.keys()))  # e.g., 'horizontalSize'
-
-        for i in range(len(elem_name)):
-            for j in range(len(curr_param[i])):
-                return_dict[self.name][f'{self.name}_{elem_name[i]}_{curr_param[i][j]}'] = {
-                    'source': f'{self.name}_{elem_name[i]}_{curr_param[i][j]}',
-                    'dtype': 'number',
-                    'shape': []}
         return return_dict
 
     def collect(self):
@@ -315,8 +310,6 @@ class SirepoFlyer(BlueskyFlyer):
 
         now = ttime.time()
         for i, datum_id in enumerate(self._datum_ids):
-            elem_name = []
-            curr_param = []
             data = {f'{self.name}_image': datum_id,
                     f'{self.name}_shape': shapes[i],
                     f'{self.name}_mean': means[i],
@@ -325,18 +318,8 @@ class SirepoFlyer(BlueskyFlyer):
                     f'{self.name}_vertical_extent': vertical_extents[i],
                     f'{self.name}_hash_value': hash_values[i],
                     f'{self.name}_status': statuses[i],
+                    f'{self.name}_parameters': self.params_to_change[i],
                     }
-
-            for j in range(len(self.params_to_change)):
-                inputs = self.params_to_change[j]
-                for key, parameters_to_update in inputs.items():
-                    elem_name.append(key)  # e.g., 'Aperture'
-                    curr_param.append(list(parameters_to_update.keys()))  # e.g., 'horizontalSize'
-
-            for ii in range(len(elem_name)):
-                for jj in range(len(curr_param[ii])):
-                    data[f'{self.name}_{elem_name[ii]}_{curr_param[ii][jj]}'] =\
-                        self.params_to_change[i][elem_name[ii]][curr_param[ii][jj]]
 
             yield {'data': data,
                    'timestamps': {key: now for key in data}, 'time': now,

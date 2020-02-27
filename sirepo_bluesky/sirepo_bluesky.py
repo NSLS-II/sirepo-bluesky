@@ -50,8 +50,7 @@ class SirepoBluesky(object):
         """ Connect to the server and returns the data for the simulation identified by sim_id. """
         req = dict(simulationType=sim_type, simulationId=sim_id)
         r = random.SystemRandom()
-        req['authNonce'] = str(int(time.time())) + '-' + ''.join(r.choice
-                                        (numconv.BASE62) for x in range(32))
+        req['authNonce'] = str(int(time.time())) + '-' + ''.join(r.choice(numconv.BASE62) for x in range(32))
         h = hashlib.sha256()
         h.update(':'.join([req['authNonce'], req['simulationType'],
                            req['simulationId'], self.secret]).encode())
@@ -104,6 +103,7 @@ class SirepoBluesky(object):
         assert False, 'element not found, {}={}'.format(field, value)
 
     def find_optic_id_by_name(self, optic_name):
+        """ Returns optic element from simulation data """
         for optic_id in range(len(self.data['models']['beamline'])):
             if self.data['models']['beamline'][optic_id]['title'] == optic_name:
                 return optic_id
@@ -111,7 +111,11 @@ class SirepoBluesky(object):
 
     def get_datafile(self):
         """ Requests the raw datafile of simulation results from the server.
-        Call auth() and run_simulation() before this. """
+
+            Notes
+            -----
+            Call auth() and run_simulation() before this.
+        """
         assert hasattr(self, 'cookies'), 'call auth() before get_datafile()'
         url = 'download-data-file/{}/{}/{}/-1'.format(self.sim_type, self.sim_id, self.data['report'])
         response = requests.get('{}/{}'.format(self.server, url), cookies=self.cookies)
@@ -143,7 +147,8 @@ class SirepoBluesky(object):
 
     @staticmethod
     def _assert_success(response, url):
-        assert response.status_code == requests.codes.ok, '{} request failed, status: {}'.format(url, response.status_code)
+        assert response.status_code == requests.codes.ok,\
+            '{} request failed, status: {}'.format(url, response.status_code)
 
     def _post_json(self, url, payload):
         response = requests.post('{}/{}'.format(self.server, url), json=payload, cookies=self.cookies)
