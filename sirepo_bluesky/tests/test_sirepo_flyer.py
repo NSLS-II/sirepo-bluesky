@@ -8,6 +8,7 @@ import sirepo_bluesky.tests
 
 cassette_location = os.path.join(os.path.dirname(sirepo_bluesky.tests.__file__), 'vcr_cassettes')
 
+
 @vcr.use_cassette(f'{cassette_location}/test_smoke_sirepo.yml')
 def test_smoke_sirepo():
     sim_id = '87XJ4oEb'
@@ -17,11 +18,11 @@ def test_smoke_sirepo():
 
 
 @vcr.use_cassette(f'{cassette_location}//test_sirepo_flyer.yml')
-def test_sirepo_flyer(RE, db, tmpdir):
+def test_sirepo_flyer(RE_no_plot, db, tmpdir):
     import datetime
     from ophyd.utils import make_dir_tree
 
-    RE.subscribe(db.insert)
+    RE_no_plot.subscribe(db.insert)
 
     ROOT_DIR = f'{tmpdir}/sirepo_flyer_data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=ROOT_DIR)
@@ -40,4 +41,4 @@ def test_sirepo_flyer(RE, db, tmpdir):
                                root_dir=ROOT_DIR, params_to_change=params_to_change,
                                watch_name='W60', run_parallel=False)
 
-    RE(bp.fly([sirepo_flyer]))
+    RE_no_plot(bp.fly([sirepo_flyer]))

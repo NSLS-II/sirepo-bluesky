@@ -1,22 +1,23 @@
 import asyncio
-from bluesky.run_engine import RunEngine, TransitionError
+from bluesky.run_engine import RunEngine
 from bluesky.callbacks import best_effort
 import databroker
 from databroker import Broker
 from sirepo_bluesky.srw_handler import SRWFileHandler
-import numpy as np
-import os
 import pytest
 
+
 @pytest.fixture(scope='function')
-def RE(request):
+def RE_no_plot(request):
     loop = asyncio.new_event_loop()
     loop.set_debug(True)
     RE = RunEngine({}, loop=loop)
 
     bec = best_effort.BestEffortCallback()
+    bec.disable_plots()
     RE.subscribe(bec)
     return RE
+
 
 @pytest.fixture(scope='function')
 def db(request):
