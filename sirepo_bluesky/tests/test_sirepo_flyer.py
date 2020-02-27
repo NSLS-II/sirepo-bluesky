@@ -1,6 +1,6 @@
 import vcr
 
-from ..sirepo_bluesky import SirepoBluesky
+from sirepo_bluesky.sirepo_bluesky import SirepoBluesky
 
 
 # @vcr.use_cassette('./vcr_cassettes/test_smoke_sirepo.yml')
