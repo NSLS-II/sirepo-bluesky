@@ -1,7 +1,7 @@
 interactions:
 - request:
-    body: '{"simulationType": "srw", "simulationId": "e75qHII6", "authNonce": "1582927284-nDE2uCesIPGwevQ76tqXa8z7Wx09yXSa",
-      "authHash": "v1:Mjg_D7ypd3wXexT4AHgpRT3mxHauzXRY3yyG777p_lQ="}'
+    body: '{"simulationType": "srw", "simulationId": "e75qHII6", "authNonce": "1582928073-8J4npuk9kVMigYDQT9AyP1qbWlyRk1fw",
+      "authHash": "v1:pEuCpwmE4qny7HCDXsGw1kPr4-HWpkR-KggikqlmaKg="}'
     headers:
       Accept:
       - '*/*'
@@ -503,12 +503,12 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:24 GMT
+      - Fri, 28 Feb 2020 22:14:33 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
       Set-Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=;
-        Expires=Mon, 25-Feb-2030 22:01:24 GMT; Max-Age=315360000; HttpOnly; Path=/
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=;
+        Expires=Mon, 25-Feb-2030 22:14:33 GMT; Max-Age=315360000; HttpOnly; Path=/
     status:
       code: 200
       message: OK
@@ -614,21 +614,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-simulation
   response:
     body:
-      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927284,"computeJobHash":"6144cc130e84fcc4a9c1870ca6c9c21a"}}'
+      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928073,"computeJobHash":"6144cc130e84fcc4a9c1870ca6c9c21a"}}'
     headers:
       Content-Length:
       - '243'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:24 GMT
+      - Fri, 28 Feb 2020 22:14:34 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -636,7 +636,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927284, "computeJobHash": "6144cc130e84fcc4a9c1870ca6c9c21a"}'
+      "srw", "computeJobSerial": 1582928073, "computeJobHash": "6144cc130e84fcc4a9c1870ca6c9c21a"}'
     headers:
       Accept:
       - '*/*'
@@ -649,21 +649,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927284,"computeJobHash":"6144cc130e84fcc4a9c1870ca6c9c21a"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928073,"computeJobHash":"6144cc130e84fcc4a9c1870ca6c9c21a"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:25 GMT
+      - Fri, 28 Feb 2020 22:14:35 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -671,7 +671,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927284, "computeJobHash": "6144cc130e84fcc4a9c1870ca6c9c21a"}'
+      "srw", "computeJobSerial": 1582928073, "computeJobHash": "6144cc130e84fcc4a9c1870ca6c9c21a"}'
     headers:
       Accept:
       - '*/*'
@@ -684,21 +684,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927284,"computeJobHash":"6144cc130e84fcc4a9c1870ca6c9c21a"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928073,"computeJobHash":"6144cc130e84fcc4a9c1870ca6c9c21a"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:26 GMT
+      - Fri, 28 Feb 2020 22:14:36 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -706,7 +706,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927284, "computeJobHash": "6144cc130e84fcc4a9c1870ca6c9c21a"}'
+      "srw", "computeJobSerial": 1582928073, "computeJobHash": "6144cc130e84fcc4a9c1870ca6c9c21a"}'
     headers:
       Accept:
       - '*/*'
@@ -719,7 +719,7 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
@@ -736,7 +736,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:27 GMT
+      - Fri, 28 Feb 2020 22:14:37 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -752,7 +752,7 @@ interactions:
       Connection:
       - keep-alive
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: GET
@@ -1638,7 +1638,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Fri, 28 Feb 2020 22:01:27 GMT
+      - Fri, 28 Feb 2020 22:14:37 GMT
       Pragma:
       - no-cache
       Server:
@@ -1748,21 +1748,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-simulation
   response:
     body:
-      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927288,"computeJobHash":"624cf2c190f822e41570124e52c91840"}}'
+      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928077,"computeJobHash":"624cf2c190f822e41570124e52c91840"}}'
     headers:
       Content-Length:
       - '243'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:28 GMT
+      - Fri, 28 Feb 2020 22:14:37 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -1770,7 +1770,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927288, "computeJobHash": "624cf2c190f822e41570124e52c91840"}'
+      "srw", "computeJobSerial": 1582928077, "computeJobHash": "624cf2c190f822e41570124e52c91840"}'
     headers:
       Accept:
       - '*/*'
@@ -1783,21 +1783,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927288,"computeJobHash":"624cf2c190f822e41570124e52c91840"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928077,"computeJobHash":"624cf2c190f822e41570124e52c91840"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:29 GMT
+      - Fri, 28 Feb 2020 22:14:39 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -1805,7 +1805,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927288, "computeJobHash": "624cf2c190f822e41570124e52c91840"}'
+      "srw", "computeJobSerial": 1582928077, "computeJobHash": "624cf2c190f822e41570124e52c91840"}'
     headers:
       Accept:
       - '*/*'
@@ -1818,21 +1818,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927288,"computeJobHash":"624cf2c190f822e41570124e52c91840"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928077,"computeJobHash":"624cf2c190f822e41570124e52c91840"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:30 GMT
+      - Fri, 28 Feb 2020 22:14:40 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -1840,7 +1840,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927288, "computeJobHash": "624cf2c190f822e41570124e52c91840"}'
+      "srw", "computeJobSerial": 1582928077, "computeJobHash": "624cf2c190f822e41570124e52c91840"}'
     headers:
       Accept:
       - '*/*'
@@ -1853,7 +1853,7 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
@@ -1870,7 +1870,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:31 GMT
+      - Fri, 28 Feb 2020 22:14:41 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -1886,7 +1886,7 @@ interactions:
       Connection:
       - keep-alive
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: GET
@@ -2772,7 +2772,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Fri, 28 Feb 2020 22:01:31 GMT
+      - Fri, 28 Feb 2020 22:14:41 GMT
       Pragma:
       - no-cache
       Server:
@@ -2882,21 +2882,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-simulation
   response:
     body:
-      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927291,"computeJobHash":"2d9e0af36b110c6e7f542135fefc46e7"}}'
+      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928081,"computeJobHash":"2d9e0af36b110c6e7f542135fefc46e7"}}'
     headers:
       Content-Length:
       - '243'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:32 GMT
+      - Fri, 28 Feb 2020 22:14:41 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -2904,7 +2904,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927291, "computeJobHash": "2d9e0af36b110c6e7f542135fefc46e7"}'
+      "srw", "computeJobSerial": 1582928081, "computeJobHash": "2d9e0af36b110c6e7f542135fefc46e7"}'
     headers:
       Accept:
       - '*/*'
@@ -2917,21 +2917,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927291,"computeJobHash":"2d9e0af36b110c6e7f542135fefc46e7"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928081,"computeJobHash":"2d9e0af36b110c6e7f542135fefc46e7"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:33 GMT
+      - Fri, 28 Feb 2020 22:14:42 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -2939,7 +2939,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927291, "computeJobHash": "2d9e0af36b110c6e7f542135fefc46e7"}'
+      "srw", "computeJobSerial": 1582928081, "computeJobHash": "2d9e0af36b110c6e7f542135fefc46e7"}'
     headers:
       Accept:
       - '*/*'
@@ -2952,21 +2952,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927291,"computeJobHash":"2d9e0af36b110c6e7f542135fefc46e7"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928081,"computeJobHash":"2d9e0af36b110c6e7f542135fefc46e7"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:34 GMT
+      - Fri, 28 Feb 2020 22:14:43 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -2974,7 +2974,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927291, "computeJobHash": "2d9e0af36b110c6e7f542135fefc46e7"}'
+      "srw", "computeJobSerial": 1582928081, "computeJobHash": "2d9e0af36b110c6e7f542135fefc46e7"}'
     headers:
       Accept:
       - '*/*'
@@ -2987,7 +2987,7 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
@@ -3004,7 +3004,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:35 GMT
+      - Fri, 28 Feb 2020 22:14:44 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -3020,7 +3020,7 @@ interactions:
       Connection:
       - keep-alive
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: GET
@@ -3906,7 +3906,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Fri, 28 Feb 2020 22:01:35 GMT
+      - Fri, 28 Feb 2020 22:14:44 GMT
       Pragma:
       - no-cache
       Server:
@@ -4016,21 +4016,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-simulation
   response:
     body:
-      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927295,"computeJobHash":"d48a1e46c8ce30bbd1efb2edb840f7ef"}}'
+      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928085,"computeJobHash":"d48a1e46c8ce30bbd1efb2edb840f7ef"}}'
     headers:
       Content-Length:
       - '243'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:36 GMT
+      - Fri, 28 Feb 2020 22:14:45 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -4038,7 +4038,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927295, "computeJobHash": "d48a1e46c8ce30bbd1efb2edb840f7ef"}'
+      "srw", "computeJobSerial": 1582928085, "computeJobHash": "d48a1e46c8ce30bbd1efb2edb840f7ef"}'
     headers:
       Accept:
       - '*/*'
@@ -4051,21 +4051,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927295,"computeJobHash":"d48a1e46c8ce30bbd1efb2edb840f7ef"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928085,"computeJobHash":"d48a1e46c8ce30bbd1efb2edb840f7ef"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:37 GMT
+      - Fri, 28 Feb 2020 22:14:46 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -4073,7 +4073,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927295, "computeJobHash": "d48a1e46c8ce30bbd1efb2edb840f7ef"}'
+      "srw", "computeJobSerial": 1582928085, "computeJobHash": "d48a1e46c8ce30bbd1efb2edb840f7ef"}'
     headers:
       Accept:
       - '*/*'
@@ -4086,21 +4086,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927295,"computeJobHash":"d48a1e46c8ce30bbd1efb2edb840f7ef"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928085,"computeJobHash":"d48a1e46c8ce30bbd1efb2edb840f7ef"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:38 GMT
+      - Fri, 28 Feb 2020 22:14:47 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -4108,7 +4108,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927295, "computeJobHash": "d48a1e46c8ce30bbd1efb2edb840f7ef"}'
+      "srw", "computeJobSerial": 1582928085, "computeJobHash": "d48a1e46c8ce30bbd1efb2edb840f7ef"}'
     headers:
       Accept:
       - '*/*'
@@ -4121,7 +4121,7 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
@@ -4138,7 +4138,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:39 GMT
+      - Fri, 28 Feb 2020 22:14:48 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -4154,7 +4154,7 @@ interactions:
       Connection:
       - keep-alive
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: GET
@@ -6968,7 +6968,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Fri, 28 Feb 2020 22:01:39 GMT
+      - Fri, 28 Feb 2020 22:14:48 GMT
       Pragma:
       - no-cache
       Server:
@@ -7078,21 +7078,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-simulation
   response:
     body:
-      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927299,"computeJobHash":"e3766599baa9adf51076ffb05eb84d2d"}}'
+      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928088,"computeJobHash":"e3766599baa9adf51076ffb05eb84d2d"}}'
     headers:
       Content-Length:
       - '243'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:39 GMT
+      - Fri, 28 Feb 2020 22:14:49 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -7100,7 +7100,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927299, "computeJobHash": "e3766599baa9adf51076ffb05eb84d2d"}'
+      "srw", "computeJobSerial": 1582928088, "computeJobHash": "e3766599baa9adf51076ffb05eb84d2d"}'
     headers:
       Accept:
       - '*/*'
@@ -7113,21 +7113,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927299,"computeJobHash":"e3766599baa9adf51076ffb05eb84d2d"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928088,"computeJobHash":"e3766599baa9adf51076ffb05eb84d2d"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:40 GMT
+      - Fri, 28 Feb 2020 22:14:50 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -7135,7 +7135,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927299, "computeJobHash": "e3766599baa9adf51076ffb05eb84d2d"}'
+      "srw", "computeJobSerial": 1582928088, "computeJobHash": "e3766599baa9adf51076ffb05eb84d2d"}'
     headers:
       Accept:
       - '*/*'
@@ -7148,21 +7148,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927299,"computeJobHash":"e3766599baa9adf51076ffb05eb84d2d"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928088,"computeJobHash":"e3766599baa9adf51076ffb05eb84d2d"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:41 GMT
+      - Fri, 28 Feb 2020 22:14:51 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -7170,7 +7170,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927299, "computeJobHash": "e3766599baa9adf51076ffb05eb84d2d"}'
+      "srw", "computeJobSerial": 1582928088, "computeJobHash": "e3766599baa9adf51076ffb05eb84d2d"}'
     headers:
       Accept:
       - '*/*'
@@ -7183,7 +7183,7 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
@@ -7200,7 +7200,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:42 GMT
+      - Fri, 28 Feb 2020 22:14:52 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -7216,7 +7216,7 @@ interactions:
       Connection:
       - keep-alive
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: GET
@@ -9970,7 +9970,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Fri, 28 Feb 2020 22:01:43 GMT
+      - Fri, 28 Feb 2020 22:14:52 GMT
       Pragma:
       - no-cache
       Server:
@@ -10080,21 +10080,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-simulation
   response:
     body:
-      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927303,"computeJobHash":"7328f6b02511612b019e705fe65179e4"}}'
+      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928092,"computeJobHash":"7328f6b02511612b019e705fe65179e4"}}'
     headers:
       Content-Length:
       - '243'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:43 GMT
+      - Fri, 28 Feb 2020 22:14:53 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -10102,7 +10102,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927303, "computeJobHash": "7328f6b02511612b019e705fe65179e4"}'
+      "srw", "computeJobSerial": 1582928092, "computeJobHash": "7328f6b02511612b019e705fe65179e4"}'
     headers:
       Accept:
       - '*/*'
@@ -10115,21 +10115,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927303,"computeJobHash":"7328f6b02511612b019e705fe65179e4"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928092,"computeJobHash":"7328f6b02511612b019e705fe65179e4"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:44 GMT
+      - Fri, 28 Feb 2020 22:14:54 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -10137,7 +10137,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927303, "computeJobHash": "7328f6b02511612b019e705fe65179e4"}'
+      "srw", "computeJobSerial": 1582928092, "computeJobHash": "7328f6b02511612b019e705fe65179e4"}'
     headers:
       Accept:
       - '*/*'
@@ -10150,21 +10150,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927303,"computeJobHash":"7328f6b02511612b019e705fe65179e4"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928092,"computeJobHash":"7328f6b02511612b019e705fe65179e4"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:45 GMT
+      - Fri, 28 Feb 2020 22:14:55 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -10172,7 +10172,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927303, "computeJobHash": "7328f6b02511612b019e705fe65179e4"}'
+      "srw", "computeJobSerial": 1582928092, "computeJobHash": "7328f6b02511612b019e705fe65179e4"}'
     headers:
       Accept:
       - '*/*'
@@ -10185,7 +10185,7 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
@@ -10202,7 +10202,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:46 GMT
+      - Fri, 28 Feb 2020 22:14:56 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -10218,7 +10218,7 @@ interactions:
       Connection:
       - keep-alive
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: GET
@@ -11104,7 +11104,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Fri, 28 Feb 2020 22:01:46 GMT
+      - Fri, 28 Feb 2020 22:14:56 GMT
       Pragma:
       - no-cache
       Server:
@@ -11214,21 +11214,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-simulation
   response:
     body:
-      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927307,"computeJobHash":"ba30aafa9cc0db6502c34a5d253cb930"}}'
+      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928096,"computeJobHash":"ba30aafa9cc0db6502c34a5d253cb930"}}'
     headers:
       Content-Length:
       - '243'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:47 GMT
+      - Fri, 28 Feb 2020 22:14:56 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -11236,7 +11236,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927307, "computeJobHash": "ba30aafa9cc0db6502c34a5d253cb930"}'
+      "srw", "computeJobSerial": 1582928096, "computeJobHash": "ba30aafa9cc0db6502c34a5d253cb930"}'
     headers:
       Accept:
       - '*/*'
@@ -11249,21 +11249,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927307,"computeJobHash":"ba30aafa9cc0db6502c34a5d253cb930"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928096,"computeJobHash":"ba30aafa9cc0db6502c34a5d253cb930"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:48 GMT
+      - Fri, 28 Feb 2020 22:14:57 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -11271,7 +11271,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927307, "computeJobHash": "ba30aafa9cc0db6502c34a5d253cb930"}'
+      "srw", "computeJobSerial": 1582928096, "computeJobHash": "ba30aafa9cc0db6502c34a5d253cb930"}'
     headers:
       Accept:
       - '*/*'
@@ -11284,21 +11284,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927307,"computeJobHash":"ba30aafa9cc0db6502c34a5d253cb930"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928096,"computeJobHash":"ba30aafa9cc0db6502c34a5d253cb930"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:49 GMT
+      - Fri, 28 Feb 2020 22:14:59 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -11306,7 +11306,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927307, "computeJobHash": "ba30aafa9cc0db6502c34a5d253cb930"}'
+      "srw", "computeJobSerial": 1582928096, "computeJobHash": "ba30aafa9cc0db6502c34a5d253cb930"}'
     headers:
       Accept:
       - '*/*'
@@ -11319,7 +11319,7 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
@@ -11336,7 +11336,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:50 GMT
+      - Fri, 28 Feb 2020 22:15:00 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -11352,7 +11352,7 @@ interactions:
       Connection:
       - keep-alive
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: GET
@@ -12238,7 +12238,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Fri, 28 Feb 2020 22:01:50 GMT
+      - Fri, 28 Feb 2020 22:15:00 GMT
       Pragma:
       - no-cache
       Server:
@@ -12348,21 +12348,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-simulation
   response:
     body:
-      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927310,"computeJobHash":"cbf235563bcd74dfecf531307dca3eb3"}}'
+      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928100,"computeJobHash":"cbf235563bcd74dfecf531307dca3eb3"}}'
     headers:
       Content-Length:
       - '243'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:51 GMT
+      - Fri, 28 Feb 2020 22:15:00 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -12370,7 +12370,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927310, "computeJobHash": "cbf235563bcd74dfecf531307dca3eb3"}'
+      "srw", "computeJobSerial": 1582928100, "computeJobHash": "cbf235563bcd74dfecf531307dca3eb3"}'
     headers:
       Accept:
       - '*/*'
@@ -12383,21 +12383,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927310,"computeJobHash":"cbf235563bcd74dfecf531307dca3eb3"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928100,"computeJobHash":"cbf235563bcd74dfecf531307dca3eb3"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:52 GMT
+      - Fri, 28 Feb 2020 22:15:01 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -12405,7 +12405,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927310, "computeJobHash": "cbf235563bcd74dfecf531307dca3eb3"}'
+      "srw", "computeJobSerial": 1582928100, "computeJobHash": "cbf235563bcd74dfecf531307dca3eb3"}'
     headers:
       Accept:
       - '*/*'
@@ -12418,21 +12418,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927310,"computeJobHash":"cbf235563bcd74dfecf531307dca3eb3"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928100,"computeJobHash":"cbf235563bcd74dfecf531307dca3eb3"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:53 GMT
+      - Fri, 28 Feb 2020 22:15:02 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -12440,7 +12440,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927310, "computeJobHash": "cbf235563bcd74dfecf531307dca3eb3"}'
+      "srw", "computeJobSerial": 1582928100, "computeJobHash": "cbf235563bcd74dfecf531307dca3eb3"}'
     headers:
       Accept:
       - '*/*'
@@ -12453,7 +12453,7 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
@@ -12470,7 +12470,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:54 GMT
+      - Fri, 28 Feb 2020 22:15:03 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -12486,7 +12486,7 @@ interactions:
       Connection:
       - keep-alive
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: GET
@@ -15240,7 +15240,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Fri, 28 Feb 2020 22:01:54 GMT
+      - Fri, 28 Feb 2020 22:15:03 GMT
       Pragma:
       - no-cache
       Server:
@@ -15350,21 +15350,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-simulation
   response:
     body:
-      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927314,"computeJobHash":"ffc7b98dc141760aeb2b83721733725e"}}'
+      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928104,"computeJobHash":"ffc7b98dc141760aeb2b83721733725e"}}'
     headers:
       Content-Length:
       - '243'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:54 GMT
+      - Fri, 28 Feb 2020 22:15:04 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -15372,7 +15372,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927314, "computeJobHash": "ffc7b98dc141760aeb2b83721733725e"}'
+      "srw", "computeJobSerial": 1582928104, "computeJobHash": "ffc7b98dc141760aeb2b83721733725e"}'
     headers:
       Accept:
       - '*/*'
@@ -15385,21 +15385,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927314,"computeJobHash":"ffc7b98dc141760aeb2b83721733725e"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928104,"computeJobHash":"ffc7b98dc141760aeb2b83721733725e"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:55 GMT
+      - Fri, 28 Feb 2020 22:15:05 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -15407,7 +15407,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927314, "computeJobHash": "ffc7b98dc141760aeb2b83721733725e"}'
+      "srw", "computeJobSerial": 1582928104, "computeJobHash": "ffc7b98dc141760aeb2b83721733725e"}'
     headers:
       Accept:
       - '*/*'
@@ -15420,21 +15420,21 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
     uri: http://10.10.10.10:8000/run-status
   response:
     body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582927314,"computeJobHash":"ffc7b98dc141760aeb2b83721733725e"}}'
+      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1582928104,"computeJobHash":"ffc7b98dc141760aeb2b83721733725e"}}'
     headers:
       Content-Length:
       - '244'
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:56 GMT
+      - Fri, 28 Feb 2020 22:15:06 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -15442,7 +15442,7 @@ interactions:
       message: OK
 - request:
     body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1582927314, "computeJobHash": "ffc7b98dc141760aeb2b83721733725e"}'
+      "srw", "computeJobSerial": 1582928104, "computeJobHash": "ffc7b98dc141760aeb2b83721733725e"}'
     headers:
       Accept:
       - '*/*'
@@ -15455,7 +15455,7 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: POST
@@ -15472,7 +15472,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:58 GMT
+      - Fri, 28 Feb 2020 22:15:07 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -15488,7 +15488,7 @@ interactions:
       Connection:
       - keep-alive
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTIwaXNQSTNhM1g1bjh5Y2k1cFJSRW0yTXh5QkxJZHo1d2s4YUZWQVBSRDhaY3lnd3EtbURZRFFubGFGaFhvb293emxadVNsNW14UkdxWGM3S194eTFrOUlPaXQ5VUNrOV91aDFLcFBzbW5tT3BMUnQ5b0diRk5ZRmZMRnQ5NEFzb1g=
+      - sirepo_dev=Z0FBQUFBQmVXWkRKRHplOUtXamhQbW4yRWVwMW90dVYxVm9fV01ENzhFZ3BvWWlNTVF4YkxDb2JjTzZzdm40aVZvUU5YNzVVSDBiSDlHQ1NlQVctaEdkNE41bjQ1TmRpR1RNYUVwWnBidXpYZDNKUlZXR0ZaRHoyNG5rV01ETi1wNTBLdUstMHhCbW0=
       User-Agent:
       - python-requests/2.22.0
     method: GET
@@ -18302,7 +18302,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Fri, 28 Feb 2020 22:01:58 GMT
+      - Fri, 28 Feb 2020 22:15:07 GMT
       Pragma:
       - no-cache
       Server:

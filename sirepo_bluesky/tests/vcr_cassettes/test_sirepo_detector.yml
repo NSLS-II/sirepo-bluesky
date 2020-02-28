@@ -1,7 +1,7 @@
 interactions:
 - request:
-    body: '{"simulationType": "srw", "simulationId": "e75qHII6", "authNonce": "1582927283-rbbq3HJySLy0ZCSOuOn7vHZaENCzDeKc",
-      "authHash": "v1:a0QTT4zbPjo8J3Kop5RHCScKw9OcljNLUXi1esiPfnI="}'
+    body: '{"simulationType": "srw", "simulationId": "e75qHII6", "authNonce": "1582928072-Xc3uIFvpl0RBxZNRwKC4v6MIpwBbpxFP",
+      "authHash": "v1:AEOLBANtYQYBqtocHOiWEl2e64JkKO65GADIEeisVeA="}'
     headers:
       Accept:
       - '*/*'
@@ -503,12 +503,12 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:23 GMT
+      - Fri, 28 Feb 2020 22:14:32 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
       Set-Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTJ6WnBKMFRxNjE0RENuWnhKNnJfTGlxSk4yeG9FMWxneUk0dlN3bGo2azZ1TnFtQ080SXd3LUVVcko5X0ZUTFh4OUtQUVBSaFY5SF9FRVp1aDhMRkIyYnRIRFdSWTNvNUxiYWUtSmg1ZGhmMXZuQXl5YkRHbWlxdnlCNVo3LUJOcDc=;
-        Expires=Mon, 25-Feb-2030 22:01:23 GMT; Max-Age=315360000; HttpOnly; Path=/
+      - sirepo_dev=Z0FBQUFBQmVXWkRJSnRfeTN2TWlUdmpLazR2S2k5NEZMZWVlZjhyeUU3NmtlWG9VX3Y5aG5QVGNtMmt0dnVrNXI3bjFYd0QyRzdWWUFTYU0yemJPZFNhQXhXMFZ4LUVjTDFhYnpMWFdfOGdsN1VZOVFYYWREWkZxZWJvS21Bb29hNG4yWGNIMGt1bFI=;
+        Expires=Mon, 25-Feb-2030 22:14:32 GMT; Max-Age=315360000; HttpOnly; Path=/
     status:
       code: 200
       message: OK
@@ -614,7 +614,7 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTJ6WnBKMFRxNjE0RENuWnhKNnJfTGlxSk4yeG9FMWxneUk0dlN3bGo2azZ1TnFtQ080SXd3LUVVcko5X0ZUTFh4OUtQUVBSaFY5SF9FRVp1aDhMRkIyYnRIRFdSWTNvNUxiYWUtSmg1ZGhmMXZuQXl5YkRHbWlxdnlCNVo3LUJOcDc=
+      - sirepo_dev=Z0FBQUFBQmVXWkRJSnRfeTN2TWlUdmpLazR2S2k5NEZMZWVlZjhyeUU3NmtlWG9VX3Y5aG5QVGNtMmt0dnVrNXI3bjFYd0QyRzdWWUFTYU0yemJPZFNhQXhXMFZ4LUVjTDFhYnpMWFdfOGdsN1VZOVFYYWREWkZxZWJvS21Bb29hNG4yWGNIMGt1bFI=
       User-Agent:
       - python-requests/2.22.0
     method: POST
@@ -631,7 +631,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 28 Feb 2020 22:01:23 GMT
+      - Fri, 28 Feb 2020 22:14:33 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -647,7 +647,7 @@ interactions:
       Connection:
       - keep-alive
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVXWTJ6WnBKMFRxNjE0RENuWnhKNnJfTGlxSk4yeG9FMWxneUk0dlN3bGo2azZ1TnFtQ080SXd3LUVVcko5X0ZUTFh4OUtQUVBSaFY5SF9FRVp1aDhMRkIyYnRIRFdSWTNvNUxiYWUtSmg1ZGhmMXZuQXl5YkRHbWlxdnlCNVo3LUJOcDc=
+      - sirepo_dev=Z0FBQUFBQmVXWkRJSnRfeTN2TWlUdmpLazR2S2k5NEZMZWVlZjhyeUU3NmtlWG9VX3Y5aG5QVGNtMmt0dnVrNXI3bjFYd0QyRzdWWUFTYU0yemJPZFNhQXhXMFZ4LUVjTDFhYnpMWFdfOGdsN1VZOVFYYWREWkZxZWJvS21Bb29hNG4yWGNIMGt1bFI=
       User-Agent:
       - python-requests/2.22.0
     method: GET
@@ -3470,7 +3470,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Fri, 28 Feb 2020 22:01:23 GMT
+      - Fri, 28 Feb 2020 22:14:33 GMT
       Pragma:
       - no-cache
       Server:
