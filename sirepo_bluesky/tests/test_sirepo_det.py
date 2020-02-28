@@ -15,7 +15,7 @@ def test_sirepo_detector(RE, db, tmpdir):
 
     RE.subscribe(db.insert)
 
-    root_dir = f'{tmpdir}/sirepo_det_data'
+    root_dir = f'{tmpdir}/data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
     sirepo_det = SirepoDetector(sim_id='e75qHII6', reg=db.reg)
@@ -34,7 +34,7 @@ def test_sirepo_det_grid_scan(RE, db, tmpdir):
 
     RE.subscribe(db.insert)
 
-    root_dir = f'{tmpdir}/sirepo_det_data'
+    root_dir = f'{tmpdir}/data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
     sirepo_det = SirepoDetector(sim_id='e75qHII6', reg=db.reg)
