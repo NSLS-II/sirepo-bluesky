@@ -66,8 +66,8 @@ class SirepoFlyer(BlueskyFlyer):
     Examples
     --------
     if __name__ == '__main__':
+        %run examples/prepare_environment
         import bluesky.plans as bp
-        from sirepo_bluesky.re_config import *
         from sirepo_bluesky import sirepo_flyer as sf
 
         params_to_change = []
@@ -81,7 +81,7 @@ class SirepoFlyer(BlueskyFlyer):
                                      key2: parameters_update2})
 
         sirepo_flyer = sf.SirepoFlyer(sim_id='87XJ4oEb', server_name='http://10.10.10.10:8000',
-                                      root_dir=ROOT_DIR, params_to_change=params_to_change,
+                                      root_dir=root_dir, params_to_change=params_to_change,
                                       watch_name='W60')
 
         RE(bp.fly([sirepo_flyer]))

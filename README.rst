@@ -79,7 +79,7 @@ Prepare Bluesky and trigger a simulated Sirepo detector:
 
 .. code:: py
 
-   from sirepo_bluesky import RE, ROOT_DIR, db
+   %run examples/prepare_environment
    import sirepo_bluesky.sirepo_detector as sd
    import bluesky.plans as bp
    sirepo_det = sd.SirepoDetector(sim_id='IKROlKfR', reg=db.reg)
@@ -106,7 +106,6 @@ You should get something like:
 
 .. code:: py
 
-   import matplotlib.pyplot as plt
    hdr = db[-1]
    imgs = list(hdr.data('sirepo_det_image'))
    cfg = hdr.config_data('sirepo_det')['primary'][0]
@@ -123,7 +122,7 @@ To view single-electron spectrum report (**Hint:** use a different
 
 .. code:: py
 
-   from sirepo_bluesky import RE, ROOT_DIR, db
+   %run examples/prepare_environment
    import sirepo_bluesky.sirepo_detector as sd
    import bluesky.plans as bp
    sirepo_det = sd.SirepoDetector(sim_id='8GJJWLFh', reg=db.reg, source_simulation=True)
@@ -138,7 +137,6 @@ To view single-electron spectrum report (**Hint:** use a different
 
 .. code:: py
 
-   import matplotlib.pyplot as plt
    hdr = db[-1]
    imgs = list(hdr.data('sirepo_det_image'))
    plt.plot(imgs[-1])
