@@ -275,7 +275,7 @@ class SirepoDetector(Device):
 
     How to run beamline library example
     -----------------------------------
-    %run examples/prepare_environment
+    %run -i examples/prepare_environment
     import bluesky.plans as bp
     import blueksy.plan_stubs as bps
     import sirepo_blueksy.sirepo_detector as sd
@@ -307,7 +307,7 @@ class SirepoDetector(Device):
 
     How to run source page example
     ------------------------------
-    %run examples/prepare_environment
+    %run -i examples/prepare_environment
     import bluesky.plans as bp
     import sirepo_bluesky.sirepo_detector as sd
     sirepo_det = sd.SirepoDetector(sim_id='8GJJWLFh', reg=db.reg, source_simulation=True)
