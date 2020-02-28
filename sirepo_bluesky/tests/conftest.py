@@ -8,6 +8,17 @@ import pytest
 
 
 @pytest.fixture(scope='function')
+def RE(request):
+    loop = asyncio.new_event_loop()
+    loop.set_debug(True)
+    RE = RunEngine({}, loop=loop)
+
+    bec = best_effort.BestEffortCallback()
+    RE.subscribe(bec)
+    return RE
+
+
+@pytest.fixture(scope='function')
 def RE_no_plot(request):
     loop = asyncio.new_event_loop()
     loop.set_debug(True)
