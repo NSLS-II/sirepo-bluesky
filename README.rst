@@ -46,7 +46,7 @@ Prepare a local Sirepo server:
    SIREPO_FEATURE_CONFIG_SIM_TYPES=srw SIREPO_AUTH_METHODS=bluesky:guest SIREPO_AUTH_BLUESKY_SECRET=bluesky sirepo service http
 
 -  In your browser, go to http://10.10.10.10:8000/srw, click the
-   ":cloud: Import" button in the right-upper corner and upload the
+   "Import" button in the right-upper corner and upload the
    `archive`_ with the simulation stored in this repo
 -  You should be redirected to the address like
    http://10.10.10.10:8000/srw#/source/IKROlKfR
@@ -74,12 +74,12 @@ Prepare Bluesky and trigger a simulated Sirepo detector:
    conda activate sirepo_bluesky
    pip install -r requirements.txt
 
--  Start ``ipython`` and run the following where ``sim_id``
-   which is the UID for the simulation we are working with:
+-  Start ``ipython`` and run the following where ``sim_id`` is the
+   UID for the simulation we are working with:
 
 .. code:: py
 
-   %run examples/prepare_environment
+   %run -i examples/prepare_det_env
    import sirepo_bluesky.sirepo_detector as sd
    import bluesky.plans as bp
    sirepo_det = sd.SirepoDetector(sim_id='IKROlKfR', reg=db.reg)
@@ -122,7 +122,7 @@ To view single-electron spectrum report (**Hint:** use a different
 
 .. code:: py
 
-   %run examples/prepare_environment
+   %run -i examples/prepare_det_env
    import sirepo_bluesky.sirepo_detector as sd
    import bluesky.plans as bp
    sirepo_det = sd.SirepoDetector(sim_id='8GJJWLFh', reg=db.reg, source_simulation=True)
@@ -148,7 +148,55 @@ You should get something like:
 Use a simulated Sirepo Flyer to run multiple simulations
 --------------------------------------------------------
 
-- Coming soon!
+- This section is based on the Young's Double Slit Experiment that can be found
+  in the wavefront propagation folder on the SRW simulations section
+
+- Open the simulation and grab the new UID (the last 8 alphanumeric symbols)
+
+- Start ``iPython`` and run the following:
+
+.. code:: py
+
+    %run -i examples/prepare_flyer_env
+    import bluesky.plans as bp
+    import sirepo_bluesky.sirepo_flyer as sf
+
+- To create 5 different simulations that change 4 parameters at a time:
+
+.. code:: py
+
+    params_to_change = []
+    for i in range(1, 6):
+        key1 = 'Aperture'
+        parameters_update1 = {'horizontalSize': i * .1, 'verticalSize': (16 - i) * .1}
+        key2 = 'Lens'
+        parameters_update2 = {'horizontalFocalLength': i + 7}
+        key3 = 'Obstacle'
+        parameters_update3 = {'horizontalSize': 6 - i}
+        params_to_change.append({key1: parameters_update1,
+                                 key2: parameters_update2,
+                                 key3: parameters_update3})
+
+- Create the flyer and run a fly scan where ``sim_id`` is the UID of this simulation:
+
+.. code:: py
+
+        sirepo_flyer = sf.SirepoFlyer(sim_id='87XJ4oEb', server_name='http://10.10.10.10:8000',
+                                      root_dir=root_dir, params_to_change=params_to_change,
+                                      watch_name='W60')
+
+        RE(bp.fly([sirepo_flyer]))
+
+- Access the data:
+
+.. code:: py
+
+    hdr = db[-1]
+    hdr.table(stream_name="sirepo_flyer")
+
+DataBroker will contain the following information:
+
+.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/documentation/images/flyer_output.PNG
 
 .. _instructions: https://github.com/radiasoft/sirepo/wiki/Development
 .. _VirtualBox: https://www.virtualbox.org/
