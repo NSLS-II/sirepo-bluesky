@@ -40,7 +40,7 @@ class SirepoFlyer(BlueskyFlyer):
     """
     Multiprocessing "flyer" for Sirepo simulations
 
-    Attributes
+    Parameters
     ----------
     sim_id : str
         Simulation ID corresponding to Sirepo simulation being run on local server
@@ -66,8 +66,8 @@ class SirepoFlyer(BlueskyFlyer):
     Examples
     --------
     if __name__ == '__main__':
+        %run -i examples/prepare_flyer_env.py
         import bluesky.plans as bp
-        from sirepo_bluesky.re_config import *
         from sirepo_bluesky import sirepo_flyer as sf
 
         params_to_change = []
@@ -81,7 +81,7 @@ class SirepoFlyer(BlueskyFlyer):
                                      key2: parameters_update2})
 
         sirepo_flyer = sf.SirepoFlyer(sim_id='87XJ4oEb', server_name='http://10.10.10.10:8000',
-                                      root_dir=ROOT_DIR, params_to_change=params_to_change,
+                                      root_dir=root_dir, params_to_change=params_to_change,
                                       watch_name='W60')
 
         RE(bp.fly([sirepo_flyer]))
@@ -327,6 +327,7 @@ class SirepoFlyer(BlueskyFlyer):
 
     @staticmethod
     def _run(sim, return_status):
+        """ Run simulations using multiprocessing. """
         print(f'running sim {sim.sim_id}')
         status = sim.run_simulation()
         print('Status:', status['state'])
