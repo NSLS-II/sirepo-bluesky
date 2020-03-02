@@ -36,7 +36,6 @@ def test_sirepo_detector(RE, db, tmpdir):
     t = hdr.table()
     mean = t.iloc[0]['sirepo_det_mean']
 
-
     assert mean == 1334615738479247.2, "incorrect mean value from bp.count"
 
 
