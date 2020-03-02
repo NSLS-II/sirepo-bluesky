@@ -7,7 +7,7 @@ matplotlib
 numconv
 ophyd
 pymongo
-pyqt5>=5.9,<5.14
+pyqt5==5.9
 pytest
 requests
 unyt
