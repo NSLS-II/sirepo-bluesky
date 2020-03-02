@@ -1,9 +1,9 @@
+os: linux
+dist: xenial
 language: python
 services:
   - mongodb
   - xvfb
-python:
-  - 3.6
 
 env:
   global:
@@ -13,6 +13,16 @@ cache:
   directories:
     - $HOME/.cache/pip
     - $HOME/.ccache  # https://github.com/travis-ci/travis-ci/issues/5853
+
+jobs:
+  fast_finish: true
+  include:
+    - os: linux
+      python: 3.6
+    - os: linux
+      python: 3.7
+    - os: linux
+      python: 3.8
 
 install:
   # Install this package and the packages listed in requirements.txt.
