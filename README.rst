@@ -21,7 +21,7 @@ An attempt to integrate Sirepo/SRW simulations with Bluesky/Ophyd.
 
 Based on this Sirepo simulation that can be downloaded in the next section:
 
-.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/documentation/images/basic_beamline.png
+.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/master/images/basic_beamline.png
 
 
 Prepare a local Sirepo server
@@ -98,7 +98,7 @@ Prepare Bluesky and trigger a simulated Sirepo detector
 
 You should get something like:
 
-.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/documentation/images/sirepo_bluesky_grid.png
+.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/master/images/sirepo_bluesky_grid.png
 
 -  Get the data:
 
@@ -113,7 +113,7 @@ You should get something like:
 
 You should get something like:
 
-.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/documentation/images/sirepo_bluesky.png
+.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/master/images/sirepo_bluesky.png
 
 To view single-electron spectrum report (**Hint:** use a different
 ``sim_id``, e.g. for the NSLS-II CHX beamline example):
@@ -141,7 +141,7 @@ To view single-electron spectrum report (**Hint:** use a different
 
 You should get something like:
 
-.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/documentation/images/spectrum.png
+.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/master/images/spectrum.png
 
 
 Use a simulated Sirepo Flyer to run multiple simulations
@@ -197,11 +197,11 @@ Use a simulated Sirepo Flyer to run multiple simulations
 
 Databroker will return the following information:
 
-.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/documentation/images/flyer_output.PNG
+.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/master/images/flyer_output.png
 
 .. _instructions: https://github.com/radiasoft/sirepo/wiki/Development
 .. _VirtualBox: https://www.virtualbox.org/
 .. _Vagrant: https://www.vagrantup.com/
-.. _archive: https://github.com/NSLS-II/sirepo-bluesky/raw/documentation/examples/basic.zip
+.. _archive: https://github.com/NSLS-II/sirepo-bluesky/raw/master/examples/basic.zip
 .. _mongodb: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
-.. _local.yml: https://github.com/NSLS-II/sirepo-bluesky/blob/documentation/examples/local.yml
+.. _local.yml: https://github.com/NSLS-II/sirepo-bluesky/blob/master/examples/local.yml
