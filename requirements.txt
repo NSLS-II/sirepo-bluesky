@@ -2,6 +2,7 @@ bluesky
 databroker
 ipython
 matplotlib
+numconv
 numpy
 ophyd
 pymongo
