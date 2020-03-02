@@ -29,6 +29,8 @@ install:
   - pip install .
   # Install extra requirements for running tests and building docs.
   - pip install -r requirements-dev.txt
+  - pip list
+  - conda list
   - mkdir -p $HOME/.config/databroker/ && cp -v examples/local.yml $HOME/.config/databroker/local.yml
 
 script:
