@@ -9,7 +9,6 @@ from databroker import Broker
 from ophyd.utils import make_dir_tree
 
 from sirepo_bluesky.srw_handler import SRWFileHandler
-import matplotlib.pyplot as plt
 
 
 RE = RunEngine({})
