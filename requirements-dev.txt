@@ -3,10 +3,10 @@
 codecov
 coverage
 flake8
+numpy
 pytest
 sphinx
 vcrpy
-numpy
 # These are dependencies of various sphinx extensions for documentation.
 ipython
 matplotlib
