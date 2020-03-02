@@ -14,8 +14,8 @@ Sirepo-Bluesky interface
 * Free software: 3-clause BSD license
 * Documentation: https://NSLS-II.github.io/sirepo-bluesky.
 
-Purpose:
---------
+Purpose
+-------
 
 An attempt to integrate Sirepo/SRW simulations with Bluesky/Ophyd.
 
@@ -23,8 +23,9 @@ Based on this Sirepo simulation that can be downloaded in the next section:
 
 .. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/documentation/images/basic_beamline.png
 
-Prepare a local Sirepo server:
-------------------------------
+
+Prepare a local Sirepo server
+-----------------------------
 
 -  Install Sirepo using Vagrant/VirtualBox following the `instructions`_
    (you will need to install `VirtualBox`_ and `Vagrant`_)
@@ -55,12 +56,13 @@ You can also consider running a Docker container:
    mkdir -p $HOME/tmp/sirepo-docker-run
    docker run -it --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=bluesky -e SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $HOME/tmp/sirepo-docker-run:/sirepo radiasoft/sirepo:beta /home/vagrant/.pyenv/shims/sirepo service http
 
-Prepare Bluesky and trigger a simulated Sirepo detector:
---------------------------------------------------------
+
+Prepare Bluesky and trigger a simulated Sirepo detector
+-------------------------------------------------------
 
 -  (OPTIONAL) Make sure you have `mongodb`_ installed and the service is
    running (see `local.yml`_ for details)
--  Create conda environment:
+-  Create a conda environment:
 
 .. code:: bash
 
@@ -68,7 +70,7 @@ Prepare Bluesky and trigger a simulated Sirepo detector:
    cd sirepo-bluesky/
    conda create -n sirepo_bluesky python=3.7 -y
    conda activate sirepo_bluesky
-   pip install -r requirements.txt
+   pip install -e .
 
 -  Start ``ipython`` and run the following where ``sim_id`` is the
    UID for the simulation we are working with:
@@ -141,11 +143,13 @@ You should get something like:
 
 .. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/documentation/images/spectrum.png
 
+
 Use a simulated Sirepo Flyer to run multiple simulations
 --------------------------------------------------------
 
-- This section is based on the Young's Double Slit Experiment Sirepo example that can be found
-  in the wavefront propagation folder on the SRW simulations section
+- This section is based on the Young's Double Slit Experiment Sirepo example
+  that can be found in the wavefront propagation folder on the SRW simulations
+  section
 
 - Open the simulation and grab the new UID (the last 8 alphanumeric symbols)
 
@@ -173,7 +177,8 @@ Use a simulated Sirepo Flyer to run multiple simulations
                                  key2: parameters_update2,
                                  key3: parameters_update3})
 
-- Create the flyer and run a fly scan where ``sim_id`` is the UID of this simulation:
+- Create the flyer and run a fly scan where ``sim_id`` is the UID of this
+  simulation:
 
 .. code:: py
 
@@ -190,7 +195,7 @@ Use a simulated Sirepo Flyer to run multiple simulations
     hdr = db[-1]
     hdr.table(stream_name="sirepo_flyer")
 
-DataBroker will contain the following information:
+Databroker will return the following information:
 
 .. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/documentation/images/flyer_output.PNG
 
