@@ -6,7 +6,7 @@ numconv
 numpy
 ophyd
 pymongo
-pyqt5>=5.9,<5.13
+pyqt5>=5.9,<5.12
 requests
 srwpy
 unyt
