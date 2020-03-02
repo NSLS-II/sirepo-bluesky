@@ -12,12 +12,7 @@ sirepo-bluesky
 Sirepo-Bluesky interface
 
 * Free software: 3-clause BSD license
-* Documentation: (COMING SOON!) https://NSLS-II.github.io/sirepo-bluesky.
-
-Features
---------
-
-* 
+* Documentation: https://NSLS-II.github.io/sirepo-bluesky.
 
 Purpose:
 --------
