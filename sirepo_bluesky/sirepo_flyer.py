@@ -66,7 +66,7 @@ class SirepoFlyer(BlueskyFlyer):
     Examples
     --------
     if __name__ == '__main__':
-        %run -i examples/prepare_flyer_env
+        %run -i examples/prepare_flyer_env.py
         import bluesky.plans as bp
         from sirepo_bluesky import sirepo_flyer as sf
 

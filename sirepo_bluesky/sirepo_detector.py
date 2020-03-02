@@ -275,10 +275,10 @@ class SirepoDetector(Device):
 
     How to run beamline library example
     -----------------------------------
-    %run -i examples/prepare_environment
+    %run -i examples/prepare_det_env.py
     import bluesky.plans as bp
-    import blueksy.plan_stubs as bps
-    import sirepo_blueksy.sirepo_detector as sd
+    import bluesky.plan_stubs as bps
+    import sirepo_bluesky.sirepo_detector as sd
     sirepo_det = sd.SirepoDetector(sim_id='qyQ4yILz', reg=db.reg)
     sirepo_det.select_optic('Aperture')
     param1 = sirepo_det.create_parameter('horizontalSize')
@@ -307,7 +307,7 @@ class SirepoDetector(Device):
 
     How to run source page example
     ------------------------------
-    %run -i examples/prepare_environment
+    %run -i examples/prepare_det_env.py
     import bluesky.plans as bp
     import sirepo_bluesky.sirepo_detector as sd
     sirepo_det = sd.SirepoDetector(sim_id='8GJJWLFh', reg=db.reg, source_simulation=True)

@@ -17,7 +17,7 @@ Sirepo-Bluesky interface
 Features
 --------
 
-* TODO
+* 
 
 Purpose:
 --------
@@ -49,7 +49,7 @@ Prepare a local Sirepo server:
    "Import" button in the right-upper corner and upload the
    `archive`_ with the simulation stored in this repo
 -  You should be redirected to the address like
-   http://10.10.10.10:8000/srw#/source/IKROlKfR
+   ``http://10.10.10.10:8000/srw#/source/IKROlKfR``
 -  Grab the last 8 alphanumeric symbols (``IKROlKfR``), which represent
    a UID for the simulation we will be working with in the next section.
 
@@ -57,6 +57,7 @@ You can also consider running a Docker container:
 
 .. code:: bash
 
+   mkdir -p $HOME/tmp/sirepo-docker-run
    docker run -it --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=bluesky -e SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $HOME/tmp/sirepo-docker-run:/sirepo radiasoft/sirepo:beta /home/vagrant/.pyenv/shims/sirepo service http
 
 Prepare Bluesky and trigger a simulated Sirepo detector:
@@ -70,7 +71,7 @@ Prepare Bluesky and trigger a simulated Sirepo detector:
 
    git clone https://github.com/NSLS-II/sirepo-bluesky/
    cd sirepo-bluesky/
-   conda create -n sirepo_bluesky python=3.6 -y
+   conda create -n sirepo_bluesky python=3.7 -y
    conda activate sirepo_bluesky
    pip install -r requirements.txt
 
@@ -79,10 +80,10 @@ Prepare Bluesky and trigger a simulated Sirepo detector:
 
 .. code:: py
 
-   %run -i examples/prepare_det_env
+   %run -i examples/prepare_det_env.py
    import sirepo_bluesky.sirepo_detector as sd
    import bluesky.plans as bp
-   sirepo_det = sd.SirepoDetector(sim_id='IKROlKfR', reg=db.reg)
+   sirepo_det = sd.SirepoDetector(sim_id='<sim_id>', reg=db.reg)
    sirepo_det.select_optic('Aperture')
    param1 = sirepo_det.create_parameter('horizontalSize')
    param2 = sirepo_det.create_parameter('verticalSize')
@@ -122,10 +123,10 @@ To view single-electron spectrum report (**Hint:** use a different
 
 .. code:: py
 
-   %run -i examples/prepare_det_env
+   %run -i examples/prepare_det_env.py
    import sirepo_bluesky.sirepo_detector as sd
    import bluesky.plans as bp
-   sirepo_det = sd.SirepoDetector(sim_id='8GJJWLFh', reg=db.reg, source_simulation=True)
+   sirepo_det = sd.SirepoDetector(sim_id='<sim_id>', reg=db.reg, source_simulation=True)
    sirepo_det.read_attrs = ['image', 'mean', 'photon_energy']
    sirepo_det.configuration_attrs = ['horizontal_extent',
                                      'vertical_extent',
@@ -148,16 +149,16 @@ You should get something like:
 Use a simulated Sirepo Flyer to run multiple simulations
 --------------------------------------------------------
 
-- This section is based on the Young's Double Slit Experiment that can be found
+- This section is based on the Young's Double Slit Experiment Sirepo example that can be found
   in the wavefront propagation folder on the SRW simulations section
 
 - Open the simulation and grab the new UID (the last 8 alphanumeric symbols)
 
-- Start ``iPython`` and run the following:
+- Start ``ipython`` and run the following:
 
 .. code:: py
 
-    %run -i examples/prepare_flyer_env
+    %run -i examples/prepare_flyer_env.py
     import bluesky.plans as bp
     import sirepo_bluesky.sirepo_flyer as sf
 
@@ -181,7 +182,7 @@ Use a simulated Sirepo Flyer to run multiple simulations
 
 .. code:: py
 
-        sirepo_flyer = sf.SirepoFlyer(sim_id='87XJ4oEb', server_name='http://10.10.10.10:8000',
+        sirepo_flyer = sf.SirepoFlyer(sim_id='<sim_id>', server_name='http://10.10.10.10:8000',
                                       root_dir=root_dir, params_to_change=params_to_change,
                                       watch_name='W60')
 
