@@ -20,7 +20,7 @@ def test_smoke_sirepo():
 
 
 @pytest.mark.docker
-def test_smoke_sirepo():
+def test_smoke_sirepo_docker():
     sim_id = '0o0o0o0o'
     sb = SirepoBluesky('http://localhost:8000')
     data, schema = sb.auth('srw', sim_id)
