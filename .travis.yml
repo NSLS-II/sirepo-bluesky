@@ -28,6 +28,14 @@ jobs:
       python: 3.6
       env:
         - USE_DOCKER: true
+    - os: linux
+      python: 3.7
+      env:
+        - USE_DOCKER: true
+    - os: linux
+      python: 3.8
+      env:
+        - USE_DOCKER: true
 
 install:
   - env | sort -u
