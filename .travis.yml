@@ -2,6 +2,7 @@ os: linux
 dist: xenial
 language: python
 services:
+  - docker
   - mongodb
   - xvfb
 
@@ -23,6 +24,10 @@ jobs:
       python: 3.7
     - os: linux
       python: 3.8
+    - os: linux
+      python: 3.6
+      env:
+        - USE_DOCKER: true
 
 install:
   # Install this package and the packages listed in requirements.txt.
@@ -32,9 +37,19 @@ install:
   - pip install --upgrade numpy pip
   - pip list
   - mkdir -p $HOME/.config/databroker/ && cp -v examples/local.yml $HOME/.config/databroker/local.yml
+  - |
+    if [ ! -z "$USE_DOCKER" ]; then
+        docker pull radiasoft/sirepo:beta
+        mkdir -v -p $HOME/sirepo_srdb_root
+        cp -Rv sirepo_bluesky/tests/SIREPO_SRDB_ROOT $HOME/sirepo_srdb_root
+    fi
 
 script:
   - flake8  # Enforce code style ('relaxed' line length limit is set in .flake8 config file).
+  - |
+    if [ ! -z "$USE_DOCKER" ];
+        docker run -it --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=bluesky -e SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $HOME/sirepo_srdb_root:/sirepo radiasoft/sirepo:beta /home/vagrant/.pyenv/shims/sirepo service http
+    fi
   - coverage run -m pytest -vvvv  # Run the tests and check for test coverage.
   - coverage report -m  # Generate test coverage report.
   - codecov  # Upload the report to codecov.
