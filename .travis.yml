@@ -30,6 +30,7 @@ jobs:
         - USE_DOCKER: true
 
 install:
+  - env | sort -u
   # Install this package and the packages listed in requirements.txt.
   - pip install .
   # Install extra requirements for running tests and building docs.
@@ -46,12 +47,9 @@ script:
   - flake8  # Enforce code style ('relaxed' line length limit is set in .flake8 config file).
   - |
     if [ ! -z "$USE_DOCKER" ]; then
-        pwd
-        ls -la $HOME
-        ls -al $PWD
-        env | sort -u
-        docker run -it --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=bluesky -e SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT:/SIREPO_SRDB_ROOT:ro,z radiasoft/sirepo:beta bash -c "mkdir -v -p /sirepo/user/ && cp -Rv /SIREPO_SRDB_ROOT/* /sirepo/user/ && /home/vagrant/.pyenv/shims/sirepo service http"
+        container_id=$(docker run -d -t --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=bluesky -e SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT:/SIREPO_SRDB_ROOT:ro,z radiasoft/sirepo:beta bash -c "mkdir -v -p /sirepo/user/ && cp -Rv /SIREPO_SRDB_ROOT/* /sirepo/user/ && /home/vagrant/.pyenv/shims/sirepo service http")
         coverage run -m pytest -vvvv -m "docker"  # Run the tests and check for test coverage.
+        docker logs $container_id
     fi
   - coverage run -m pytest -vvvv -m "not docker"  # Run the tests and check for test coverage.
   - coverage report -m  # Generate test coverage report.
