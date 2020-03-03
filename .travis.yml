@@ -40,8 +40,8 @@ install:
   - |
     if [ ! -z "$USE_DOCKER" ]; then
         docker pull radiasoft/sirepo:beta
-        mkdir -v -p $HOME/sirepo_srdb_root
-        cp -Rv sirepo_bluesky/tests/SIREPO_SRDB_ROOT $HOME/sirepo_srdb_root
+        mkdir -v -p $HOME/sirepo_srdb_root/user
+        cp -Rv sirepo_bluesky/tests/SIREPO_SRDB_ROOT/* $HOME/sirepo_srdb_root/user
     fi
 
 script:
