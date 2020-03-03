@@ -40,15 +40,13 @@ install:
   - |
     if [ ! -z "$USE_DOCKER" ]; then
         docker pull radiasoft/sirepo:beta
-        mkdir -v -p $HOME/sirepo_srdb_root/user
-        cp -Rv sirepo_bluesky/tests/SIREPO_SRDB_ROOT/* $HOME/sirepo_srdb_root/user
     fi
 
 script:
   - flake8  # Enforce code style ('relaxed' line length limit is set in .flake8 config file).
   - |
     if [ ! -z "$USE_DOCKER" ]; then
-        docker run -it --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=bluesky -e SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $HOME/sirepo_srdb_root:/sirepo:rw,z radiasoft/sirepo:beta /home/vagrant/.pyenv/shims/sirepo service http
+        docker run -it --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=bluesky -e SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v sirepo_bluesky/tests/SIREPO_SRDB_ROOT:/SIREPO_SRDB_ROOT:ro,z radiasoft/sirepo:beta "mkdir -v -p /sirepo/user/ && cp -Rv /SIREPO_SRDB_ROOT/* /sirepo/user/ && /home/vagrant/.pyenv/shims/sirepo service http"
         coverage run -m pytest -vvvv -m "docker"  # Run the tests and check for test coverage.
     fi
   - coverage run -m pytest -vvvv -m "not docker"  # Run the tests and check for test coverage.
