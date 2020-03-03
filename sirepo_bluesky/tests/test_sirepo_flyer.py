@@ -1,5 +1,7 @@
-import vcr
 import os
+
+import pytest
+import vcr
 
 from sirepo_bluesky.sirepo_bluesky import SirepoBluesky
 from sirepo_bluesky.sirepo_flyer import SirepoFlyer
@@ -13,6 +15,14 @@ cassette_location = os.path.join(os.path.dirname(sirepo_bluesky.tests.__file__),
 def test_smoke_sirepo():
     sim_id = '87XJ4oEb'
     sb = SirepoBluesky('http://10.10.10.10:8000')
+    data, schema = sb.auth('srw', sim_id)
+    assert 'beamline' in data['models']
+
+
+@pytest.mark.docker
+def test_smoke_sirepo():
+    sim_id = '0o0o0o0o'
+    sb = SirepoBluesky('http://localhost:8000')
     data, schema = sb.auth('srw', sim_id)
     assert 'beamline' in data['models']
 

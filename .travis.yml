@@ -47,7 +47,7 @@ install:
 script:
   - flake8  # Enforce code style ('relaxed' line length limit is set in .flake8 config file).
   - |
-    if [ ! -z "$USE_DOCKER" ];
+    if [ ! -z "$USE_DOCKER" ]; then
         docker run -it --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=bluesky -e SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $HOME/sirepo_srdb_root:/sirepo radiasoft/sirepo:beta /home/vagrant/.pyenv/shims/sirepo service http
     fi
   - coverage run -m pytest -vvvv  # Run the tests and check for test coverage.
