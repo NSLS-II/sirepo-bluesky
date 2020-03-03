@@ -11,20 +11,22 @@ import sirepo_bluesky.tests
 cassette_location = os.path.join(os.path.dirname(sirepo_bluesky.tests.__file__), 'vcr_cassettes')
 
 
-@vcr.use_cassette(f'{cassette_location}/test_smoke_sirepo.yml')
-def test_smoke_sirepo():
-    sim_id = '87XJ4oEb'
-    sb = SirepoBluesky('http://10.10.10.10:8000')
+def _test_smoke_sirepo(sim_id, server_name):
+    sb = SirepoBluesky(server_name)
     data, schema = sb.auth('srw', sim_id)
     assert 'beamline' in data['models']
+
+
+@vcr.use_cassette(f'{cassette_location}/test_smoke_sirepo.yml')
+def test_smoke_sirepo_vcr():
+    _test_smoke_sirepo(sim_id='87XJ4oEb',
+                       server_name='http://10.10.10.10:8000')
 
 
 @pytest.mark.docker
 def test_smoke_sirepo_docker():
-    sim_id = '00000000'  # Young double slit example
-    sb = SirepoBluesky('http://localhost:8000')
-    data, schema = sb.auth('srw', sim_id)
-    assert 'beamline' in data['models']
+    _test_smoke_sirepo(sim_id='00000000',
+                       server_name='http://localhost:8000')
 
 
 def _test_sirepo_flyer(RE_no_plot, db, tmpdir, sim_id, server_name):
