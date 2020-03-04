@@ -15,7 +15,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/ is a dir name in the sirepo_srdb_root
+# lib/
 lib64/
 parts/
 sdist/
