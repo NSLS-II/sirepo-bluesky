@@ -322,7 +322,8 @@ class SirepoFlyer(BlueskyFlyer):
                     }
 
             yield {'data': data,
-                   'timestamps': {key: now for key in data}, 'time': now,
+                   'timestamps': {key: now for key in data},
+                   'time': now,
                    'filled': {key: False for key in data}}
 
     @staticmethod
