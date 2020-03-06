@@ -46,4 +46,10 @@ Vagrant.configure("2") do |config|
         inline: "sed -i '/127.0.0.1.*v.radia.run/d' /etc/hosts"
     config.vm.synced_folder ".", "/vagrant", type: "nfs", mount_options: ["rw", "vers=3", "tcp", "nolock", "fsc", "actimeo=2"]
 
+    # EPICS UDP/TCP port mapping:
+    config.vm.network "forwarded_port", guest: 5064, host: 5064, protocol: "tcp"
+    config.vm.network "forwarded_port", guest: 5064, host: 5064, protocol: "udp"
+    # MongoDB port mapping:
+    config.vm.network "forwarded_port", guest: 27017, host: 27017, protocol: "tcp"
+
 end
