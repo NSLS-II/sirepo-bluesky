@@ -228,7 +228,7 @@ class SirepoFlyer(BlueskyFlyer):
             for i in range(self.copy_count):
                 print(f'running sim: {self._copies[i].sim_id}')
                 status = self._copies[i].run_simulation()
-                print('Status:', status['state'])
+                print(f"Status of sim {self._copies[i].sim_id}: {status['state']}")
                 self.return_status[self._copies[i].sim_id] = status['state']
         return NullStatus()
 
@@ -269,12 +269,24 @@ class SirepoFlyer(BlueskyFlyer):
                         f'{self.name}_status': {'source': f'{self.name}_status',
                                                 'dtype': 'string',
                                                 'shape': []},
-                        f'{self.name}_parameters': {'source': f'{self.name}_parameters',
-                                                    'dtype': 'string',
-                                                    'shape': []}
+                        # f'{self.name}_parameters': {'source': f'{self.name}_parameters',
+                        #                             'dtype': 'string',
+                        #                             'shape': []}
                         }
                        }
+        elem_name = []
+        curr_param = []
+        for inputs in self.params_to_change:
+            for key, params in inputs.items():
+                elem_name.append(key)
+                curr_param.append(list(params.keys()))
 
+        for i in range(len(elem_name)):
+            for j in range(len(curr_param[i])):
+                return_dict[self.name].update({f'{self.name}_{elem_name[i]}_{curr_param[i][j]}': {
+                    'source': f'{self.name}_{elem_name[i]}_{curr_param[i][j]}',
+                    'dtype': 'number',
+                    'shape': []}})
         return return_dict
 
     def collect(self):
@@ -310,6 +322,8 @@ class SirepoFlyer(BlueskyFlyer):
 
         now = ttime.time()
         for i, datum_id in enumerate(self._datum_ids):
+            elem_name = []
+            curr_param = []
             data = {f'{self.name}_image': datum_id,
                     f'{self.name}_shape': shapes[i],
                     f'{self.name}_mean': means[i],
@@ -318,8 +332,16 @@ class SirepoFlyer(BlueskyFlyer):
                     f'{self.name}_vertical_extent': vertical_extents[i],
                     f'{self.name}_hash_value': hash_values[i],
                     f'{self.name}_status': statuses[i],
-                    f'{self.name}_parameters': self.params_to_change[i],
+                    # f'{self.name}_parameters': self.params_to_change[i],
                     }
+            for inputs in self.params_to_change:
+                for key, params in inputs.items():
+                    elem_name.append(key)
+                    curr_param.append(list(params.keys()))
+            for ii in range(len(elem_name)):
+                for jj in range(len(curr_param[ii])):
+                    data[f'{self.name}_{elem_name[ii]}_{curr_param[ii][jj]}'] =\
+                        self.params_to_change[i][elem_name[ii]][curr_param[ii][jj]]
 
             yield {'data': data,
                    'timestamps': {key: now for key in data},
@@ -331,5 +353,5 @@ class SirepoFlyer(BlueskyFlyer):
         """ Run simulations using multiprocessing. """
         print(f'running sim {sim.sim_id}')
         status = sim.run_simulation()
-        print('Status:', status['state'])
+        print(f"Status of sim {sim.sim_id}: {status['state']}")
         return_status[sim.sim_id] = status['state']
