@@ -5,6 +5,7 @@ import time as ttime
 from collections import deque
 from multiprocessing import Process, Manager
 from pathlib import Path
+import numpy as np
 
 from ophyd.sim import NullStatus, new_uid
 
@@ -185,6 +186,19 @@ class SirepoFlyer(BlueskyFlyer):
         data, schema = sb.auth(self.sim_code, self.sim_id)
         self._copies = []
         self._srw_files = []
+        autocompute_data = {}
+        # grazing angle; check params_to_change
+        for i in data['models']['beamline']:
+            if 'autocomputeVectors' in i.keys():
+                autocompute_data[i['title']] = i['autocomputeVectors']
+        update_grazing_vecs_list = []
+        for i in self.params_to_change:
+            grazing_vecs_dict = {}
+            for elem, param in i.items():
+                for param_name, val in param.items():
+                    if elem in autocompute_data.keys() and param_name == 'grazingAngle':
+                        grazing_vecs_dict[elem] = {'angle': val, 'autocompute_type': autocompute_data[elem]}
+            update_grazing_vecs_list.append(grazing_vecs_dict)
 
         for i in range(self._copy_count):
             datum_id = new_uid()
@@ -201,14 +215,18 @@ class SirepoFlyer(BlueskyFlyer):
             self._resource_uids.append(_resource_uid)
             self._asset_docs_cache.append(('resource', resource))
 
-        for param in self.params_to_change:
+        for i in range(len(self.params_to_change)):
             # name doesn't need to be unique, server will rename it
             c1 = sb.copy_sim('{} Bluesky'.format(sb.data['models']['simulation']['name']), )
             print('copy {}, {}'.format(c1.sim_id, c1.data['models']['simulation']['name']))
 
-            for key, parameters_to_update in param.items():
+            for key, parameters_to_update in self.params_to_change[i].items():
                 optic_id = sb.find_optic_id_by_name(key)
                 c1.data['models']['beamline'][optic_id].update(parameters_to_update)
+                # update vectors if needed
+                if key in update_grazing_vecs_list[i]:
+                    self.update_grazing_vectors(c1.data['models']['beamline'][optic_id],
+                                                update_grazing_vecs_list[i][key])
             watch = sb.find_element(c1.data['models']['beamline'], 'title', self.watch_name)
             c1.data['report'] = 'watchpointReport{}'.format(watch['id'])
             self._copies.append(c1)
@@ -347,6 +365,25 @@ class SirepoFlyer(BlueskyFlyer):
                    'timestamps': {key: now for key in data},
                    'time': now,
                    'filled': {key: False for key in data}}
+
+    @staticmethod
+    def update_grazing_vectors(copy_data, grazing_vectors_params):
+        """Update grazing angle vectors"""
+        grazing_params = {}
+        grazing_angle = grazing_vectors_params['angle']
+        nvx = nvy = np.sqrt(1 - np.sin(grazing_angle / 1000) ** 2)
+        tvx = tvy = np.sqrt(1 - np.cos(grazing_angle / 1000) ** 2)
+        nvz = -tvx
+        if grazing_vectors_params['autocompute_type'] == 'horizontal':
+            nvy = tvy = 0
+        elif grazing_vectors_params['autocompute_type'] == 'vertical':
+            nvx = tvx = 0
+        grazing_params['normalVectorX'] = nvx
+        grazing_params['normalVectorY'] = nvy
+        grazing_params['tangentialVectorX'] = tvx
+        grazing_params['tangentialVectorY'] = tvy
+        grazing_params['normalVectorZ'] = nvz
+        copy_data.update(grazing_params)
 
     @staticmethod
     def _run(sim, return_status):
