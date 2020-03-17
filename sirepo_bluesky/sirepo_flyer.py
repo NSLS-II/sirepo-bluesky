@@ -269,9 +269,6 @@ class SirepoFlyer(BlueskyFlyer):
                         f'{self.name}_status': {'source': f'{self.name}_status',
                                                 'dtype': 'string',
                                                 'shape': []},
-                        # f'{self.name}_parameters': {'source': f'{self.name}_parameters',
-                        #                             'dtype': 'string',
-                        #                             'shape': []}
                         }
                        }
         elem_name = []
@@ -332,7 +329,6 @@ class SirepoFlyer(BlueskyFlyer):
                     f'{self.name}_vertical_extent': vertical_extents[i],
                     f'{self.name}_hash_value': hash_values[i],
                     f'{self.name}_status': statuses[i],
-                    # f'{self.name}_parameters': self.params_to_change[i],
                     }
             for inputs in self.params_to_change:
                 for key, params in inputs.items():
@@ -340,7 +336,7 @@ class SirepoFlyer(BlueskyFlyer):
                     curr_param.append(list(params.keys()))
             for ii in range(len(elem_name)):
                 for jj in range(len(curr_param[ii])):
-                    data[f'{self.name}_{elem_name[ii]}_{curr_param[ii][jj]}'] =\
+                    data[f'{self.name}_{elem_name[ii]}_{curr_param[ii][jj]}'] = \
                         self.params_to_change[i][elem_name[ii]][curr_param[ii][jj]]
 
             yield {'data': data,
