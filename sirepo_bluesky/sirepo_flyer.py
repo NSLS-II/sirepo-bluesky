@@ -225,8 +225,8 @@ class SirepoFlyer(BlueskyFlyer):
                 c1.data['models']['beamline'][optic_id].update(parameters_to_update)
                 # update vectors if needed
                 if key in update_grazing_vecs_list[i]:
-                    self.update_grazing_vectors(c1.data['models']['beamline'][optic_id],
-                                                update_grazing_vecs_list[i][key])
+                    sb.update_grazing_vectors(c1.data['models']['beamline'][optic_id],
+                                                   update_grazing_vecs_list[i][key])
             watch = sb.find_element(c1.data['models']['beamline'], 'title', self.watch_name)
             c1.data['report'] = 'watchpointReport{}'.format(watch['id'])
             self._copies.append(c1)
@@ -366,24 +366,24 @@ class SirepoFlyer(BlueskyFlyer):
                    'time': now,
                    'filled': {key: False for key in data}}
 
-    @staticmethod
-    def update_grazing_vectors(copy_data, grazing_vectors_params):
-        """Update grazing angle vectors"""
-        grazing_params = {}
-        grazing_angle = grazing_vectors_params['angle']
-        nvx = nvy = np.sqrt(1 - np.sin(grazing_angle / 1000) ** 2)
-        tvx = tvy = np.sqrt(1 - np.cos(grazing_angle / 1000) ** 2)
-        nvz = -tvx
-        if grazing_vectors_params['autocompute_type'] == 'horizontal':
-            nvy = tvy = 0
-        elif grazing_vectors_params['autocompute_type'] == 'vertical':
-            nvx = tvx = 0
-        grazing_params['normalVectorX'] = nvx
-        grazing_params['normalVectorY'] = nvy
-        grazing_params['tangentialVectorX'] = tvx
-        grazing_params['tangentialVectorY'] = tvy
-        grazing_params['normalVectorZ'] = nvz
-        copy_data.update(grazing_params)
+    # @staticmethod
+    # def update_grazing_vectors(data_to_update, grazing_vectors_params):
+    #     """Update grazing angle vectors"""
+    #     grazing_params = {}
+    #     grazing_angle = grazing_vectors_params['angle']
+    #     nvx = nvy = np.sqrt(1 - np.sin(grazing_angle / 1000) ** 2)
+    #     tvx = tvy = np.sqrt(1 - np.cos(grazing_angle / 1000) ** 2)
+    #     nvz = -tvx
+    #     if grazing_vectors_params['autocompute_type'] == 'horizontal':
+    #         nvy = tvy = 0
+    #     elif grazing_vectors_params['autocompute_type'] == 'vertical':
+    #         nvx = tvx = 0
+    #     grazing_params['normalVectorX'] = nvx
+    #     grazing_params['normalVectorY'] = nvy
+    #     grazing_params['tangentialVectorX'] = tvx
+    #     grazing_params['tangentialVectorY'] = tvy
+    #     grazing_params['normalVectorZ'] = nvz
+    #     data_to_update.update(grazing_params)
 
     @staticmethod
     def _run(sim, return_status):

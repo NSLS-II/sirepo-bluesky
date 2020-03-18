@@ -1,5 +1,6 @@
 import datetime
 from pathlib import Path
+import numpy as np
 
 import unyt as u
 
@@ -62,6 +63,7 @@ class SirepoDetector(Device):
         self.sirepo_components = None
         self.source_component = None
         self.active_parameters = {}
+        self.autocompute_params = {}
         self.source_simulation = source_simulation
         self.one_d_reports = ['intensityReport']
         self.two_d_reports = ['watchpointReport']
@@ -98,6 +100,25 @@ class SirepoDetector(Device):
             for k, v in self.parameters.items():
                 getattr(value, k).set(v)
 
+    # @staticmethod
+    # def update_grazing_vectors(data_to_update, grazing_vectors_params):
+    #     """Update grazing angle vectors"""
+    #     grazing_params = {}
+    #     grazing_angle = grazing_vectors_params['angle']
+    #     nvx = nvy = np.sqrt(1 - np.sin(grazing_angle / 1000) ** 2)
+    #     tvx = tvy = np.sqrt(1 - np.cos(grazing_angle / 1000) ** 2)
+    #     nvz = -tvx
+    #     if grazing_vectors_params['autocompute_type'] == 'horizontal':
+    #         nvy = tvy = 0
+    #     elif grazing_vectors_params['autocompute_type'] == 'vertical':
+    #         nvx = tvx = 0
+    #     grazing_params['normalVectorX'] = nvx
+    #     grazing_params['normalVectorY'] = nvy
+    #     grazing_params['tangentialVectorX'] = tvx
+    #     grazing_params['tangentialVectorY'] = tvy
+    #     grazing_params['normalVectorZ'] = nvz
+    #     data_to_update.update(grazing_params)
+
     def trigger(self):
         super().trigger()
         datum_id = new_uid()
@@ -107,6 +128,9 @@ class SirepoDetector(Device):
 
         if not self.source_simulation:
             if self.sirepo_component is not None:
+                for i in self.data['models']['beamline']:
+                    if 'autocomputeVectors' in i.keys():
+                        self.autocompute_params[i['title']] = i['autocomputeVectors']
                 for i in range(len(self.active_parameters)):
                     real_field = self.fields['field' + str(i)].replace('sirepo_', '')
                     dict_key = self.fields['field' + str(i)].replace('sirepo', self.parents['par' + str(i)])
@@ -116,6 +140,16 @@ class SirepoDetector(Device):
                                                    'title',
                                                    self.parents['par' + str(i)])
                     element[real_field] = x
+                    if self.parents[f'par{i}'] in self.autocompute_params.keys() and 'grazingAngle' in dict_key:
+                        grazing_vecs_dict = {}
+                        autocompute_key = f'{self.parents[f"par{i}"]}_sirepo_autocomputeVectors'
+                        autocompute_type = self.sirepo_components[self.parents[f'par{i}']].read()[
+                            autocompute_key]['value']
+                        grazing_vecs_dict['angle'] = x
+                        grazing_vecs_dict['autocompute_type'] = autocompute_type
+                        optic_id = self.sb.find_optic_id_by_name(self.parents[f'par{i}'])
+                        self.sb.update_grazing_vectors(self.data['models']['beamline'][optic_id],
+                                                       grazing_vecs_dict)
 
                 watch = self.sb.find_element(self.data['models']['beamline'],
                                              'title',
