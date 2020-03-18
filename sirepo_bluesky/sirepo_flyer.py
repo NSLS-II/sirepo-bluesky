@@ -366,25 +366,6 @@ class SirepoFlyer(BlueskyFlyer):
                    'time': now,
                    'filled': {key: False for key in data}}
 
-    # @staticmethod
-    # def update_grazing_vectors(data_to_update, grazing_vectors_params):
-    #     """Update grazing angle vectors"""
-    #     grazing_params = {}
-    #     grazing_angle = grazing_vectors_params['angle']
-    #     nvx = nvy = np.sqrt(1 - np.sin(grazing_angle / 1000) ** 2)
-    #     tvx = tvy = np.sqrt(1 - np.cos(grazing_angle / 1000) ** 2)
-    #     nvz = -tvx
-    #     if grazing_vectors_params['autocompute_type'] == 'horizontal':
-    #         nvy = tvy = 0
-    #     elif grazing_vectors_params['autocompute_type'] == 'vertical':
-    #         nvx = tvx = 0
-    #     grazing_params['normalVectorX'] = nvx
-    #     grazing_params['normalVectorY'] = nvy
-    #     grazing_params['tangentialVectorX'] = tvx
-    #     grazing_params['tangentialVectorY'] = tvy
-    #     grazing_params['normalVectorZ'] = nvz
-    #     data_to_update.update(grazing_params)
-
     @staticmethod
     def _run(sim, return_status):
         """ Run simulations using multiprocessing. """
