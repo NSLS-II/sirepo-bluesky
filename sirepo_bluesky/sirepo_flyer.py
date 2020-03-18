@@ -5,7 +5,6 @@ import time as ttime
 from collections import deque
 from multiprocessing import Process, Manager
 from pathlib import Path
-import numpy as np
 
 from ophyd.sim import NullStatus, new_uid
 
@@ -226,7 +225,7 @@ class SirepoFlyer(BlueskyFlyer):
                 # update vectors if needed
                 if key in update_grazing_vecs_list[i]:
                     sb.update_grazing_vectors(c1.data['models']['beamline'][optic_id],
-                                                   update_grazing_vecs_list[i][key])
+                                              update_grazing_vecs_list[i][key])
             watch = sb.find_element(c1.data['models']['beamline'], 'title', self.watch_name)
             c1.data['report'] = 'watchpointReport{}'.format(watch['id'])
             self._copies.append(c1)
