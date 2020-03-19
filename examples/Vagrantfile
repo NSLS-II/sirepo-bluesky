@@ -1,0 +1,55 @@
+# -*-ruby-*-
+Vagrant.configure("2") do |config|
+    config.vm.box = "fedora/29-cloud-base"
+    config.vm.hostname = "v.radia.run"
+    config.vm.network "private_network", ip: "10.10.10.10"
+    config.vm.provider "virtualbox" do |v|
+        v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 5000]
+        v.customize [
+            "modifyvm", :id,
+                # Fix Mac thunderbolt issue
+                "--audio", "none",
+                # https://www.dbarj.com.br/en/2017/11/fixing-virtualbox-crashing-macos-on-high-load-kernel-panic/
+                # https://stackoverflow.com/a/31425419
+                "--paravirtprovider", "none",
+        ]
+        # https://stackoverflow.com/a/36959857/3075806
+        v.customize ["setextradata", :id, "VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled", "0"]
+        # If you see network restart or performance issues, try this:
+        # https://github.com/mitchellh/vagrant/issues/8373
+        # v.customize ["modifyvm", :id, "--nictype1", "virtio"]
+        #
+        # 8192 needed for compiling some the larger codes
+        v.memory = 8192
+        v.cpus = 4
+    end
+    # Create a disk for docker
+    config.persistent_storage.enabled = true
+    # so doesn't write signature
+    config.persistent_storage.format = false
+    # Clearer to add host name to file so that it can be distinguished
+    # in VirtualBox Media Manager, which only shows file name, not full path.
+    config.persistent_storage.location = "/Users/mrakitin/VMs/sirepo/v/v-docker.vdi"
+    # so doesn't modify /etc/fstab
+    config.persistent_storage.mount = false
+    # use whole disk
+    config.persistent_storage.partition = false
+    config.persistent_storage.size = 102400
+    config.persistent_storage.use_lvm = true
+    config.persistent_storage.volgroupname = "docker"
+
+    config.ssh.forward_x11 = false
+    
+    # https://stackoverflow.com/a/33137719/3075806
+    # Undo mapping of hostname to 127.0.0.1
+    config.vm.provision "shell",
+        inline: "sed -i '/127.0.0.1.*v.radia.run/d' /etc/hosts"
+    config.vm.synced_folder ".", "/vagrant", type: "nfs", mount_options: ["rw", "vers=3", "tcp", "nolock", "fsc", "actimeo=2"]
+
+    # EPICS UDP/TCP port mapping:
+    config.vm.network "forwarded_port", guest: 5064, host: 5064, protocol: "tcp"
+    config.vm.network "forwarded_port", guest: 5064, host: 5064, protocol: "udp"
+    # MongoDB port mapping:
+    config.vm.network "forwarded_port", guest: 27017, host: 27017, protocol: "tcp"
+
+end
