@@ -101,6 +101,7 @@ class SirepoFlyer(BlueskyFlyer):
         self.return_status = {}
         self._copies = None
         self._srw_files = None
+        self.procs = None
 
     def __repr__(self):
         return (f'{self.name} with sim_code="{self._sim_code}" and '
@@ -215,14 +216,14 @@ class SirepoFlyer(BlueskyFlyer):
         if self.run_parallel:
             manager = Manager()
             self.return_status = manager.dict()
-            procs = []
+            self.procs = []
             for i in range(self.copy_count):
                 p = Process(target=self._run, args=(self._copies[i], self.return_status))
                 p.start()
-                procs.append(p)
+                self.procs.append(p)
             # wait for procs to finish
-            for p in procs:
-                p.join()
+            # for p in self.procs:
+            #     p.join()
         else:
             # run serial
             for i in range(self.copy_count):
@@ -233,6 +234,9 @@ class SirepoFlyer(BlueskyFlyer):
         return NullStatus()
 
     def complete(self, *args, **kwargs):
+        if self.run_parallel:
+            for p in self.procs:
+                p.join()
         for i in range(len(self._copies)):
             datum_id = self._resource_uids[i]
             datum = {'resource': self._resource_uids[i],
