@@ -4,6 +4,7 @@ import random
 import numconv
 import hashlib
 import base64
+import numpy as np
 
 
 class SirepoBluesky(object):
@@ -123,6 +124,25 @@ class SirepoBluesky(object):
         response = requests.get('{}/{}'.format(self.server, url), cookies=self.cookies)
         self._assert_success(response, url)
         return response.content
+
+    @staticmethod
+    def update_grazing_vectors(data_to_update, grazing_vectors_params):
+        """Update grazing angle vectors"""
+        grazing_params = {}
+        grazing_angle = grazing_vectors_params['angle']
+        nvx = nvy = np.sqrt(1 - np.sin(grazing_angle / 1000) ** 2)
+        tvx = tvy = np.sqrt(1 - np.cos(grazing_angle / 1000) ** 2)
+        nvz = -tvx
+        if grazing_vectors_params['autocompute_type'] == 'horizontal':
+            nvy = tvy = 0
+        elif grazing_vectors_params['autocompute_type'] == 'vertical':
+            nvx = tvx = 0
+        grazing_params['normalVectorX'] = nvx
+        grazing_params['normalVectorY'] = nvy
+        grazing_params['tangentialVectorX'] = tvx
+        grazing_params['tangentialVectorY'] = tvy
+        grazing_params['normalVectorZ'] = nvz
+        data_to_update.update(grazing_params)
 
     def run_simulation(self, max_status_calls=1000):
         """ Run the sirepo simulation and returns the formatted plot data.
