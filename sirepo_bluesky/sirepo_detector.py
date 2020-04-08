@@ -108,9 +108,9 @@ class SirepoDetector(Device):
 
         if not self.source_simulation:
             if self.sirepo_component is not None:
-                for i in self.data['models']['beamline']:
-                    if 'autocomputeVectors' in i.keys():
-                        self.autocompute_params[i['title']] = i['autocomputeVectors']
+                for component in self.data['models']['beamline']:
+                    if 'autocomputeVectors' in component.keys():
+                        self.autocompute_params[component['title']] = component['autocomputeVectors']
                 for i in range(len(self.active_parameters)):
                     real_field = self.fields['field' + str(i)].replace('sirepo_', '')
                     dict_key = self.fields['field' + str(i)].replace('sirepo', self.parents['par' + str(i)])

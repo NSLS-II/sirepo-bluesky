@@ -187,9 +187,9 @@ class SirepoFlyer(BlueskyFlyer):
         self._srw_files = []
         autocompute_data = {}
         # grazing angle; check params_to_change
-        for i in data['models']['beamline']:
-            if 'autocomputeVectors' in i.keys():
-                autocompute_data[i['title']] = i['autocomputeVectors']
+        for component in data['models']['beamline']:
+            if 'autocomputeVectors' in component.keys():
+                autocompute_data[component['title']] = component['autocomputeVectors']
         update_grazing_vecs_list = []
         for i in self.params_to_change:
             grazing_vecs_dict = {}
