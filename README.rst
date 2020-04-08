@@ -70,7 +70,7 @@ Prepare Bluesky and trigger a simulated Sirepo detector
    cd sirepo-bluesky/
    conda create -n sirepo_bluesky python=3.7 -y
    conda activate sirepo_bluesky
-   pip install -e .
+   pip install sirepo_bluesky
 
 -  Start ``ipython`` and run the following where ``sim_id`` is the
    UID for the simulation we are working with:

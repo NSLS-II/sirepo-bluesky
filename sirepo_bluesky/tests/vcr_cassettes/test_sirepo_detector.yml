@@ -1,7 +1,7 @@
 interactions:
 - request:
-    body: '{"simulationType": "srw", "simulationId": "e75qHII6", "authNonce": "1583181897-IFrxkyAyOnyw8UzeEEc4H3f1n6mniVkx",
-      "authHash": "v1:CIX_scldkcTOZD0wkpRlrvVfQYzdvXqFWidKxB4SMXA="}'
+    body: '{"simulationType": "srw", "simulationId": "e75qHII6", "authNonce": "1584452722-jzKp7RTpHMwMGvnAm8h0CE3czds7330V",
+      "authHash": "v1:z5A8nXJ5kWhJQQNrb8exj2veSP_XWPIILCKZu1DrJIA="}'
     headers:
       Accept:
       - '*/*'
@@ -14,16 +14,16 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - python-requests/2.22.0
+      - python-requests/2.23.0
     method: POST
     uri: http://10.10.10.10:8000/bluesky-auth
   response:
     body:
       string: '{"state":"ok","data":{"models":{"fluxAnimation":{"finalHarmonic":15,"verticalApertureSize":"1","photonEnergyPointCount":1000,"fluxType":1,"initialHarmonic":1,"azimuthalPrecision":1,"longitudinalPrecision":1,"notes":"","magneticField":2,"plotScale":"linear","horizontalApertureSize":"1","finalEnergy":20000,"polarization":6,"horizontalPosition":0,"distanceFromSource":20,"verticalPosition":0,"precision":0.01,"numberOfMacroElectrons":100000,"method":1,"initialEnergy":10000},"undulator":{"verticalAmplitude":"0.88770981","horizontalDeflectingParameter":0,"effectiveDeflectingParameter":1.65776086,"verticalSymmetry":-1,"horizontalSymmetry":1,"period":"20","horizontalInitialPhase":0,"verticalDeflectingParameter":1.65776086,"length":3,"verticalInitialPhase":0,"horizontalAmplitude":"0","longitudinalPosition":0},"electronBeam":{"horizontalAlpha":0,"verticalBeta":1.06,"energy":3,"verticalAlpha":0,"verticalDispersionDerivative":0,"beamSelector":"NSLS-II
         Low Beta Final","isReadOnly":true,"verticalEmittance":0.008,"current":0.5,"rmsDivergY":2.7472112789737806,"rmsDivergX":16.50082506188016,"rmsSizeY":2.9120439557122078,"rmsSizeX":33.33166662499792,"horizontalDispersion":0,"xxprY":0,"xxprX":0,"horizontalDispersionDerivative":0,"energyDeviation":0,"horizontalEmittance":0.55,"name":"NSLS-II
-        Low Beta Final","beamDefinition":"t","horizontalBeta":2.02,"rmsSpread":0.00089,"verticalDispersion":0},"initialIntensityReport":{"colorMap":"grayscale","characteristic":0,"notes":"","plotScale":"linear","precision":0.01,"rotateReshape":"1","polarization":6,"rotateAngle":0,"intensityPlotsWidth":"0","aspectRatio":"1","fieldUnits":1,"copyCharacteristic":"0"},"gaussianBeam":{"rmsPulseDuration":0.1,"waistAngleY":0,"rmsDivergenceX":"0.054813","rmsDivergenceY":"0.054813","sizeDefinition":"1","photonEnergy":"9000","polarization":1,"waistAngleX":0,"energyPerPulse":"0.001","rmsSizeY":200,"rmsSizeX":200,"waistZ":0,"waistX":0,"waistY":0},"coherenceXAnimation":{"intensityPlotsWidth":"0","aspectRatio":"1","plotScale":"linear","colorMap":"grayscale"},"postPropagation":[0,0,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0],"powerDensityReport":{"verticalPointCount":100,"verticalRange":"15","horizontalPointCount":100,"colorMap":"grayscale","verticalPosition":0,"horizontalRange":"15","rotateAngle":0,"notes":"","plotScale":"linear","precision":"1","horizontalPosition":"0","distanceFromSource":20,"intensityPlotsWidth":"0","aspectRatio":"1","method":1,"rotateReshape":"1"},"beamline":[{"verticalOffset":0,"horizontalSize":0.5,"title":"Aperture","verticalSize":1,"horizontalOffset":0,"shape":"r","position":20,"type":"aperture","id":2},{"position":24,"type":"watch","id":3,"title":"Watchpoint"}],"brillianceReport":{"finalHarmonic":5,"minDeflection":0.2,"initialHarmonic":1,"notes":"","plotScale":"linear","harmonic":"5","detuning":0,"reportType":"0","brightnessComponent":"k-tuning","energyPointCount":100,"energyDelta":10},"fluxReport":{"finalHarmonic":15,"verticalApertureSize":"1","photonEnergyPointCount":10000,"fluxType":1,"initialHarmonic":1,"azimuthalPrecision":1,"longitudinalPrecision":1,"notes":"","magneticField":1,"plotScale":"linear","horizontalApertureSize":"1","finalEnergy":20000,"polarization":6,"horizontalPosition":0,"distanceFromSource":20,"verticalPosition":0,"precision":0.01,"numberOfMacroElectrons":1,"method":-1,"initialEnergy":"100"},"mirrorReport":{"orientation":"x","title":"Planar","heightAmplification":1,"horizontalTransverseSize":1,"heightProfileFile":"mirror_1d.dat","position":22,"grazingAngle":3.1415926,"type":"mirror","id":4,"verticalTransverseSize":1},"electronBeamPosition":{"verticalPosition":0,"drift":-1.54,"horizontalPosition":0,"horizontalAngle":0,"driftCalculationMethod":"auto","verticalAngle":0},"multipole":{"field":0.4,"distribution":"n","length":3,"order":1},"tabulatedUndulator":{"name":"Undulator
+        Low Beta Final","beamDefinition":"t","horizontalBeta":2.02,"rmsSpread":0.00089,"verticalDispersion":0},"initialIntensityReport":{"colorMap":"grayscale","characteristic":0,"notes":"","plotScale":"linear","precision":0.01,"rotateReshape":"1","polarization":6,"rotateAngle":0,"intensityPlotsWidth":"0","aspectRatio":"1","fieldUnits":1,"copyCharacteristic":"0"},"gaussianBeam":{"rmsPulseDuration":0.1,"waistAngleY":0,"rmsDivergenceX":"0.054813","rmsDivergenceY":"0.054813","sizeDefinition":"1","photonEnergy":"9000","polarization":1,"waistAngleX":0,"energyPerPulse":"0.001","rmsSizeY":200,"rmsSizeX":200,"waistZ":0,"waistX":0,"waistY":0},"coherenceXAnimation":{"intensityPlotsWidth":"0","aspectRatio":"1","plotScale":"linear","colorMap":"grayscale"},"postPropagation":[0,0,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0],"powerDensityReport":{"verticalPointCount":100,"verticalRange":"15","horizontalPointCount":100,"colorMap":"grayscale","verticalPosition":0,"horizontalRange":"15","rotateAngle":0,"notes":"","plotScale":"linear","precision":"1","horizontalPosition":"0","distanceFromSource":20,"intensityPlotsWidth":"0","aspectRatio":"1","method":1,"rotateReshape":"1"},"beamline":[{"verticalOffset":0,"horizontalSize":0.1,"title":"Aperture","verticalSize":0.1,"horizontalOffset":0,"shape":"r","position":20,"type":"aperture","id":2},{"position":24,"type":"watch","id":3,"title":"Watchpoint"}],"brillianceReport":{"finalHarmonic":5,"minDeflection":0.2,"initialHarmonic":1,"notes":"","plotScale":"linear","harmonic":"5","detuning":0,"reportType":"0","brightnessComponent":"k-tuning","energyPointCount":100,"energyDelta":10},"fluxReport":{"finalHarmonic":15,"verticalApertureSize":"1","photonEnergyPointCount":10000,"fluxType":1,"initialHarmonic":1,"azimuthalPrecision":1,"longitudinalPrecision":1,"notes":"","magneticField":1,"plotScale":"linear","horizontalApertureSize":"1","finalEnergy":20000,"polarization":6,"horizontalPosition":0,"distanceFromSource":20,"verticalPosition":0,"precision":0.01,"numberOfMacroElectrons":1,"method":-1,"initialEnergy":"100"},"mirrorReport":{"orientation":"x","title":"Planar","heightAmplification":1,"horizontalTransverseSize":1,"heightProfileFile":"mirror_1d.dat","position":22,"grazingAngle":3.1415926,"type":"mirror","id":4,"verticalTransverseSize":1},"electronBeamPosition":{"verticalPosition":0,"drift":-1.54,"horizontalPosition":0,"horizontalAngle":0,"driftCalculationMethod":"auto","verticalAngle":0},"multipole":{"field":0.4,"distribution":"n","length":3,"order":1},"tabulatedUndulator":{"name":"Undulator
         22","indexFileName":"","magneticFile":"magnetic_measurements.zip","undulatorType":"u_t","undulatorSelector":"Undulator
-        22","gap":6.72,"phase":0,"id":"6JLvWbzP 1"},"trajectoryReport":{"plotAxisY2":"None","notes":"","magneticField":"2","initialTimeMoment":0,"numberOfPoints":10000,"plotAxisY":"X","plotAxisX":"Z","finalTimeMoment":0,"timeMomentEstimation":"auto"},"multiElectronAnimation":{"verticalRange":"0.6","sbatchCores":128,"integrationMethod":"0","colorMap":"grayscale","jobRunMode":"parallel","horizontalRange":"0.4","rotateAngle":0,"notes":"","verticalPosition":0,"plotScale":"linear","stokesParameter":"0","photonEnergyBandWidth":0,"horizontalPosition":0,"intensityPlotsScale":"linear","watchpointId":3,"intensityPlotsWidth":"0","aspectRatio":"1","numberOfMacroElectrons":100000,"calcCoherence":"0","rotateReshape":"1","sbatchHours":0.4},"beamline3DReport":{"showLabels":"1","showPosition":"1","includeSource":"1","condenseBeamline":"1","projection":"parallel"},"sourceIntensityReport":{"verticalRange":"0.6","initialPosition":0,"verticalPointCount":100,"sampleFactor":1,"rotateReshape":"1","horizontalPosition":0,"intensityPlotsWidth":"0","horizontalPointCount":100,"verticalPosition":0,"horizontalRange":"0.4","plotScale":"linear","photonEnergy":"9000","polarization":6,"fieldUnits":1,"method":"0","rotateAngle":0,"precision":0.01,"finalPosition":0,"samplingMethod":1,"colorMap":"grayscale","characteristic":0,"notes":"","distanceFromSource":20,"aspectRatio":"1"},"arbitraryMagField":{"interpolationOrder":1,"magneticFile":"ivu21_srx_g6_2c.dat","longitudinalPosition":0},"simulation":{"sampleFactor":1,"simulationSerial":1583181855163881,"horizontalPointCount":100,"name":"basic","verticalPosition":0,"horizontalRange":"0.4","documentationUrl":"","notes":"","isExample":false,"photonEnergy":"9000","simulationId":"e75qHII6","horizontalPosition":0,"distanceFromSource":20,"verticalRange":"0.6","folder":"/","verticalPointCount":100,"outOfSessionSimulationId":"","samplingMethod":1,"sourceType":"g"},"propagation":{"3":[[0,0,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0],[0,0,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0]],"2":[[0,0,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0],[0,0,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0]]},"coherenceYAnimation":{"intensityPlotsWidth":"0","aspectRatio":"1","plotScale":"linear","colorMap":"grayscale"},"intensityReport":{"photonEnergyPointCount":10000,"initialEnergy":"100","verticalPosition":0,"notes":"","magneticField":"1","plotScale":"linear","precision":0.01,"finalEnergy":"20000","polarization":6,"horizontalPosition":"0","distanceFromSource":20,"fieldUnits":"1","method":"1"},"watchpointReport3":{"colorMap":"viridis","characteristic":0,"notes":"","plotScale":"linear","precision":0.01,"polarization":6,"intensityPlotsScale":"linear","rotateAngle":0,"intensityPlotsWidth":"0","aspectRatio":"1","fieldUnits":"1","rotateReshape":"1"}},"report":"initialIntensityReport","simulationType":"srw","version":"20200123.151222"},"schema":{"appInfo":{"warpvnd":{"shortName":"Warp
+        22","gap":6.72,"phase":0,"id":"6JLvWbzP 1"},"trajectoryReport":{"plotAxisY2":"None","notes":"","magneticField":"2","initialTimeMoment":0,"numberOfPoints":10000,"plotAxisY":"X","plotAxisX":"Z","finalTimeMoment":0,"timeMomentEstimation":"auto"},"multiElectronAnimation":{"verticalRange":"0.6","sbatchCores":128,"integrationMethod":"0","colorMap":"grayscale","jobRunMode":"parallel","horizontalRange":"0.4","rotateAngle":0,"notes":"","verticalPosition":0,"plotScale":"linear","stokesParameter":"0","photonEnergyBandWidth":0,"horizontalPosition":0,"intensityPlotsScale":"linear","watchpointId":3,"intensityPlotsWidth":"0","aspectRatio":"1","numberOfMacroElectrons":100000,"calcCoherence":"0","rotateReshape":"1","sbatchHours":0.4},"beamline3DReport":{"showLabels":"1","showPosition":"1","includeSource":"1","condenseBeamline":"1","projection":"parallel"},"sourceIntensityReport":{"verticalRange":"0.6","initialPosition":0,"verticalPointCount":100,"sampleFactor":1,"rotateReshape":"1","horizontalPosition":0,"intensityPlotsWidth":"0","horizontalPointCount":100,"verticalPosition":0,"horizontalRange":"0.4","plotScale":"linear","photonEnergy":"9000","polarization":6,"fieldUnits":1,"method":"0","rotateAngle":0,"precision":0.01,"finalPosition":0,"samplingMethod":1,"colorMap":"grayscale","characteristic":0,"notes":"","distanceFromSource":20,"aspectRatio":"1"},"arbitraryMagField":{"interpolationOrder":1,"magneticFile":"ivu21_srx_g6_2c.dat","longitudinalPosition":0},"simulation":{"sampleFactor":1,"simulationSerial":1583182835099800,"horizontalPointCount":100,"name":"basic","verticalPosition":0,"horizontalRange":"0.4","documentationUrl":"","notes":"","isExample":false,"photonEnergy":"9000","simulationId":"e75qHII6","horizontalPosition":0,"distanceFromSource":20,"verticalRange":"0.6","folder":"/","verticalPointCount":100,"outOfSessionSimulationId":"","samplingMethod":1,"sourceType":"g"},"propagation":{"3":[[0,0,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0],[0,0,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0]],"2":[[0,0,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0],[0,0,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0]]},"coherenceYAnimation":{"intensityPlotsWidth":"0","aspectRatio":"1","plotScale":"linear","colorMap":"grayscale"},"intensityReport":{"photonEnergyPointCount":10000,"initialEnergy":"100","verticalPosition":0,"notes":"","magneticField":"1","plotScale":"linear","precision":0.01,"finalEnergy":"20000","polarization":6,"horizontalPosition":"0","distanceFromSource":20,"fieldUnits":"1","method":"1"},"watchpointReport3":{"colorMap":"viridis","characteristic":0,"notes":"","plotScale":"linear","precision":0.01,"polarization":6,"intensityPlotsScale":"linear","rotateAngle":0,"intensityPlotsWidth":"0","aspectRatio":"1","fieldUnits":"1","rotateReshape":"1"}},"report":"initialIntensityReport","simulationType":"srw","version":"20200123.151222"},"schema":{"appInfo":{"warpvnd":{"shortName":"Warp
         VND","longName":"Warp VND"},"zgoubi":{"shortName":"ZGOUBI","longName":"ZGOUBI"},"jspec":{"shortName":"JSPEC","longName":"JSPEC"},"webcon":{"shortName":"Webcon","longName":"Webcon"},"opal":{"shortName":"OPAL","longName":"OPAL"},"flash":{"shortName":"FLASH","longName":"FLASH"},"hellweg":{"shortName":"Hellweg","longName":"Hellweg"},"rs4pi":{"shortName":"RS4PI","longName":"RS4PI"},"elegant":{"shortName":"elegant","longName":"elegant"},"srw":{"shortName":"SRW","longName":"Synchrotron
         Radiation Workshop"},"myapp":{"shortName":"MyApp","longName":"MyApp"},"shadow":{"shortName":"SHADOW","longName":"SHADOW"},"adm":{"shortName":"Sirepo
         Admin","longName":"Sirepo Admin"},"synergia":{"shortName":"Synergia","longName":"Synergia"},"warppba":{"shortName":"Warp
@@ -499,16 +499,16 @@ interactions:
         factor at resizing","Float",1]}},"constants":{"maxSimCopies":100,"oneDayMillis":86400000,"clientCookie":"sirepo_cookie_js"},"appModes":{"light-sources":{"localRoute":"beamline","includeMode":true},"default":{"localRoute":"source","includeMode":false},"calculator":{"localRoute":"source","includeMode":true},"wavefront":{"localRoute":"beamline","includeMode":true}}}}'
     headers:
       Content-Length:
-      - '73012'
+      - '73014'
       Content-Type:
       - application/json
       Date:
-      - Mon, 02 Mar 2020 20:44:57 GMT
+      - Tue, 17 Mar 2020 13:45:22 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
       Set-Cookie:
-      - sirepo_dev=Z0FBQUFBQmVYWEJKTjZOTmFBenF0eWdURmVJZjNGUXh5dGJjV2RmMVZCS19vLWM4OG52ZEl2ZFVLcmxoMWhEbVZLdHF3Z2pWOWUxQ29GLVF1RnVVODFxOFFHVGxobEY3WXp2dzRhNm40Mm5ucDk0YzU3YVhwXzZvRGpXX21VWjg2YUVoWVIzeTNnUDc=;
-        Expires=Thu, 28-Feb-2030 20:44:57 GMT; Max-Age=315360000; HttpOnly; Path=/
+      - sirepo_dev=Z0FBQUFBQmVjTlJ5U1JGN2FYMVRsQXcwaVpoay10QkRXV3pUcy1nQkZld3FueHhMU2pEUlg4X1ZkUHlPYmFJY0IxaHdCNWx0ZjJtQWRLQ2VvZmY0RUVWU1FBckkwdEVMUlphU0JUUzczc2QwV01LaDNiUnBIZ2JkTktReFFodjA5a3NxSzdqcXQxRmY=;
+        Expires=Fri, 15-Mar-2030 13:45:22 GMT; Max-Age=315360000; HttpOnly; Path=/
     status:
       code: 200
       message: OK
@@ -584,7 +584,7 @@ interactions:
       "characteristic": 0, "notes": "", "distanceFromSource": 20, "aspectRatio": "1"},
       "arbitraryMagField": {"interpolationOrder": 1, "magneticFile": "ivu21_srx_g6_2c.dat",
       "longitudinalPosition": 0}, "simulation": {"sampleFactor": 1, "simulationSerial":
-      1583181855163881, "horizontalPointCount": 100, "name": "basic", "verticalPosition":
+      1583182835099800, "horizontalPointCount": 100, "name": "basic", "verticalPosition":
       0, "horizontalRange": "0.4", "documentationUrl": "", "notes": "", "isExample":
       false, "photonEnergy": "9000", "simulationId": "e75qHII6", "horizontalPosition":
       0, "distanceFromSource": 20, "verticalRange": "0.6", "folder": "/", "verticalPointCount":
@@ -614,116 +614,11 @@ interactions:
       Content-Type:
       - application/json
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVYWEJKTjZOTmFBenF0eWdURmVJZjNGUXh5dGJjV2RmMVZCS19vLWM4OG52ZEl2ZFVLcmxoMWhEbVZLdHF3Z2pWOWUxQ29GLVF1RnVVODFxOFFHVGxobEY3WXp2dzRhNm40Mm5ucDk0YzU3YVhwXzZvRGpXX21VWjg2YUVoWVIzeTNnUDc=
+      - sirepo_dev=Z0FBQUFBQmVjTlJ5U1JGN2FYMVRsQXcwaVpoay10QkRXV3pUcy1nQkZld3FueHhMU2pEUlg4X1ZkUHlPYmFJY0IxaHdCNWx0ZjJtQWRLQ2VvZmY0RUVWU1FBckkwdEVMUlphU0JUUzczc2QwV01LaDNiUnBIZ2JkTktReFFodjA5a3NxSzdqcXQxRmY=
       User-Agent:
-      - python-requests/2.22.0
+      - python-requests/2.23.0
     method: POST
     uri: http://10.10.10.10:8000/run-simulation
-  response:
-    body:
-      string: '{"parametersChanged":true,"state":"pending","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1583181897,"computeJobHash":"ffc7b98dc141760aeb2b83721733725e"}}'
-    headers:
-      Content-Length:
-      - '243'
-      Content-Type:
-      - application/json
-      Date:
-      - Mon, 02 Mar 2020 20:44:58 GMT
-      Server:
-      - Werkzeug/0.16.0 Python/2.7.16
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1583181897, "computeJobHash": "ffc7b98dc141760aeb2b83721733725e"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '170'
-      Content-Type:
-      - application/json
-      Cookie:
-      - sirepo_dev=Z0FBQUFBQmVYWEJKTjZOTmFBenF0eWdURmVJZjNGUXh5dGJjV2RmMVZCS19vLWM4OG52ZEl2ZFVLcmxoMWhEbVZLdHF3Z2pWOWUxQ29GLVF1RnVVODFxOFFHVGxobEY3WXp2dzRhNm40Mm5ucDk0YzU3YVhwXzZvRGpXX21VWjg2YUVoWVIzeTNnUDc=
-      User-Agent:
-      - python-requests/2.22.0
-    method: POST
-    uri: http://10.10.10.10:8000/run-status
-  response:
-    body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1583181897,"computeJobHash":"ffc7b98dc141760aeb2b83721733725e"}}'
-    headers:
-      Content-Length:
-      - '244'
-      Content-Type:
-      - application/json
-      Date:
-      - Mon, 02 Mar 2020 20:44:59 GMT
-      Server:
-      - Werkzeug/0.16.0 Python/2.7.16
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1583181897, "computeJobHash": "ffc7b98dc141760aeb2b83721733725e"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '170'
-      Content-Type:
-      - application/json
-      Cookie:
-      - sirepo_dev=Z0FBQUFBQmVYWEJKTjZOTmFBenF0eWdURmVJZjNGUXh5dGJjV2RmMVZCS19vLWM4OG52ZEl2ZFVLcmxoMWhEbVZLdHF3Z2pWOWUxQ29GLVF1RnVVODFxOFFHVGxobEY3WXp2dzRhNm40Mm5ucDk0YzU3YVhwXzZvRGpXX21VWjg2YUVoWVIzeTNnUDc=
-      User-Agent:
-      - python-requests/2.22.0
-    method: POST
-    uri: http://10.10.10.10:8000/run-status
-  response:
-    body:
-      string: '{"parametersChanged":false,"state":"running","nextRequestSeconds":1,"nextRequest":{"report":"watchpointReport3","simulationId":"e75qHII6","simulationType":"srw","computeJobSerial":1583181897,"computeJobHash":"ffc7b98dc141760aeb2b83721733725e"}}'
-    headers:
-      Content-Length:
-      - '244'
-      Content-Type:
-      - application/json
-      Date:
-      - Mon, 02 Mar 2020 20:45:00 GMT
-      Server:
-      - Werkzeug/0.16.0 Python/2.7.16
-    status:
-      code: 200
-      message: OK
-- request:
-    body: '{"report": "watchpointReport3", "simulationId": "e75qHII6", "simulationType":
-      "srw", "computeJobSerial": 1583181897, "computeJobHash": "ffc7b98dc141760aeb2b83721733725e"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '170'
-      Content-Type:
-      - application/json
-      Cookie:
-      - sirepo_dev=Z0FBQUFBQmVYWEJKTjZOTmFBenF0eWdURmVJZjNGUXh5dGJjV2RmMVZCS19vLWM4OG52ZEl2ZFVLcmxoMWhEbVZLdHF3Z2pWOWUxQ29GLVF1RnVVODFxOFFHVGxobEY3WXp2dzRhNm40Mm5ucDk0YzU3YVhwXzZvRGpXX21VWjg2YUVoWVIzeTNnUDc=
-      User-Agent:
-      - python-requests/2.22.0
-    method: POST
-    uri: http://10.10.10.10:8000/run-status
   response:
     body:
       string: '{"x_range":[-0.00023349350514613283,0.00023349350514613283,70],"subtitle":"Single-Electron
@@ -736,7 +631,7 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 02 Mar 2020 20:45:01 GMT
+      - Tue, 17 Mar 2020 13:45:22 GMT
       Server:
       - Werkzeug/0.16.0 Python/2.7.16
     status:
@@ -752,9 +647,9 @@ interactions:
       Connection:
       - keep-alive
       Cookie:
-      - sirepo_dev=Z0FBQUFBQmVYWEJKTjZOTmFBenF0eWdURmVJZjNGUXh5dGJjV2RmMVZCS19vLWM4OG52ZEl2ZFVLcmxoMWhEbVZLdHF3Z2pWOWUxQ29GLVF1RnVVODFxOFFHVGxobEY3WXp2dzRhNm40Mm5ucDk0YzU3YVhwXzZvRGpXX21VWjg2YUVoWVIzeTNnUDc=
+      - sirepo_dev=Z0FBQUFBQmVjTlJ5U1JGN2FYMVRsQXcwaVpoay10QkRXV3pUcy1nQkZld3FueHhMU2pEUlg4X1ZkUHlPYmFJY0IxaHdCNWx0ZjJtQWRLQ2VvZmY0RUVWU1FBckkwdEVMUlphU0JUUzczc2QwV01LaDNiUnBIZ2JkTktReFFodjA5a3NxSzdqcXQxRmY=
       User-Agent:
-      - python-requests/2.22.0
+      - python-requests/2.23.0
     method: GET
     uri: http://10.10.10.10:8000/download-data-file/srw/e75qHII6/watchpointReport3/-1
   response:
@@ -3566,7 +3461,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Mon, 02 Mar 2020 20:45:01 GMT
+      - Tue, 17 Mar 2020 13:45:22 GMT
       Pragma:
       - no-cache
       Server:
