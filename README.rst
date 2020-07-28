@@ -66,11 +66,16 @@ Prepare Bluesky and trigger a simulated Sirepo detector
 
 .. code:: bash
 
-   git clone https://github.com/NSLS-II/sirepo-bluesky/
-   cd sirepo-bluesky/
    conda create -n sirepo_bluesky python=3.7 -y
    conda activate sirepo_bluesky
-   pip install sirepo_bluesky
+   pip install sirepo-bluesky  # a package from PyPI
+
+- Clone this repository to have access to the examples:
+
+.. code:: bash
+
+   git clone https://github.com/NSLS-II/sirepo-bluesky/
+   cd sirepo-bluesky/
 
 -  Start ``ipython`` and run the following where ``sim_id`` is the
    UID for the simulation we are working with:
