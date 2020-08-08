@@ -54,7 +54,7 @@ You can also consider running a Docker container:
 .. code:: bash
 
    mkdir -p $HOME/tmp/sirepo-docker-run
-   docker run -it --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=bluesky -e SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $HOME/tmp/sirepo-docker-run:/sirepo radiasoft/sirepo:beta /home/vagrant/.pyenv/shims/sirepo service http
+   docker run -it --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=blueskye SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $HOME/sirepo_srdb_root:/sirepo radiasoft/sirepo:20200220.135917 bash -c "/home/vagrant/.pyenv/shims/sirepo service http"
 
 
 Prepare Bluesky and trigger a simulated Sirepo detector
@@ -90,9 +90,7 @@ Prepare Bluesky and trigger a simulated Sirepo detector
    param1 = sirepo_det.create_parameter('horizontalSize')
    param2 = sirepo_det.create_parameter('verticalSize')
    sirepo_det.read_attrs = ['image', 'mean', 'photon_energy']
-   sirepo_det.configuration_attrs = ['horizontal_extent',
-                                     'vertical_extent',
-                                     'shape']
+   sirepo_det.configuration_attrs = ['horizontal_extent', 'vertical_extent', 'shape']
 
 .. code:: py
 
@@ -130,9 +128,7 @@ To view single-electron spectrum report (**Hint:** use a different
    import bluesky.plans as bp
    sirepo_det = sd.SirepoDetector(sim_id='<sim_id>', reg=db.reg, source_simulation=True)
    sirepo_det.read_attrs = ['image', 'mean', 'photon_energy']
-   sirepo_det.configuration_attrs = ['horizontal_extent',
-                                     'vertical_extent',
-                                     'shape']
+   sirepo_det.configuration_attrs = ['horizontal_extent', 'vertical_extent', 'shape']
 
 .. code:: py
 
