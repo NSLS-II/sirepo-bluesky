@@ -7,10 +7,16 @@ def read_srw_file(filename, ndim=2):
     data = np.array(data)
     if ndim == 2:
         data = data.reshape((ranges[8], ranges[5]), order='C')
+        photon_energy = ranges[0]
+    elif ndim == 1:
+        photon_energy = np.linspace(*ranges[:3])
+    else:
+        raise ValueError(f'The value ndim={ndim} is not supported.')
+
     return {'data': data,
             'shape': data.shape,
             'mean': np.mean(data),
-            'photon_energy': ranges[0],
+            'photon_energy': photon_energy,
             'horizontal_extent': ranges[3:5],
             'vertical_extent': ranges[6:8],
             # 'mode': mode,
