@@ -127,8 +127,8 @@ To view single-electron spectrum report (**Hint:** use a different
    import sirepo_bluesky.sirepo_detector as sd
    import bluesky.plans as bp
    sirepo_det = sd.SirepoDetector(sim_id='<sim_id>', reg=db.reg, source_simulation=True)
-   sirepo_det.read_attrs = ['image', 'mean', 'photon_energy']
-   sirepo_det.configuration_attrs = ['horizontal_extent', 'vertical_extent', 'shape']
+   sirepo_det.read_attrs = ['image']
+   sirepo_det.configuration_attrs = ['photon_energy', 'shape']
 
 .. code:: py
 
@@ -137,8 +137,10 @@ To view single-electron spectrum report (**Hint:** use a different
 .. code:: py
 
    hdr = db[-1]
-   imgs = list(hdr.data('sirepo_det_image'))
-   plt.plot(imgs[-1])
+   cfg = hdr.config_data('sirepo_det')['primary'][0]
+   energies = cfg['sirepo_det_photon_energy']
+   spectrum, = hdr.data('sirepo_det_image')
+   plt.plot(energies, spectrum)
 
 You should get something like:
 
