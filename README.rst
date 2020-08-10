@@ -195,8 +195,82 @@ Use a simulated Sirepo Flyer to run multiple simulations
 
 .. code:: py
 
-    hdr = db[-1]
-    hdr.table(stream_name="sirepo_flyer")
+    In[13]: hdr = db[-1]
+            hdr.table(stream_name='sirepo_flyer')
+
+    Out[13]:
+                                  time                    sirepo_flyer_image  \
+    seq_num
+    1       2020-08-10 07:54:01.426501  ae51b7d7-1a0f-4613-9118-1626b4f89bf0
+    2       2020-08-10 07:54:01.426501  14183b1a-03f1-4333-a4a2-b9e16ccdbf29
+    3       2020-08-10 07:54:01.426501  2e372fb4-7fe3-47ce-acf8-9af3e2d1acad
+    4       2020-08-10 07:54:01.426501  7bea7ace-0be3-4b97-a936-f2cec48cb370
+    5       2020-08-10 07:54:01.426501  7e22377b-985c-49d9-aaf4-26c967b1bd22
+
+            sirepo_flyer_shape  sirepo_flyer_mean  sirepo_flyer_photon_energy  \
+    seq_num
+    1               [250, 896]       3.677965e+13                      4240.0
+    2               [250, 546]       9.944933e+13                      4240.0
+    3               [250, 440]       1.492891e+14                      4240.0
+    4               [252, 308]       2.234285e+14                      4240.0
+    5               [252, 176]       3.885947e+14                      4240.0
+
+                              sirepo_flyer_horizontal_extent  \
+    seq_num
+    1        [-0.0013627376425855513, 0.0013596958174904943]
+    2         [-0.001015813953488372, 0.0010120930232558139]
+    3        [-0.0009701657458563539, 0.0009701657458563542]
+    4        [-0.0008026143790849673, 0.0008026143790849673]
+    5        [-0.0005374045801526716, 0.0005312977099236639]
+
+                                 sirepo_flyer_vertical_extent  \
+    seq_num
+    1         [-0.000249500998003992, 0.00024750499001996017]
+    2         [-0.000249500998003992, 0.00024750499001996017]
+    3        [-0.00024650698602794426, 0.0002504990019960079]
+    4        [-0.0002485029940119762, 0.00025249500998003984]
+    5        [-0.00025149700598802393, 0.0002495009980039921]
+
+                      sirepo_flyer_hash_value sirepo_flyer_status  \
+    seq_num
+    1        d5d6628d50bd65a329717e8ffb942224           completed
+    2        d6f8b77048fe6ad48e007cfb776528ad           completed
+    3        e5f914471d873f156c31815ab705575f           completed
+    4        bf507c942bb67c7191d16968de6ddd5b           completed
+    5        1775724d932efa3e0233781465a5a67b           completed
+
+             sirepo_flyer_Aperture_horizontalSize  \
+    seq_num
+    1                                         0.1
+    2                                         0.2
+    3                                         0.3
+    4                                         0.4
+    5                                         0.5
+
+             sirepo_flyer_Aperture_verticalSize  \
+    seq_num
+    1                                       1.5
+    2                                       1.4
+    3                                       1.3
+    4                                       1.2
+    5                                       1.1
+
+             sirepo_flyer_Lens_horizontalFocalLength  \
+    seq_num
+    1                                              8
+    2                                              9
+    3                                             10
+    4                                             11
+    5                                             12
+
+             sirepo_flyer_Obstacle_horizontalSize
+    seq_num
+    1                                           5
+    2                                           4
+    3                                           3
+    4                                           2
+    5                                           1
+
 
 Databroker will return the following information:
 
