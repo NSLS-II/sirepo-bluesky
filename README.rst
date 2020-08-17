@@ -54,7 +54,7 @@ You can also consider running a Docker container:
 .. code:: bash
 
    mkdir -p $HOME/tmp/sirepo-docker-run
-   docker run -it --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=blueskye SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $HOME/sirepo_srdb_root:/sirepo radiasoft/sirepo:20200220.135917 bash -c "/home/vagrant/.pyenv/shims/sirepo service http"
+   docker run -it --rm -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=bluesky -e SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $HOME/sirepo_srdb_root:/sirepo radiasoft/sirepo:20200220.135917 bash -l -c "sirepo service http"
 
 
 Prepare Bluesky and trigger a simulated Sirepo detector
