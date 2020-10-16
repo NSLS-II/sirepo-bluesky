@@ -12,7 +12,13 @@ sirepo-bluesky
 Sirepo-Bluesky interface
 
 * Free software: 3-clause BSD license
-* Documentation: https://NSLS-II.github.io/sirepo-bluesky.
+* Citation: 
+
+     Maksim S. Rakitin, Abigail Giles, Kaleb Swartz, Joshua Lynch, Paul Moeller, Robert Nagler,
+     Daniel B. Allan, Thomas A. Caswell, Lutz Wiegart, Oleg Chubar, and Yonghua Du
+     "Introduction of the Sirepo-Bluesky interface and its application to the optimization problems",
+     Proc. SPIE 11493, Advances in Computational Methods for X-Ray Optics V, 1149311 (21 August 2020);
+     https://doi.org/10.1117/12.2569000 
 
 Purpose
 -------
