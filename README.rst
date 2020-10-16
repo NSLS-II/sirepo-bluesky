@@ -271,11 +271,6 @@ Use a simulated Sirepo Flyer to run multiple simulations
     4                                           2
     5                                           1
 
-
-Databroker will return the following information:
-
-.. image:: https://github.com/NSLS-II/sirepo-bluesky/raw/master/images/flyer_output.png
-
 .. _instructions: https://github.com/radiasoft/sirepo/wiki/Development
 .. _VirtualBox: https://www.virtualbox.org/
 .. _Vagrant: https://www.vagrantup.com/
