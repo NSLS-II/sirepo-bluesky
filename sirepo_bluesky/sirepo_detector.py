@@ -15,12 +15,11 @@ from .sirepo_bluesky import SirepoBluesky
 
 class ExternalFileReference(Signal):
     """
-    A pure software Signal that describe()s an external file.
+    A pure software Signal that describe()s an image in an external file.
     """
 
-    def __init__(self, *args, ndim, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ndim = ndim
 
     def describe(self):
         resource_document_data = super().describe()
@@ -58,14 +57,13 @@ class SirepoDetector(Device):
         States whether user wants to grab source page info instead of beamline
 
     """
-    image = Cpt(Signal)
+    image = Cpt(ExternalFileReference, kind="normal")
+    #image = Cpt(Signal)
     shape = Cpt(Signal)
     mean = Cpt(Signal)
     photon_energy = Cpt(Signal)
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
-
-    srw_file_datum_id = Cpt(ExternalFileReference, kind="normal", ndim=1)
 
     def __init__(self, name='sirepo_det', reg=None, sim_id=None, watch_name=None,
                  sirepo_server='http://10.10.10.10:8000', source_simulation=False, **kwargs):
@@ -130,37 +128,24 @@ class SirepoDetector(Device):
             for k, v in self.parameters.items():
                 getattr(value, k).set(v)
 
-    def stage(self):
+    def trigger(self):
+        super().trigger()
+
+        date = datetime.datetime.now()
+        file_name = new_uid()
         self._resource_document, self._datum_factory, _ = compose_resource(
-            start={"uid": "needed for compose_resource but will be discarded"},
+            start={"uid": "needed for compose_resource() but will be discarded"},
             spec='srw',
             root='/tmp/data',
-            resource_path='not/a/rea/directory',
+            resource_path=str(Path(date.strftime('%Y/%m/%d')) / Path('{}.dat'.format(file_name))),
+            # ndim is not known yet, it will be established at the end of this method
             resource_kwargs={'ndim': 0}
         )
         # now discard the start uid, a real one will be added later
         self._resource_document.pop("run_start")
         self._asset_docs_cache.append(("resource", self._resource_document))
 
-        return super().stage()
-
-    def unstage(self):
-        self._resource_document = None
-        self._datum_factory = None
-        return super().unstage()
-
-    def collect_asset_docs(self):
-        items = list(self._asset_docs_cache)
-        self._asset_docs_cache.clear()
-        for item in items:
-            yield item
-
-    def trigger(self):
-        super().trigger()
-        datum_id = new_uid()
-        date = datetime.datetime.now()
-        self._resource_document["resource_path"] = Path(date.strftime('%Y/%m/%d')) / Path('{}.dat'.format(datum_id))
-        self.srw_file = Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
+        srw_file = Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
         # srw_file = Path('/tmp/data') / Path(date.strftime('%Y/%m/%d')) / \
         #     Path('{}.dat'.format(datum_id))
 
@@ -198,26 +183,30 @@ class SirepoDetector(Device):
             self.data['report'] = "intensityReport"
         self.sb.run_simulation()
 
-        with open(self.srw_file, 'wb') as f:
+        with open(srw_file, 'wb') as f:
             f.write(self.sb.get_datafile())
 
         if self.data['report'] in self.one_d_reports:
             ndim = 1
         else:
             ndim = 2
-        ret = read_srw_file(self.srw_file, ndim=ndim)
+        ret = read_srw_file(srw_file, ndim=ndim)
 
-        self.image.put(datum_id)
+        # ndims has been established, add it to the resource document
+        self._resource_document["resource_kwargs"]["ndim"] = ndim
+        datum_document = self._datum_factory(datum_kwargs={})
+        self._asset_docs_cache.append(("datum", datum_document))
+
+        self.image.put(datum_document["datum_id"])
+
         self.shape.put(ret['shape'])
         self.mean.put(ret['mean'])
         self.photon_energy.put(ret['photon_energy'])
         self.horizontal_extent.put(ret['horizontal_extent'])
         self.vertical_extent.put(ret['vertical_extent'])
 
-        self._resource_document["resource_kwargs"]["ndim"] = ndim
-        datum_document = self._datum_factory(datum_kwargs={})
-        self._asset_docs_cache.append(("datum", datum_document))
-        self.srw_file_datum_id.put(datum_document["datum_id"])
+        self._resource_document = None
+        self._datum_factory = None
 
         return NullStatus()
 
@@ -230,6 +219,12 @@ class SirepoDetector(Device):
         super().unstage()
         self._resource_document = None
         self._result.clear()
+
+    def collect_asset_docs(self):
+        items = list(self._asset_docs_cache)
+        self._asset_docs_cache.clear()
+        for item in items:
+            yield item
 
     def connect(self, sim_id):
         sb = SirepoBluesky(self.sirepo_server)
