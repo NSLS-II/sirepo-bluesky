@@ -65,10 +65,9 @@ class SirepoDetector(Device):
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
 
-    def __init__(self, name='sirepo_det', reg=None, sim_id=None, watch_name=None,
+    def __init__(self, name='sirepo_det', sim_id=None, watch_name=None,
                  sirepo_server='http://10.10.10.10:8000', source_simulation=False, **kwargs):
         super().__init__(name=name, **kwargs)
-        #self.reg = reg
         self._asset_docs_cache = deque()
         self._resource_document = None
         self._datum_factory = None
@@ -77,7 +76,6 @@ class SirepoDetector(Device):
         self.fields = {}
         self.field_units = {}
         self.parents = {}
-        #self._resource_id = None
         self._result = {}
         self._sim_id = sim_id
         self.watch_name = watch_name
@@ -134,7 +132,7 @@ class SirepoDetector(Device):
         date = datetime.datetime.now()
         file_name = new_uid()
         self._resource_document, self._datum_factory, _ = compose_resource(
-            start={"uid": "needed for compose_resource() but will be discarded"},
+            start={'uid': 'needed for compose_resource() but will be discarded'},
             spec='srw',
             root='/tmp/data',
             resource_path=str(Path(date.strftime('%Y/%m/%d')) / Path('{}.dat'.format(file_name))),
@@ -142,12 +140,10 @@ class SirepoDetector(Device):
             resource_kwargs={'ndim': 0}
         )
         # now discard the start uid, a real one will be added later
-        self._resource_document.pop("run_start")
-        self._asset_docs_cache.append(("resource", self._resource_document))
+        self._resource_document.pop('run_start')
+        self._asset_docs_cache.append(('resource', self._resource_document))
 
-        srw_file = Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
-        # srw_file = Path('/tmp/data') / Path(date.strftime('%Y/%m/%d')) / \
-        #     Path('{}.dat'.format(datum_id))
+        srw_file = Path(self._resource_document['root']) / Path(self._resource_document['resource_path'])
 
         if not self.source_simulation:
             if self.sirepo_component is not None:
@@ -192,13 +188,12 @@ class SirepoDetector(Device):
             ndim = 2
         ret = read_srw_file(srw_file, ndim=ndim)
 
-        # ndims has been established, add it to the resource document
+        # ndim has now been established, add it to the resource document
         self._resource_document["resource_kwargs"]["ndim"] = ndim
         datum_document = self._datum_factory(datum_kwargs={})
         self._asset_docs_cache.append(("datum", datum_document))
 
         self.image.put(datum_document["datum_id"])
-
         self.shape.put(ret['shape'])
         self.mean.put(ret['mean'])
         self.photon_energy.put(ret['photon_energy'])
