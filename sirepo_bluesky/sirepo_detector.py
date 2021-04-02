@@ -27,8 +27,6 @@ class ExternalFileReference(Signal):
             dict(
                 external="FILESTORE:",
                 dtype="array",
-                #shape=self.shape,
-                #dims=("x", "y"),
             )
         )
         return resource_document_data
