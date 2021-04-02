@@ -48,7 +48,6 @@ setup(
         'console_scripts': [
             # 'command = some.module:some_function',
         ],
-        "intake.catalogs": ["local = sirepo_bluesky:sirepo_bluesky_catalog_instance"],
     },
     include_package_data=True,
     package_data={

@@ -2,6 +2,7 @@ import datetime
 
 from bluesky.run_engine import RunEngine
 from bluesky.callbacks import best_effort
+from bluesky.utils import install_kicker
 
 import databroker
 from databroker import Broker
@@ -28,6 +29,7 @@ db.reg.register_handler('srw', SRWFileHandler, overwrite=True)
 db.reg.register_handler('SIREPO_FLYER', SRWFileHandler, overwrite=True)
 
 plt.ion()
+install_kicker()
 
 root_dir = '/tmp/sirepo_flyer_data'
 _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
