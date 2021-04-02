@@ -45,7 +45,6 @@ class SirepoDetector(Device):
     ----------
     name : str
         The name of the detector
-    reg : Databroker registry
     sim_id : str
         The simulation id corresponding to the Sirepo simulation being run on
         local server
@@ -58,7 +57,6 @@ class SirepoDetector(Device):
 
     """
     image = Cpt(ExternalFileReference, kind="normal")
-    #image = Cpt(Signal)
     shape = Cpt(Signal)
     mean = Cpt(Signal)
     photon_energy = Cpt(Signal)
