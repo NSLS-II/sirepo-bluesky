@@ -1,13 +1,38 @@
+from collections import deque
 import datetime
 from pathlib import Path
 
 import unyt as u
 
+from event_model import compose_resource
+
 from ophyd import Device, Signal, Component as Cpt
 from ophyd.sim import SynAxis, NullStatus, new_uid
 
-from .srw_handler import read_srw_file
+from .srw_handler import read_srw_file, SRWFileHandler
 from .sirepo_bluesky import SirepoBluesky
+
+
+class ExternalFileReference(Signal):
+    """
+    A pure software Signal that describe()s an external file.
+    """
+
+    def __init__(self, *args, ndim, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ndim = ndim
+
+    def describe(self):
+        resource_document_data = super().describe()
+        resource_document_data[self.name].update(
+            dict(
+                external="FILESTORE:",
+                dtype="array",
+                #shape=self.shape,
+                #dims=("x", "y"),
+            )
+        )
+        return resource_document_data
 
 
 class SirepoDetector(Device):
@@ -40,15 +65,21 @@ class SirepoDetector(Device):
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
 
+    srw_file_datum_id = Cpt(ExternalFileReference, kind="normal", ndim=1)
+
     def __init__(self, name='sirepo_det', reg=None, sim_id=None, watch_name=None,
                  sirepo_server='http://10.10.10.10:8000', source_simulation=False, **kwargs):
         super().__init__(name=name, **kwargs)
-        self.reg = reg
+        #self.reg = reg
+        self._asset_docs_cache = deque()
+        self._resource_document = None
+        self._datum_factory = None
+
         self.sirepo_component = None
         self.fields = {}
         self.field_units = {}
         self.parents = {}
-        self._resource_id = None
+        #self._resource_id = None
         self._result = {}
         self._sim_id = sim_id
         self.watch_name = watch_name
@@ -99,12 +130,39 @@ class SirepoDetector(Device):
             for k, v in self.parameters.items():
                 getattr(value, k).set(v)
 
+    def stage(self):
+        self._resource_document, self._datum_factory, _ = compose_resource(
+            start={"uid": "needed for compose_resource but will be discarded"},
+            spec='srw',
+            root='/tmp/data',
+            resource_path='not/a/rea/directory',
+            resource_kwargs={'ndim': 0}
+        )
+        # now discard the start uid, a real one will be added later
+        self._resource_document.pop("run_start")
+        self._asset_docs_cache.append(("resource", self._resource_document))
+
+        return super().stage()
+
+    def unstage(self):
+        self._resource_document = None
+        self._datum_factory = None
+        return super().unstage()
+
+    def collect_asset_docs(self):
+        items = list(self._asset_docs_cache)
+        self._asset_docs_cache.clear()
+        for item in items:
+            yield item
+
     def trigger(self):
         super().trigger()
         datum_id = new_uid()
         date = datetime.datetime.now()
-        srw_file = Path('/tmp/data') / Path(date.strftime('%Y/%m/%d')) / \
-            Path('{}.dat'.format(datum_id))
+        self._resource_document["resource_path"] = Path(date.strftime('%Y/%m/%d')) / Path('{}.dat'.format(datum_id))
+        self.srw_file = Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
+        # srw_file = Path('/tmp/data') / Path(date.strftime('%Y/%m/%d')) / \
+        #     Path('{}.dat'.format(datum_id))
 
         if not self.source_simulation:
             if self.sirepo_component is not None:
@@ -140,14 +198,14 @@ class SirepoDetector(Device):
             self.data['report'] = "intensityReport"
         self.sb.run_simulation()
 
-        with open(srw_file, 'wb') as f:
+        with open(self.srw_file, 'wb') as f:
             f.write(self.sb.get_datafile())
 
         if self.data['report'] in self.one_d_reports:
             ndim = 1
         else:
             ndim = 2
-        ret = read_srw_file(srw_file, ndim=ndim)
+        ret = read_srw_file(self.srw_file, ndim=ndim)
 
         self.image.put(datum_id)
         self.shape.put(ret['shape'])
@@ -156,8 +214,10 @@ class SirepoDetector(Device):
         self.horizontal_extent.put(ret['horizontal_extent'])
         self.vertical_extent.put(ret['vertical_extent'])
 
-        self._resource_id = self.reg.insert_resource('srw', srw_file, {'ndim': ndim})
-        self.reg.insert_datum(self._resource_id, datum_id, {})
+        self._resource_document["resource_kwargs"]["ndim"] = ndim
+        datum_document = self._datum_factory(datum_kwargs={})
+        self._asset_docs_cache.append(("datum", datum_document))
+        self.srw_file_datum_id.put(datum_document["datum_id"])
 
         return NullStatus()
 
@@ -168,7 +228,7 @@ class SirepoDetector(Device):
 
     def unstage(self):
         super().unstage()
-        self._resource_id = None
+        self._resource_document = None
         self._result.clear()
 
     def connect(self, sim_id):
