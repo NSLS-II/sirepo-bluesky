@@ -19,7 +19,7 @@ def _test_sirepo_detector(RE, db, tmpdir, sim_id, server_name):
     root_dir = '/tmp/data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
-    sirepo_det = SirepoDetector(sim_id=sim_id, reg=db.reg, sirepo_server=server_name)
+    sirepo_det = SirepoDetector(sim_id=sim_id, sirepo_server=server_name)
     sirepo_det.select_optic('Aperture')
     sirepo_det.create_parameter('horizontalSize')
     sirepo_det.create_parameter('verticalSize')
@@ -63,7 +63,7 @@ def _test_sirepo_det_grid_scan(RE, db, tmpdir, sim_id, server_name):
     root_dir = '/tmp/data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
-    sirepo_det = SirepoDetector(sim_id=sim_id, reg=db.reg, sirepo_server=server_name)
+    sirepo_det = SirepoDetector(sim_id=sim_id, sirepo_server=server_name)
     sirepo_det.select_optic('Aperture')
     param1 = sirepo_det.create_parameter('horizontalSize')
     param2 = sirepo_det.create_parameter('verticalSize')

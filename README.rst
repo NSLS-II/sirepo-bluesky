@@ -91,7 +91,7 @@ Prepare Bluesky and trigger a simulated Sirepo detector
    %run -i examples/prepare_det_env.py
    import sirepo_bluesky.sirepo_detector as sd
    import bluesky.plans as bp
-   sirepo_det = sd.SirepoDetector(sim_id='<sim_id>', reg=db.reg)
+   sirepo_det = sd.SirepoDetector(sim_id='<sim_id>')
    sirepo_det.select_optic('Aperture')
    param1 = sirepo_det.create_parameter('horizontalSize')
    param2 = sirepo_det.create_parameter('verticalSize')
