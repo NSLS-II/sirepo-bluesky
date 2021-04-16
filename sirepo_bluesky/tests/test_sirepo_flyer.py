@@ -67,7 +67,7 @@ def _test_sirepo_flyer(RE_no_plot, db, tmpdir, sim_id, server_name):
     for i in range(len(t)):
         db_means.append(t.iloc[i]['sirepo_flyer_mean'])
 
-    assert actual_means == db_means, "fly scan means do not match actual means"
+    assert set(actual_means) == set(db_means), "fly scan means do not match actual means"
 
 
 @vcr.use_cassette(f'{cassette_location}/test_sirepo_flyer.yml')
