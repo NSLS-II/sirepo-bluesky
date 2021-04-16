@@ -48,6 +48,9 @@ setup(
         'console_scripts': [
             # 'command = some.module:some_function',
         ],
+        # entry point to avoid local.yml file
+        # https://blueskyproject.io/databroker/reference/configuration.html?highlight=entry%20point#advanced-configuration-via-python-package
+        "intake.catalogs": ["local = sirepo_bluesky:sirepo_bluesky_catalog_instance"],
     },
     include_package_data=True,
     package_data={

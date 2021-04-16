@@ -45,7 +45,8 @@ install:
   - pip install -r requirements-dev.txt
   - pip install --upgrade numpy pip
   - pip list
-  - mkdir -p $HOME/.config/databroker/ && cp -v examples/local.yml $HOME/.config/databroker/local.yml
+  # Removed for testing entry point feature.
+  #- mkdir -p $HOME/.config/databroker/ && cp -v examples/local.yml $HOME/.config/databroker/local.yml
   - |
     if [ ! -z "$USE_DOCKER" ]; then
         docker pull radiasoft/sirepo:beta
