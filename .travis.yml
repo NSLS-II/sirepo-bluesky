@@ -19,15 +19,11 @@ jobs:
   fast_finish: true
   include:
     - os: linux
-      python: 3.6
-    - os: linux
       python: 3.7
     - os: linux
       python: 3.8
-    - os: linux
-      python: 3.6
-      env:
-        - USE_DOCKER: true
+    # - os: linux
+    #   python: 3.9
     - os: linux
       python: 3.7
       env:
@@ -36,6 +32,10 @@ jobs:
       python: 3.8
       env:
         - USE_DOCKER: true
+    #  - os: linux
+    #    python: 3.9
+    #    env:
+    #      - USE_DOCKER: true
 
 install:
   - env | sort -u
@@ -57,11 +57,13 @@ script:
   - |
     if [ ! -z "$USE_DOCKER" ]; then
         container_id=$(docker run -d -t --init --rm --name sirepo -e SIREPO_AUTH_METHODS=bluesky:guest -e SIREPO_AUTH_BLUESKY_SECRET=bluesky -e SIREPO_SRDB_ROOT=/sirepo -e SIREPO_COOKIE_IS_SECURE=false -p 8000:8000 -v $PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT:/SIREPO_SRDB_ROOT:ro,z radiasoft/sirepo:beta bash -l -c "mkdir -v -p /sirepo/user/ && cp -Rv /SIREPO_SRDB_ROOT/* /sirepo/user/ && sirepo service http")
-        coverage run -m pytest -vvvv -m "docker"  # Run the tests and check for test coverage.
+        pytest -vvvv -m "docker"  # Run the tests and check for test coverage.
+        status=$?
         docker logs $container_id
+        if [ $status -gt 0 ]; then
+            exit $status
+        fi
     else
-        coverage run -m pytest -vvvv -m "not docker"  # Run the tests and check for test coverage.
+        pytest -vvvv -m "not docker"  # Run the tests and check for test coverage.
     fi
-  - coverage report -m  # Generate test coverage report.
-  - codecov  # Upload the report to codecov.
   - make -C docs html  # Build the documentation.
