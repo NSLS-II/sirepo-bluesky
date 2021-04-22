@@ -64,6 +64,4 @@ script:
     else
         pytest -vvvv -m "not docker"  # Run the tests and check for test coverage.
     fi
-  - coverage report -m  # Generate test coverage report.
-  - codecov  # Upload the report to codecov.
   - make -C docs html  # Build the documentation.
