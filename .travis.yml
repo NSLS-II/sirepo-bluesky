@@ -22,8 +22,8 @@ jobs:
       python: 3.7
     - os: linux
       python: 3.8
-    - os: linux
-      python: 3.9
+    # - os: linux
+    #   python: 3.9
     - os: linux
       python: 3.7
       env:
@@ -32,10 +32,10 @@ jobs:
       python: 3.8
       env:
         - USE_DOCKER: true
-    - os: linux
-      python: 3.9
-      env:
-        - USE_DOCKER: true
+    #  - os: linux
+    #    python: 3.9
+    #    env:
+    #      - USE_DOCKER: true
 
 install:
   - env | sort -u
@@ -60,7 +60,9 @@ script:
         pytest -vvvv -m "docker"  # Run the tests and check for test coverage.
         status=$?
         docker logs $container_id
-        exit $status
+        if [ $status -gt 0 ]; then
+            exit $status
+        fi
     else
         pytest -vvvv -m "not docker"  # Run the tests and check for test coverage.
     fi
