@@ -162,6 +162,8 @@ class SirepoBluesky(object):
             state = res['state']
             if state == 'completed' or state == 'error':
                 break
+            assert 'nextRequestSeconds' in res, \
+                'missing "nextRequestSeconds" in response: {}'.format(res)
             time.sleep(res['nextRequestSeconds'])
             res = self._post_json('run-status', res['nextRequest'])
         assert state == 'completed', 'simulation failed to completed: {}'.format(state)
