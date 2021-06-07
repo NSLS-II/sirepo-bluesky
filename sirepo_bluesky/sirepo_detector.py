@@ -113,7 +113,8 @@ class SirepoDetector(Device):
 
     """
     def update_parameters(self):
-        data, sirepo_schema = self.sb.auth('srw', self._sim_id)
+        # FIXME: add self.sim_type option for auth
+        data, sirepo_schema = self.sb.auth('shadow', self._sim_id)
         self.data = data
         for key, value in self.sirepo_components.items():
             optic_id = self.sb.find_optic_id_by_name(key)
@@ -182,19 +183,20 @@ class SirepoDetector(Device):
             ndim = 1
         else:
             ndim = 2
-        ret = read_srw_file(srw_file, ndim=ndim)
+        # TODO: Use sim_type to read file
+        # ret = read_srw_file(srw_file, ndim=ndim)
 
         # ndim has now been established, add it to the resource document
         self._resource_document["resource_kwargs"]["ndim"] = ndim
         datum_document = self._datum_factory(datum_kwargs={})
         self._asset_docs_cache.append(("datum", datum_document))
 
-        self.image.put(datum_document["datum_id"])
-        self.shape.put(ret['shape'])
-        self.mean.put(ret['mean'])
-        self.photon_energy.put(ret['photon_energy'])
-        self.horizontal_extent.put(ret['horizontal_extent'])
-        self.vertical_extent.put(ret['vertical_extent'])
+        # self.image.put(datum_document["datum_id"])
+        # self.shape.put(ret['shape'])
+        # self.mean.put(ret['mean'])
+        # self.photon_energy.put(ret['photon_energy'])
+        # self.horizontal_extent.put(ret['horizontal_extent'])
+        # self.vertical_extent.put(ret['vertical_extent'])
 
         self._resource_document = None
         self._datum_factory = None
@@ -219,7 +221,8 @@ class SirepoDetector(Device):
 
     def connect(self, sim_id):
         sb = SirepoBluesky(self.sirepo_server)
-        data, sirepo_schema = sb.auth('srw', sim_id)
+        # FIXME: add self.sim_type option for auth
+        data, sirepo_schema = sb.auth('shadow', sim_id)
         self.data = data
         self.sb = sb
         if not self.source_simulation:
