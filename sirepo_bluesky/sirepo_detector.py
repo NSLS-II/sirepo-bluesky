@@ -1,5 +1,6 @@
 from collections import deque
 import datetime
+from enum import Enum, unique
 from pathlib import Path
 
 import unyt as u
@@ -11,6 +12,12 @@ from ophyd.sim import SynAxis, NullStatus, new_uid
 
 from .srw_handler import read_srw_file
 from .sirepo_bluesky import SirepoBluesky
+
+
+@unique
+class SimTypes(Enum):
+    srw = 'srw'
+    shadow = 'shadow'
 
 
 class ExternalFileReference(Signal):
@@ -61,9 +68,19 @@ class SirepoDetector(Device):
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
 
-    def __init__(self, name='sirepo_det', sim_id=None, watch_name=None,
-                 sirepo_server='http://10.10.10.10:8000', source_simulation=False, **kwargs):
+    def __init__(self, name='sirepo_det', sim_type=None, sim_id=None, watch_name=None,
+                 sirepo_server='http://10.10.10.10:8000', source_simulation=False,
+                 **kwargs):
         super().__init__(name=name, **kwargs)
+
+        allowed_sim_types = tuple(SimTypes.__members__.keys())
+        if sim_type not in allowed_sim_types:
+            raise ValueError(f"sim_type should be one of {allowed_sim_types}. "
+                             f"Provided value: {sim_type}")
+        if sim_id is None:
+            raise ValueError(f"Simulation ID must be provided. "
+                             f"Currently it is set to {sim_id}")
+
         self._asset_docs_cache = deque()
         self._resource_document = None
         self._datum_factory = None
@@ -73,6 +90,7 @@ class SirepoDetector(Device):
         self.field_units = {}
         self.parents = {}
         self._result = {}
+        self._sim_type = sim_type
         self._sim_id = sim_id
         self.watch_name = watch_name
         self.sb = None
@@ -89,7 +107,7 @@ class SirepoDetector(Device):
         self.source_simulation = source_simulation
         self.one_d_reports = ['intensityReport']
         self.two_d_reports = ['watchpointReport']
-        assert sim_id, 'Simulation ID must be provided. Currently it is set to {}'.format(sim_id)
+
         self.connect(sim_id=self._sim_id)
 
     @property
@@ -113,8 +131,7 @@ class SirepoDetector(Device):
 
     """
     def update_parameters(self):
-        # FIXME: add self.sim_type option for auth
-        data, sirepo_schema = self.sb.auth('shadow', self._sim_id)
+        data, sirepo_schema = self.sb.auth(self._sim_type, self._sim_id)
         self.data = data
         for key, value in self.sirepo_components.items():
             optic_id = self.sb.find_optic_id_by_name(key)
@@ -140,7 +157,7 @@ class SirepoDetector(Device):
         self._resource_document.pop('run_start')
         self._asset_docs_cache.append(('resource', self._resource_document))
 
-        srw_file = Path(self._resource_document['root']) / Path(self._resource_document['resource_path'])
+        sim_result_file = Path(self._resource_document['root']) / Path(self._resource_document['resource_path'])
 
         if not self.source_simulation:
             if self.sirepo_component is not None:
@@ -176,27 +193,39 @@ class SirepoDetector(Device):
             self.data['report'] = "intensityReport"
         self.sb.run_simulation()
 
-        with open(srw_file, 'wb') as f:
+        with open(sim_result_file, 'wb') as f:
             f.write(self.sb.get_datafile())
 
         if self.data['report'] in self.one_d_reports:
             ndim = 1
         else:
             ndim = 2
-        # TODO: Use sim_type to read file
-        # ret = read_srw_file(srw_file, ndim=ndim)
+
+        if self._sim_type == SimTypes.srw.name:
+            ret = read_srw_file(sim_result_file, ndim=ndim)
+        elif self._sim_type == SimTypes.shadow.name:
+            ret = read_shadow_file(sim_result_file)
+        else:
+            raise ValueError(f"Unknown simulation type: {self._sim_type}")
 
         # ndim has now been established, add it to the resource document
         self._resource_document["resource_kwargs"]["ndim"] = ndim
         datum_document = self._datum_factory(datum_kwargs={})
         self._asset_docs_cache.append(("datum", datum_document))
 
-        # self.image.put(datum_document["datum_id"])
-        # self.shape.put(ret['shape'])
-        # self.mean.put(ret['mean'])
-        # self.photon_energy.put(ret['photon_energy'])
-        # self.horizontal_extent.put(ret['horizontal_extent'])
-        # self.vertical_extent.put(ret['vertical_extent'])
+        self.image.put(datum_document["datum_id"])
+        if self._sim_type == SimTypes.srw.name:
+            self.shape.put(ret['shape'])
+            self.mean.put(ret['mean'])
+            self.photon_energy.put(ret['photon_energy'])
+            self.horizontal_extent.put(ret['horizontal_extent'])
+            self.vertical_extent.put(ret['vertical_extent'])
+        elif self._sim_type == SimTypes.shadow.name:
+            self.shape.put((-1, -1))
+            self.mean.put(-100)
+            self.photon_energy.put(-10000)
+            self.horizontal_extent.put(1000)
+            self.vertical_extent.put(1000)
 
         self._resource_document = None
         self._datum_factory = None
@@ -221,8 +250,7 @@ class SirepoDetector(Device):
 
     def connect(self, sim_id):
         sb = SirepoBluesky(self.sirepo_server)
-        # FIXME: add self.sim_type option for auth
-        data, sirepo_schema = sb.auth('shadow', sim_id)
+        data, sirepo_schema = sb.auth(self._sim_type, sim_id)
         self.data = data
         self.sb = sb
         if not self.source_simulation:
