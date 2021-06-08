@@ -11,6 +11,7 @@ from ophyd import Device, Signal, Component as Cpt
 from ophyd.sim import SynAxis, NullStatus, new_uid
 
 from .srw_handler import read_srw_file
+from .shadow_handler import read_shadow_file
 from .sirepo_bluesky import SirepoBluesky
 
 
