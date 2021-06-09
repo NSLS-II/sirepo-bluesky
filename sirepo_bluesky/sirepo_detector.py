@@ -158,7 +158,8 @@ class SirepoDetector(Device):
         self._resource_document.pop('run_start')
         self._asset_docs_cache.append(('resource', self._resource_document))
 
-        sim_result_file = str(Path(self._resource_document['root']) / Path(self._resource_document['resource_path']))
+        sim_result_file = str(Path(self._resource_document['root']) /
+                              Path(self._resource_document['resource_path']))
 
         if not self.source_simulation:
             if self.sirepo_component is not None:
