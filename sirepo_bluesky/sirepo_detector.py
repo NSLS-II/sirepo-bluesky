@@ -216,18 +216,16 @@ class SirepoDetector(Device):
         self._asset_docs_cache.append(("datum", datum_document))
 
         self.image.put(datum_document["datum_id"])
+        self.shape.put(ret['shape'])
+        self.mean.put(ret['mean'])
+        self.photon_energy.put(ret['photon_energy'])
+        self.horizontal_extent.put(ret['horizontal_extent'])
+        self.vertical_extent.put(ret['vertical_extent'])
+
         if self._sim_type == SimTypes.srw.name:
-            self.shape.put(ret['shape'])
-            self.mean.put(ret['mean'])
-            self.photon_energy.put(ret['photon_energy'])
-            self.horizontal_extent.put(ret['horizontal_extent'])
-            self.vertical_extent.put(ret['vertical_extent'])
+            pass
         elif self._sim_type == SimTypes.shadow.name:
-            self.shape.put((-1, -1))
-            self.mean.put(-100)
-            self.photon_energy.put(-10000)
-            self.horizontal_extent.put(1000)
-            self.vertical_extent.put(1000)
+            pass
 
         self._resource_document = None
         self._datum_factory = None
