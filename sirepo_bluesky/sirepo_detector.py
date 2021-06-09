@@ -1,18 +1,18 @@
-from collections import deque
 import datetime
+import json
+from collections import deque
 from enum import Enum, unique
 from pathlib import Path
 
 import unyt as u
-
 from event_model import compose_resource
+from ophyd import Component as Cpt
+from ophyd import Device, Signal
+from ophyd.sim import NullStatus, SynAxis, new_uid
 
-from ophyd import Device, Signal, Component as Cpt
-from ophyd.sim import SynAxis, NullStatus, new_uid
-
-from .srw_handler import read_srw_file
 from .shadow_handler import read_shadow_file
 from .sirepo_bluesky import SirepoBluesky
+from .srw_handler import read_srw_file
 
 
 @unique
@@ -68,10 +68,11 @@ class SirepoDetector(Device):
     photon_energy = Cpt(Signal)
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
+    sirepo_json = Cpt(Signal, kind="normal", value="")
 
     def __init__(self, name='sirepo_det', sim_type=None, sim_id=None, watch_name=None,
                  sirepo_server='http://10.10.10.10:8000', source_simulation=False,
-                 **kwargs):
+                 root_dir='/tmp/sirepo_det_data', **kwargs):
         super().__init__(name=name, **kwargs)
 
         allowed_sim_types = tuple(SimTypes.__members__.keys())
@@ -85,6 +86,8 @@ class SirepoDetector(Device):
         self._asset_docs_cache = deque()
         self._resource_document = None
         self._datum_factory = None
+
+        self._root_dir = root_dir
 
         self.sirepo_component = None
         self.fields = {}
@@ -109,7 +112,7 @@ class SirepoDetector(Device):
         self.one_d_reports = ['intensityReport']
         self.two_d_reports = ['watchpointReport']
 
-        self.connect(sim_id=self._sim_id)
+        self.connect(sim_type=self._sim_type, sim_id=self._sim_id)
 
     @property
     def hints(self):
@@ -148,11 +151,10 @@ class SirepoDetector(Device):
         file_name = new_uid()
         self._resource_document, self._datum_factory, _ = compose_resource(
             start={'uid': 'needed for compose_resource() but will be discarded'},
-            spec='srw',
-            root='/tmp/data',
-            resource_path=str(Path(date.strftime('%Y/%m/%d')) / Path('{}.dat'.format(file_name))),
-            # ndim is not known yet, it will be established at the end of this method
-            resource_kwargs={'ndim': 0}
+            spec=self._sim_type,
+            root=self._root_dir,
+            resource_path=str(Path(date.strftime('%Y/%m/%d')) / Path(f'{file_name}.dat')),
+            resource_kwargs={}
         )
         # now discard the start uid, a real one will be added later
         self._resource_document.pop('run_start')
@@ -198,20 +200,20 @@ class SirepoDetector(Device):
         with open(sim_result_file, 'wb') as f:
             f.write(self.sb.get_datafile())
 
-        if self.data['report'] in self.one_d_reports:
-            ndim = 1
-        else:
-            ndim = 2
-
         if self._sim_type == SimTypes.srw.name:
+            if self.data['report'] in self.one_d_reports:
+                ndim = 1
+            else:
+                ndim = 2
             ret = read_srw_file(sim_result_file, ndim=ndim)
+            self._resource_document["resource_kwargs"]["ndim"] = ndim
         elif self._sim_type == SimTypes.shadow.name:
-            ret = read_shadow_file(sim_result_file)
+            nbins = self.data['models'][self.data['report']]['histogramBins']
+            ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
+            self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
         else:
             raise ValueError(f"Unknown simulation type: {self._sim_type}")
 
-        # ndim has now been established, add it to the resource document
-        self._resource_document["resource_kwargs"]["ndim"] = ndim
         datum_document = self._datum_factory(datum_kwargs={})
         self._asset_docs_cache.append(("datum", datum_document))
 
@@ -221,6 +223,7 @@ class SirepoDetector(Device):
         self.photon_energy.put(ret['photon_energy'])
         self.horizontal_extent.put(ret['horizontal_extent'])
         self.vertical_extent.put(ret['vertical_extent'])
+        self.sirepo_json.put(json.dumps(self.data))
 
         if self._sim_type == SimTypes.srw.name:
             pass
@@ -248,9 +251,9 @@ class SirepoDetector(Device):
         for item in items:
             yield item
 
-    def connect(self, sim_id):
+    def connect(self, sim_type, sim_id):
         sb = SirepoBluesky(self.sirepo_server)
-        data, sirepo_schema = sb.auth(self._sim_type, sim_id)
+        data, sirepo_schema = sb.auth(sim_type, sim_id)
         self.data = data
         self.sb = sb
         if not self.source_simulation:
