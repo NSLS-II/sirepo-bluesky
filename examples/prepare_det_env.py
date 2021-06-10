@@ -1,9 +1,9 @@
 import datetime
-import json
+import json  # noqa F401
 
 import databroker
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy as np  # noqa F401
 from bluesky.callbacks import best_effort
 from bluesky.run_engine import RunEngine
 from databroker import Broker
