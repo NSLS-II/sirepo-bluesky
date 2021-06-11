@@ -70,7 +70,7 @@ install:
   #- mkdir -p $HOME/.config/databroker/ && cp -v examples/local.yml $HOME/.config/databroker/local.yml
   - |
     if [ ! -z "$USE_DOCKER" ]; then
-        echo ${DOCKERHUB_TOKEN} | docker login --username ${DOCKERHUB_USER} --password-stdin
+        # echo ${DOCKERHUB_TOKEN} | docker login --username ${DOCKERHUB_USER} --password-stdin
         docker pull radiasoft/sirepo:beta
     fi
 
