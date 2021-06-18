@@ -8,5 +8,6 @@ ophyd
 pymongo
 pyqt5>=5.9,<5.12
 requests
+scikit-image
 srwpy
 unyt
