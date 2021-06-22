@@ -20,6 +20,13 @@ class SimTypes(Enum):
     srw = 'srw'
     shadow = 'shadow'
 
+@unique
+class SimReportTypes(Enum):
+    # Single Electron Spectrum
+    srw_se_spectrum = 'srw_se_spectrum'
+
+    shadow_beam_stats = 'shadow_beam_stats'
+
 
 class ExternalFileReference(Signal):
     """
@@ -69,8 +76,9 @@ class SirepoDetector(Device):
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
     sirepo_json = Cpt(Signal, kind="normal", value="")
+    beam_statistics_report = Cpt(Signal, kind="omitted", value="")
 
-    def __init__(self, name='sirepo_det', sim_type=None, sim_id=None, watch_name=None,
+    def __init__(self, name='sirepo_det', sim_type=None, sim_report_type=None, sim_id=None, watch_name=None,
                  sirepo_server='http://10.10.10.10:8000', source_simulation=False,
                  root_dir='/tmp/sirepo_det_data', **kwargs):
         super().__init__(name=name, **kwargs)
@@ -79,6 +87,12 @@ class SirepoDetector(Device):
         if sim_type not in allowed_sim_types:
             raise ValueError(f"sim_type should be one of {allowed_sim_types}. "
                              f"Provided value: {sim_type}")
+
+        allowed_sim_report_types = tuple(SimReportTypes.__members__.keys())
+        if sim_report_type not in allowed_sim_report_types:
+            raise ValueError(f"sim_report_type should be one of {allowed_sim_report_types}. "
+                             f"Provided value: {sim_report_type}")
+
         if sim_id is None:
             raise ValueError(f"Simulation ID must be provided. "
                              f"Currently it is set to {sim_id}")
@@ -95,6 +109,7 @@ class SirepoDetector(Device):
         self.parents = {}
         self._result = {}
         self._sim_type = sim_type
+        self._sim_report_type = sim_report_type
         self._sim_id = sim_id
         self.watch_name = watch_name
         self.sb = None
@@ -114,15 +129,15 @@ class SirepoDetector(Device):
 
         self.connect(sim_type=self._sim_type, sim_id=self._sim_id)
 
-    @property
-    def hints(self):
-        if self._hints is None:
-            return {'fields': [self.mean.name]}
-        return self._hints
-
-    @hints.setter
-    def hints(self, val):
-        self._hints = dict(val)
+    # @property
+    # def hints(self):
+    #     if self._hints is None:
+    #         return {'fields': [self.mean.name]}
+    #     return self._hints
+    #
+    # @hints.setter
+    # def hints(self, val):
+    #     self._hints = dict(val)
 
     def update_value(self, value, units):
         unyt_obj = u.m
@@ -191,14 +206,32 @@ class SirepoDetector(Device):
                 watch = self.sb.find_element(self.data['models']['beamline'],
                                              'title',
                                              self.watch_name)
-                self.data['report'] = 'watchpointReport{}'.format(watch['id'])
 
-        else:
+                if self._sim_report_type == SimReportTypes.srw_se_spectrum.name:
+                    self.data['report'] = 'watchpointReport{}'.format(watch['id'])
+                elif self._sim_report_type == SimReportTypes.shadow_beam_stats.name:
+                    self.data['report'] = 'beamStatisticsReport'
+                    self.beam_statistics_report.kind = 'normal'
+                else:
+                    raise ValueError(f"Unknown simulation report type: {self._sim_report_type}")
+
+        elif self._sim_report_type == SimReportTypes.srw_se_spectrum.name:
             self.data['report'] = "intensityReport"
         self.sb.run_simulation()
 
-        with open(sim_result_file, 'wb') as f:
-            f.write(self.sb.get_datafile())
+        datafile = self.sb.get_datafile()
+        if self._sim_report_type == SimReportTypes.shadow_beam_stats.name:
+            self.beam_statistics_report.put(json.dumps(json.loads(datafile.decode())))
+        else:
+            with open(sim_result_file, 'wb') as f:
+                f.write(datafile)
+
+        def update_components(_data):
+            self.shape.put(_data['shape'])
+            self.mean.put(_data['mean'])
+            self.photon_energy.put(_data['photon_energy'])
+            self.horizontal_extent.put(_data['horizontal_extent'])
+            self.vertical_extent.put(_data['vertical_extent'])
 
         if self._sim_type == SimTypes.srw.name:
             if self.data['report'] in self.one_d_reports:
@@ -207,28 +240,21 @@ class SirepoDetector(Device):
                 ndim = 2
             ret = read_srw_file(sim_result_file, ndim=ndim)
             self._resource_document["resource_kwargs"]["ndim"] = ndim
-        elif self._sim_type == SimTypes.shadow.name:
+            update_components(ret)
+        elif self._sim_type == SimTypes.shadow.name and not self._sim_report_type == SimReportTypes.shadow_beam_stats.name:
             nbins = self.data['models'][self.data['report']]['histogramBins']
             ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
             self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
-        else:
-            raise ValueError(f"Unknown simulation type: {self._sim_type}")
+            update_components(ret)
+        #else:
+        #    raise ValueError(f"Unknown simulation type: {self._sim_type}")
 
         datum_document = self._datum_factory(datum_kwargs={})
         self._asset_docs_cache.append(("datum", datum_document))
 
         self.image.put(datum_document["datum_id"])
-        self.shape.put(ret['shape'])
-        self.mean.put(ret['mean'])
-        self.photon_energy.put(ret['photon_energy'])
-        self.horizontal_extent.put(ret['horizontal_extent'])
-        self.vertical_extent.put(ret['vertical_extent'])
-        self.sirepo_json.put(json.dumps(self.data))
 
-        if self._sim_type == SimTypes.srw.name:
-            pass
-        elif self._sim_type == SimTypes.shadow.name:
-            pass
+        self.sirepo_json.put(json.dumps(self.data))
 
         self._resource_document = None
         self._datum_factory = None
@@ -377,7 +403,7 @@ class SirepoDetector(Device):
     sirepo_det.select_optic('Aperture')
     param1 = sirepo_det.create_parameter('horizontalSize')
     param2 = sirepo_det.create_parameter('verticalSize')
-    sirepo_det.read_attrs = ['image', 'mean', 'photon_energy']
+    sirepo_det.read_attrs = ['image', 'mean', 'photon_energy', 'sirepo_json']
     sirepo_det.configuration_attrs = ['horizontal_extent',
                                       'vertical_extent',
                                       'shape']
@@ -405,7 +431,7 @@ class SirepoDetector(Device):
     import bluesky.plans as bp
     import sirepo_bluesky.sirepo_detector as sd
     sirepo_det = sd.SirepoDetector(sim_id='8GJJWLFh', reg=db.reg, source_simulation=True)
-    sirepo_det.read_attrs = ['image', 'mean', 'photon_energy']
+    sirepo_det.read_attrs = ['image', 'mean', 'photon_energy', 'sirepo_json']
     sirepo_det.configuration_attrs = ['horizontal_extent', 'vertical_extent', 'shape']
 
     RE(bp.count([sirepo_det]))
