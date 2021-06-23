@@ -125,6 +125,10 @@ class SirepoBluesky(object):
         self._assert_success(response, url)
         return response.content
 
+    def simulation_list(self):
+        """ Returns a list of simulations for the authenticated user. """
+        return self._post_json('simulation-list', dict(simulationType=self.sim_type))
+
     @staticmethod
     def update_grazing_vectors(data_to_update, grazing_vectors_params):
         """Update grazing angle vectors"""
