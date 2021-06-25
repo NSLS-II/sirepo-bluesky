@@ -129,16 +129,6 @@ class SirepoDetector(Device):
 
         self.connect(sim_type=self._sim_type, sim_id=self._sim_id)
 
-    # @property
-    # def hints(self):
-    #     if self._hints is None:
-    #         return {'fields': [self.mean.name]}
-    #     return self._hints
-    #
-    # @hints.setter
-    # def hints(self, val):
-    #     self._hints = dict(val)
-
     def update_value(self, value, units):
         unyt_obj = u.m
         starting_unit = value * unyt_obj
