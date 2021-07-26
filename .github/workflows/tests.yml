@@ -56,4 +56,6 @@ jobs:
       shell: bash -l {0}
       run: |
         set -vxeuo pipefail
+        source $CONDA/etc/profile.d/conda.sh
+        conda activate test
         pytest -s -v sirepo_bluesky/tests
