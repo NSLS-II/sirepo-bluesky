@@ -29,19 +29,21 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Add conda to system path
-      run: |
+        #- name: Add conda to system path
+        #run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
-        echo $CONDA/bin >> $GITHUB_PATH
+        #echo $CONDA/bin >> $GITHUB_PATH
 
     - name: Create conda environment
       run: |
+        source $CONDA/etc/profile.d/conda.sh
         conda create -n test python=${{ matrix.python-version }} shadow3 -c conda-forge
 
     - name: Install
       shell: bash -l {0}
       run: |
         set -vxeuo pipefail
+        source $CONDA/etc/profile.d/conda.sh
         conda activate test
         conda env list
         pip install --upgrade pip wheel
