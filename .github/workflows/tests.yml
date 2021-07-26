@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: start Sirepo-Bluesky container
-      run: bash start_docker.sh -d
+      run: bash scripts/start_docker.sh -d
 
     - name: is Sirepo-Bluesky running?
       run: docker ps -a
