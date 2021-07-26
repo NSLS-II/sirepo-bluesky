@@ -20,6 +20,7 @@ class SimTypes(Enum):
     srw = 'srw'
     shadow = 'shadow'
 
+
 @unique
 class SimReportTypes(Enum):
     # Single Electron Spectrum
@@ -231,13 +232,14 @@ class SirepoDetector(Device):
             ret = read_srw_file(sim_result_file, ndim=ndim)
             self._resource_document["resource_kwargs"]["ndim"] = ndim
             update_components(ret)
-        elif self._sim_type == SimTypes.shadow.name and not self._sim_report_type == SimReportTypes.shadow_beam_stats.name:
+        elif self._sim_type == SimTypes.shadow.name and not \
+                self._sim_report_type == SimReportTypes.shadow_beam_stats.name:
             nbins = self.data['models'][self.data['report']]['histogramBins']
             ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
             self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
             update_components(ret)
-        #else:
-        #    raise ValueError(f"Unknown simulation type: {self._sim_type}")
+        # else:
+        #     raise ValueError(f"Unknown simulation type: {self._sim_type}")
 
         datum_document = self._datum_factory(datum_kwargs={})
         self._asset_docs_cache.append(("datum", datum_document))
