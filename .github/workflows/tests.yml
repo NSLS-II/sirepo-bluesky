@@ -18,6 +18,9 @@ jobs:
 
     - uses: actions/checkout@v2
 
+    - name: start MongoDB
+      uses: supercharge/mongodb-github-action@1.6.0
+
     - name: start Sirepo-Bluesky container
       run: bash scripts/start_docker.sh -d
 
