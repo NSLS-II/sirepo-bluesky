@@ -9,7 +9,6 @@ import sirepo_bluesky.tests
 
 cassette_location = os.path.join(os.path.dirname(sirepo_bluesky.tests.__file__), 'vcr_cassettes')
 
-# srw_se_spectrum
 
 def _test_sirepo_detector(RE, db, tmpdir, sim_type, sim_id, server_name, sim_report_type="srw_se_spectrum"):
     import datetime
