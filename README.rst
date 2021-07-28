@@ -79,7 +79,7 @@ Prepare Bluesky and trigger a simulated Sirepo detector
 
 .. code:: bash
 
-   conda create -n sirepo_bluesky python=3.7 -y
+   conda create -n sirepo_bluesky -y -c conda-forge python=3.7 shadow3 srwpy
    conda activate sirepo_bluesky
    pip install sirepo-bluesky  # a package from PyPI
 
@@ -98,7 +98,8 @@ Prepare Bluesky and trigger a simulated Sirepo detector
    %run -i examples/prepare_det_env.py
    import sirepo_bluesky.sirepo_detector as sd
    import bluesky.plans as bp
-   sirepo_det = sd.SirepoDetector(sim_id='<sim_id>')
+   sirepo_det = sd.SirepoDetector(sim_id='<sim_id>', sim_type='srw', sim_report_type='srw_se_spectrum',
+                                  sirepo_server='http://localhost:8000')
    sirepo_det.select_optic('Aperture')
    param1 = sirepo_det.create_parameter('horizontalSize')
    param2 = sirepo_det.create_parameter('verticalSize')
