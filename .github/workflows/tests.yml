@@ -11,12 +11,15 @@ jobs:
 
     strategy:
       matrix: 
-        python-version: [3.7,3.8]
+        python-version: [3.7, 3.8, 3.9]
 
       fail-fast: false
     steps:
 
     - uses: actions/checkout@v2
+
+    - name: start MongoDB
+      uses: supercharge/mongodb-github-action@1.6.0
 
     - name: start Sirepo-Bluesky container
       run: bash scripts/start_docker.sh -d
@@ -36,12 +39,15 @@ jobs:
 
     - name: Create conda environment
       run: |
+        # For reference: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html.
+        set -vxeuo pipefail
         source $CONDA/etc/profile.d/conda.sh
-        conda create -n test python=${{ matrix.python-version }} shadow3 -c conda-forge
+        conda create -n test -c conda-forge python=${{ matrix.python-version }} shadow3 srwpy
 
     - name: Install
       shell: bash -l {0}
       run: |
+        # For reference: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html.
         set -vxeuo pipefail
         source $CONDA/etc/profile.d/conda.sh
         conda activate test
@@ -55,6 +61,7 @@ jobs:
     - name: Test with pytest
       shell: bash -l {0}
       run: |
+        # For reference: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html.
         set -vxeuo pipefail
         source $CONDA/etc/profile.d/conda.sh
         conda activate test
