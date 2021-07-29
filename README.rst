@@ -69,6 +69,11 @@ You can also consider running a Docker container:
           -v $HOME/tmp/sirepo-docker-run:/sirepo \
           radiasoft/sirepo:beta bash -l -c "sirepo service http"
 
+or with the convenience script:
+
+.. code:: bash
+
+   bash scripts/start_docker.sh -it
 
 Prepare Bluesky and trigger a simulated Sirepo detector
 -------------------------------------------------------
@@ -79,7 +84,7 @@ Prepare Bluesky and trigger a simulated Sirepo detector
 
 .. code:: bash
 
-   conda create -n sirepo_bluesky -y -c conda-forge python=3.7 shadow3 srwpy
+   conda create -n sirepo_bluesky -y -c conda-forge python=3.9 shadow3 srwpy
    conda activate sirepo_bluesky
    pip install sirepo-bluesky  # a package from PyPI
 
@@ -98,17 +103,16 @@ Prepare Bluesky and trigger a simulated Sirepo detector
    %run -i examples/prepare_det_env.py
    import sirepo_bluesky.srw_detector as sd
    import bluesky.plans as bp
-   sirepo_det = sd.SirepoDetector(sim_id='<sim_id>', sim_type='srw', sim_report_type='srw_se_spectrum',
+   srw_det = sd.SirepoSRWDetector(sim_id='<sim_id>', sim_type='srw',
                                   sirepo_server='http://localhost:8000')
-   sirepo_det.select_optic('Aperture')
-   param1 = sirepo_det.create_parameter('horizontalSize')
-   param2 = sirepo_det.create_parameter('verticalSize')
-   sirepo_det.read_attrs = ['image', 'mean', 'photon_energy']
-   sirepo_det.configuration_attrs = ['horizontal_extent', 'vertical_extent', 'shape']
+   srw_det.select_optic('Aperture')
+   param1 = srw_det.create_parameter('horizontalSize')
+   param2 = srw_det.create_parameter('verticalSize')
+   srw_det.configuration_attrs = ['horizontal_extent', 'vertical_extent', 'shape']
 
 .. code:: py
 
-   RE(bp.grid_scan([sirepo_det],
+   RE(bp.grid_scan([srw_det],
                    param1, 0, 1, 10,
                    param2, 0, 1, 10,
                    True))
@@ -122,10 +126,10 @@ You should get something like:
 .. code:: py
 
    hdr = db[-1]
-   imgs = list(hdr.data('sirepo_det_image'))
-   cfg = hdr.config_data('sirepo_det')['primary'][0]
-   hor_ext = cfg['{}_horizontal_extent'.format(sirepo_det.name)]
-   vert_ext = cfg['{}_vertical_extent'.format(sirepo_det.name)]
+   imgs     = list(hdr.data(f'{srw_det.name}_image'))
+   cfg      = hdr.config_data(srw_det.name)['primary'][0]
+   hor_ext  = cfg[f'{srw_det.name}_horizontal_extent']
+   vert_ext = cfg[f'{srw_det.name}_vertical_extent']
    plt.imshow(imgs[21], aspect='equal', extent=(*hor_ext, *vert_ext))
 
 You should get something like:
@@ -140,20 +144,20 @@ To view single-electron spectrum report (**Hint:** use a different
    %run -i examples/prepare_det_env.py
    import sirepo_bluesky.srw_detector as sd
    import bluesky.plans as bp
-   sirepo_det = sd.SirepoDetector(sim_id='<sim_id>', reg=db.reg, source_simulation=True)
-   sirepo_det.read_attrs = ['image']
-   sirepo_det.configuration_attrs = ['photon_energy', 'shape']
+   srw_det = sd.SirepoSRWDetector(sim_id='<sim_id>', reg=db.reg, source_simulation=True)
+   srw_det.read_attrs = ['image']
+   srw_det.configuration_attrs = ['photon_energy', 'shape']
 
 .. code:: py
 
-   RE(bp.count([sirepo_det]))
+   RE(bp.count([srw_det]))
 
 .. code:: py
 
    hdr = db[-1]
-   cfg = hdr.config_data('sirepo_det')['primary'][0]
-   energies = cfg['sirepo_det_photon_energy']
-   spectrum, = hdr.data('sirepo_det_image')
+   cfg = hdr.config_data(srw_det.name)['primary'][0]
+   energies = cfg[f'{srw_det.name}_photon_energy']
+   spectrum, = hdr.data(f'{srw_det.name}_image')
    plt.plot(energies, spectrum)
 
 You should get something like:

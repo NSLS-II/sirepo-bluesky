@@ -25,10 +25,10 @@ except Exception:
 
 RE.subscribe(db.insert)
 db.reg.register_handler('srw', SRWFileHandler, overwrite=True)
-db.reg.register_handler('shadow', ShadowFileHandler, overwrite=True)
+# db.reg.register_handler('shadow', ShadowFileHandler, overwrite=True)
 db.reg.register_handler('SIREPO_FLYER', SRWFileHandler, overwrite=True)
 
 plt.ion()
 
-root_dir = '/tmp/sirepo_det_data'
+root_dir = '/tmp/srw_det_data'
 _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
