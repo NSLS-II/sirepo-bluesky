@@ -3,14 +3,14 @@ import os
 import pytest
 import vcr
 
-from sirepo_bluesky.sirepo_detector import SirepoDetector
+from sirepo_bluesky.srw_detector import SirepoSRWDetector
 import bluesky.plans as bp
 import sirepo_bluesky.tests
 
 cassette_location = os.path.join(os.path.dirname(sirepo_bluesky.tests.__file__), 'vcr_cassettes')
 
 
-def _test_sirepo_detector(RE, db, tmpdir, sim_type, sim_id, server_name, sim_report_type="srw_se_spectrum"):
+def _test_srw_detector(RE, db, tmpdir, sim_type, sim_id, server_name, sim_report_type="srw_se_spectrum"):
     import datetime
     from ophyd.utils import make_dir_tree
 
@@ -19,7 +19,7 @@ def _test_sirepo_detector(RE, db, tmpdir, sim_type, sim_id, server_name, sim_rep
     root_dir = '/tmp/data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
-    sirepo_det = SirepoDetector(sim_type=sim_type, sim_report_type=sim_report_type, sim_id=sim_id,
+    sirepo_det = SirepoSRWDetector(sim_type=sim_type, sim_report_type=sim_report_type, sim_id=sim_id,
                                 sirepo_server=server_name, root_dir=root_dir)
     sirepo_det.select_optic('Aperture')
     sirepo_det.create_parameter('horizontalSize')
@@ -41,9 +41,9 @@ def _test_sirepo_detector(RE, db, tmpdir, sim_type, sim_id, server_name, sim_rep
     assert mean == 1334615738479247.2, "incorrect mean value from bp.count"
 
 
-@vcr.use_cassette(f'{cassette_location}/test_sirepo_detector.yml')
-def test_sirepo_detector_vcr(RE, db, tmpdir):
-    _test_sirepo_detector(RE, db, tmpdir,
+@vcr.use_cassette(f'{cassette_location}/test_srw_detector.yml')
+def test_srw_detector_vcr(RE, db, tmpdir):
+    _test_srw_detector(RE, db, tmpdir,
                           sim_type='srw',
                           sim_report_type="srw_se_spectrum",
                           sim_id='e75qHII6',
@@ -51,15 +51,15 @@ def test_sirepo_detector_vcr(RE, db, tmpdir):
 
 
 @pytest.mark.docker
-def test_sirepo_detector_docker(RE, db, tmpdir):
-    _test_sirepo_detector(RE, db, tmpdir,
+def test_srw_detector_docker(RE, db, tmpdir):
+    _test_srw_detector(RE, db, tmpdir,
                           sim_type='srw',
                           sim_report_type="srw_se_spectrum",
                           sim_id='00000001',
                           server_name='http://localhost:8000')
 
 
-def _test_sirepo_det_grid_scan(RE, db, tmpdir, sim_type, sim_id, server_name, sim_report_type="srw_se_spectrum"):
+def _test_srw_det_grid_scan(RE, db, tmpdir, sim_type, sim_id, server_name, sim_report_type="srw_se_spectrum"):
     import datetime
     from ophyd.utils import make_dir_tree
 
@@ -68,7 +68,7 @@ def _test_sirepo_det_grid_scan(RE, db, tmpdir, sim_type, sim_id, server_name, si
     root_dir = '/tmp/data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
-    sirepo_det = SirepoDetector(sim_type=sim_type, sim_report_type=sim_report_type, sim_id=sim_id,
+    sirepo_det = SirepoSRWDetector(sim_type=sim_type, sim_report_type=sim_report_type, sim_id=sim_id,
                                 sirepo_server=server_name, root_dir=root_dir)
     sirepo_det.select_optic('Aperture')
     param1 = sirepo_det.create_parameter('horizontalSize')
@@ -101,8 +101,8 @@ def _test_sirepo_det_grid_scan(RE, db, tmpdir, sim_type, sim_id, server_name, si
     assert actual_means == db_means, "grid_scan means do not match actual means"
 
 
-@vcr.use_cassette(f'{cassette_location}/test_sirepo_det_grid_scan.yml')
-def test_sirepo_det_grid_scan_vcr(RE, db, tmpdir):
+@vcr.use_cassette(f'{cassette_location}/test_srw_det_grid_scan.yml')
+def test_srw_det_grid_scan_vcr(RE, db, tmpdir):
     _test_sirepo_det_grid_scan(RE, db, tmpdir,
                                sim_type='srw',
                                sim_report_type="srw_se_spectrum",
@@ -111,7 +111,7 @@ def test_sirepo_det_grid_scan_vcr(RE, db, tmpdir):
 
 
 @pytest.mark.docker
-def test_sirepo_det_grid_scan_docker(RE, db, tmpdir):
+def test_srw_det_grid_scan_docker(RE, db, tmpdir):
     _test_sirepo_det_grid_scan(RE, db, tmpdir,
                                sim_type='srw',
                                sim_report_type="srw_se_spectrum",

@@ -96,7 +96,7 @@ Prepare Bluesky and trigger a simulated Sirepo detector
 .. code:: py
 
    %run -i examples/prepare_det_env.py
-   import sirepo_bluesky.sirepo_detector as sd
+   import sirepo_bluesky.srw_detector as sd
    import bluesky.plans as bp
    sirepo_det = sd.SirepoDetector(sim_id='<sim_id>', sim_type='srw', sim_report_type='srw_se_spectrum',
                                   sirepo_server='http://localhost:8000')
@@ -138,7 +138,7 @@ To view single-electron spectrum report (**Hint:** use a different
 .. code:: py
 
    %run -i examples/prepare_det_env.py
-   import sirepo_bluesky.sirepo_detector as sd
+   import sirepo_bluesky.srw_detector as sd
    import bluesky.plans as bp
    sirepo_det = sd.SirepoDetector(sim_id='<sim_id>', reg=db.reg, source_simulation=True)
    sirepo_det.read_attrs = ['image']
