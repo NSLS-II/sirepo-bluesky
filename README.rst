@@ -103,7 +103,8 @@ Prepare Bluesky and trigger a simulated Sirepo detector
    %run -i examples/prepare_det_env.py
    import sirepo_bluesky.srw_detector as sd
    import bluesky.plans as bp
-   srw_det = sd.SirepoSRWDetector(sim_id='<sim_id>', sim_type='srw',
+   # Note: replace '00000001' with the `sim_id` from your simulation
+   srw_det = sd.SirepoSRWDetector(sim_id='00000001', sim_type='srw',
                                   sirepo_server='http://localhost:8000')
    srw_det.select_optic('Aperture')
    param1 = srw_det.create_parameter('horizontalSize')
@@ -126,9 +127,9 @@ You should get something like:
 .. code:: py
 
    hdr = db[-1]
-   imgs     = list(hdr.data(f'{srw_det.name}_image'))
-   cfg      = hdr.config_data(srw_det.name)['primary'][0]
-   hor_ext  = cfg[f'{srw_det.name}_horizontal_extent']
+   imgs = list(hdr.data(f'{srw_det.name}_image'))
+   cfg = hdr.config_data(srw_det.name)['primary'][0]
+   hor_ext = cfg[f'{srw_det.name}_horizontal_extent']
    vert_ext = cfg[f'{srw_det.name}_vertical_extent']
    plt.imshow(imgs[21], aspect='equal', extent=(*hor_ext, *vert_ext))
 
@@ -144,8 +145,8 @@ To view single-electron spectrum report (**Hint:** use a different
    %run -i examples/prepare_det_env.py
    import sirepo_bluesky.srw_detector as sd
    import bluesky.plans as bp
-   srw_det = sd.SirepoSRWDetector(sim_id='<sim_id>', reg=db.reg, source_simulation=True)
-   srw_det.read_attrs = ['image']
+   srw_det = sd.SirepoSRWDetector(sim_id='<sim_id>', source_simulation=True,
+                                  sirepo_server='http://localhost:8000')
    srw_det.configuration_attrs = ['photon_energy', 'shape']
 
 .. code:: py
