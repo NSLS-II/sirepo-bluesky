@@ -48,7 +48,7 @@ class ExternalFileReference(Signal):
         return resource_document_data
 
 
-class SirepoDetector(Device):
+class SirepoShadowDetector(Device):
     """
     Use SRW code based on the value of the motor.
 
