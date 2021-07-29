@@ -10,23 +10,8 @@ from ophyd import Component as Cpt
 from ophyd import Device, Signal
 from ophyd.sim import NullStatus, SynAxis, new_uid
 
-from .shadow_handler import read_shadow_file
 from .sirepo_bluesky import SirepoBluesky
 from .srw_handler import read_srw_file
-
-
-@unique
-class SimTypes(Enum):
-    srw = 'srw'
-    shadow = 'shadow'
-
-
-@unique
-class SimReportTypes(Enum):
-    # Single Electron Spectrum
-    srw_se_spectrum = 'srw_se_spectrum'
-
-    shadow_beam_stats = 'shadow_beam_stats'
 
 
 class ExternalFileReference(Signal):
@@ -72,27 +57,16 @@ class SirepoSRWDetector(Device):
     """
     image = Cpt(ExternalFileReference, kind="normal")
     shape = Cpt(Signal)
-    mean = Cpt(Signal)
-    photon_energy = Cpt(Signal)
+    mean = Cpt(Signal, kind="hinted")
+    photon_energy = Cpt(Signal, kind="hinted")
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
     sirepo_json = Cpt(Signal, kind="normal", value="")
-    beam_statistics_report = Cpt(Signal, kind="omitted", value="")
 
-    def __init__(self, name='sirepo_det', sim_type=None, sim_report_type=None, sim_id=None, watch_name=None,
+    def __init__(self, name='srw_det', sim_type='srw', sim_id=None, watch_name=None,
                  sirepo_server='http://10.10.10.10:8000', source_simulation=False,
-                 root_dir='/tmp/sirepo_det_data', **kwargs):
+                 root_dir='/tmp/srw_det_data', **kwargs):
         super().__init__(name=name, **kwargs)
-
-        allowed_sim_types = tuple(SimTypes.__members__.keys())
-        if sim_type not in allowed_sim_types:
-            raise ValueError(f"sim_type should be one of {allowed_sim_types}. "
-                             f"Provided value: {sim_type}")
-
-        allowed_sim_report_types = tuple(SimReportTypes.__members__.keys())
-        if sim_report_type not in allowed_sim_report_types:
-            raise ValueError(f"sim_report_type should be one of {allowed_sim_report_types}. "
-                             f"Provided value: {sim_report_type}")
 
         if sim_id is None:
             raise ValueError(f"Simulation ID must be provided. "
@@ -110,7 +84,6 @@ class SirepoSRWDetector(Device):
         self.parents = {}
         self._result = {}
         self._sim_type = sim_type
-        self._sim_report_type = sim_report_type
         self._sim_id = sim_id
         self.watch_name = watch_name
         self.sb = None
@@ -198,24 +171,17 @@ class SirepoSRWDetector(Device):
                                              'title',
                                              self.watch_name)
 
-                if self._sim_report_type == SimReportTypes.srw_se_spectrum.name:
-                    self.data['report'] = 'watchpointReport{}'.format(watch['id'])
-                elif self._sim_report_type == SimReportTypes.shadow_beam_stats.name:
-                    self.data['report'] = 'beamStatisticsReport'
-                    self.beam_statistics_report.kind = 'normal'
-                else:
-                    raise ValueError(f"Unknown simulation report type: {self._sim_report_type}")
+                self.data['report'] = 'watchpointReport{}'.format(watch['id'])
 
-        elif self._sim_report_type == SimReportTypes.srw_se_spectrum.name:
+        else:
             self.data['report'] = "intensityReport"
+
         self.sb.run_simulation()
 
         datafile = self.sb.get_datafile()
-        if self._sim_report_type == SimReportTypes.shadow_beam_stats.name:
-            self.beam_statistics_report.put(json.dumps(json.loads(datafile.decode())))
-        else:
-            with open(sim_result_file, 'wb') as f:
-                f.write(datafile)
+
+        with open(sim_result_file, 'wb') as f:
+            f.write(datafile)
 
         def update_components(_data):
             self.shape.put(_data['shape'])
@@ -224,22 +190,13 @@ class SirepoSRWDetector(Device):
             self.horizontal_extent.put(_data['horizontal_extent'])
             self.vertical_extent.put(_data['vertical_extent'])
 
-        if self._sim_type == SimTypes.srw.name:
-            if self.data['report'] in self.one_d_reports:
-                ndim = 1
-            else:
-                ndim = 2
-            ret = read_srw_file(sim_result_file, ndim=ndim)
-            self._resource_document["resource_kwargs"]["ndim"] = ndim
-            update_components(ret)
-        elif self._sim_type == SimTypes.shadow.name and not \
-                self._sim_report_type == SimReportTypes.shadow_beam_stats.name:
-            nbins = self.data['models'][self.data['report']]['histogramBins']
-            ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
-            self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
-            update_components(ret)
-        # else:
-        #     raise ValueError(f"Unknown simulation type: {self._sim_type}")
+        if self.data['report'] in self.one_d_reports:
+            ndim = 1
+        else:
+            ndim = 2
+        ret = read_srw_file(sim_result_file, ndim=ndim)
+        self._resource_document["resource_kwargs"]["ndim"] = ndim
+        update_components(ret)
 
         datum_document = self._datum_factory(datum_kwargs={})
         self._asset_docs_cache.append(("datum", datum_document))
@@ -322,10 +279,10 @@ class SirepoSRWDetector(Device):
             if self.optic_parameters[k]['sirepo_type'] == 'watch':
                 self.watch_name = self.optic_parameters[k]['sirepo_title']
 
-    """
-    Get list of available sirepo components / parameters / watchpoints
-    """
     def view_sirepo_components(self):
+        """
+        Get list of available sirepo components / parameters / watchpoints
+        """
         watchpoints = []
         for k in self.optic_parameters:
             print(f'OPTIC:  {k}')
@@ -334,29 +291,29 @@ class SirepoSRWDetector(Device):
                 watchpoints.append(k)
         print(f'WATCHPOINTS: {watchpoints}')
 
-    """
-    Selects specific optical component for any scan
-        - Any parameter selected must be of this component
-
-    Parameters
-    ----------
-    name : str
-        name of optic
-    """
     def select_optic(self, name):
+        """
+        Selects specific optical component for any scan
+            - Any parameter selected must be of this component
+
+        Parameters
+        ----------
+        name : str
+            name of optic
+        """
         self.sirepo_component = self.sirepo_components[name]
 
-    """
-    Returns a parameter based on Ophyd objects created in connect()
-        - User can specify any parameter name of the selected component
-        - No need to put "sirepo_" before the name
-
-    Parameters
-    ----------
-    name : str
-        name of parameter to create
-    """
     def create_parameter(self, name):
+        """
+        Returns a parameter based on Ophyd objects created in connect()
+            - User can specify any parameter name of the selected component
+            - No need to put "sirepo_" before the name
+
+        Parameters
+        ----------
+        name : str
+            name of parameter to create
+        """
         real_name = f"sirepo_{name}"
         ct = 0
         while f'field{ct}' in self.fields.keys():
@@ -372,13 +329,13 @@ class SirepoSRWDetector(Device):
 
         return param
 
-    """
-    Sets active watchpoint for the trigger() method
-
-    Parameters
-    ----------
-    name : str
-        name of watchpoint
-    """
     def set_watchpoint(self, name):
+        """
+        Sets active watchpoint for the trigger() method
+
+        Parameters
+        ----------
+        name : str
+            name of watchpoint
+        """
         self.watch_name = name

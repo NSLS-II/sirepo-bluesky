@@ -10,7 +10,7 @@ import sirepo_bluesky.tests
 cassette_location = os.path.join(os.path.dirname(sirepo_bluesky.tests.__file__), 'vcr_cassettes')
 
 
-def _test_srw_detector(RE, db, tmpdir, sim_type, sim_id, server_name, sim_report_type="srw_se_spectrum"):
+def _test_srw_detector(RE, db, tmpdir, sim_type, sim_id, server_name):
     import datetime
     from ophyd.utils import make_dir_tree
 
@@ -19,8 +19,7 @@ def _test_srw_detector(RE, db, tmpdir, sim_type, sim_id, server_name, sim_report
     root_dir = '/tmp/data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
-    srw_det = SirepoSRWDetector(name="srw_det", sim_type=sim_type,
-                                sim_report_type=sim_report_type, sim_id=sim_id,
+    srw_det = SirepoSRWDetector(name="srw_det", sim_type=sim_type, sim_id=sim_id,
                                 sirepo_server=server_name, root_dir=root_dir)
     srw_det.select_optic('Aperture')
     srw_det.create_parameter('horizontalSize')
@@ -45,23 +44,20 @@ def _test_srw_detector(RE, db, tmpdir, sim_type, sim_id, server_name, sim_report
 @vcr.use_cassette(f'{cassette_location}/test_srw_detector.yml')
 def test_srw_detector_vcr(RE, db, tmpdir):
     _test_srw_detector(RE, db, tmpdir,
-                          sim_type='srw',
-                          sim_report_type="srw_se_spectrum",
-                          sim_id='e75qHII6',
-                          server_name='http://10.10.10.10:8000')
+                       sim_type='srw',
+                       sim_id='e75qHII6',
+                       server_name='http://10.10.10.10:8000')
 
 
 @pytest.mark.docker
 def test_srw_detector_docker(RE, db, tmpdir):
     _test_srw_detector(RE, db, tmpdir,
-                          sim_type='srw',
-                          sim_report_type="srw_se_spectrum",
-                          sim_id='00000001',
-                          server_name='http://localhost:8000')
+                       sim_type='srw',
+                       sim_id='00000001',
+                       server_name='http://localhost:8000')
 
 
-def _test_srw_det_grid_scan(RE, db, tmpdir, sim_type, sim_id, server_name,
-                            sim_report_type="srw_se_spectrum"):
+def _test_srw_det_grid_scan(RE, db, tmpdir, sim_type, sim_id, server_name):
     import datetime
     from ophyd.utils import make_dir_tree
 
@@ -70,8 +66,7 @@ def _test_srw_det_grid_scan(RE, db, tmpdir, sim_type, sim_id, server_name,
     root_dir = '/tmp/data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
-    srw_det = SirepoSRWDetector(name="srw_det", sim_type=sim_type,
-                                sim_report_type=sim_report_type, sim_id=sim_id,
+    srw_det = SirepoSRWDetector(name="srw_det", sim_type=sim_type, sim_id=sim_id,
                                 sirepo_server=server_name, root_dir=root_dir)
     srw_det.select_optic('Aperture')
     param1 = srw_det.create_parameter('horizontalSize')
@@ -108,7 +103,6 @@ def _test_srw_det_grid_scan(RE, db, tmpdir, sim_type, sim_id, server_name,
 def test_srw_det_grid_scan_vcr(RE, db, tmpdir):
     _test_srw_det_grid_scan(RE, db, tmpdir,
                                sim_type='srw',
-                               sim_report_type="srw_se_spectrum",
                                sim_id='e75qHII6',
                                server_name='http://10.10.10.10:8000')
 
@@ -117,6 +111,5 @@ def test_srw_det_grid_scan_vcr(RE, db, tmpdir):
 def test_srw_det_grid_scan_docker(RE, db, tmpdir):
     _test_srw_det_grid_scan(RE, db, tmpdir,
                                sim_type='srw',
-                               sim_report_type="srw_se_spectrum",
                                sim_id='00000001',
                                server_name='http://localhost:8000')
