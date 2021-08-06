@@ -13,7 +13,6 @@ from ophyd.sim import NullStatus, SynAxis, new_uid
 from . import ExternalFileReference
 from .shadow_handler import read_shadow_file
 from .sirepo_bluesky import SirepoBluesky
-# from .srw_handler import read_srw_file
 
 
 @unique
@@ -168,10 +167,11 @@ class SirepoShadowDetector(Device):
                                              'title',
                                              self.watch_name)
 
-                #if self._sim_report_type == SimReportTypes.srw_se_spectrum.name:
-                #    self.data['report'] = 'watchpointReport{}'.format(watch['id'])
-                if self._sim_report_type == ShadowSimReportTypes.shadow_beam_stats.name:
+                if self._sim_report_type == ShadowSimReportTypes.beam_stats_report.name:
                     self.data['report'] = 'beamStatisticsReport'
+                    self.beam_statistics_report.kind = 'normal'
+                elif self._sim_report_type == ShadowSimReportTypes.default_report.name:
+                    self.data['report'] = 'watchpointReport{}'.format(watch['id'])
                     self.beam_statistics_report.kind = 'normal'
                 else:
                     raise ValueError(f"Unknown simulation report type: {self._sim_report_type}")
@@ -181,7 +181,7 @@ class SirepoShadowDetector(Device):
         self.sb.run_simulation()
 
         datafile = self.sb.get_datafile()
-        if self._sim_report_type == ShadowSimReportTypes.shadow_beam_stats.name:
+        if self._sim_report_type == ShadowSimReportTypes.beam_stats_report.name:
             self.beam_statistics_report.put(json.dumps(json.loads(datafile.decode())))
         else:
             with open(sim_result_file, 'wb') as f:
@@ -194,21 +194,11 @@ class SirepoShadowDetector(Device):
             self.horizontal_extent.put(_data['horizontal_extent'])
             self.vertical_extent.put(_data['vertical_extent'])
 
-        # if self._sim_type == SimTypes.srw.name:
-        #     if self.data['report'] in self.one_d_reports:
-        #         ndim = 1
-        #     else:
-        #         ndim = 2
-        #     ret = read_srw_file(sim_result_file, ndim=ndim)
-        #     self._resource_document["resource_kwargs"]["ndim"] = ndim
-        #     update_components(ret)
-        if not self._sim_report_type == ShadowSimReportTypes.shadow_beam_stats.name:
+        if not self._sim_report_type == ShadowSimReportTypes.beam_stats_report.name:
             nbins = self.data['models'][self.data['report']]['histogramBins']
             ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
             self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
             update_components(ret)
-        # else:
-        #     raise ValueError(f"Unknown simulation type: {self._sim_type}")
 
         datum_document = self._datum_factory(datum_kwargs={})
         self._asset_docs_cache.append(("datum", datum_document))
