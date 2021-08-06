@@ -1,7 +1,6 @@
 import datetime
 import json
 from collections import deque
-from enum import Enum, unique
 from pathlib import Path
 
 import unyt as u
