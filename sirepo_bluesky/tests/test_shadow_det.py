@@ -36,7 +36,7 @@ def _test_shadow_detector(RE, db, tmpdir, sim_id, server_name, sim_report_type):
 
 
 @pytest.mark.docker
-def test_shadow_detector_docker(RE, db, tmpdir):
+def test_shadow_detector_docker_default_report(RE, db, tmpdir):
     _test_shadow_detector(RE, db, tmpdir,
                           sim_id='00000001',
                           sim_report_type="default_report",
@@ -49,7 +49,7 @@ def test_shadow_detector_docker(RE, db, tmpdir):
 
 
 @pytest.mark.docker
-def test_shadow_detector__docker(RE, db, tmpdir):
+def test_shadow_detector_docker_beam_stats_report(RE, db, tmpdir):
     _test_shadow_detector(
         RE, db, tmpdir,
         sim_id='00000001',
