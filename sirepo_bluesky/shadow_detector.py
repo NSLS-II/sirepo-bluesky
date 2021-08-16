@@ -45,8 +45,8 @@ class SirepoShadowDetector(Device):
     """
     image = Cpt(ExternalFileReference, kind="normal")
     shape = Cpt(Signal)
-    mean = Cpt(Signal)
-    photon_energy = Cpt(Signal)
+    mean = Cpt(Signal, kind="hinted")
+    photon_energy = Cpt(Signal, kind="normal")
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
     sirepo_json = Cpt(Signal, kind="normal", value="")
