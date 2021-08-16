@@ -9,6 +9,7 @@ pymongo
 pyqt5>=5.9,<5.12
 requests
 scikit-image
-# This requirement should be installed from the 'nsls2forge' or 'conda-forge' conda channel.
+# These requirement should be installed from the 'nsls2forge' or 'conda-forge' conda channel.
+# shadow3
 # srwpy
 unyt

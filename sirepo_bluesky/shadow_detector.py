@@ -10,42 +10,15 @@ from ophyd import Component as Cpt
 from ophyd import Device, Signal
 from ophyd.sim import NullStatus, SynAxis, new_uid
 
+from . import ExternalFileReference
 from .shadow_handler import read_shadow_file
 from .sirepo_bluesky import SirepoBluesky
-from .srw_handler import read_srw_file
 
 
 @unique
-class SimTypes(Enum):
-    srw = 'srw'
-    shadow = 'shadow'
-
-
-@unique
-class SimReportTypes(Enum):
-    # Single Electron Spectrum
-    srw_se_spectrum = 'srw_se_spectrum'
-
-    shadow_beam_stats = 'shadow_beam_stats'
-
-
-class ExternalFileReference(Signal):
-    """
-    A pure software Signal that describe()s an image in an external file.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def describe(self):
-        resource_document_data = super().describe()
-        resource_document_data[self.name].update(
-            dict(
-                external="FILESTORE:",
-                dtype="array",
-            )
-        )
-        return resource_document_data
+class ShadowSimReportTypes(Enum):
+    default_report = 'default_report'
+    beam_stats_report = 'beam_stats_report'
 
 
 class SirepoShadowDetector(Device):
@@ -72,24 +45,20 @@ class SirepoShadowDetector(Device):
     """
     image = Cpt(ExternalFileReference, kind="normal")
     shape = Cpt(Signal)
-    mean = Cpt(Signal)
-    photon_energy = Cpt(Signal)
+    mean = Cpt(Signal, kind="hinted")
+    photon_energy = Cpt(Signal, kind="normal")
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
     sirepo_json = Cpt(Signal, kind="normal", value="")
     beam_statistics_report = Cpt(Signal, kind="omitted", value="")
 
-    def __init__(self, name='sirepo_det', sim_type=None, sim_report_type=None, sim_id=None, watch_name=None,
+    def __init__(self, name='sirepo_det', sim_report_type=ShadowSimReportTypes.default_report.name,
+                 sim_id=None, watch_name=None,
                  sirepo_server='http://10.10.10.10:8000', source_simulation=False,
                  root_dir='/tmp/sirepo_det_data', **kwargs):
         super().__init__(name=name, **kwargs)
 
-        allowed_sim_types = tuple(SimTypes.__members__.keys())
-        if sim_type not in allowed_sim_types:
-            raise ValueError(f"sim_type should be one of {allowed_sim_types}. "
-                             f"Provided value: {sim_type}")
-
-        allowed_sim_report_types = tuple(SimReportTypes.__members__.keys())
+        allowed_sim_report_types = tuple(ShadowSimReportTypes.__members__.keys())
         if sim_report_type not in allowed_sim_report_types:
             raise ValueError(f"sim_report_type should be one of {allowed_sim_report_types}. "
                              f"Provided value: {sim_report_type}")
@@ -109,7 +78,7 @@ class SirepoShadowDetector(Device):
         self.field_units = {}
         self.parents = {}
         self._result = {}
-        self._sim_type = sim_type
+        self._sim_type = 'shadow'
         self._sim_report_type = sim_report_type
         self._sim_id = sim_id
         self.watch_name = watch_name
@@ -125,7 +94,7 @@ class SirepoShadowDetector(Device):
         self.active_parameters = {}
         self.autocompute_params = {}
         self.source_simulation = source_simulation
-        self.one_d_reports = ['intensityReport']
+        # from srw self.one_d_reports = ['intensityReport']
         self.two_d_reports = ['watchpointReport']
 
         self.connect(sim_type=self._sim_type, sim_id=self._sim_id)
@@ -198,20 +167,21 @@ class SirepoShadowDetector(Device):
                                              'title',
                                              self.watch_name)
 
-                if self._sim_report_type == SimReportTypes.srw_se_spectrum.name:
-                    self.data['report'] = 'watchpointReport{}'.format(watch['id'])
-                elif self._sim_report_type == SimReportTypes.shadow_beam_stats.name:
+                if self._sim_report_type == ShadowSimReportTypes.beam_stats_report.name:
                     self.data['report'] = 'beamStatisticsReport'
+                    self.beam_statistics_report.kind = 'normal'
+                elif self._sim_report_type == ShadowSimReportTypes.default_report.name:
+                    self.data['report'] = 'watchpointReport{}'.format(watch['id'])
                     self.beam_statistics_report.kind = 'normal'
                 else:
                     raise ValueError(f"Unknown simulation report type: {self._sim_report_type}")
 
-        elif self._sim_report_type == SimReportTypes.srw_se_spectrum.name:
-            self.data['report'] = "intensityReport"
+        # elif self._sim_report_type == SimReportTypes.srw_se_spectrum.name:
+        #     self.data['report'] = "intensityReport"
         self.sb.run_simulation()
 
         datafile = self.sb.get_datafile()
-        if self._sim_report_type == SimReportTypes.shadow_beam_stats.name:
+        if self._sim_report_type == ShadowSimReportTypes.beam_stats_report.name:
             self.beam_statistics_report.put(json.dumps(json.loads(datafile.decode())))
         else:
             with open(sim_result_file, 'wb') as f:
@@ -224,22 +194,11 @@ class SirepoShadowDetector(Device):
             self.horizontal_extent.put(_data['horizontal_extent'])
             self.vertical_extent.put(_data['vertical_extent'])
 
-        if self._sim_type == SimTypes.srw.name:
-            if self.data['report'] in self.one_d_reports:
-                ndim = 1
-            else:
-                ndim = 2
-            ret = read_srw_file(sim_result_file, ndim=ndim)
-            self._resource_document["resource_kwargs"]["ndim"] = ndim
-            update_components(ret)
-        elif self._sim_type == SimTypes.shadow.name and not \
-                self._sim_report_type == SimReportTypes.shadow_beam_stats.name:
+        if not self._sim_report_type == ShadowSimReportTypes.beam_stats_report.name:
             nbins = self.data['models'][self.data['report']]['histogramBins']
             ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
             self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
             update_components(ret)
-        # else:
-        #     raise ValueError(f"Unknown simulation type: {self._sim_type}")
 
         datum_document = self._datum_factory(datum_kwargs={})
         self._asset_docs_cache.append(("datum", datum_document))

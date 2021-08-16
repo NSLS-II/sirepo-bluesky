@@ -1,7 +1,6 @@
 import datetime
 import json
 from collections import deque
-from enum import Enum, unique
 from pathlib import Path
 
 import unyt as u
@@ -10,27 +9,9 @@ from ophyd import Component as Cpt
 from ophyd import Device, Signal
 from ophyd.sim import NullStatus, SynAxis, new_uid
 
+from . import ExternalFileReference
 from .sirepo_bluesky import SirepoBluesky
 from .srw_handler import read_srw_file
-
-
-class ExternalFileReference(Signal):
-    """
-    A pure software Signal that describe()s an image in an external file.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def describe(self):
-        resource_document_data = super().describe()
-        resource_document_data[self.name].update(
-            dict(
-                external="FILESTORE:",
-                dtype="array",
-            )
-        )
-        return resource_document_data
 
 
 class SirepoSRWDetector(Device):
