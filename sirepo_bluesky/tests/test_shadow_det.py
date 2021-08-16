@@ -38,7 +38,7 @@ def _test_shadow_detector(RE, db, tmpdir, sim_id, server_name, sim_report_type):
 @pytest.mark.docker
 def test_shadow_detector_docker(RE, db, tmpdir):
     _test_shadow_detector(RE, db, tmpdir,
-                          sim_id='JNjjFdg5',
+                          sim_id='00000001',
                           sim_report_type="default_report",
                           server_name='http://localhost:8000')
     hdr = db[-1]
@@ -52,7 +52,7 @@ def test_shadow_detector_docker(RE, db, tmpdir):
 def test_shadow_detector__docker(RE, db, tmpdir):
     _test_shadow_detector(
         RE, db, tmpdir,
-        sim_id='JNjjFdg5',
+        sim_id='00000001',
         sim_report_type="beam_stats_report",
         server_name='http://localhost:8000')
 
