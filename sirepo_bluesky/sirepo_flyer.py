@@ -217,7 +217,9 @@ class SirepoFlyer(BlueskyFlyer):
         for i in range(len(self.params_to_change)):
             # name doesn't need to be unique, server will rename it
             c1 = sb.copy_sim('{} Bluesky'.format(sb.data['models']['simulation']['name']), )
-            print('copy {}, {}'.format(c1.sim_id, c1.data['models']['simulation']['name']))
+            print('copy {} -> {}, {}'.format(sb.data['models']['simulation']['simulationId'],
+                                             c1.sim_id,
+                                             c1.data['models']['simulation']['name']))
 
             for key, parameters_to_update in self.params_to_change[i].items():
                 optic_id = sb.find_optic_id_by_name(key)

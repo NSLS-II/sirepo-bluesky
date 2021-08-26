@@ -3,6 +3,8 @@ name : tests
 on:
   push:
   pull_request:
+  schedule:
+      - cron: '00 4 * * *'  # daily at 4AM
 
 jobs:
   build:
@@ -22,7 +24,11 @@ jobs:
       uses: supercharge/mongodb-github-action@1.6.0
 
     - name: start Sirepo-Bluesky container
-      run: bash scripts/start_docker.sh -d
+      run: |
+        set -vxeuo pipefail
+        . scripts/start_docker.sh -d
+        export SIREPO_DOCKER_CONTAINER_ID
+        echo "SIREPO_DOCKER_CONTAINER_ID=${SIREPO_DOCKER_CONTAINER_ID}" >> $GITHUB_ENV
 
     - name: is Sirepo-Bluesky running?
       run: docker ps -a
@@ -31,11 +37,6 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-
-        #- name: Add conda to system path
-        #run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        #echo $CONDA/bin >> $GITHUB_PATH
 
     - name: Create conda environment
       run: |
@@ -65,4 +66,10 @@ jobs:
         set -vxeuo pipefail
         source $CONDA/etc/profile.d/conda.sh
         conda activate test
-        pytest -s -v sirepo_bluesky/tests
+        pytest -s -vv sirepo_bluesky/tests
+        status=$?
+        echo "Sirepo Docker container id: ${SIREPO_DOCKER_CONTAINER_ID}"
+        docker logs ${SIREPO_DOCKER_CONTAINER_ID}
+        if [ $status -gt 0 ]; then
+            exit $status
+        fi
