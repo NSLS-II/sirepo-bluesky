@@ -1,14 +1,17 @@
 #!/bin/bash
 
 # set -vxeuo pipefail
+set -e
 
 error_msg="Specify '-it' or '-d' on the command line as a first argument."
 
-if [ -z "$1" ]; then
+arg="${1:-}"
+
+if [ -z "${arg}" ]; then
     echo "${error_msg}"
     exit 1
-elif [ "$1" != "-it" -a "$1" != "-d" ]; then
-    echo "${error_msg} Specified argument: ${1}"
+elif [ "${arg}" != "-it" -a "${arg}" != "-d" ]; then
+    echo "${error_msg} Specified argument: ${arg}"
     exit 2
 fi
 
@@ -20,8 +23,6 @@ year=$(date +"%Y")
 
 today="${HOME}/tmp/data/${year}/${month}/${day}"
 
-docker_image="radiasoft/sirepo:beta"
-
 if [ -d "${today}" ]; then
     echo "Directory ${today} exists."
 else
@@ -29,14 +30,14 @@ else
     mkdir -p "${today}"
 fi
 
-# ls -l $HOME/tmp
+docker_image="radiasoft/sirepo:beta"
 
 docker pull ${docker_image}
 
 docker images
 
 in_docker_cmd="mkdir -v -p /sirepo/ && cp -Rv /SIREPO_SRDB_ROOT/* /sirepo/ && sirepo service http"
-cmd="docker run $1 --init --rm --name sirepo \
+cmd="docker run ${arg} --init --rm --name sirepo \
        -e SIREPO_AUTH_METHODS=bluesky:guest \
        -e SIREPO_AUTH_BLUESKY_SECRET=bluesky \
        -e SIREPO_SRDB_ROOT=/sirepo \
@@ -46,7 +47,7 @@ cmd="docker run $1 --init --rm --name sirepo \
        ${docker_image} bash -l -c \"${in_docker_cmd}\""
 
 echo -e "Command to run:\n\n${cmd}\n"
-if [ "$1" == "-d" ]; then
+if [ "${arg}" == "-d" ]; then
     SIREPO_DOCKER_CONTAINER_ID=$(eval ${cmd})
     export SIREPO_DOCKER_CONTAINER_ID
     echo "Container ID: ${SIREPO_DOCKER_CONTAINER_ID}"
