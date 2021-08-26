@@ -27,7 +27,8 @@ jobs:
       run: |
         set -vxeuo pipefail
         . scripts/start_docker.sh -d
-        echo $SIREPO_DOCKER_CONTAINER_ID >> $GITHUB_ENV
+        export SIREPO_DOCKER_CONTAINER_ID
+        echo "SIREPO_DOCKER_CONTAINER_ID=${SIREPO_DOCKER_CONTAINER_ID}" >> $GITHUB_ENV
 
     - name: is Sirepo-Bluesky running?
       run: docker ps -a
