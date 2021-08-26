@@ -55,7 +55,12 @@ jobs:
       - name: Install the package and its dependencies
         shell: bash -l {0}
         run: |
-          set -vxeuo pipefail
+          # set -vxeuo pipefail
+          # Do not check for unbound variables (the '-u' flag) as it fails on
+          # conda deactivate command:
+          # /usr/share/miniconda3/envs/sirepo-bluesky-py3.9/etc/conda/deactivate.d/glib_deactivate.sh:
+          # line 1: GSETTINGS_SCHEMA_DIR_CONDA_BACKUP: unbound variable
+          set -vxeo pipefail
           conda env list
           conda install -c conda-forge shadow3 srwpy
           pip install --upgrade pip wheel
