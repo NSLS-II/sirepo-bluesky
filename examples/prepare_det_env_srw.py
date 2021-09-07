@@ -9,7 +9,6 @@ from bluesky.run_engine import RunEngine
 from databroker import Broker
 from ophyd.utils import make_dir_tree
 
-from sirepo_bluesky.shadow_handler import ShadowFileHandler
 from sirepo_bluesky.srw_handler import SRWFileHandler
 
 RE = RunEngine({})
@@ -25,7 +24,6 @@ except Exception:
 
 RE.subscribe(db.insert)
 db.reg.register_handler('srw', SRWFileHandler, overwrite=True)
-# db.reg.register_handler('shadow', ShadowFileHandler, overwrite=True)
 db.reg.register_handler('SIREPO_FLYER', SRWFileHandler, overwrite=True)
 
 plt.ion()
