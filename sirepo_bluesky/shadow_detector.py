@@ -52,10 +52,10 @@ class SirepoShadowDetector(Device):
     sirepo_json = Cpt(Signal, kind="normal", value="")
     beam_statistics_report = Cpt(Signal, kind="omitted", value="")
 
-    def __init__(self, name='sirepo_det', sim_report_type=ShadowSimReportTypes.default_report.name,
+    def __init__(self, name='shadow_det', sim_report_type=ShadowSimReportTypes.default_report.name,
                  sim_id=None, watch_name=None,
                  sirepo_server='http://10.10.10.10:8000', source_simulation=False,
-                 root_dir='/tmp/sirepo_det_data', **kwargs):
+                 root_dir='/tmp/shadow_det_data', **kwargs):
         super().__init__(name=name, **kwargs)
 
         allowed_sim_report_types = tuple(ShadowSimReportTypes.__members__.keys())
