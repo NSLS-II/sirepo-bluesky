@@ -13,8 +13,8 @@ def test_beamline_elements_as_ophyd_objects(tes_simulation):
 
     globals().update(**objects)
 
-    print(Aperture.summary())  # noqa
-    pprint.pprint(Aperture.read())  # noqa
+    print(mono_crystal1.summary())  # noqa
+    pprint.pprint(mono_crystal1.read())  # noqa
 
 
 @pytest.mark.parametrize("method", ["set", "put"])

@@ -1,5 +1,6 @@
 bluesky
 databroker
+inflection
 ipython
 matplotlib
 numconv
