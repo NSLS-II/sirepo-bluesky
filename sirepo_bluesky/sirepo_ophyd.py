@@ -15,6 +15,7 @@ class SirepoSignal(Signal):
     def __init__(self, sirepo_dict, sirepo_param, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._sirepo_dict = sirepo_dict
+        self._sirepo_param = sirepo_param
         if sirepo_param in RESERVED_SIREPO_TO_OPHYD_ATTRS:
             self._sirepo_param = RESERVED_SIREPO_TO_OPHYD_ATTRS[sirepo_param]
 
