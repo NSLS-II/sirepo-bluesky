@@ -8,6 +8,7 @@ from databroker import Broker
 
 import sirepo_bluesky.srw_detector as sd
 from sirepo_bluesky.srw_handler import SRWFileHandler
+from sirepo_bluesky.sirepo_bluesky import SirepoBluesky
 
 
 @pytest.fixture(scope='function')
@@ -47,6 +48,13 @@ def db(request):
     db.reg.register_handler('srw', SRWFileHandler, overwrite=True)
     db.reg.register_handler('SIREPO_FLYER', SRWFileHandler, overwrite=True)
     return db
+
+
+@pytest.fixture(scope='function')
+def basic_simulation():
+    connection = SirepoBluesky("http://localhost:8000")
+    data, _ = connection.auth("srw", "00000001")
+    return connection
 
 
 @pytest.fixture(scope='function')

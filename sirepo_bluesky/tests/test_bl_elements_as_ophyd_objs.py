@@ -41,3 +41,16 @@ def test_beamline_elements_set_put(tes_simulation, method):
         assert new_value == new_sirepo_value
         assert new_value != old_value
         assert abs(new_value - (old_value + 100)) < 1e-8
+
+
+def test_beamline_elements_simple_connection(basic_simulation):
+    classes, objects = create_classes(basic_simulation.data,
+                                      connection=basic_simulation)
+
+    for name, obj in objects.items():
+        pprint.pprint(obj.read())
+
+    globals().update(**objects)
+
+    print(watchpoint.summary())  # noqa
+    pprint.pprint(watchpoint.read())  # noqa
