@@ -133,7 +133,7 @@ class SirepoWatchpoint(Device):
             yield item
 
 
-def create_classes(sirepo_data, connection):
+def create_classes(sirepo_data, connection, create_objects=True):
     classes = {}
     objects = {}
     data = copy.deepcopy(sirepo_data)
@@ -174,6 +174,7 @@ def create_classes(sirepo_data, connection):
             components,
         )
         classes[object_name] = cls
-        objects[object_name] = cls(name=object_name)
+        if create_objects:
+            objects[object_name] = cls(name=object_name)
 
     return classes, objects
