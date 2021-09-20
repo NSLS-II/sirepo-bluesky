@@ -6,7 +6,8 @@ from sirepo_bluesky.sirepo_ophyd import create_classes
 
 
 def test_beamline_elements_as_ophyd_objects(tes_simulation):
-    classes, objects = create_classes(tes_simulation.data)
+    classes, objects = create_classes(tes_simulation.data,
+                                      connection=tes_simulation.sb)
 
     for name, obj in objects.items():
         pprint.pprint(obj.read())
@@ -19,8 +20,8 @@ def test_beamline_elements_as_ophyd_objects(tes_simulation):
 
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_beamline_elements_set_put(tes_simulation, method):
-    classes, objects = create_classes(tes_simulation.data)
-
+    classes, objects = create_classes(tes_simulation.data,
+                                      connection=tes_simulation.sb)
     globals().update(**objects)
 
     for i, (k, v) in enumerate(objects.items()):
