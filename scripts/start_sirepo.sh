@@ -7,8 +7,6 @@ error_msg="Specify '-it' or '-d' on the command line as a first argument."
 
 arg="${1:-}"
 
-docker_binary=${DOCKER_BINARY:-"podman"}
-
 if [ -z "${arg}" ]; then
     echo "${error_msg}"
     exit 1
@@ -33,6 +31,7 @@ else
 fi
 
 docker_image="radiasoft/sirepo:beta"
+docker_binary=${DOCKER_BINARY:-"docker"}
 
 ${docker_binary} pull ${docker_image}
 
