@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Test sirepo-bluesky with Python ${{ matrix.python-version }}
+    name: Test sirepo-bluesky with Podman and Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,11 +22,22 @@ jobs:
           export REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}
           echo "REPOSITORY_NAME=${REPOSITORY_NAME}" >> $GITHUB_ENV
 
+          export DOCKER_BINARY="podman"
+          echo "DOCKER_BINARY=${DOCKER_BINARY}" >> $GITHUB_ENV
+
       - name: Checkout the code
         uses: actions/checkout@v2
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.6.0
+
+      - name: Install Podman
+        shell: bash -l {0}
+        run: |
+          # For reference: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html.
+          set -vxeuo pipefail
+          sudo apt-get -y update
+          sudo apt-get -y install podman
 
       - name: Start Sirepo Docker container
         shell: bash -l {0}
@@ -40,9 +51,9 @@ jobs:
       - name: Check Sirepo state
         run: |
           set -vxeuo pipefail
-          docker images
-          docker ps -a
-          docker logs ${SIREPO_DOCKER_CONTAINER_ID}
+          ${DOCKER_BINARY} images
+          ${DOCKER_BINARY} ps -a
+          ${DOCKER_BINARY} logs ${SIREPO_DOCKER_CONTAINER_ID}
 
       - name: Set up Python ${{ matrix.python-version }} with conda
         uses: conda-incubator/setup-miniconda@v2
