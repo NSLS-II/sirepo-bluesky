@@ -2,11 +2,14 @@
 sirepo-bluesky
 ==============
 
+.. image:: https://zenodo.org/badge/243052461.svg
+   :target: https://zenodo.org/badge/latestdoi/243052461
+
 .. image:: https://img.shields.io/travis/NSLS-II/sirepo-bluesky.svg
-        :target: https://travis-ci.org/NSLS-II/sirepo-bluesky
+   :target: https://travis-ci.org/NSLS-II/sirepo-bluesky
 
 .. image:: https://img.shields.io/pypi/v/sirepo-bluesky.svg
-        :target: https://pypi.python.org/pypi/sirepo-bluesky
+   :target: https://pypi.python.org/pypi/sirepo-bluesky
 
 
 Sirepo-Bluesky interface
