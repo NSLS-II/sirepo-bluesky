@@ -32,7 +32,7 @@ jobs:
         uses: supercharge/mongodb-github-action@1.6.0
 
       - name: Install Podman
-        if: matrix.docker == "podman"
+        if: matrix.docker-binary == "podman"
         run: |
           # For reference: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html.
           set -vxeuo pipefail
