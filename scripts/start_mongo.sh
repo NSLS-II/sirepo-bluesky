@@ -15,7 +15,8 @@ elif [ "${arg}" != "-it" -a "${arg}" != "-d" ]; then
 fi
 
 docker_image="mongo"
+docker_binary=${DOCKER_BINARY:-"docker"}
 
-docker pull ${docker_image}
-docker images
-docker run ${arg} --rm -p 27017:27017 --name mongo ${docker_image}
+${docker_binary} pull ${docker_image}
+${docker_binary} images
+${docker_binary} run ${arg} --rm -p 27017:27017 --name mongo ${docker_image}

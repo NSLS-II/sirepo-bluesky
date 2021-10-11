@@ -31,13 +31,14 @@ else
 fi
 
 docker_image="radiasoft/sirepo:beta"
+docker_binary=${DOCKER_BINARY:-"docker"}
 
-docker pull ${docker_image}
+${docker_binary} pull ${docker_image}
 
-docker images
+${docker_binary} images
 
 in_docker_cmd="mkdir -v -p /sirepo/ && cp -Rv /SIREPO_SRDB_ROOT/* /sirepo/ && sirepo service http"
-cmd="docker run ${arg} --init --rm --name sirepo \
+cmd="${docker_binary} run ${arg} --init --rm --name sirepo \
        -e SIREPO_AUTH_METHODS=bluesky:guest \
        -e SIREPO_AUTH_BLUESKY_SECRET=bluesky \
        -e SIREPO_SRDB_ROOT=/sirepo \
@@ -51,8 +52,8 @@ if [ "${arg}" == "-d" ]; then
     SIREPO_DOCKER_CONTAINER_ID=$(eval ${cmd})
     export SIREPO_DOCKER_CONTAINER_ID
     echo "Container ID: ${SIREPO_DOCKER_CONTAINER_ID}"
-    docker ps -a
-    docker logs ${SIREPO_DOCKER_CONTAINER_ID}
+    ${docker_binary} ps -a
+    ${docker_binary} logs ${SIREPO_DOCKER_CONTAINER_ID}
 else
     eval ${cmd}
 fi

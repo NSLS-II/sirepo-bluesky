@@ -148,12 +148,11 @@ class SirepoSRWDetector(Device):
                         self.sb.update_grazing_vectors(self.data['models']['beamline'][optic_id],
                                                        grazing_vecs_dict)
 
-                watch = self.sb.find_element(self.data['models']['beamline'],
-                                             'title',
-                                             self.watch_name)
+            watch = self.sb.find_element(self.data['models']['beamline'],
+                                         'title',
+                                         self.watch_name)
 
-                self.data['report'] = 'watchpointReport{}'.format(watch['id'])
-
+            self.data['report'] = 'watchpointReport{}'.format(watch['id'])
         else:
             self.data['report'] = "intensityReport"
 

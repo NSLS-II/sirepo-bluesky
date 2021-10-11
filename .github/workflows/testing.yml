@@ -8,19 +8,23 @@ on:
 
 jobs:
   build:
-    name: Test sirepo-bluesky with Python ${{ matrix.python-version }}
+    name: Test sirepo-bluesky with ${{ matrix.docker-binary }} and Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.7, 3.8, 3.9]
+        docker-binary: ["docker", "podman"]
       fail-fast: false
 
     steps:
-      - name: Set env.REPOSITORY_NAME  # just the repo, as opposed to org/repo
+      - name: Set env vars
         shell: bash -l {0}
         run: |
-          export REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}
+          export REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}  # just the repo, as opposed to org/repo
           echo "REPOSITORY_NAME=${REPOSITORY_NAME}" >> $GITHUB_ENV
+
+          export DOCKER_BINARY=${{ matrix.docker-binary }}
+          echo "DOCKER_BINARY=${DOCKER_BINARY}" >> $GITHUB_ENV
 
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -28,21 +32,30 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.6.0
 
-      - name: Start Sirepo Docker container
+      - name: Install Podman
+        if: matrix.docker-binary == 'podman'
         shell: bash -l {0}
         run: |
           # For reference: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html.
+          set -vxeuo pipefail
+          sudo apt-get -y update
+          sudo apt-get -y install podman
+
+      - name: Start Sirepo Docker container
+        shell: bash -l {0}
+        run: |
           set -vxeuo pipefail
           . scripts/start_sirepo.sh -d
           export SIREPO_DOCKER_CONTAINER_ID
           echo "SIREPO_DOCKER_CONTAINER_ID=${SIREPO_DOCKER_CONTAINER_ID}" >> $GITHUB_ENV
 
       - name: Check Sirepo state
+        shell: bash -l {0}
         run: |
           set -vxeuo pipefail
-          docker images
-          docker ps -a
-          docker logs ${SIREPO_DOCKER_CONTAINER_ID}
+          ${DOCKER_BINARY} images
+          ${DOCKER_BINARY} ps -a
+          ${DOCKER_BINARY} logs ${SIREPO_DOCKER_CONTAINER_ID}
 
       - name: Set up Python ${{ matrix.python-version }} with conda
         uses: conda-incubator/setup-miniconda@v2
@@ -75,8 +88,8 @@ jobs:
           set -vxeuo pipefail
           pytest -s -vv
           status=$?
-          echo "Sirepo Docker container id: ${SIREPO_DOCKER_CONTAINER_ID}"
-          docker logs ${SIREPO_DOCKER_CONTAINER_ID}
+          echo "Sirepo ${DOCKER_BINARY} container id: ${SIREPO_DOCKER_CONTAINER_ID}"
+          ${DOCKER_BINARY} logs ${SIREPO_DOCKER_CONTAINER_ID}
           if [ $status -gt 0 ]; then
               exit $status
           fi
