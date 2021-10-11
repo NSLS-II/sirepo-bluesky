@@ -47,8 +47,22 @@ class SirepoWatchpoint(Device):
     vertical_extent = Cpt(Signal)
     sirepo_json = Cpt(Signal, kind="normal", value="")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(
+        self,
+        *args,
+        sirepo_server="http://localhost:8000",
+        root_dir="/tmp/srw_det_data",
+        assets_dir=None,
+        result_file=None,
+        **kwargs,
+    ):
         super().__init__(*args, **kwargs)
+
+        self.sirepo_server = sirepo_server
+
+        self._root_dir = root_dir
+        self._assets_dir = assets_dir
+        self._result_file = result_file
 
         self._asset_docs_cache = deque()
         self._resource_document = None
@@ -56,24 +70,22 @@ class SirepoWatchpoint(Device):
 
         self._ndim = 2
 
-        self._root_dir = "/tmp/srw_det_data"
-        self.sirepo_server = "http://localhost:8000"
-        # self.data may not be needed as it's handled by self.connection now.
-        # self.data = None
-
     def trigger(self, *args, **kwargs):
         super().trigger(*args, **kwargs)
         print(f"Custom trigger for {self.name}")
 
-        date = datetime.datetime.now()
-        file_name = new_uid()
+        if self._assets_dir is None:
+            date = datetime.datetime.now()
+            self._assets_dir = date.strftime("%Y/%m/%d")
+
+        if self._result_file is None:
+            self._result_file = f"{new_uid()}.dat"
+
         self._resource_document, self._datum_factory, _ = compose_resource(
             start={"uid": "needed for compose_resource() but will be discarded"},
             spec="srw",
             root=self._root_dir,
-            resource_path=str(
-                Path(date.strftime("%Y/%m/%d")) / Path(f"{file_name}.dat")
-            ),
+            resource_path=str(Path(self._assets_dir) / Path(self._result_file)),
             resource_kwargs={},
         )
         # now discard the start uid, a real one will be added later
