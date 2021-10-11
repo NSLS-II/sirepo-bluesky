@@ -2,6 +2,22 @@
 Release History
 ===============
 
+v0.4.0 (2021-10-11)
+-------------------
+- Refactored the code to use an ophyd object per optical element.
+- In addition to the existing ``docker`` to start Sirepo server, this update
+  also enabled tests with ``podman``.
+- Added the NSLS-II TES beamline examples and test data for SRW and Shadow
+  codes.
+
+v0.3.1 (2021-09-22)
+-------------------
+Various CI updates:
+
+- Use ``testuser`` in auth.db.
+- Remove TravisCI config.
+- Update scripts to start sirepo and mongo with Docker.
+
 v0.3.0 (2021-08-17)
 -------------------
 - add support and tests for Shadow simulations
@@ -13,5 +29,14 @@ v0.2.0 (2021-04-22)
 - update for compatibility with databroker v1.x.x
 - fix tests
 
-Initial Release (YYYY-MM-DD)
-----------------------------
+v0.1.0 (2020-09-02)
+-------------------
+Working version with multiple flyers.
+
+v0.0.2 (2020-03-02)
+-------------------
+N/A
+
+v0.0.1 - Initial Release (2020-03-02)
+-------------------------------------
+Initial release of the installable library.
