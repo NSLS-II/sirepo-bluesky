@@ -9,6 +9,7 @@ from pathlib import Path
 
 import inflection
 from event_model import compose_resource
+import numpy as np
 from ophyd import Component as Cpt
 from ophyd import Device, Signal
 from ophyd.sim import NullStatus, new_uid
@@ -59,6 +60,62 @@ class DeviceWithJSONData(Device):
         json_hash = hashlib.sha256(json_str.encode()).hexdigest()
         self.sirepo_data_json.put(json_str)
         self.sirepo_data_hash.put(json_hash)
+# @staticmethod
+#     def update_grazing_vectors(data_to_update, grazing_vectors_params):
+#         """Update grazing angle vectors"""
+#         grazing_params = {}
+#         grazing_angle = grazing_vectors_params['angle']
+#         nvx = nvy = np.sqrt(1 - np.sin(grazing_angle / 1000) ** 2)
+#         tvx = tvy = np.sqrt(1 - np.cos(grazing_angle / 1000) ** 2)
+#         nvz = -tvx
+#         if grazing_vectors_params['autocompute_type'] == 'horizontal':
+#             nvy = tvy = 0
+#         elif grazing_vectors_params['autocompute_type'] == 'vertical':
+#             nvx = tvx = 0
+#         grazing_params['normalVectorX'] = nvx
+#         grazing_params['normalVectorY'] = nvy
+#         grazing_params['tangentialVectorX'] = tvx
+#         grazing_params['tangentialVectorY'] = tvy
+#         grazing_params['normalVectorZ'] = nvz
+#         data_to_update.update(grazing_params)
+
+
+class SirepoGrazingAngleSignal(Signal):
+    def __init__(self, sirepo_dict, sirepo_param, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._sirepo_dict = sirepo_dict
+        self._sirepo_param = sirepo_param
+        if sirepo_param in RESERVED_SIREPO_TO_OPHYD_ATTRS:
+            self._sirepo_param = RESERVED_SIREPO_TO_OPHYD_ATTRS[sirepo_param]
+
+    def set(self, value, *, timeout=None, settle_time=None):
+        print(f"Setting value for {self.name} to {value}")
+
+        # FIXME: This only updates the dict for the grazingAngle component
+        # but doesn't actually modify the respective ophyd components.
+        autocompute_type = self._sirepo_dict.get("autocomputeVectors")
+        nvx = nvy = np.sqrt(1 - np.sin(value / 1000) ** 2)
+        tvx = tvy = np.sqrt(1 - np.cos(value / 1000) ** 2)
+        nvz = -tvx
+        if autocompute_type == 'horizontal':
+            nvy = tvy = 0
+        elif autocompute_type == 'vertical':
+            nvx = tvx = 0
+        self._sirepo_dict['normalVectorX'] = nvx
+        self._sirepo_dict['normalVectorY'] = nvy
+        self._sirepo_dict['tangentialVectorX'] = tvx
+        self._sirepo_dict['tangentialVectorY'] = tvy
+        self._sirepo_dict['normalVectorZ'] = nvz
+
+        self._sirepo_dict[self._sirepo_param] = value
+        self._readback = value
+        return NullStatus()
+
+    def put(self, *args, **kwargs):
+        self.set(*args, **kwargs).wait()
+
+
+class SirepoWatchpoint(Device):
 
         return NullStatus()
 
@@ -247,12 +304,21 @@ def create_classes(sirepo_data, connection, create_objects=True):
 
         components = {}
         for k, v in el.items():
-            components[k] = Cpt(
-                SirepoSignal,
-                value=v,
-                sirepo_dict=sirepo_data["models"]["beamline"][i],
-                sirepo_param=k,
-            )
+            if k == 'grazingAngle':
+                print(f'grazingAngle!!! {v}')
+                components[k] = Cpt(
+                    SirepoGrazingAngleSignal,
+                    value=v,
+                    sirepo_dict=sirepo_data["models"]["beamline"][i],
+                    sirepo_param=k,
+                )
+            else:
+                components[k] = Cpt(
+                    SirepoSignal,
+                    value=v,
+                    sirepo_dict=sirepo_data["models"]["beamline"][i],
+                    sirepo_param=k,
+                )
         components.update(**extra_kwargs)
 
         cls = type(
