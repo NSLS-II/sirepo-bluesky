@@ -27,7 +27,7 @@ except Exception:
 
 RE.subscribe(db.insert)
 db.reg.register_handler('srw', SRWFileHandler, overwrite=True)
-# db.reg.register_handler('shadow', ShadowFileHandler, overwrite=True)
+db.reg.register_handler('shadow', ShadowFileHandler, overwrite=True)
 db.reg.register_handler('SIREPO_FLYER', SRWFileHandler, overwrite=True)
 
 plt.ion()
