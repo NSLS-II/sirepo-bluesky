@@ -102,7 +102,6 @@ class SirepoWatchpoint(DeviceWithJSONData):
         if self._result_file is None:
             self._result_file = f"{new_uid()}.dat"
 
-        # TODO: spec changed to shadow for now
         self._resource_document, self._datum_factory, _ = compose_resource(
             start={"uid": "needed for compose_resource() but will be discarded"},
             spec=self.connection.data["simulationType"],
@@ -151,10 +150,6 @@ class SirepoWatchpoint(DeviceWithJSONData):
         self._asset_docs_cache.append(("datum", datum_document))
 
         self.image.put(datum_document["datum_id"])
-
-        # TODO: remove it after testing. This should be updated via the parent
-        # class.
-        # self.sirepo_json.put(json.dumps(self.connection.data))
 
         self._resource_document = None
         self._datum_factory = None
