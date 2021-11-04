@@ -14,7 +14,7 @@ def _test_srw_detector(RE, db, tmpdir, sim_type, sim_id, server_name):
     import datetime
     from ophyd.utils import make_dir_tree
 
-    root_dir = '/tmp/data'
+    root_dir = "/tmp/sirepo-bluesky-data"
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
     srw_det = SirepoSRWDetector(name="srw_det", sim_type=sim_type, sim_id=sim_id,
@@ -59,7 +59,7 @@ def _test_srw_det_grid_scan(RE, db, tmpdir, sim_type, sim_id, server_name):
     import datetime
     from ophyd.utils import make_dir_tree
 
-    root_dir = '/tmp/data'
+    root_dir = "/tmp/sirepo-bluesky-data"
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
     srw_det = SirepoSRWDetector(name="srw_det", sim_type=sim_type, sim_id=sim_id,

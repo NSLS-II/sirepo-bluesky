@@ -1,17 +1,19 @@
 import asyncio
+import datetime
 
 import databroker
 import pytest
 from bluesky.callbacks import best_effort
 from bluesky.run_engine import RunEngine
 from databroker import Broker
+from ophyd.utils import make_dir_tree
 
-from sirepo_bluesky.srw_handler import SRWFileHandler
 from sirepo_bluesky.shadow_handler import ShadowFileHandler
 from sirepo_bluesky.sirepo_bluesky import SirepoBluesky
+from sirepo_bluesky.srw_handler import SRWFileHandler
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def db():
     """Return a data broker
     """
@@ -28,7 +30,7 @@ def db():
     return db
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def RE(db):
     loop = asyncio.new_event_loop()
     loop.set_debug(True)
@@ -41,7 +43,7 @@ def RE(db):
     return RE
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def RE_no_plot(db):
     loop = asyncio.new_event_loop()
     loop.set_debug(True)
@@ -55,36 +57,42 @@ def RE_no_plot(db):
     return RE
 
 
-@pytest.fixture(scope='function')
-def srw_youngs_double_slit_simulation():
+@pytest.fixture(scope="function")
+def make_dirs():
+    root_dir = "/tmp/sirepo-bluesky-data"
+    _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
+
+
+@pytest.fixture(scope="function")
+def srw_youngs_double_slit_simulation(make_dirs):
     connection = SirepoBluesky("http://localhost:8000")
     data, _ = connection.auth("srw", "00000000")
     return connection
 
 
-@pytest.fixture(scope='function')
-def srw_basic_simulation():
+@pytest.fixture(scope="function")
+def srw_basic_simulation(make_dirs):
     connection = SirepoBluesky("http://localhost:8000")
     data, _ = connection.auth("srw", "00000001")
     return connection
 
 
-@pytest.fixture(scope='function')
-def srw_tes_simulation():
+@pytest.fixture(scope="function")
+def srw_tes_simulation(make_dirs):
     connection = SirepoBluesky("http://localhost:8000")
     data, _ = connection.auth("srw", "00000002")
     return connection
 
 
-@pytest.fixture(scope='function')
-def shadow_basic_simulation():
+@pytest.fixture(scope="function")
+def shadow_basic_simulation(make_dirs):
     connection = SirepoBluesky("http://localhost:8000")
     data, _ = connection.auth("shadow", "00000001")
     return connection
 
 
-@pytest.fixture(scope='function')
-def shadow_tes_simulation():
+@pytest.fixture(scope="function")
+def shadow_tes_simulation(make_dirs):
     connection = SirepoBluesky("http://localhost:8000")
     data, _ = connection.auth("shadow", "00000002")
     return connection
