@@ -1,8 +1,10 @@
 import json
+import os
 import pprint
 
 import bluesky.plans as bp
 import dictdiffer
+import numpy as np
 import pytest
 
 from sirepo_bluesky.sirepo_ophyd import create_classes
@@ -59,6 +61,47 @@ def test_beamline_elements_simple_connection(srw_basic_simulation):
     pprint.pprint(watchpoint.read())  # noqa
 
 
+def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
+    from sirepo_bluesky.sirepo_ophyd import create_classes
+    classes, objects = create_classes(shadow_tes_simulation.data,
+                                      connection=shadow_tes_simulation)
+    globals().update(**objects)
+
+    aperture.horizontalSize.kind = "hinted"  # noqa F821
+
+    uid, = RE(bp.scan([w9], aperture.horizontalSize, 0, 2, num_steps))  # noqa F821
+    hdr = db[uid]
+    tbl = hdr.table(fill=True)
+    print(tbl)
+
+    w9_image = np.array(list(hdr.data("w9_image")))
+    # Check the shape of the image data is right:
+    assert w9_image.shape == (num_steps, 100, 100)
+
+    w9_mean_from_image = w9_image.mean(axis=(1, 2))
+    w9_mean_from_table = np.array(tbl["w9_mean"])
+
+    # Check the number of elements correspond to a number of scan points:
+    assert len(w9_mean_from_table) == num_steps
+
+    # Check that an average value of the last image is right:
+    assert np.allclose(w9_image[-1].mean(), 0.254417)
+
+    # Check that the values from the table and averages from the image data are
+    # the same:
+    assert np.allclose(w9_mean_from_table, w9_mean_from_image)
+
+    # Check that the averaged intensities from the table are ascending:
+    assert np.all(np.diff(w9_mean_from_table) > 0)
+
+    resource_paths = []
+    for name, doc in hdr.documents():
+        if name == "resource":
+            resource_paths.append(os.path.basename(doc["resource_path"]))
+
+    assert len(set(resource_paths)) == num_steps
+
+
 def test_beam_statistics_report(RE, db, shadow_tes_simulation):
     from sirepo_bluesky.sirepo_ophyd import create_classes
     classes, objects = create_classes(shadow_tes_simulation.data,
@@ -67,7 +110,7 @@ def test_beam_statistics_report(RE, db, shadow_tes_simulation):
     from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport
     bsr = BeamStatisticsReport(name="bsr", connection=shadow_tes_simulation)
 
-    toroid.r_maj.kind = 'hinted'  # noqa F821
+    toroid.r_maj.kind = "hinted"  # noqa F821
 
     uid, = RE(bp.scan([bsr, w9], toroid.r_maj, 10000, 50000, 5))  # noqa F821
     hdr = db[uid]
