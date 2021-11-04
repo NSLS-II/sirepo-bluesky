@@ -95,12 +95,9 @@ class SirepoWatchpoint(DeviceWithJSONData):
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
 
-        if self._assets_dir is None:
-            date = datetime.datetime.now()
-            self._assets_dir = date.strftime("%Y/%m/%d")
-
-        if self._result_file is None:
-            self._result_file = f"{new_uid()}.dat"
+        date = datetime.datetime.now()
+        self._assets_dir = date.strftime("%Y/%m/%d")
+        self._result_file = f"{new_uid()}.dat"
 
         self._resource_document, self._datum_factory, _ = compose_resource(
             start={"uid": "needed for compose_resource() but will be discarded"},

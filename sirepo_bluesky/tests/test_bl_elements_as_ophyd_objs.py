@@ -84,7 +84,8 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
     # Check the number of elements correspond to a number of scan points:
     assert len(w9_mean_from_table) == num_steps
 
-    # Check that an average value of the last image is right:
+    # Check that an average values of the first and last images are right:
+    assert np.allclose(w9_image[0].mean(), 0.0)
     assert np.allclose(w9_image[-1].mean(), 0.254417)
 
     # Check that the values from the table and averages from the image data are
@@ -94,12 +95,13 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
     # Check that the averaged intensities from the table are ascending:
     assert np.all(np.diff(w9_mean_from_table) > 0)
 
-    resource_paths = []
+    resource_files = []
     for name, doc in hdr.documents():
         if name == "resource":
-            resource_paths.append(os.path.basename(doc["resource_path"]))
+            resource_files.append(os.path.basename(doc["resource_path"]))
 
-    assert len(set(resource_paths)) == num_steps
+    # Check that all resource files are unique:
+    assert len(set(resource_files)) == num_steps
 
 
 def test_beam_statistics_report(RE, db, shadow_tes_simulation):
