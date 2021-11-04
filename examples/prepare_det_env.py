@@ -32,5 +32,5 @@ db.reg.register_handler('SIREPO_FLYER', SRWFileHandler, overwrite=True)
 
 plt.ion()
 
-root_dir = '/tmp/srw_det_data'
+root_dir = '/tmp/sirepo-bluesky-data'
 _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
