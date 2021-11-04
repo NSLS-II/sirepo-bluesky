@@ -1,8 +1,8 @@
 import datetime
 import json  # noqa F401
 
-import bluesky.plans as bp
-import bluesky.plan_stubs as bps
+import bluesky.plans as bp  # noqa F401
+import bluesky.plan_stubs as bps  # noqa F401
 import databroker
 import matplotlib.pyplot as plt
 import numpy as np  # noqa F401

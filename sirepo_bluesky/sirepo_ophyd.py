@@ -15,7 +15,7 @@ from ophyd.sim import NullStatus, new_uid
 
 from . import ExternalFileReference
 from .srw_handler import read_srw_file
-from .shadow_handler import read_shadow_file, read_shadow_file_col
+from .shadow_handler import read_shadow_file
 
 logger = logging.getLogger("sirepo-bluesky")
 stream_handler = logging.StreamHandler(sys.stdout)

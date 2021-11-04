@@ -14,8 +14,6 @@ def _test_srw_detector(RE, db, tmpdir, sim_type, sim_id, server_name):
     import datetime
     from ophyd.utils import make_dir_tree
 
-    RE.subscribe(db.insert)
-
     root_dir = '/tmp/data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
@@ -26,8 +24,8 @@ def _test_srw_detector(RE, db, tmpdir, sim_type, sim_id, server_name):
     srw_det.create_parameter('verticalSize')
     srw_det.read_attrs = ['image', 'mean', 'photon_energy']
     srw_det.configuration_attrs = ['horizontal_extent',
-                                      'vertical_extent',
-                                      'shape']
+                                   'vertical_extent',
+                                   'shape']
 
     srw_det.active_parameters['Aperture_horizontalSize'].set(1.0)
     srw_det.active_parameters['Aperture_verticalSize'].set(1.0)
@@ -60,8 +58,6 @@ def test_srw_detector_docker(RE, db, tmpdir):
 def _test_srw_det_grid_scan(RE, db, tmpdir, sim_type, sim_id, server_name):
     import datetime
     from ophyd.utils import make_dir_tree
-
-    RE.subscribe(db.insert)
 
     root_dir = '/tmp/data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
@@ -102,14 +98,14 @@ def _test_srw_det_grid_scan(RE, db, tmpdir, sim_type, sim_id, server_name):
 @vcr.use_cassette(f'{cassette_location}/test_srw_det_grid_scan.yml')
 def test_srw_det_grid_scan_vcr(RE, db, tmpdir):
     _test_srw_det_grid_scan(RE, db, tmpdir,
-                               sim_type='srw',
-                               sim_id='e75qHII6',
-                               server_name='http://10.10.10.10:8000')
+                            sim_type='srw',
+                            sim_id='e75qHII6',
+                            server_name='http://10.10.10.10:8000')
 
 
 @pytest.mark.docker
 def test_srw_det_grid_scan_docker(RE, db, tmpdir):
     _test_srw_det_grid_scan(RE, db, tmpdir,
-                               sim_type='srw',
-                               sim_id='00000001',
-                               server_name='http://localhost:8000')
+                            sim_type='srw',
+                            sim_id='00000001',
+                            server_name='http://localhost:8000')
