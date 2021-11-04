@@ -71,13 +71,14 @@ def test_beam_statistics_report(RE, db, shadow_tes_simulation):
 
     uid, = RE(bp.scan([bsr, w9], toroid.r_maj, 10000, 50000, 5))  # noqa F821
     hdr = db[uid]
-    print(hdr.table())
+    tbl = hdr.table()
+    print(tbl)
 
-    w9_data_1 = json.loads(hdr.table()["w9_sirepo_data_json"][1])
-    w9_data_5 = json.loads(hdr.table()["w9_sirepo_data_json"][5])
+    w9_data_1 = json.loads(tbl["w9_sirepo_data_json"][1])
+    w9_data_5 = json.loads(tbl["w9_sirepo_data_json"][5])
 
-    bsr_data_1 = json.loads(hdr.table()["bsr_sirepo_data_json"][1])
-    bsr_data_5 = json.loads(hdr.table()["bsr_sirepo_data_json"][5])
+    bsr_data_1 = json.loads(tbl["bsr_sirepo_data_json"][1])
+    bsr_data_5 = json.loads(tbl["bsr_sirepo_data_json"][5])
 
     w9_diffs = list(dictdiffer.diff(w9_data_1, w9_data_5))
     assert w9_diffs == [('change', ['models', 'beamline', 5, 'r_maj'],
