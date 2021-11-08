@@ -10,8 +10,6 @@ def _test_shadow_detector(RE, db, tmpdir, sim_id, server_name, sim_report_type):
     import datetime
     from ophyd.utils import make_dir_tree
 
-    RE.subscribe(db.insert)
-
     root_dir = tmpdir / "data"
     _ = make_dir_tree(datetime.datetime.now().year, base_path=str(root_dir))
 
@@ -59,9 +57,27 @@ def test_shadow_detector_docker_beam_stats_report(RE, db, tmpdir):
     hdr = db[-1]
     t = hdr.table()
     assert list(t.columns) == [
-        'time', 'shadow_det_image', 'shadow_det_mean', 'shadow_det_photon_energy', 'shadow_det_beam_statistics_report'
+        'time', 'shadow_det_image', 'shadow_det_mean',
+        'shadow_det_photon_energy', 'shadow_det_beam_statistics_report',
     ]
     beam_statistics_report_str = t['shadow_det_beam_statistics_report'][1]
     assert type(beam_statistics_report_str) is str
     beam_statistics_report = json.loads(beam_statistics_report_str)
-    assert beam_statistics_report[0] == {'isRotated': False, 'matrix': [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]], 's': 0.0, 'sigdix': 5.4812999999999996e-08, 'sigdiz': 5.4812999999999996e-08, 'sigma_mx': [[0.0004, 0.0, 0.0, 0.0], [0.0, 3.0044649689999995e-15, 0.0, 0.0], [0.0, 0.0, 0.0004, 0.0], [0.0, 0.0, 0.0, 3.0044649689999995e-15]], 'sigmax': 0.0002, 'sigmaz': 0.0002, 'x': 0.0, 'xp': 0.0, 'z': 0.0, 'zp': 0.0}
+    assert beam_statistics_report[0] == {'isRotated': False,
+                                         'matrix': [[1.0, 0.0, 0.0, 0.0],
+                                                    [0.0, 1.0, 0.0, 0.0],
+                                                    [0.0, 0.0, 1.0, 0.0],
+                                                    [0.0, 0.0, 0.0, 1.0]],
+                                         's': 0.0,
+                                         'sigdix': 5.4812999999999996e-08,
+                                         'sigdiz': 5.4812999999999996e-08,
+                                         'sigma_mx': [[0.0004, 0.0, 0.0, 0.0],
+                                                      [0.0, 3.0044649689999995e-15, 0.0, 0.0],
+                                                      [0.0, 0.0, 0.0004, 0.0],
+                                                      [0.0, 0.0, 0.0, 3.0044649689999995e-15]],
+                                         'sigmax': 0.0002,
+                                         'sigmaz': 0.0002,
+                                         'x': 0.0,
+                                         'xp': 0.0,
+                                         'z': 0.0,
+                                         'zp': 0.0}

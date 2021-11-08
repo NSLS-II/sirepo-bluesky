@@ -1,6 +1,8 @@
 import copy
 import datetime
+import hashlib
 import json
+import logging
 from collections import deque
 from pathlib import Path
 
@@ -12,6 +14,13 @@ from ophyd.sim import NullStatus, new_uid
 
 from . import ExternalFileReference
 from .srw_handler import read_srw_file
+from .shadow_handler import read_shadow_file
+
+logger = logging.getLogger("sirepo-bluesky")
+# Note: the following handler could be created/added to the logger on the client side:
+# import sys
+# stream_handler = logging.StreamHandler(sys.stdout)
+# logger.addHandler(stream_handler)
 
 RESERVED_OPHYD_TO_SIREPO_ATTRS = {"position": "element_position"}  # ophyd <-> sirepo
 RESERVED_SIREPO_TO_OPHYD_ATTRS = {
@@ -28,7 +37,7 @@ class SirepoSignal(Signal):
             self._sirepo_param = RESERVED_SIREPO_TO_OPHYD_ATTRS[sirepo_param]
 
     def set(self, value, *, timeout=None, settle_time=None):
-        print(f"Setting value for {self.name} to {value}")
+        logger.debug(f"Setting value for {self.name} to {value}")
         self._sirepo_dict[self._sirepo_param] = value
         self._readback = value
         return NullStatus()
@@ -37,28 +46,38 @@ class SirepoSignal(Signal):
         self.set(*args, **kwargs).wait()
 
 
-class SirepoWatchpoint(Device):
+class DeviceWithJSONData(Device):
+    sirepo_data_json = Cpt(Signal, kind="normal", value="")
+    sirepo_data_hash = Cpt(Signal, kind="normal", value="")
 
+    def trigger(self, *args, **kwargs):
+        super().trigger(*args, **kwargs)
+
+        json_str = json.dumps(self.connection.data)
+        json_hash = hashlib.sha256(json_str.encode()).hexdigest()
+        self.sirepo_data_json.put(json_str)
+        self.sirepo_data_hash.put(json_hash)
+
+        return NullStatus()
+
+
+class SirepoWatchpoint(DeviceWithJSONData):
     image = Cpt(ExternalFileReference, kind="normal")
     shape = Cpt(Signal)
     mean = Cpt(Signal, kind="hinted")
     photon_energy = Cpt(Signal, kind="normal")
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
-    sirepo_json = Cpt(Signal, kind="normal", value="")
 
     def __init__(
         self,
         *args,
-        sirepo_server="http://localhost:8000",
-        root_dir="/tmp/srw_det_data",
+        root_dir="/tmp/sirepo-bluesky-data",
         assets_dir=None,
         result_file=None,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
-
-        self.sirepo_server = sirepo_server
 
         self._root_dir = root_dir
         self._assets_dir = assets_dir
@@ -68,22 +87,22 @@ class SirepoWatchpoint(Device):
         self._resource_document = None
         self._datum_factory = None
 
-        self._ndim = 2
+        sim_type = self.connection.data["simulationType"]
+        allowed_sim_types = ("srw", "shadow")
+        if sim_type not in allowed_sim_types:
+            raise RuntimeError(f"Unknown simulation type: {sim_type}\n"
+                               f"Allowed simulation types: {allowed_sim_types}")
 
     def trigger(self, *args, **kwargs):
-        super().trigger(*args, **kwargs)
-        print(f"Custom trigger for {self.name}")
+        logger.debug(f"Custom trigger for {self.name}")
 
-        if self._assets_dir is None:
-            date = datetime.datetime.now()
-            self._assets_dir = date.strftime("%Y/%m/%d")
-
-        if self._result_file is None:
-            self._result_file = f"{new_uid()}.dat"
+        date = datetime.datetime.now()
+        self._assets_dir = date.strftime("%Y/%m/%d")
+        self._result_file = f"{new_uid()}.dat"
 
         self._resource_document, self._datum_factory, _ = compose_resource(
             start={"uid": "needed for compose_resource() but will be discarded"},
-            spec="srw",
+            spec=self.connection.data["simulationType"],
             root=self._root_dir,
             resource_path=str(Path(self._assets_dir) / Path(self._result_file)),
             resource_kwargs={},
@@ -105,7 +124,16 @@ class SirepoWatchpoint(Device):
         with open(sim_result_file, "wb") as f:
             f.write(datafile)
 
-        self._resource_document["resource_kwargs"]["ndim"] = self._ndim
+        conn_data = self.connection.data
+        sim_type = conn_data["simulationType"]
+        if sim_type == "srw":
+            ndim = 2  # this will always be a report with 2D data.
+            ret = read_srw_file(sim_result_file, ndim=ndim)
+            self._resource_document["resource_kwargs"]["ndim"] = ndim
+        elif sim_type == "shadow":
+            nbins = conn_data['models'][conn_data['report']]['histogramBins']
+            ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
+            self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
 
         def update_components(_data):
             self.shape.put(_data["shape"])
@@ -114,7 +142,6 @@ class SirepoWatchpoint(Device):
             self.horizontal_extent.put(_data["horizontal_extent"])
             self.vertical_extent.put(_data["vertical_extent"])
 
-        ret = read_srw_file(sim_result_file, ndim=self._ndim)
         update_components(ret)
 
         datum_document = self._datum_factory(datum_kwargs={})
@@ -122,11 +149,15 @@ class SirepoWatchpoint(Device):
 
         self.image.put(datum_document["datum_id"])
 
-        self.sirepo_json.put(json.dumps(self.connection.data))
-
         self._resource_document = None
         self._datum_factory = None
 
+        logger.debug(f"\nReport for {self.name}: "
+                     f"{self.connection.data['report']}\n")
+
+        # We call the trigger on super at the end to update the sirepo_data_json
+        # and the corresponding hash after the simulation is run.
+        super().trigger(*args, **kwargs)
         return NullStatus()
 
     def describe(self):
@@ -145,12 +176,49 @@ class SirepoWatchpoint(Device):
             yield item
 
 
+class BeamStatisticsReport(DeviceWithJSONData):
+    # NOTE: TES aperture changes don't seem to change the beam statistics
+    # report graph on the website?
+
+    report = Cpt(Signal, value={}, kind="normal")
+
+    def __init__(self, connection, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.connection = connection
+
+    def trigger(self, *args, **kwargs):
+        logger.debug(f"Custom trigger for {self.name}")
+
+        self.connection.data['report'] = 'beamStatisticsReport'
+
+        self.connection.run_simulation()
+
+        datafile = self.connection.get_datafile()
+        self.report.put(json.dumps(json.loads(datafile.decode())))
+
+        logger.debug(f"\nReport for {self.name}: "
+                     f"{self.connection.data['report']}\n")
+
+        # We call the trigger on super at the end to update the sirepo_data_json
+        # and the corresponding hash after the simulation is run.
+        super().trigger(*args, **kwargs)
+        return NullStatus()
+
+    def stage(self):
+        super().stage()
+        self.report.put({})
+
+    def unstage(self):
+        super().unstage()
+        self.report.put({})
+
+
 def create_classes(sirepo_data, connection, create_objects=True):
     classes = {}
     objects = {}
     data = copy.deepcopy(sirepo_data)
     for i, el in enumerate(data["models"]["beamline"]):
-        print(f"Processing {el}...")
+        logger.debug(f"Processing {el}...")
         for ophyd_key, sirepo_key in RESERVED_OPHYD_TO_SIREPO_ATTRS.items():
             # We have to rename the reserved attribute names. Example error
             # from ophyd:
