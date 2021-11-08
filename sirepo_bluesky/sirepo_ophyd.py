@@ -3,7 +3,6 @@ import datetime
 import hashlib
 import json
 import logging
-import sys
 from collections import deque
 from pathlib import Path
 
@@ -18,8 +17,10 @@ from .srw_handler import read_srw_file
 from .shadow_handler import read_shadow_file
 
 logger = logging.getLogger("sirepo-bluesky")
-stream_handler = logging.StreamHandler(sys.stdout)
-logger.addHandler(stream_handler)
+# Note: the following handler could be created/added to the logger on the client side:
+# import sys
+# stream_handler = logging.StreamHandler(sys.stdout)
+# logger.addHandler(stream_handler)
 
 RESERVED_OPHYD_TO_SIREPO_ATTRS = {"position": "element_position"}  # ophyd <-> sirepo
 RESERVED_SIREPO_TO_OPHYD_ATTRS = {
