@@ -2,6 +2,24 @@
 Release History
 ===============
 
+v0.4.1 (2021-11-10)
+-------------------
+In this release, we addressed some shortcomings of the granular ophyd objects:
+
+- Generalized classes to work with both ``srw`` and ``shadow`` simulation codes.
+- Added JSON components for all "detector" classes.
+- Added a class to instantiate the ``BeamStatisticsReport`` as an ophyd
+  detector and add thorough integration tests.
+- Fixed the issue with the last file from a scan being used for all steps of the
+  scan.
+- Cleaned up the code from unused comments.
+- Improved testing coverage and better handling of the results directories.
+
+Packaging/CI:
+...............
+- Removed the upper pin of PyQt5.
+- Added linting GHA workflow.
+
 v0.4.0 (2021-10-11)
 -------------------
 - Refactored the code to use an ophyd object per optical element.
