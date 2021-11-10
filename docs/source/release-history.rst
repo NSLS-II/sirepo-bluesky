@@ -2,7 +2,7 @@
 Release History
 ===============
 
-v0.4.1 (2021-11-09)
+v0.4.1 (2021-11-10)
 -------------------
 In this release, we addressed some shortcomings of the granular ophyd objects:
 
