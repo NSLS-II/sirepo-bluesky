@@ -11,6 +11,9 @@ sirepo-bluesky
 .. image:: https://img.shields.io/pypi/v/sirepo-bluesky.svg
    :target: https://pypi.python.org/pypi/sirepo-bluesky
 
+.. image:: https://img.shields.io/conda/vn/conda-forge/sirepo-bluesky.svg
+   :target: https://anaconda.org/conda-forge/sirepo-bluesky
+
 
 Sirepo-Bluesky interface
 
