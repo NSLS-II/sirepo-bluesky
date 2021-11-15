@@ -5,13 +5,13 @@ sirepo-bluesky
 .. image:: https://zenodo.org/badge/243052461.svg
    :target: https://zenodo.org/badge/latestdoi/243052461
 
-.. image:: https://img.shields.io/travis/NSLS-II/sirepo-bluesky.svg
-   :target: https://travis-ci.org/NSLS-II/sirepo-bluesky
+.. image:: https://github.com/NSLS-II/sirepo-bluesky/actions/workflows/testing.yml/badge.svg
+   :target: https://github.com/NSLS-II/sirepo-bluesky/actions/workflows/testing.yml
 
-.. image:: https://img.shields.io/pypi/v/sirepo-bluesky.svg
+.. image:: https://img.shields.io/pypi/v/sirepo-bluesky.svg?logo=pypi&logoColor=white&label=PyPI
    :target: https://pypi.python.org/pypi/sirepo-bluesky
 
-.. image:: https://img.shields.io/conda/vn/conda-forge/sirepo-bluesky.svg
+.. image:: https://img.shields.io/conda/vn/conda-forge/sirepo-bluesky.svg?logo=conda-forge&logoColor=white
    :target: https://anaconda.org/conda-forge/sirepo-bluesky
 
 
