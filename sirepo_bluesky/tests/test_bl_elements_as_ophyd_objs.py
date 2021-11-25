@@ -123,7 +123,7 @@ def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
 
     toroid.r_maj.kind = "hinted"  # noqa F821
 
-    scan_range = (10_000, 50_000, 11)
+    scan_range = (10_000, 50_000, 21)
 
     (uid,) = RE(bp.scan([bsr], toroid.r_maj, *scan_range))  # noqa F821
     hdr = db[uid]
