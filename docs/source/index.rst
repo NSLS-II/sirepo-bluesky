@@ -11,5 +11,6 @@ sirepo-bluesky Documentation
 
    installation
    usage
+   simulations
    release-history
    min_versions
