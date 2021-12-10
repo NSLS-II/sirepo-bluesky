@@ -26,6 +26,7 @@ jobs:
     - name: Install documentation-building requirements
       run: |
         set -vxeuo pipefail
+        python -m pip install -v .
         python -m pip install -r requirements-dev.txt
         python -m pip list
 
