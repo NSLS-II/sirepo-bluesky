@@ -1,9 +1,10 @@
-name: Check Code Style
+name: Linter
 
 on: [push, pull_request]
 
 jobs:
   lint:
+    name: Check code style
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

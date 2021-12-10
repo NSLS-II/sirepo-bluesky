@@ -6,7 +6,8 @@ on:
       - master
 
 jobs:
-  build:
+  publish_docs:
+    name: Build and publish documentation
     if: github.repository_owner == 'NSLS-II'
     runs-on: ubuntu-latest
     strategy:
