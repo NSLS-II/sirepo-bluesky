@@ -50,7 +50,7 @@ if __name__ == "__main__":
         "--path",
         type=str,
         required=True,
-        help="path where to perform the search " "(without the simulation type part)",
+        help="path where to perform the search (without the simulation type part)",
     )
     parser.add_argument(
         "--sim-type",
