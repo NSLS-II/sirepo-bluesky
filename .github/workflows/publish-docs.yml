@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-      # TODO: remove it before merging, it is here for testing purposes only!
-      - doc-list-simulations
 
 jobs:
   build:
