@@ -57,6 +57,8 @@ coverage.xml
 # Sphinx documentation
 docs/build/
 docs/source/generated/
+docs/source/_build/
+docs/source/simulations-*.inc
 
 # pytest
 .pytest_cache/

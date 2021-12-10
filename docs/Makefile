@@ -18,3 +18,17 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+simulations-srw.inc:
+	python build-table.py --path=../sirepo_bluesky/tests/SIREPO_SRDB_ROOT/user/testuser/ --sim-type=srw --outfile=source/simulations-srw.inc
+
+simulations-srw-other.inc:
+	python build-table.py --path=../sirepo_bluesky/tests/SIREPO_SRDB_ROOT/user/testuser/ --sim-type=srw --outfile=source/simulations-srw-other.inc --pattern="[!00]*"
+
+simulations-shadow.inc:
+	python build-table.py --path=../sirepo_bluesky/tests/SIREPO_SRDB_ROOT/user/testuser/ --sim-type=shadow --outfile=source/simulations-shadow.inc
+
+simulations-shadow-other.inc:
+	python build-table.py --path=../sirepo_bluesky/tests/SIREPO_SRDB_ROOT/user/testuser/ --sim-type=shadow --outfile=source/simulations-shadow-other.inc --pattern="[!00]*"
+
+html: simulations-srw.inc simulations-srw-other.inc simulations-shadow.inc simulations-shadow-other.inc

@@ -1,20 +1,24 @@
-name: Check Code Style
+name: Linter
 
 on: [push, pull_request]
 
 jobs:
   lint:
+    name: Check code style
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-    steps:
 
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
       - uses: actions/checkout@v2
 
       - uses: actions/setup-python@v2
 
       - name: Install flake8
-        shell: bash -l {0}
         run: |
           set -vxeuo pipefail
           python -m pip install --upgrade pip
@@ -22,5 +26,4 @@ jobs:
           python -m pip list
 
       - name: Run flake8
-        shell: bash -l {0}
         run: flake8
