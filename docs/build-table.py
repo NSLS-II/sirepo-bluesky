@@ -7,7 +7,13 @@ from tabulate import tabulate
 
 
 def find_predefined_examples(
-    *, path=None, sim_type=None, pattern="00*", outfile=None, tablefmt="rst"
+    *,
+    path=None,
+    sim_type=None,
+    pattern="00*",
+    outfile=None,
+    tablefmt="rst",
+    verbose=False,
 ):
 
     base_url = "https://github.com/NSLS-II/sirepo-bluesky/tree/master/"
@@ -31,7 +37,8 @@ def find_predefined_examples(
             )
 
     tbl = tabulate(table, headers, tablefmt=tablefmt)
-    print(tbl)
+    if verbose:
+        print(tbl)
     with open(outfile, "w") as f:
         f.write(tbl)
 
@@ -56,6 +63,9 @@ if __name__ == "__main__":
         "--outfile", type=str, required=True, help="output file for the resulting table"
     )
     parser.add_argument("--tablefmt", type=str, default="rst", help="table format")
+    parser.add_argument(
+        "--verbose", action="store_true", help="print the resulting table"
+    )
 
     args = parser.parse_args()
 
@@ -64,6 +74,7 @@ if __name__ == "__main__":
     pattern = args.pattern
     outfile = args.outfile
     tablefmt = args.tablefmt
+    verbose = args.verbose
 
     find_predefined_examples(
         path=path,
@@ -71,4 +82,5 @@ if __name__ == "__main__":
         pattern=pattern,
         outfile=outfile,
         tablefmt=tablefmt,
+        verbose=verbose,
     )
