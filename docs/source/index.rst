@@ -10,7 +10,10 @@ sirepo-bluesky Documentation
    :maxdepth: 2
 
    installation
-   usage
+   preparation
+   srw.ipynb
+   shadow.ipynb
+   elements.ipynb
    simulations
    release-history
    min_versions
