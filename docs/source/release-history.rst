@@ -2,6 +2,19 @@
 Release History
 ===============
 
+v0.4.2 (2021-12-13)
+-------------------
+- Added CI configs to build and publish Sphinx documentaiton.
+- Updated badges in the ``README.rst`` file (GHA workflows status, PyPI and
+  conda-forge releases).
+- Updated documentation with a list of custom SRW and Shadow3 simulations.
+- Updated NSLS-II TES SRW and Shadow3 examples (``00000002``) to run faster and
+  updated validations in the corresponding tests.
+- Added a timing test for the ``BeamStatisticsReport`` (Sirepo/Shadow app).
+- Updated versioneer's configuration (`python/cpython#28292
+  <https://github.com/python/cpython/pull/28292>`_,
+  `https://bugs.python.org/issue45173 <https://bugs.python.org/issue45173>`_).
+
 v0.4.1 (2021-11-10)
 -------------------
 In this release, we addressed some shortcomings of the granular ophyd objects:
