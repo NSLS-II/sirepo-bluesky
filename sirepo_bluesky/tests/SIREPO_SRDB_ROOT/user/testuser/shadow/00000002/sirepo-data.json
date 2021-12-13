@@ -371,7 +371,7 @@
             },
             {
                 "_super": "_MISALIGNED_ELEMENT",
-                "alpha": 90,
+                "alpha": 0,
                 "axmaj": 0,
                 "axmin": 0,
                 "cil_ang": 0,
@@ -432,14 +432,7 @@
                 "z_rot": 0
             },
             {
-                "alpha": "270",
                 "id": 12,
-                "position": 56.972,
-                "title": "Reset Orientation",
-                "type": "emptyElement"
-            },
-            {
-                "id": 13,
                 "position": 57.142,
                 "title": "W9",
                 "type": "watch"
@@ -536,16 +529,14 @@
         },
         "simulation": {
             "documentationUrl": "",
-            "folder": "/",
-            "isExample": false,
+            "folder": "/TES",
             "istar1": 567656,
-            "lastModified": 1631629560300,
+            "lastModified": 1639159814414,
             "name": "TES (from SRW)",
             "notes": "",
             "npoint": 100000,
-            "outOfSessionSimulationId": "",
             "simulationId": "00000002",
-            "simulationSerial": 1631629560313007,
+            "simulationSerial": 1639159814410583,
             "sourceType": "bendingMagnet"
         },
         "sourceDivergence": {
@@ -588,7 +579,7 @@
             "etap_y": 0,
             "number_of_bunches": 1
         },
-        "watchpointReport13": {
+        "watchpointReport12": {
             "_super": "_INTENSITY_REPORT",
             "aspectRatio": "1",
             "colorMap": "grayscale",
@@ -634,15 +625,16 @@
     },
     "rsmanifest": {
         "image": {
-            "git_commit": "8e71e61c04795a52dc6ff309158d58eab263d943",
+            "git_commit": "a8b1ef5210b2f2595e3182f8676d321148d04004",
             "git_remote_origin_url": "https://github.com/radiasoft/sirepo",
             "name": "radiasoft/sirepo",
             "type": "docker",
-            "uri": "https://registry.hub.docker.com/radiasoft/sirepo:20210831.151744",
-            "version": "20210831.151744"
+            "uri": "https://registry.hub.docker.com/radiasoft/sirepo:20211123.203943",
+            "version": "20211123.203943"
         },
         "version": "20190612.150000"
     },
     "simulationType": "shadow",
-    "version": "20210831.151122"
+    "state": "completed",
+    "version": "20211123.165730"
 }

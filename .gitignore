@@ -83,3 +83,6 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# Testing artifacts
+TES-Shadow-timing.png

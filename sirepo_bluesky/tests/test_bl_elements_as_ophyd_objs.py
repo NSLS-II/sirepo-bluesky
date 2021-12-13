@@ -92,7 +92,7 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
 
     # Check that an average values of the first and last images are right:
     assert np.allclose(w9_image[0].mean(), 0.0)
-    assert np.allclose(w9_image[-1].mean(), 0.254417)
+    assert np.allclose(w9_image[-1].mean(), 0.255665516042795)
 
     # Check that the values from the table and averages from the image data are
     # the same:
@@ -185,5 +185,5 @@ def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
     w9_bsr_diffs = list(dictdiffer.diff(w9_data_1, bsr_data_5))
     assert w9_bsr_diffs == [
         ("change", ["models", "beamline", 5, "r_maj"], (10000.0, 50000.0)),
-        ("change", "report", ("watchpointReport13", "beamStatisticsReport")),
+        ("change", "report", ("watchpointReport12", "beamStatisticsReport")),
     ]
