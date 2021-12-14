@@ -9,7 +9,6 @@ sirepo-bluesky Documentation
 .. toctree::
    :maxdepth: 2
 
-   installation
    preparation
    srw.ipynb
    shadow.ipynb

@@ -80,6 +80,10 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
     tbl = hdr.table(fill=True)
     print(tbl)
 
+    sim_durations = np.array(list(hdr.data("w9_image")))
+    # Check that the duration for each step in the simulation is nonzero:
+    assert not np.isclose(sim_durations, 0.0).any()
+
     w9_image = np.array(list(hdr.data("w9_image")))
     # Check the shape of the image data is right:
     assert w9_image.shape == (num_steps, 100, 100)
