@@ -18,6 +18,23 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.6.0
+
+      - name: Start Sirepo Docker container
+        run: |
+          set -vxeuo pipefail
+          . scripts/start_sirepo.sh -d
+          export SIREPO_DOCKER_CONTAINER_ID
+          echo "SIREPO_DOCKER_CONTAINER_ID=${SIREPO_DOCKER_CONTAINER_ID}" >> $GITHUB_ENV
+
+      - name: Check Sirepo state
+        run: |
+          set -vxeuo pipefail
+          ${DOCKER_BINARY} images
+          ${DOCKER_BINARY} ps -a
+          ${DOCKER_BINARY} logs ${SIREPO_DOCKER_CONTAINER_ID}
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
@@ -32,4 +49,12 @@ jobs:
           python -m pip list
 
       - name: Build Docs
-        run: make -C docs/ html
+        run: |
+          set -vxeuo pipefail
+          make -C docs/ html
+          status=$?
+          echo "Sirepo ${DOCKER_BINARY} container id: ${SIREPO_DOCKER_CONTAINER_ID}"
+          ${DOCKER_BINARY} logs ${SIREPO_DOCKER_CONTAINER_ID}
+          if [ $status -gt 0 ]; then
+              exit $status
+          fi

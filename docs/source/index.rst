@@ -10,9 +10,8 @@ sirepo-bluesky Documentation
    :maxdepth: 2
 
    preparation
-   srw.ipynb
-   shadow.ipynb
-   elements.ipynb
+   notebooks-old-api
+   notebooks-new-api
    simulations
    release-history
    min_versions
