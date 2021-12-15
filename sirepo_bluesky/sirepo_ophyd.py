@@ -50,7 +50,7 @@ class SirepoSignal(Signal):
 class DeviceWithJSONData(Device):
     sirepo_data_json = Cpt(Signal, kind="normal", value="")
     sirepo_data_hash = Cpt(Signal, kind="normal", value="")
-    duration = Cpt(Signal, kind="normal", value=None)
+    duration = Cpt(Signal, kind="normal", value=-1.0)
 
     def trigger(self, *args, **kwargs):
         super().trigger(*args, **kwargs)

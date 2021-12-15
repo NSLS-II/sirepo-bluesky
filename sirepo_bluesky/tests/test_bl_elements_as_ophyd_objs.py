@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 
-from sirepo_bluesky.sirepo_ophyd import create_classes
+from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport, create_classes
 
 
 def test_beamline_elements_as_ophyd_objects(srw_tes_simulation):
@@ -66,8 +66,6 @@ def test_beamline_elements_simple_connection(srw_basic_simulation):
 
 
 def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
-    from sirepo_bluesky.sirepo_ophyd import create_classes
-
     classes, objects = create_classes(
         shadow_tes_simulation.data, connection=shadow_tes_simulation
     )
@@ -80,9 +78,9 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
     tbl = hdr.table(fill=True)
     print(tbl)
 
-    sim_durations = np.array(list(hdr.data("w9_image")))
-    # Check that the duration for each step in the simulation is nonzero:
-    assert not np.isclose(sim_durations, 0.0).any()
+    # Check that the duration for each step in the simulation is non-zero:
+    sim_durations = tbl["w9_duration"]
+    assert not np.allclose(sim_durations, 0.0)
 
     w9_image = np.array(list(hdr.data("w9_image")))
     # Check the shape of the image data is right:
@@ -115,13 +113,10 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
 
 
 def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
-    from sirepo_bluesky.sirepo_ophyd import create_classes
-
     classes, objects = create_classes(
         shadow_tes_simulation.data, connection=shadow_tes_simulation
     )
     globals().update(**objects)
-    from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport
 
     bsr = BeamStatisticsReport(name="bsr", connection=shadow_tes_simulation)
 
