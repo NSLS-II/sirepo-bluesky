@@ -43,18 +43,25 @@ jobs:
           ${DOCKER_BINARY} ps -a
           ${DOCKER_BINARY} logs ${SIREPO_DOCKER_CONTAINER_ID}
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - name: Set up Python ${{ matrix.python-version }} with conda
+        uses: conda-incubator/setup-miniconda@v2
         with:
+          activate-environment: ${{ env.REPOSITORY_NAME }}-py${{ matrix.python-version }}
+          auto-update-conda: true
+          miniconda-version: "latest"
           python-version: ${{ matrix.python-version }}
 
       - name: Install documentation-building requirements
         run: |
-          set -vxeuo pipefail
+          set -vxeo pipefail
           sudo apt-get update && sudo apt-get install pandoc
-          python -m pip install -v .
-          python -m pip install -r requirements-dev.txt
-          python -m pip list
+          conda env list
+          conda install -c conda-forge shadow3 srwpy
+          pip install --upgrade pip wheel
+          pip install -v .
+          pip install -r requirements-dev.txt
+          pip list
+          conda list
 
       - name: Build Docs
         run: |

@@ -76,7 +76,7 @@ jobs:
           conda env list
           conda install -c conda-forge shadow3 srwpy
           pip install --upgrade pip wheel
-          pip install .
+          pip install -v .
           pip install -r requirements-dev.txt
           pip list
           conda list
