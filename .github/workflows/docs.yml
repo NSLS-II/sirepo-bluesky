@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.9]
+        python-version: ["3.9"]
       fail-fast: false
 
     defaults:
@@ -16,6 +16,14 @@ jobs:
         shell: bash -l {0}
 
     steps:
+      - name: Set env vars
+        run: |
+          export REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}  # just the repo, as opposed to org/repo
+          echo "REPOSITORY_NAME=${REPOSITORY_NAME}" >> $GITHUB_ENV
+
+          export DOCKER_BINARY="docker"
+          echo "DOCKER_BINARY=${DOCKER_BINARY}" >> $GITHUB_ENV
+
       - uses: actions/checkout@v2
 
       - name: Start MongoDB
