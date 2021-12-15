@@ -129,12 +129,19 @@ def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
     tbl = hdr.table()
     print(tbl)
 
-    data = np.array(tbl["time"].diff(), dtype=float)[1:] / 1e9
-    print(f"Durations (seconds): {data}")
+    calc_durations = np.array(tbl["time"].diff(), dtype=float)[1:] / 1e9
+    print(f"Calculated durations (seconds): {calc_durations}")
+
+    # Check that the duration for each step in the simulation is non-zero:
+    cpt_durations = tbl["bsr_duration"]
+    print(f"Durations from component (seconds): {cpt_durations}")
+
+    assert not np.allclose(cpt_durations, 0.0)
+    assert (calc_durations > cpt_durations[1:]).all()
 
     fig = plt.figure()
     ax = fig.add_subplot()
-    ax.plot(np.linspace(*scan_range)[1:], data)
+    ax.plot(np.linspace(*scan_range)[1:], calc_durations)
     ax.set_ylabel("Duration of simulations [s]")
     ax.set_xlabel("Torus Major Radius [m]")
     title = (
