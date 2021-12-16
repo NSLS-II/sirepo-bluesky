@@ -7,11 +7,10 @@ sirepo-bluesky Documentation
 ============================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
-   preparation
+   installation
    notebooks-old-api
    notebooks-new-api
    simulations
    release-history
-   min_versions
