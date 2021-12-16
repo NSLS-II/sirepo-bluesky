@@ -2,9 +2,6 @@
 sirepo-bluesky
 ==============
 
-This is a Sirepo-Bluesky inteface library that allows to use the Bluesky data
-acquisition framework to run Sirepo simulations (SRW, Shadow3, etc.)
-
 .. image:: https://zenodo.org/badge/243052461.svg
    :target: https://zenodo.org/badge/latestdoi/243052461
 
@@ -18,7 +15,9 @@ acquisition framework to run Sirepo simulations (SRW, Shadow3, etc.)
    :target: https://anaconda.org/conda-forge/sirepo-bluesky
 
 
-Sirepo-Bluesky interface
+This is a Sirepo-Bluesky interface library that allows using the `Bluesky data
+acquisition framework <https://blueskyproject.io>`_ to run Sirepo simulations
+(SRW, Shadow3, etc.)
 
 * Free software: 3-clause BSD license
 * Citation:
