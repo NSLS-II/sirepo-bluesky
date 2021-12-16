@@ -56,6 +56,17 @@ or more explicitly
 Likewise, the ``-d`` option can be used instead of ``-it`` to run the container
 in the daemon mode.
 
+Configuration of databroker
+---------------------------
+
+To to access the collected data with the `databroker
+<https://blueskyproject.io/databroker>`_ library, we need to configure it. For
+that, please copy the `local.yml <../../../examples/local.yml>`_ configuration
+file to the ``~/.config/databroker/`` directory.
+
+.. include:: ../../examples/local.yml
+   :literal:
+
 
 Installation
 ------------
