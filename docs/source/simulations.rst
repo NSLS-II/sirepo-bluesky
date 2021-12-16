@@ -3,7 +3,7 @@ List of predefined simulations in Sirepo
 ========================================
 
 Below is a list of custom/predefined simulations available when one starts
-Sirepo following the :ref:`Sirepo startup <Sirepo startup>` instructions, that
+Sirepo following the :ref:`Sirepo startup <Sirepo-startup>` instructions, that
 are currently used for tests and demos.
 
 SRW
