@@ -12,6 +12,7 @@ Clone the repository to run the prerequisites:
    $ git clone https://github.com/NSLS-II/sirepo-bluesky.git
    $ cd sirepo-bluesky/
 
+.. _Sirepo startup:
 
 Starting Sirepo
 ---------------
