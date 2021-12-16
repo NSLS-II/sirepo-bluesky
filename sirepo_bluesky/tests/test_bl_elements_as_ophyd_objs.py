@@ -79,8 +79,8 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
     print(tbl)
 
     # Check that the duration for each step in the simulation is non-zero:
-    sim_durations = tbl["w9_duration"]
-    assert not np.allclose(sim_durations, 0.0)
+    sim_durations = np.array(tbl["w9_duration"])
+    assert (sim_durations > 0.0).all()
 
     w9_image = np.array(list(hdr.data("w9_image")))
     # Check the shape of the image data is right:
@@ -133,10 +133,10 @@ def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
     print(f"Calculated durations (seconds): {calc_durations}")
 
     # Check that the duration for each step in the simulation is non-zero:
-    cpt_durations = tbl["bsr_duration"]
+    cpt_durations = np.array(tbl["bsr_duration"])
     print(f"Durations from component (seconds): {cpt_durations}")
 
-    assert not np.allclose(cpt_durations, 0.0)
+    assert (cpt_durations > 0.0).all()
     assert (calc_durations > cpt_durations[1:]).all()
 
     fig = plt.figure()
