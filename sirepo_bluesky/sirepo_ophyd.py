@@ -3,6 +3,7 @@ import datetime
 import hashlib
 import json
 import logging
+import time
 from collections import deque
 from pathlib import Path
 
@@ -49,6 +50,7 @@ class SirepoSignal(Signal):
 class DeviceWithJSONData(Device):
     sirepo_data_json = Cpt(Signal, kind="normal", value="")
     sirepo_data_hash = Cpt(Signal, kind="normal", value="")
+    duration = Cpt(Signal, kind="normal", value=-1.0)
 
     def trigger(self, *args, **kwargs):
         super().trigger(*args, **kwargs)
@@ -117,7 +119,10 @@ class SirepoWatchpoint(DeviceWithJSONData):
         )
 
         self.connection.data["report"] = f"watchpointReport{self.id._sirepo_dict['id']}"
+
+        start_time = time.monotonic()
         self.connection.run_simulation()
+        self.duration.put(time.monotonic() - start_time)
 
         datafile = self.connection.get_datafile()
 
@@ -191,7 +196,9 @@ class BeamStatisticsReport(DeviceWithJSONData):
 
         self.connection.data['report'] = 'beamStatisticsReport'
 
+        start_time = time.monotonic()
         self.connection.run_simulation()
+        self.duration.put(time.monotonic() - start_time)
 
         datafile = self.connection.get_datafile()
         self.report.put(json.dumps(json.loads(datafile.decode())))

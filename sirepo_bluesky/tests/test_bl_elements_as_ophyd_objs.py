@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 
-from sirepo_bluesky.sirepo_ophyd import create_classes
+from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport, create_classes
 
 
 def test_beamline_elements_as_ophyd_objects(srw_tes_simulation):
@@ -66,8 +66,6 @@ def test_beamline_elements_simple_connection(srw_basic_simulation):
 
 
 def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
-    from sirepo_bluesky.sirepo_ophyd import create_classes
-
     classes, objects = create_classes(
         shadow_tes_simulation.data, connection=shadow_tes_simulation
     )
@@ -79,6 +77,10 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
     hdr = db[uid]
     tbl = hdr.table(fill=True)
     print(tbl)
+
+    # Check that the duration for each step in the simulation is non-zero:
+    sim_durations = np.array(tbl["w9_duration"])
+    assert (sim_durations > 0.0).all()
 
     w9_image = np.array(list(hdr.data("w9_image")))
     # Check the shape of the image data is right:
@@ -111,13 +113,10 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
 
 
 def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
-    from sirepo_bluesky.sirepo_ophyd import create_classes
-
     classes, objects = create_classes(
         shadow_tes_simulation.data, connection=shadow_tes_simulation
     )
     globals().update(**objects)
-    from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport
 
     bsr = BeamStatisticsReport(name="bsr", connection=shadow_tes_simulation)
 
@@ -130,12 +129,19 @@ def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
     tbl = hdr.table()
     print(tbl)
 
-    data = np.array(tbl["time"].diff(), dtype=float)[1:] / 1e9
-    print(f"Durations (seconds): {data}")
+    calc_durations = np.array(tbl["time"].diff(), dtype=float)[1:] / 1e9
+    print(f"Calculated durations (seconds): {calc_durations}")
+
+    # Check that the duration for each step in the simulation is non-zero:
+    cpt_durations = np.array(tbl["bsr_duration"])
+    print(f"Durations from component (seconds): {cpt_durations}")
+
+    assert (cpt_durations > 0.0).all()
+    assert (calc_durations > cpt_durations[1:]).all()
 
     fig = plt.figure()
     ax = fig.add_subplot()
-    ax.plot(np.linspace(*scan_range)[1:], data)
+    ax.plot(np.linspace(*scan_range)[1:], calc_durations)
     ax.set_ylabel("Duration of simulations [s]")
     ax.set_xlabel("Torus Major Radius [m]")
     title = (

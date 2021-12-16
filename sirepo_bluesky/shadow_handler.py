@@ -57,8 +57,8 @@ def read_shadow_file_col(filename, parameter=30):
             'shape': data.shape,
             'mean': mean_value,
             'photon_energy': mean_value,
-            'horizontal_extent': 1000,
-            'vertical_extent': 1000,
+            'horizontal_extent': [0, 1],
+            'vertical_extent': [0, 1],
             # 'labels': labels,
             # 'units': units,
             }
@@ -83,8 +83,8 @@ def read_shadow_file(filename, histogram_bins=None):
             'shape': data.shape,
             'mean': np.mean(data),
             'photon_energy': photon_energy,
-            'horizontal_extent': data_dict['xrange'][1] - data_dict['xrange'][0],
-            'vertical_extent': data_dict['yrange'][1] - data_dict['yrange'][0],
+            'horizontal_extent': data_dict['xrange'][:2],
+            'vertical_extent': data_dict['yrange'][:2],
             # 'labels': labels,
             # 'units': units,
             }

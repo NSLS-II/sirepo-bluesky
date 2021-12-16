@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: ["3.7", "3.8", "3.9"]
         docker-binary: ["docker", "podman"]
       fail-fast: false
 
@@ -76,7 +76,7 @@ jobs:
           conda env list
           conda install -c conda-forge shadow3 srwpy
           pip install --upgrade pip wheel
-          pip install .
+          pip install -v .
           pip install -r requirements-dev.txt
           pip list
           conda list
