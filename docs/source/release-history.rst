@@ -2,6 +2,11 @@
 Release History
 ===============
 
+v0.4.3 (2021-12-17)
+-------------------
+- Major rework of the Sphinx documentation with a few automatically rendered
+  Jupyter notebooks with examples and better installation instructions.
+
 v0.4.2 (2021-12-13)
 -------------------
 - Added CI configs to build and publish Sphinx documentation.
