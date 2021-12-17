@@ -61,8 +61,9 @@ Configuration of databroker
 
 To to access the collected data with the `databroker
 <https://blueskyproject.io/databroker>`_ library, we need to configure it. For
-that, please copy the `local.yml <../../../examples/local.yml>`_ configuration
-file to the ``~/.config/databroker/`` directory.
+that, please copy the `local.yml
+<https://github.com/NSLS-II/sirepo-bluesky/blob/master/examples/local.yml>`_
+configuration file to the ``~/.config/databroker/`` directory.
 
 .. include:: ../../examples/local.yml
    :literal:
