@@ -9,7 +9,6 @@ from pathlib import Path
 
 import inflection
 from event_model import compose_resource
-import numpy as np
 from ophyd import Component as Cpt
 from ophyd import Device, Signal
 from ophyd.sim import NullStatus, new_uid
@@ -60,27 +59,9 @@ class DeviceWithJSONData(Device):
         json_hash = hashlib.sha256(json_str.encode()).hexdigest()
         self.sirepo_data_json.put(json_str)
         self.sirepo_data_hash.put(json_hash)
-# @staticmethod
-#     def update_grazing_vectors(data_to_update, grazing_vectors_params):
-#         """Update grazing angle vectors"""
-#         grazing_params = {}
-#         grazing_angle = grazing_vectors_params['angle']
-#         nvx = nvy = np.sqrt(1 - np.sin(grazing_angle / 1000) ** 2)
-#         tvx = tvy = np.sqrt(1 - np.cos(grazing_angle / 1000) ** 2)
-#         nvz = -tvx
-#         if grazing_vectors_params['autocompute_type'] == 'horizontal':
-#             nvy = tvy = 0
-#         elif grazing_vectors_params['autocompute_type'] == 'vertical':
-#             nvx = tvx = 0
-#         grazing_params['normalVectorX'] = nvx
-#         grazing_params['normalVectorY'] = nvy
-#         grazing_params['tangentialVectorX'] = tvx
-#         grazing_params['tangentialVectorY'] = tvy
-#         grazing_params['normalVectorZ'] = nvz
-#         data_to_update.update(grazing_params)
 
 
-class SirepoGrazingAngleSignal(Signal):
+class SirepoGrazingAngleSignal(SirepoSignal):
     def __init__(self, sirepo_dict, sirepo_param, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._sirepo_dict = sirepo_dict
@@ -90,23 +71,6 @@ class SirepoGrazingAngleSignal(Signal):
 
     def set(self, value, *, timeout=None, settle_time=None):
         print(f"Setting value for {self.name} to {value}")
-
-        # FIXME: This only updates the dict for the grazingAngle component
-        # but doesn't actually modify the respective ophyd components.
-        autocompute_type = self._sirepo_dict.get("autocomputeVectors")
-        nvx = nvy = np.sqrt(1 - np.sin(value / 1000) ** 2)
-        tvx = tvy = np.sqrt(1 - np.cos(value / 1000) ** 2)
-        nvz = -tvx
-        if autocompute_type == 'horizontal':
-            nvy = tvy = 0
-        elif autocompute_type == 'vertical':
-            nvx = tvx = 0
-        self._sirepo_dict['normalVectorX'] = nvx
-        self._sirepo_dict['normalVectorY'] = nvy
-        self._sirepo_dict['tangentialVectorX'] = tvx
-        self._sirepo_dict['tangentialVectorY'] = tvy
-        self._sirepo_dict['normalVectorZ'] = nvz
-
         self._sirepo_dict[self._sirepo_param] = value
         self._readback = value
         return NullStatus()
@@ -115,9 +79,8 @@ class SirepoGrazingAngleSignal(Signal):
         self.set(*args, **kwargs).wait()
 
 
-class SirepoWatchpoint(Device):
-
-        return NullStatus()
+class GrazingAngleOrientation(Device):
+    ...
 
 
 class SirepoWatchpoint(DeviceWithJSONData):
@@ -149,8 +112,10 @@ class SirepoWatchpoint(DeviceWithJSONData):
         sim_type = self.connection.data["simulationType"]
         allowed_sim_types = ("srw", "shadow")
         if sim_type not in allowed_sim_types:
-            raise RuntimeError(f"Unknown simulation type: {sim_type}\n"
-                               f"Allowed simulation types: {allowed_sim_types}")
+            raise RuntimeError(
+                f"Unknown simulation type: {sim_type}\n"
+                f"Allowed simulation types: {allowed_sim_types}"
+            )
 
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
@@ -193,7 +158,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
             ret = read_srw_file(sim_result_file, ndim=ndim)
             self._resource_document["resource_kwargs"]["ndim"] = ndim
         elif sim_type == "shadow":
-            nbins = conn_data['models'][conn_data['report']]['histogramBins']
+            nbins = conn_data["models"][conn_data["report"]]["histogramBins"]
             ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
             self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
 
@@ -214,8 +179,9 @@ class SirepoWatchpoint(DeviceWithJSONData):
         self._resource_document = None
         self._datum_factory = None
 
-        logger.debug(f"\nReport for {self.name}: "
-                     f"{self.connection.data['report']}\n")
+        logger.debug(
+            f"\nReport for {self.name}: " f"{self.connection.data['report']}\n"
+        )
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -251,7 +217,7 @@ class BeamStatisticsReport(DeviceWithJSONData):
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
 
-        self.connection.data['report'] = 'beamStatisticsReport'
+        self.connection.data["report"] = "beamStatisticsReport"
 
         start_time = time.monotonic()
         self.connection.run_simulation()
@@ -260,8 +226,9 @@ class BeamStatisticsReport(DeviceWithJSONData):
         datafile = self.connection.get_datafile()
         self.report.put(json.dumps(json.loads(datafile.decode())))
 
-        logger.debug(f"\nReport for {self.name}: "
-                     f"{self.connection.data['report']}\n")
+        logger.debug(
+            f"\nReport for {self.name}: " f"{self.connection.data['report']}\n"
+        )
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -297,28 +264,19 @@ def create_classes(sirepo_data, connection, create_objects=True):
         object_name = inflection.underscore(class_name)
 
         base_classes = (Device,)
-        extra_kwargs = {}
+        extra_kwargs = {"connection": connection}
         if el["type"] == "watch":
             base_classes = (SirepoWatchpoint, Device)
-            extra_kwargs = {"connection": connection}
+            # extra_kwargs = {}
 
         components = {}
         for k, v in el.items():
-            if k == 'grazingAngle':
-                print(f'grazingAngle!!! {v}')
-                components[k] = Cpt(
-                    SirepoGrazingAngleSignal,
-                    value=v,
-                    sirepo_dict=sirepo_data["models"]["beamline"][i],
-                    sirepo_param=k,
-                )
-            else:
-                components[k] = Cpt(
-                    SirepoSignal,
-                    value=v,
-                    sirepo_dict=sirepo_data["models"]["beamline"][i],
-                    sirepo_param=k,
-                )
+            components[k] = Cpt(
+                SirepoSignal,
+                value=v,
+                sirepo_dict=sirepo_data["models"]["beamline"][i],
+                sirepo_param=k,
+            )
         components.update(**extra_kwargs)
 
         cls = type(
@@ -326,6 +284,35 @@ def create_classes(sirepo_data, connection, create_objects=True):
             base_classes,
             components,
         )
+
+        if el["type"] not in ["mirror", "crystal"]:
+            for k, v in el.items():
+                # TODO: Check mirror and crystal grazing angles
+                if k == "grazingAngle":
+
+                    class tmp(cls):
+                        def set(self, value):
+                            self.grazingAngle.put(value)
+                            ret = self.connection.compute_grazing_orientation(
+                                self.grazingAngle._sirepo_dict
+                            )
+                            # State is added to the ret dict from compute_grazing_orientation and we want to
+                            # make sure the vectors are updated properly every time the grazing angle is updated.
+                            ret.pop("state")
+                            # Update vector components
+                            for cpt in [
+                                "normalVectorX",
+                                "normalVectorY",
+                                "normalVectorZ",
+                                "tangentialVectorX",
+                                "tangentialVectorY",
+                            ]:
+                                getattr(self, cpt).put(ret[cpt])
+                            return NullStatus()
+
+                    # Update with the new set method
+                    cls = tmp
+
         classes[object_name] = cls
         if create_objects:
             objects[object_name] = cls(name=object_name)
