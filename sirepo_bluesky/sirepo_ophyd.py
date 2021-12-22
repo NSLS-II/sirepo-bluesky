@@ -60,27 +60,7 @@ class DeviceWithJSONData(Device):
         self.sirepo_data_json.put(json_str)
         self.sirepo_data_hash.put(json_hash)
 
-
-class SirepoGrazingAngleSignal(SirepoSignal):
-    def __init__(self, sirepo_dict, sirepo_param, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._sirepo_dict = sirepo_dict
-        self._sirepo_param = sirepo_param
-        if sirepo_param in RESERVED_SIREPO_TO_OPHYD_ATTRS:
-            self._sirepo_param = RESERVED_SIREPO_TO_OPHYD_ATTRS[sirepo_param]
-
-    def set(self, value, *, timeout=None, settle_time=None):
-        print(f"Setting value for {self.name} to {value}")
-        self._sirepo_dict[self._sirepo_param] = value
-        self._readback = value
         return NullStatus()
-
-    def put(self, *args, **kwargs):
-        self.set(*args, **kwargs).wait()
-
-
-class GrazingAngleOrientation(Device):
-    ...
 
 
 class SirepoWatchpoint(DeviceWithJSONData):
@@ -179,9 +159,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
         self._resource_document = None
         self._datum_factory = None
 
-        logger.debug(
-            f"\nReport for {self.name}: " f"{self.connection.data['report']}\n"
-        )
+        logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -226,9 +204,7 @@ class BeamStatisticsReport(DeviceWithJSONData):
         datafile = self.connection.get_datafile()
         self.report.put(json.dumps(json.loads(datafile.decode())))
 
-        logger.debug(
-            f"\nReport for {self.name}: " f"{self.connection.data['report']}\n"
-        )
+        logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -242,6 +218,24 @@ class BeamStatisticsReport(DeviceWithJSONData):
     def unstage(self):
         super().unstage()
         self.report.put({})
+
+
+def grazing_angle_set(self, value):
+    self.grazingAngle.put(value)
+    ret = self.connection.compute_grazing_orientation(self.grazingAngle._sirepo_dict)
+    # State is added to the ret dict from compute_grazing_orientation and we want to
+    # make sure the vectors are updated properly every time the grazing angle is updated.
+    ret.pop("state")
+    # Update vector components
+    for cpt in [
+        "normalVectorX",
+        "normalVectorY",
+        "normalVectorZ",
+        "tangentialVectorX",
+        "tangentialVectorY",
+    ]:
+        getattr(self, cpt).put(ret[cpt])
+    return NullStatus()
 
 
 def create_classes(sirepo_data, connection, create_objects=True):
@@ -267,7 +261,6 @@ def create_classes(sirepo_data, connection, create_objects=True):
         extra_kwargs = {"connection": connection}
         if el["type"] == "watch":
             base_classes = (SirepoWatchpoint, Device)
-            # extra_kwargs = {}
 
         components = {}
         for k, v in el.items():
@@ -289,29 +282,7 @@ def create_classes(sirepo_data, connection, create_objects=True):
             for k, v in el.items():
                 # TODO: Check mirror and crystal grazing angles
                 if k == "grazingAngle":
-
-                    class tmp(cls):
-                        def set(self, value):
-                            self.grazingAngle.put(value)
-                            ret = self.connection.compute_grazing_orientation(
-                                self.grazingAngle._sirepo_dict
-                            )
-                            # State is added to the ret dict from compute_grazing_orientation and we want to
-                            # make sure the vectors are updated properly every time the grazing angle is updated.
-                            ret.pop("state")
-                            # Update vector components
-                            for cpt in [
-                                "normalVectorX",
-                                "normalVectorY",
-                                "normalVectorZ",
-                                "tangentialVectorX",
-                                "tangentialVectorY",
-                            ]:
-                                getattr(self, cpt).put(ret[cpt])
-                            return NullStatus()
-
-                    # Update with the new set method
-                    cls = tmp
+                    setattr(cls, "set", grazing_angle_set)
 
         classes[object_name] = cls
         if create_objects:
