@@ -58,6 +58,7 @@ def test_shadow_detector_docker_default_report(RE, db, tmpdir):
 
     assert mean == 9.7523, "incorrect mean value from bp.count"
 
+
 @pytest.mark.docker
 def test_shadow_detector_docker_beam_stats_report(RE, db, tmpdir):
     _test_shadow_detector(

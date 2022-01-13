@@ -241,7 +241,7 @@ class SirepoFlyer(BlueskyFlyer):
             self.procs = []
 
             for i in range(self.copy_count):
-                p = Process(target=self._run, args=(self._copies[i], self.return_status, 
+                p = Process(target=self._run, args=(self._copies[i], self.return_status,
                                                     self.return_duration, start_time))
                 p.start()
                 self.procs.append(p)
