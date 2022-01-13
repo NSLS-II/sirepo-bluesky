@@ -241,7 +241,8 @@ class SirepoFlyer(BlueskyFlyer):
             self.procs = []
 
             for i in range(self.copy_count):
-                p = Process(target=self._run, args=(self._copies[i], self.return_status, self.return_duration, start_time))
+                p = Process(target=self._run, args=(self._copies[i], self.return_status, 
+                                                self.return_duration, start_time))
                 p.start()
                 self.procs.append(p)
             # wait for procs to finish
@@ -383,5 +384,5 @@ class SirepoFlyer(BlueskyFlyer):
         status = sim.run_simulation()
         duration = ttime.monotonic() - start_time
         print(f"Status of sim {sim.sim_id}: {status['state']} in {duration:.01f} seconds")
-        return_status[sim.sim_id] = status['state'] 
+        return_status[sim.sim_id] = status['state']
         return_duration[sim.sim_id] = duration

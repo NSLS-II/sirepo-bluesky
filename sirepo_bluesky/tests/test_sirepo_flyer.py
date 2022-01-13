@@ -54,7 +54,7 @@ def _test_sirepo_flyer(RE_no_plot, db, tmpdir, sim_id, server_name):
                                root_dir=root_dir, params_to_change=params_to_change,
                                watch_name='W60', run_parallel=False)
 
-    #sirepo_flyer.duration.kind = 'hinted'
+    # sirepo_flyer.duration.kind = 'hinted'
 
     RE_no_plot(bp.fly([sirepo_flyer]))
 
