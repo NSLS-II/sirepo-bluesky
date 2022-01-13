@@ -241,7 +241,7 @@ class SirepoFlyer(BlueskyFlyer):
             self.procs = []
 
             for i in range(self.copy_count):
-                p = Process(target=self._run, args=(self._copies[i], self.return_status, self.return_duration))
+                p = Process(target=self._run, args=(self._copies[i], self.return_status, self.return_duration, start_time))
                 p.start()
                 self.procs.append(p)
             # wait for procs to finish
@@ -342,13 +342,8 @@ class SirepoFlyer(BlueskyFlyer):
             print(f'copy {self._copies[i].sim_id} data hash: {hash_values[i]}')
             self._copies[i].delete_copy()
 
-        statuses = []
-        for sim, status in self.return_status.items():
-            statuses.append(status)
-
-        durations = []
-        for sim, duration in self.return_duration.items():
-            durations.append(duration)
+        statuses = [status for sim, status in self.return_status.items()]
+        durations = [duration for sim, duration in self.return_duration.items()]
 
         assert len(self._copies) == len(self._datum_ids), \
             f'len(self._copies) != len(self._datum_ids) ({len(self._copies)} != {len(self._datum_ids)})'
@@ -382,11 +377,11 @@ class SirepoFlyer(BlueskyFlyer):
                    'filled': {key: False for key in data}}
 
     @staticmethod
-    def _run(sim, return_status, return_duration):
+    def _run(sim, return_status, return_duration, start_time):
         """ Run simulations using multiprocessing. """
         print(f'running sim {sim.sim_id}')
         status = sim.run_simulation()
         duration = ttime.monotonic() - start_time
-        print(f"Status of sim {sim.sim_id}: {status['state']} in {duration:.02f} seconds")
+        print(f"Status of sim {sim.sim_id}: {status['state']} in {duration:.01f} seconds")
         return_status[sim.sim_id] = status['state'] 
         return_duration[sim.sim_id] = duration
