@@ -1,5 +1,6 @@
 import datetime
 import json
+import time
 from collections import deque
 from pathlib import Path
 
@@ -39,6 +40,7 @@ class SirepoSRWDetector(Device):
     image = Cpt(ExternalFileReference, kind="normal")
     shape = Cpt(Signal)
     mean = Cpt(Signal, kind="hinted")
+    duration = Cpt(Signal, kind="hinted")
     photon_energy = Cpt(Signal, kind="normal")
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
@@ -156,7 +158,9 @@ class SirepoSRWDetector(Device):
         else:
             self.data['report'] = "intensityReport"
 
+        start_time = time.monotonic()
         self.sb.run_simulation()
+        self.duration.put(time.monotonic() - start_time)
 
         datafile = self.sb.get_datafile()
 

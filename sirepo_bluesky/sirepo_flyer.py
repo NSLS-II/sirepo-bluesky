@@ -99,6 +99,7 @@ class SirepoFlyer(BlueskyFlyer):
         self._watch_name = watch_name
         self._run_parallel = run_parallel
         self.return_status = {}
+        self.return_duration = {}
         self._copies = None
         self._srw_files = None
         self.procs = None
@@ -232,12 +233,15 @@ class SirepoFlyer(BlueskyFlyer):
             c1.data['report'] = 'watchpointReport{}'.format(watch['id'])
             self._copies.append(c1)
 
+        start_time = ttime.monotonic()
         if self.run_parallel:
             manager = Manager()
             self.return_status = manager.dict()
+            self.return_duration = manager.dict()
             self.procs = []
+
             for i in range(self.copy_count):
-                p = Process(target=self._run, args=(self._copies[i], self.return_status))
+                p = Process(target=self._run, args=(self._copies[i], self.return_status, self.return_duration))
                 p.start()
                 self.procs.append(p)
             # wait for procs to finish
@@ -248,8 +252,10 @@ class SirepoFlyer(BlueskyFlyer):
             for i in range(self.copy_count):
                 print(f'running sim: {self._copies[i].sim_id}')
                 status = self._copies[i].run_simulation()
-                print(f"Status of sim {self._copies[i].sim_id}: {status['state']}")
+                duration = ttime.monotonic() - start_time
+                print(f"Status of sim {self._copies[i].sim_id}: {status['state']} in {duration:.02f} seconds")
                 self.return_status[self._copies[i].sim_id] = status['state']
+                self.return_duration[self._copies[i].sim_id] = duration
         return NullStatus()
 
     def complete(self, *args, **kwargs):
@@ -292,6 +298,9 @@ class SirepoFlyer(BlueskyFlyer):
                         f'{self.name}_status': {'source': f'{self.name}_status',
                                                 'dtype': 'string',
                                                 'shape': []},
+                        f'{self.name}_duration': {'source': f'{self.name}_duration',
+                                                   'dtype': 'number',
+                                                   'shape': []},
                         }
                        }
         elem_name = []
@@ -337,6 +346,10 @@ class SirepoFlyer(BlueskyFlyer):
         for sim, status in self.return_status.items():
             statuses.append(status)
 
+        durations = []
+        for sim, duration in self.return_duration.items():
+            durations.append(duration)
+
         assert len(self._copies) == len(self._datum_ids), \
             f'len(self._copies) != len(self._datum_ids) ({len(self._copies)} != {len(self._datum_ids)})'
 
@@ -352,6 +365,7 @@ class SirepoFlyer(BlueskyFlyer):
                     f'{self.name}_vertical_extent': vertical_extents[i],
                     f'{self.name}_hash_value': hash_values[i],
                     f'{self.name}_status': statuses[i],
+                    f'{self.name}_duration': durations[i],
                     }
             for inputs in self.params_to_change:
                 for key, params in inputs.items():
@@ -368,9 +382,11 @@ class SirepoFlyer(BlueskyFlyer):
                    'filled': {key: False for key in data}}
 
     @staticmethod
-    def _run(sim, return_status):
+    def _run(sim, return_status, return_duration):
         """ Run simulations using multiprocessing. """
         print(f'running sim {sim.sim_id}')
         status = sim.run_simulation()
-        print(f"Status of sim {sim.sim_id}: {status['state']}")
-        return_status[sim.sim_id] = status['state']
+        duration = ttime.monotonic() - start_time
+        print(f"Status of sim {sim.sim_id}: {status['state']} in {duration:.02f} seconds")
+        return_status[sim.sim_id] = status['state'] 
+        return_duration[sim.sim_id] = duration

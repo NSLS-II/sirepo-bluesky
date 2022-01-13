@@ -1,5 +1,6 @@
 import datetime
 import json
+import time
 from collections import deque
 from enum import Enum, unique
 from pathlib import Path
@@ -46,6 +47,7 @@ class SirepoShadowDetector(Device):
     image = Cpt(ExternalFileReference, kind="normal")
     shape = Cpt(Signal)
     mean = Cpt(Signal, kind="hinted")
+    duration = Cpt(Signal, kind="hinted")
     photon_energy = Cpt(Signal, kind="normal")
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
@@ -178,7 +180,9 @@ class SirepoShadowDetector(Device):
 
         # elif self._sim_report_type == SimReportTypes.srw_se_spectrum.name:
         #     self.data['report'] = "intensityReport"
+        start_time = time.monotonic()
         self.sb.run_simulation()
+        self.duration.put(time.monotonic() - start_time)
 
         datafile = self.sb.get_datafile()
         if self._sim_report_type == ShadowSimReportTypes.beam_stats_report.name:
@@ -200,6 +204,8 @@ class SirepoShadowDetector(Device):
             self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
             update_components(ret)
 
+        print(self.view_sirepo_components)
+
         datum_document = self._datum_factory(datum_kwargs={})
         self._asset_docs_cache.append(("datum", datum_document))
 
@@ -210,6 +216,7 @@ class SirepoShadowDetector(Device):
         self._resource_document = None
         self._datum_factory = None
 
+        super().trigger()
         return NullStatus()
 
     def describe(self):

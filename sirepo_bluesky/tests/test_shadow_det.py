@@ -31,7 +31,13 @@ def _test_shadow_detector(RE, db, tmpdir, sim_id, server_name, sim_report_type):
     shadow_det.active_parameters["Aperture_horizontalSize"].set(1.0)
     shadow_det.active_parameters["Aperture_verticalSize"].set(1.0)
 
+    shadow_det.duration.kind = 'hinted'
+
     RE(bp.count([shadow_det]))
+
+    # Check that the duration for each step in the simulation is positive:
+    sim_durations = np.array(db[-1].table()["shadow_det_duration"])
+    assert (sim_durations > 0.0).all()
 
     return shadow_det
 
@@ -52,7 +58,6 @@ def test_shadow_detector_docker_default_report(RE, db, tmpdir):
 
     assert mean == 9.7523, "incorrect mean value from bp.count"
 
-
 @pytest.mark.docker
 def test_shadow_detector_docker_beam_stats_report(RE, db, tmpdir):
     _test_shadow_detector(
@@ -70,6 +75,7 @@ def test_shadow_detector_docker_beam_stats_report(RE, db, tmpdir):
         "time",
         "shadow_det_image",
         "shadow_det_mean",
+        "shadow_det_duration",
         "shadow_det_photon_energy",
         "shadow_det_beam_statistics_report",
     ]

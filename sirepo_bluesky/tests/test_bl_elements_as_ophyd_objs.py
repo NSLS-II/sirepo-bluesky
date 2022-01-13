@@ -78,7 +78,7 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
     tbl = hdr.table(fill=True)
     print(tbl)
 
-    # Check that the duration for each step in the simulation is non-zero:
+    # Check that the duration for each step in the simulation is positive:
     sim_durations = np.array(tbl["w9_duration"])
     assert (sim_durations > 0.0).all()
 
