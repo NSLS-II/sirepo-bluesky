@@ -254,7 +254,7 @@ class SirepoFlyer(BlueskyFlyer):
                 print(f'running sim: {self._copies[i].sim_id}')
                 status = self._copies[i].run_simulation()
                 duration = ttime.monotonic() - start_time
-                print(f"Status of sim {self._copies[i].sim_id}: {status['state']} in {duration:.02f} seconds")
+                print(f"Status of sim {self._copies[i].sim_id}: {status['state']} in {duration:.01f} seconds")
                 self.return_status[self._copies[i].sim_id] = status['state']
                 self.return_duration[self._copies[i].sim_id] = duration
         return NullStatus()
