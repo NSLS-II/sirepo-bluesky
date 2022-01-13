@@ -242,7 +242,7 @@ class SirepoFlyer(BlueskyFlyer):
 
             for i in range(self.copy_count):
                 p = Process(target=self._run, args=(self._copies[i], self.return_status, 
-                                                self.return_duration, start_time))
+                                                    self.return_duration, start_time))
                 p.start()
                 self.procs.append(p)
             # wait for procs to finish
@@ -300,8 +300,8 @@ class SirepoFlyer(BlueskyFlyer):
                                                 'dtype': 'string',
                                                 'shape': []},
                         f'{self.name}_duration': {'source': f'{self.name}_duration',
-                                                   'dtype': 'number',
-                                                   'shape': []},
+                                                  'dtype': 'number',
+                                                  'shape': []},
                         }
                        }
         elem_name = []
