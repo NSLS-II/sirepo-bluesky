@@ -33,10 +33,10 @@ def _test_shadow_detector(RE, db, tmpdir, sim_id, server_name, sim_report_type):
 
     shadow_det.duration.kind = 'hinted'
 
-    RE(bp.count([shadow_det]))
+    uid, = RE(bp.count([shadow_det]))
 
     # Check that the duration for each step in the simulation is positive:
-    sim_durations = np.array(db[-1].table()["shadow_det_duration"])
+    sim_durations = np.array(db[uid].table()["shadow_det_duration"])
     assert (sim_durations > 0.0).all()
 
     return shadow_det
