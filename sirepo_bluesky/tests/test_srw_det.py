@@ -41,7 +41,7 @@ def _test_srw_detector(RE, db, tmpdir, sim_type, sim_id, server_name):
 
     assert mean == 1334615738479247.2, "incorrect mean value from bp.count"
 
-    sim_durations = np.array(db[-1].table()["srw_det_duration"])
+    sim_durations = np.array(t["srw_det_duration"])
     assert (sim_durations > 0.0).all()
 
 
