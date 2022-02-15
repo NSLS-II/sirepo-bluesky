@@ -32,6 +32,8 @@ RESERVED_SIREPO_TO_OPHYD_ATTRS = {
 }
 
 
+# TODO: add SirepoSignalRO similar to EpicsSignalRO.
+
 class SirepoSignal(Signal):
     def __init__(self, sirepo_dict, sirepo_param, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -186,6 +188,72 @@ class SirepoWatchpoint(DeviceWithJSONData):
             yield item
 
 
+class SingleElectronSpectrumReport(SirepoWatchpoint):
+    def trigger(self, *args, **kwargs):
+        logger.debug(f"Custom trigger for {self.name}")
+
+        date = datetime.datetime.now()
+        self._assets_dir = date.strftime("%Y/%m/%d")
+        self._result_file = f"{new_uid()}.dat"
+
+        self._resource_document, self._datum_factory, _ = compose_resource(
+            start={"uid": "needed for compose_resource() but will be discarded"},
+            spec=self.connection.data["simulationType"],
+            root=self._root_dir,
+            resource_path=str(Path(self._assets_dir) / Path(self._result_file)),
+            resource_kwargs={},
+        )
+        # now discard the start uid, a real one will be added later
+        self._resource_document.pop("run_start")
+        self._asset_docs_cache.append(("resource", self._resource_document))
+
+        sim_result_file = str(
+            Path(self._resource_document["root"])
+            / Path(self._resource_document["resource_path"])
+        )
+
+        self.connection.data["report"] = "intensityReport"
+
+        start_time = time.monotonic()
+        self.connection.run_simulation()
+        self.duration.put(time.monotonic() - start_time)
+
+        datafile = self.connection.get_datafile()
+
+        with open(sim_result_file, "wb") as f:
+            f.write(datafile)
+
+        conn_data = self.connection.data
+        sim_type = conn_data["simulationType"]
+        if sim_type == "srw":
+            ndim = 1
+            ret = read_srw_file(sim_result_file, ndim=ndim)
+            self._resource_document["resource_kwargs"]["ndim"] = ndim
+
+        def update_components(_data):
+            self.shape.put(_data["shape"])
+            self.mean.put(_data["mean"])
+            self.photon_energy.put(_data["photon_energy"])
+            self.horizontal_extent.put(_data["horizontal_extent"])
+            self.vertical_extent.put(_data["vertical_extent"])
+
+        update_components(ret)
+
+        datum_document = self._datum_factory(datum_kwargs={})
+        self._asset_docs_cache.append(("datum", datum_document))
+
+        self.image.put(datum_document["datum_id"])
+
+        self._resource_document = None
+        self._datum_factory = None
+
+        logger.debug(f"\nReport for {self.name}: "
+                     f"{self.connection.data['report']}\n")
+
+        return NullStatus()
+
+
+
 class BeamStatisticsReport(DeviceWithJSONData):
     # NOTE: TES aperture changes don't seem to change the beam statistics
     # report graph on the website?
@@ -270,7 +338,11 @@ def create_classes(sirepo_data, connection, create_objects=True,
 
     data_models = {}
     for model_field in model_fields:
-        data_models[model_field] = data["models"][model_field]
+        if model_field in ["undulator", "intensityReport"]:
+            data["models"][model_field].update({"title": model_field, "type": model_field})
+            data_models[model_field] = [data["models"][model_field]]
+        else:
+            data_models[model_field] = data["models"][model_field]
 
     for model_field, data_model in data_models.items():
         for i, el in enumerate(data_model):
@@ -293,6 +365,7 @@ def create_classes(sirepo_data, connection, create_objects=True,
                 el[config_dict[sim_type].class_name_field]
                 .replace(" ", "_")
                 .replace(".", "")
+                .replace("-", "_")
             )
             object_name = inflection.underscore(class_name)
 
@@ -311,10 +384,16 @@ def create_classes(sirepo_data, connection, create_objects=True,
                     # TODO: Cover the cases for mirror and crystal grazing angles
                     cpt_class = SirepoSignal
 
+
+                if el["type"] not in ["undulator", "intensityReport"]:
+                    sirepo_dict = sirepo_data["models"][model_field][i]
+                else:
+                    sirepo_dict = sirepo_data["models"][model_field]
+
                 components[k] = Cpt(
                     cpt_class,
                     value=v,
-                    sirepo_dict=sirepo_data["models"][model_field][i],
+                    sirepo_dict=sirepo_dict,
                     sirepo_param=k,
                 )
             components.update(**extra_kwargs)
