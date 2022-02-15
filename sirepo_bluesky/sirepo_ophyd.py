@@ -253,7 +253,6 @@ class SingleElectronSpectrumReport(SirepoWatchpoint):
         return NullStatus()
 
 
-
 class BeamStatisticsReport(DeviceWithJSONData):
     # NOTE: TES aperture changes don't seem to change the beam statistics
     # report graph on the website?
