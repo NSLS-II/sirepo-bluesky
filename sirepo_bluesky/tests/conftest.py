@@ -88,6 +88,13 @@ def srw_tes_simulation(make_dirs):
 
 
 @pytest.fixture(scope="function")
+def srw_ari_simulation(make_dirs):
+    connection = SirepoBluesky("http://localhost:8000")
+    data, _ = connection.auth("srw", "00000003")
+    return connection
+
+
+@pytest.fixture(scope="function")
 def shadow_basic_simulation(make_dirs):
     connection = SirepoBluesky("http://localhost:8000")
     data, _ = connection.auth("shadow", "00000001")

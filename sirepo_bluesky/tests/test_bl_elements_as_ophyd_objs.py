@@ -106,6 +106,42 @@ def test_beamline_elements_simple_connection(srw_basic_simulation):
     pprint.pprint(watchpoint.read())  # noqa F821
 
 
+def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=11):
+    classes, objects = create_classes(
+        srw_ari_simulation.data, connection=srw_ari_simulation
+    )
+    globals().update(**objects)
+
+    undulator.verticalAmplitude.kind = "hinted"  # noqa F821
+
+    single_electron_spectrum.initialEnergy.get()
+    single_electron_spectrum.initialEnergy.put(20)
+    single_electron_spectrum.finalEnergy.put(1100)
+
+    assert connection.data["models"]["intensityReport"]["initialEnergy"] == 20
+    assert connection.data["models"]["intensityReport"]["finalEnergy"] == 1100
+
+    (uid,) = RE(bp.scan([single_electron_spectrum],
+                        undulator.verticalAmplitude, 0.2, 1, num_steps))
+
+    hdr = db[uid]
+    tbl = hdr.table()
+    print(tbl)
+
+    ses_data = np.array(list(hdr.data("single_electron_spectrum_image")))
+    ampl_data = np.array(list(hdr.data("undulator_vertical_amplitude")))
+    # Check the shape of the image data is right:
+    assert ses_data.shape == (num_steps, 2000)
+
+    resource_files = []
+    for name, doc in hdr.documents():
+        if name == "resource":
+            resource_files.append(os.path.basename(doc["resource_path"]))
+
+    # Check that all resource files are unique:
+    assert len(set(resource_files)) == num_steps
+
+
 def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
     classes, objects = create_classes(
         shadow_tes_simulation.data, connection=shadow_tes_simulation
