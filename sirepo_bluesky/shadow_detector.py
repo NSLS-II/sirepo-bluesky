@@ -1,6 +1,5 @@
 import datetime
 import json
-import time
 from collections import deque
 from enum import Enum, unique
 from pathlib import Path
@@ -180,9 +179,8 @@ class SirepoShadowDetector(Device):
 
         # elif self._sim_report_type == SimReportTypes.srw_se_spectrum.name:
         #     self.data['report'] = "intensityReport"
-        start_time = time.monotonic()
-        self.sb.run_simulation()
-        self.duration.put(time.monotonic() - start_time)
+        _, duration = self.sb.run_simulation()
+        self.duration.put(duration)
 
         datafile = self.sb.get_datafile()
         if self._sim_report_type == ShadowSimReportTypes.beam_stats_report.name:

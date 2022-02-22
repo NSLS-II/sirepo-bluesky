@@ -1,6 +1,5 @@
 import datetime
 import json
-import time
 from collections import deque
 from pathlib import Path
 
@@ -158,9 +157,8 @@ class SirepoSRWDetector(Device):
         else:
             self.data['report'] = "intensityReport"
 
-        start_time = time.monotonic()
-        self.sb.run_simulation()
-        self.duration.put(time.monotonic() - start_time)
+        _, duration = self.sb.run_simulation()
+        self.duration.put(duration)
 
         datafile = self.sb.get_datafile()
 
