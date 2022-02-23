@@ -118,8 +118,8 @@ def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=11):
     single_electron_spectrum.initialEnergy.put(20)
     single_electron_spectrum.finalEnergy.put(1100)
 
-    assert connection.data["models"]["intensityReport"]["initialEnergy"] == 20
-    assert connection.data["models"]["intensityReport"]["finalEnergy"] == 1100
+    assert srw_ari_simulation.data["models"]["intensityReport"]["initialEnergy"] == 20
+    assert srw_ari_simulation.data["models"]["intensityReport"]["finalEnergy"] == 1100
 
     (uid,) = RE(bp.scan([single_electron_spectrum],
                         undulator.verticalAmplitude, 0.2, 1, num_steps))
