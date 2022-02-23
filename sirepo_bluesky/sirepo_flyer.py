@@ -252,8 +252,7 @@ class SirepoFlyer(BlueskyFlyer):
             # run serial
             for i in range(self.copy_count):
                 print(f'running sim: {self._copies[i].sim_id}')
-                status = self._copies[i].run_simulation()
-                duration = ttime.monotonic() - start_time
+                status, duration = self._copies[i].run_simulation()
                 print(f"Status of sim {self._copies[i].sim_id}: {status['state']} in {duration:.01f} seconds")
                 self.return_status[self._copies[i].sim_id] = status['state']
                 self.return_duration[self._copies[i].sim_id] = duration
@@ -381,8 +380,7 @@ class SirepoFlyer(BlueskyFlyer):
     def _run(sim, return_status, return_duration, start_time):
         """ Run simulations using multiprocessing. """
         print(f'running sim {sim.sim_id}')
-        status = sim.run_simulation()
-        duration = ttime.monotonic() - start_time
+        status, duration = sim.run_simulation()
         print(f"Status of sim {sim.sim_id}: {status['state']} in {duration:.01f} seconds")
         return_status[sim.sim_id] = status['state']
         return_duration[sim.sim_id] = duration
