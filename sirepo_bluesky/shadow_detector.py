@@ -202,8 +202,6 @@ class SirepoShadowDetector(Device):
             self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
             update_components(ret)
 
-        print(self.view_sirepo_components)
-
         datum_document = self._datum_factory(datum_kwargs={})
         self._asset_docs_cache.append(("datum", datum_document))
 

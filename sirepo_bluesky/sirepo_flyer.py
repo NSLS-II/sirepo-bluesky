@@ -233,7 +233,6 @@ class SirepoFlyer(BlueskyFlyer):
             c1.data['report'] = 'watchpointReport{}'.format(watch['id'])
             self._copies.append(c1)
 
-        start_time = ttime.monotonic()
         if self.run_parallel:
             manager = Manager()
             self.return_status = manager.dict()
@@ -377,7 +376,7 @@ class SirepoFlyer(BlueskyFlyer):
                    'filled': {key: False for key in data}}
 
     @staticmethod
-    def _run(sim, return_status, return_duration, start_time):
+    def _run(sim, return_status, return_duration):
         """ Run simulations using multiprocessing. """
         print(f'running sim {sim.sim_id}')
         status, duration = sim.run_simulation()
