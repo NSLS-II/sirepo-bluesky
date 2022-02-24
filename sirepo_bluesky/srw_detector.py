@@ -39,6 +39,7 @@ class SirepoSRWDetector(Device):
     image = Cpt(ExternalFileReference, kind="normal")
     shape = Cpt(Signal)
     mean = Cpt(Signal, kind="hinted")
+    duration = Cpt(Signal, kind="hinted")
     photon_energy = Cpt(Signal, kind="normal")
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
@@ -156,7 +157,8 @@ class SirepoSRWDetector(Device):
         else:
             self.data['report'] = "intensityReport"
 
-        self.sb.run_simulation()
+        _, duration = self.sb.run_simulation()
+        self.duration.put(duration)
 
         datafile = self.sb.get_datafile()
 

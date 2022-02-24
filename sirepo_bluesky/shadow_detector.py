@@ -46,6 +46,7 @@ class SirepoShadowDetector(Device):
     image = Cpt(ExternalFileReference, kind="normal")
     shape = Cpt(Signal)
     mean = Cpt(Signal, kind="hinted")
+    duration = Cpt(Signal, kind="hinted")
     photon_energy = Cpt(Signal, kind="normal")
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
@@ -178,7 +179,8 @@ class SirepoShadowDetector(Device):
 
         # elif self._sim_report_type == SimReportTypes.srw_se_spectrum.name:
         #     self.data['report'] = "intensityReport"
-        self.sb.run_simulation()
+        _, duration = self.sb.run_simulation()
+        self.duration.put(duration)
 
         datafile = self.sb.get_datafile()
         if self._sim_report_type == ShadowSimReportTypes.beam_stats_report.name:
@@ -210,6 +212,7 @@ class SirepoShadowDetector(Device):
         self._resource_document = None
         self._datum_factory = None
 
+        super().trigger()
         return NullStatus()
 
     def describe(self):

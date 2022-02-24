@@ -2,6 +2,7 @@ import os
 
 import pytest
 import vcr
+import numpy as np
 
 from sirepo_bluesky.srw_detector import SirepoSRWDetector
 import bluesky.plans as bp
@@ -30,6 +31,8 @@ def _test_srw_detector(RE, db, tmpdir, sim_type, sim_id, server_name):
     srw_det.active_parameters['Aperture_horizontalSize'].set(1.0)
     srw_det.active_parameters['Aperture_verticalSize'].set(1.0)
 
+    srw_det.duration.kind = 'hinted'
+
     RE(bp.count([srw_det]))
 
     hdr = db[-1]
@@ -37,6 +40,9 @@ def _test_srw_detector(RE, db, tmpdir, sim_type, sim_id, server_name):
     mean = t.iloc[0]['srw_det_mean']
 
     assert mean == 1334615738479247.2, "incorrect mean value from bp.count"
+
+    sim_durations = np.array(t["srw_det_duration"])
+    assert (sim_durations > 0.0).all()
 
 
 @vcr.use_cassette(f'{cassette_location}/test_srw_detector.yml')

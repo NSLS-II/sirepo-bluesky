@@ -158,6 +158,7 @@ class SirepoBluesky(object):
             Default is 1000.
 
         """
+        start_time = time.monotonic()
         assert hasattr(self, 'cookies'), 'call auth() before run_simulation()'
         assert 'report' in self.data, 'client needs to set data[\'report\']'
         self.data['simulationId'] = self.sim_id
@@ -171,7 +172,7 @@ class SirepoBluesky(object):
             time.sleep(res['nextRequestSeconds'])
             res = self._post_json('run-status', res['nextRequest'])
         assert state == 'completed', 'simulation failed to completed: {}'.format(state)
-        return res
+        return res, time.monotonic() - start_time
 
     @staticmethod
     def _assert_success(response, url):

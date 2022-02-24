@@ -1,5 +1,5 @@
 import os
-
+import numpy as np
 import pytest
 import vcr
 
@@ -68,6 +68,12 @@ def _test_sirepo_flyer(RE_no_plot, db, tmpdir, sim_id, server_name):
         db_means.append(t.iloc[i]['sirepo_flyer_mean'])
 
     assert set(actual_means) == set(db_means), "fly scan means do not match actual means"
+
+    durations = []
+    for i in range(len(t)):
+        durations.append(t.iloc[i]['sirepo_flyer_duration'])
+
+    assert (np.array(durations) > 0.0).all(), "fly scan durations are nonpositive"
 
 
 @vcr.use_cassette(f'{cassette_location}/test_sirepo_flyer.yml')

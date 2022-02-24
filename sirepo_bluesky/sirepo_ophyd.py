@@ -120,9 +120,8 @@ class SirepoWatchpoint(DeviceWithJSONData):
 
         self.connection.data["report"] = f"watchpointReport{self.id._sirepo_dict['id']}"
 
-        start_time = time.monotonic()
-        self.connection.run_simulation()
-        self.duration.put(time.monotonic() - start_time)
+        _, duration = self.connection.run_simulation()
+        self.duration.put(duration)
 
         datafile = self.connection.get_datafile()
 
