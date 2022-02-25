@@ -8,6 +8,7 @@ import bluesky.plan_stubs as bps
 import dictdiffer
 import matplotlib.pyplot as plt
 import numpy as np
+import peakutils
 import pytest
 import tfs
 
@@ -106,7 +107,7 @@ def test_beamline_elements_simple_connection(srw_basic_simulation):
     pprint.pprint(watchpoint.read())  # noqa F821
 
 
-def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=11):
+def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
     classes, objects = create_classes(
         srw_ari_simulation.data, connection=srw_ari_simulation
     )
@@ -114,22 +115,22 @@ def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=11):
 
     undulator.verticalAmplitude.kind = "hinted"  # noqa F821
 
-    single_electron_spectrum.initialEnergy.get()
-    single_electron_spectrum.initialEnergy.put(20)
-    single_electron_spectrum.finalEnergy.put(1100)
+    single_electron_spectrum.initialEnergy.get()  # noqa F821
+    single_electron_spectrum.initialEnergy.put(20)  # noqa F821
+    single_electron_spectrum.finalEnergy.put(1100)  # noqa F821
 
     assert srw_ari_simulation.data["models"]["intensityReport"]["initialEnergy"] == 20
     assert srw_ari_simulation.data["models"]["intensityReport"]["finalEnergy"] == 1100
 
-    (uid,) = RE(bp.scan([single_electron_spectrum],
-                        undulator.verticalAmplitude, 0.2, 1, num_steps))
+    (uid,) = RE(bp.scan([single_electron_spectrum],  # noqa F821
+                        undulator.verticalAmplitude, 0.2, 1, num_steps))  # noqa F821
 
     hdr = db[uid]
     tbl = hdr.table()
     print(tbl)
 
     ses_data = np.array(list(hdr.data("single_electron_spectrum_image")))
-    ampl_data = np.array(list(hdr.data("undulator_vertical_amplitude")))
+    ampl_data = np.array(list(hdr.data("undulator_verticalAmplitude")))
     # Check the shape of the image data is right:
     assert ses_data.shape == (num_steps, 2000)
 
@@ -140,6 +141,18 @@ def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=11):
 
     # Check that all resource files are unique:
     assert len(set(resource_files)) == num_steps
+
+    fig = plt.figure()
+    ax = fig.add_subplot()
+    for i in range(num_steps):
+        ax.plot(ses_data[i, :], label=f"vert. magn. fld. {ampl_data[i]:.3f}T")
+        peak = peakutils.indexes(ses_data[i, :])
+        ax.scatter(peak, ses_data[i, peak])
+    ax.grid()
+    ax.legend()
+    ax.set_title("Single-Electron Spectrum vs. Vertical Magnetic Field")
+    fig.savefig("ses-vs-ampl.png")
+    # plt.show()
 
 
 def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
