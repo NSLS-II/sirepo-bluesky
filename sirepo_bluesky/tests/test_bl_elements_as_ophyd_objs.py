@@ -38,22 +38,23 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
     globals().update(**objects)
 
     for i, (k, v) in enumerate(objects.items()):
-        old_value = v.element_position.get()
-        old_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
+        if "element_position" in v.component_names:
+            old_value = v.element_position.get()
+            old_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
 
-        getattr(v.element_position, method)(old_value + 100)
+            getattr(v.element_position, method)(old_value + 100)
 
-        new_value = v.element_position.get()
-        new_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
+            new_value = v.element_position.get()
+            new_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
 
-        print(
-            f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n"
-        )
+            print(
+                f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n"
+            )
 
-        assert old_value == old_sirepo_value
-        assert new_value == new_sirepo_value
-        assert new_value != old_value
-        assert abs(new_value - (old_value + 100)) < 1e-8
+            assert old_value == old_sirepo_value
+            assert new_value == new_sirepo_value
+            assert new_value != old_value
+            assert abs(new_value - (old_value + 100)) < 1e-8
 
 
 @pytest.mark.parametrize("method", ["set", "put"])
