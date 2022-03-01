@@ -51,6 +51,33 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
         assert abs(new_value - (old_value + 100)) < 1e-8
 
 
+def test_grazing_angle_calculation(srw_tes_simulation):
+    classes, objects = create_classes(
+        srw_tes_simulation.data, connection=srw_tes_simulation
+    )
+    globals().update(**objects)
+
+    toroid.grazingAngle.set(10)
+
+    expected_vector_values = {
+        "nvx": 0,
+        "nvy": 0.9999755001000415,
+        "nvz": -0.006999942833473391,
+        "tvx": 0,
+        "tvy": 0.006999942833473391,
+    }
+
+    actual_vector_values = {
+        "nvx": toroid.normalVectorX.get(),
+        "nvy": toroid.normalVectorY.get(),
+        "nvz": toroid.normalVectorZ.get(),
+        "tvx": toroid.tangentialVectorX.get(),
+        "tvy": toroid.tangentialVectorY.get(),
+    }
+
+    assert not list(dictdiffer.diff(expected_vector_values, actual_vector_values))
+
+
 def test_beamline_elements_simple_connection(srw_basic_simulation):
     classes, objects = create_classes(
         srw_basic_simulation.data, connection=srw_basic_simulation
