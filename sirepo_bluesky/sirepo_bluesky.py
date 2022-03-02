@@ -129,7 +129,10 @@ class SirepoBluesky(object):
             Call auth() and run_simulation() before this.
         """
         assert hasattr(self, 'cookies'), 'call auth() before get_datafile()'
-        url = 'download-data-file/{}/{}/{}/-1'.format(self.sim_type, self.sim_id, self.data['report'])
+        if self.sim_type in ["srw", "shadow"]:
+            url = 'download-data-file/{}/{}/{}/-1'.format(self.sim_type, self.sim_id, self.data['report'])
+        elif self.sim_type in ["madx"]:
+            url = 'download-data-file/{}/{}/{}/0'.format(self.sim_type, self.sim_id, self.data['report'])
         response = requests.get('{}/{}'.format(self.server, url), cookies=self.cookies)
         self._assert_success(response, url)
         return response.content
