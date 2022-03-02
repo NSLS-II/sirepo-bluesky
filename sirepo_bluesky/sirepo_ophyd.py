@@ -161,7 +161,9 @@ class SirepoWatchpoint(DeviceWithJSONData):
         self._resource_document = None
         self._datum_factory = None
 
-        logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
+        logger.debug(
+            f"\nReport for {self.name}: {self.connection.data['report']}\n"
+        )
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -206,7 +208,9 @@ class BeamStatisticsReport(DeviceWithJSONData):
         datafile = self.connection.get_datafile()
         self.report.put(json.dumps(json.loads(datafile.decode())))
 
-        logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
+        logger.debug(
+            f"\nReport for {self.name}: {self.connection.data['report']}\n"
+        )
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -277,7 +281,11 @@ def create_classes(sirepo_data, connection, create_objects=True):
             else:
                 pass
 
-        class_name = inflection.camelize(el[config_dict[sim_type].class_name_field].replace(" ", "_").replace(".", ""))
+        class_name = inflection.camelize(
+            el[config_dict[sim_type].class_name_field]
+            .replace(" ", "_")
+            .replace(".", "")
+        )
         object_name = inflection.underscore(class_name)
 
         base_classes = (Device,)
@@ -298,7 +306,9 @@ def create_classes(sirepo_data, connection, create_objects=True):
             components[k] = Cpt(
                 cpt_class,
                 value=v,
-                sirepo_dict=sirepo_data["models"][config_dict[sim_type].element_location][i],
+                sirepo_dict=sirepo_data["models"][
+                    config_dict[sim_type].element_location
+                ][i],
                 sirepo_param=k,
             )
         components.update(**extra_kwargs)
