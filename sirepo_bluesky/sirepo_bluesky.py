@@ -97,6 +97,15 @@ class SirepoBluesky(object):
         assert res['state'] == 'ok'
         self.sim_id = None
 
+    def compute_grazing_orientation(self, optical_element):
+        res = self._post_json('stateless-compute', {
+            'method': "compute_grazing_orientation",
+            'optical_element': optical_element,
+            'simulationId': self.sim_id,
+            'simulationType': self.sim_type,
+        })
+        return res
+
     @staticmethod
     def find_element(elements, field, value):
         """ Helper method to lookup an element in an array by field value. """

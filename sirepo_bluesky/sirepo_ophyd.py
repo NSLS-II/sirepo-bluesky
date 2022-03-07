@@ -92,8 +92,10 @@ class SirepoWatchpoint(DeviceWithJSONData):
         sim_type = self.connection.data["simulationType"]
         allowed_sim_types = ("srw", "shadow")
         if sim_type not in allowed_sim_types:
-            raise RuntimeError(f"Unknown simulation type: {sim_type}\n"
-                               f"Allowed simulation types: {allowed_sim_types}")
+            raise RuntimeError(
+                f"Unknown simulation type: {sim_type}\n"
+                f"Allowed simulation types: {allowed_sim_types}"
+            )
 
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
@@ -135,7 +137,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
             ret = read_srw_file(sim_result_file, ndim=ndim)
             self._resource_document["resource_kwargs"]["ndim"] = ndim
         elif sim_type == "shadow":
-            nbins = conn_data['models'][conn_data['report']]['histogramBins']
+            nbins = conn_data["models"][conn_data["report"]]["histogramBins"]
             ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
             self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
 
@@ -156,8 +158,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
         self._resource_document = None
         self._datum_factory = None
 
-        logger.debug(f"\nReport for {self.name}: "
-                     f"{self.connection.data['report']}\n")
+        logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -193,7 +194,7 @@ class BeamStatisticsReport(DeviceWithJSONData):
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
 
-        self.connection.data['report'] = 'beamStatisticsReport'
+        self.connection.data["report"] = "beamStatisticsReport"
 
         start_time = time.monotonic()
         self.connection.run_simulation()
@@ -202,8 +203,7 @@ class BeamStatisticsReport(DeviceWithJSONData):
         datafile = self.connection.get_datafile()
         self.report.put(json.dumps(json.loads(datafile.decode())))
 
-        logger.debug(f"\nReport for {self.name}: "
-                     f"{self.connection.data['report']}\n")
+        logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -217,6 +217,24 @@ class BeamStatisticsReport(DeviceWithJSONData):
     def unstage(self):
         super().unstage()
         self.report.put({})
+
+
+def grazing_angle_set(self, value):
+    self.grazingAngle.put(value)
+    ret = self.connection.compute_grazing_orientation(self.grazingAngle._sirepo_dict)
+    # State is added to the ret dict from compute_grazing_orientation and we want to
+    # make sure the vectors are updated properly every time the grazing angle is updated.
+    ret.pop("state")
+    # Update vector components
+    for cpt in [
+        "normalVectorX",
+        "normalVectorY",
+        "normalVectorZ",
+        "tangentialVectorX",
+        "tangentialVectorY",
+    ]:
+        getattr(self, cpt).put(ret[cpt])
+    return NullStatus()
 
 
 def create_classes(sirepo_data, connection, create_objects=True):
@@ -239,10 +257,9 @@ def create_classes(sirepo_data, connection, create_objects=True):
         object_name = inflection.underscore(class_name)
 
         base_classes = (Device,)
-        extra_kwargs = {}
+        extra_kwargs = {"connection": connection}
         if el["type"] == "watch":
             base_classes = (SirepoWatchpoint, Device)
-            extra_kwargs = {"connection": connection}
 
         components = {}
         for k, v in el.items():
@@ -259,6 +276,13 @@ def create_classes(sirepo_data, connection, create_objects=True):
             base_classes,
             components,
         )
+
+        if el["type"] not in ["mirror", "crystal"]:
+            for k, v in el.items():
+                # TODO: Check mirror and crystal grazing angles
+                if k == "grazingAngle":
+                    setattr(cls, "set", grazing_angle_set)
+
         classes[object_name] = cls
         if create_objects:
             objects[object_name] = cls(name=object_name)

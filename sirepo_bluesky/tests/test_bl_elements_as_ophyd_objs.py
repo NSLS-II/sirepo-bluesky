@@ -51,6 +51,33 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
         assert abs(new_value - (old_value + 100)) < 1e-8
 
 
+def test_grazing_angle_calculation(srw_tes_simulation):
+    classes, objects = create_classes(
+        srw_tes_simulation.data, connection=srw_tes_simulation
+    )
+    globals().update(**objects)
+
+    toroid.grazingAngle.set(10)  # noqa F821
+
+    expected_vector_values = {
+        "nvx": 0,
+        "nvy": 0.9999755001000415,
+        "nvz": -0.006999942833473391,
+        "tvx": 0,
+        "tvy": 0.006999942833473391,
+    }
+
+    actual_vector_values = {
+        "nvx": toroid.normalVectorX.get(),  # noqa F821
+        "nvy": toroid.normalVectorY.get(),  # noqa F821
+        "nvz": toroid.normalVectorZ.get(),  # noqa F821
+        "tvx": toroid.tangentialVectorX.get(),  # noqa F821
+        "tvy": toroid.tangentialVectorY.get(),  # noqa F821
+    }
+
+    assert not list(dictdiffer.diff(expected_vector_values, actual_vector_values))
+
+
 def test_beamline_elements_simple_connection(srw_basic_simulation):
     classes, objects = create_classes(
         srw_basic_simulation.data, connection=srw_basic_simulation
@@ -61,8 +88,8 @@ def test_beamline_elements_simple_connection(srw_basic_simulation):
 
     globals().update(**objects)
 
-    print(watchpoint.summary())  # noqa
-    pprint.pprint(watchpoint.read())  # noqa
+    print(watchpoint.summary())  # noqa F821
+    pprint.pprint(watchpoint.read())  # noqa F821
 
 
 def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
