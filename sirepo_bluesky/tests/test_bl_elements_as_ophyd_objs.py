@@ -52,7 +52,8 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
         assert abs(new_value - (old_value + 100)) < 1e-8
 
 
-def test_grazing_angle_calculation(srw_tes_simulation):
+@pytest.mark.parametrize("method", ["set", "put"])
+def test_grazing_angle_calculation(srw_tes_simulation, method):
     classes, objects = create_classes(
         srw_tes_simulation.data, connection=srw_tes_simulation
     )
@@ -61,7 +62,7 @@ def test_grazing_angle_calculation(srw_tes_simulation):
     params_before = copy.deepcopy(toroid.grazingAngle._sirepo_dict)  # noqa F821
     params_before.pop("grazingAngle")
 
-    toroid.grazingAngle.set(10)  # noqa F821
+    getattr(toroid.grazingAngle, method)(10)  # noqa F821
 
     params_after = copy.deepcopy(toroid.grazingAngle._sirepo_dict)  # noqa F821
     params_after.pop("grazingAngle")
