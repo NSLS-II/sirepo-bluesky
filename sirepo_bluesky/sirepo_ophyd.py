@@ -93,7 +93,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
         self._datum_factory = None
 
         sim_type = self.connection.data["simulationType"]
-        allowed_sim_types = ("srw", "shadow")
+        allowed_sim_types = ("srw", "shadow", "madx")
         if sim_type not in allowed_sim_types:
             raise RuntimeError(
                 f"Unknown simulation type: {sim_type}\n"
