@@ -50,13 +50,15 @@ jobs:
           auto-update-conda: true
           miniconda-version: "latest"
           python-version: ${{ matrix.python-version }}
+          mamba-version: "*"
+          channels: conda-forge
 
       - name: Install documentation-building requirements
         run: |
           set -vxeo pipefail
           sudo apt-get update && sudo apt-get install pandoc
           conda env list
-          conda install -c conda-forge shadow3 srwpy
+          mamba install -c conda-forge shadow3 srwpy
           pip install --upgrade pip wheel
           pip install -v .
           pip install -r requirements-dev.txt
