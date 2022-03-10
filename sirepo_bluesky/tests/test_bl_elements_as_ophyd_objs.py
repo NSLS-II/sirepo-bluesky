@@ -1,3 +1,4 @@
+import copy
 import json
 import os
 import pprint
@@ -57,14 +58,23 @@ def test_grazing_angle_calculation(srw_tes_simulation):
     )
     globals().update(**objects)
 
+    params_before = copy.deepcopy(toroid.grazingAngle._sirepo_dict)  # noqa F821
+    params_before.pop("grazingAngle")
+
     toroid.grazingAngle.set(10)  # noqa F821
+
+    params_after = copy.deepcopy(toroid.grazingAngle._sirepo_dict)  # noqa F821
+    params_after.pop("grazingAngle")
+
+    params_diff = list(dictdiffer.diff(params_before, params_after))
+    assert len(params_diff) > 0  # should not be empty
 
     expected_vector_values = {
         "nvx": 0,
-        "nvy": 0.9999755001000415,
-        "nvz": -0.006999942833473391,
+        "nvy": 0.9999500004166653,
+        "nvz": -0.009999833334166664,
         "tvx": 0,
-        "tvy": 0.006999942833473391,
+        "tvy": 0.009999833334166664,
     }
 
     actual_vector_values = {
