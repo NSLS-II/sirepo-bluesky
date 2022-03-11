@@ -1,3 +1,4 @@
+import copy
 import json
 import os
 import pprint
@@ -51,20 +52,30 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
         assert abs(new_value - (old_value + 100)) < 1e-8
 
 
-def test_grazing_angle_calculation(srw_tes_simulation):
+@pytest.mark.parametrize("method", ["set", "put"])
+def test_grazing_angle_calculation(srw_tes_simulation, method):
     classes, objects = create_classes(
         srw_tes_simulation.data, connection=srw_tes_simulation
     )
     globals().update(**objects)
 
-    toroid.grazingAngle.set(10)  # noqa F821
+    params_before = copy.deepcopy(toroid.grazingAngle._sirepo_dict)  # noqa F821
+    params_before.pop("grazingAngle")
+
+    getattr(toroid.grazingAngle, method)(10)  # noqa F821
+
+    params_after = copy.deepcopy(toroid.grazingAngle._sirepo_dict)  # noqa F821
+    params_after.pop("grazingAngle")
+
+    params_diff = list(dictdiffer.diff(params_before, params_after))
+    assert len(params_diff) > 0  # should not be empty
 
     expected_vector_values = {
         "nvx": 0,
-        "nvy": 0.9999755001000415,
-        "nvz": -0.006999942833473391,
+        "nvy": 0.9999500004166653,
+        "nvz": -0.009999833334166664,
         "tvx": 0,
-        "tvy": 0.006999942833473391,
+        "tvy": 0.009999833334166664,
     }
 
     actual_vector_values = {

@@ -219,22 +219,24 @@ class BeamStatisticsReport(DeviceWithJSONData):
         self.report.put({})
 
 
-def grazing_angle_set(self, value):
-    self.grazingAngle.put(value)
-    ret = self.connection.compute_grazing_orientation(self.grazingAngle._sirepo_dict)
-    # State is added to the ret dict from compute_grazing_orientation and we want to
-    # make sure the vectors are updated properly every time the grazing angle is updated.
-    ret.pop("state")
-    # Update vector components
-    for cpt in [
-        "normalVectorX",
-        "normalVectorY",
-        "normalVectorZ",
-        "tangentialVectorX",
-        "tangentialVectorY",
-    ]:
-        getattr(self, cpt).put(ret[cpt])
-    return NullStatus()
+class SirepoSignalGrazingAngle(SirepoSignal):
+    def set(self, value):
+        super().set(value)
+        ret = self.parent.connection.compute_grazing_orientation(self._sirepo_dict)
+        # State is added to the ret dict from compute_grazing_orientation and we
+        # want to make sure the vectors are updated properly every time the
+        # grazing angle is updated.
+        ret.pop("state")
+        # Update vector components
+        for cpt in [
+            "normalVectorX",
+            "normalVectorY",
+            "normalVectorZ",
+            "tangentialVectorX",
+            "tangentialVectorY",
+        ]:
+            getattr(self.parent, cpt).put(ret[cpt])
+        return NullStatus()
 
 
 def create_classes(sirepo_data, connection, create_objects=True):
@@ -263,8 +265,16 @@ def create_classes(sirepo_data, connection, create_objects=True):
 
         components = {}
         for k, v in el.items():
+
+            if el["type"] in ["sphericalMirror", "toroidalMirror", "ellipsoidMirror"] \
+                    and k == "grazingAngle":
+                cpt_class = SirepoSignalGrazingAngle
+            else:
+                # TODO: Cover the cases for mirror and crystal grazing angles
+                cpt_class = SirepoSignal
+
             components[k] = Cpt(
-                SirepoSignal,
+                cpt_class,
                 value=v,
                 sirepo_dict=sirepo_data["models"]["beamline"][i],
                 sirepo_param=k,
@@ -276,12 +286,6 @@ def create_classes(sirepo_data, connection, create_objects=True):
             base_classes,
             components,
         )
-
-        if el["type"] not in ["mirror", "crystal"]:
-            for k, v in el.items():
-                # TODO: Check mirror and crystal grazing angles
-                if k == "grazingAngle":
-                    setattr(cls, "set", grazing_angle_set)
 
         classes[object_name] = cls
         if create_objects:
