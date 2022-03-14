@@ -1,0 +1,17 @@
+[Unit]
+Description=Sirepo
+Wants=mongod.service
+After=syslog.target network.target mongod.service
+
+[Service]
+User=root
+Group=root
+SyslogIdentifier=sirepo
+TimeoutStartSec=0
+# Restart=always
+WorkingDirectory=/repos/sirepo-bluesky
+ExecStart=bash /repos/sirepo-bluesky/scripts/start_sirepo.sh -it
+
+[Install]
+WantedBy=multi-user.target
+
