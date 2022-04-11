@@ -15,6 +15,9 @@ elif [ "${arg}" != "-it" -a "${arg}" != "-d" ]; then
     exit 2
 fi
 
+SIREPO_SRDB_HOST="${SIREPO_SRDB_HOST:-}"
+SIREPO_SRDB_GUEST="${SIREPO_SRDB_GUEST:-}"
+
 unset cmd _cmd docker_image SIREPO_DOCKER_CONTAINER_ID
 
 month=$(date +"%m")
