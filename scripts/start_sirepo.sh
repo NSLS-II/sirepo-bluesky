@@ -38,14 +38,22 @@ ${docker_binary} pull ${docker_image}
 ${docker_binary} images
 
 in_docker_cmd="mkdir -v -p /sirepo/ && cp -Rv /SIREPO_SRDB_ROOT/* /sirepo/ && sirepo service http"
-cmd="${docker_binary} run ${arg} --init --rm --name sirepo \
+cmd_start="${docker_binary} run ${arg} --init --rm --name sirepo \
        -e SIREPO_AUTH_METHODS=bluesky:guest \
        -e SIREPO_AUTH_BLUESKY_SECRET=bluesky \
        -e SIREPO_SRDB_ROOT=/sirepo \
        -e SIREPO_COOKIE_IS_SECURE=false \
        -p 8000:8000 \
-       -v $PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT:/SIREPO_SRDB_ROOT:ro,z \
-       ${docker_image} bash -l -c \"${in_docker_cmd}\""
+       -v $PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT:/SIREPO_SRDB_ROOT:ro,z "
+
+cmd_extra=""
+if [ ! -z "${SIREPO_SRDB_HOST}" -a ! -z "${SIREPO_SRDB_GUEST}" ]; then
+    cmd_extra="-v ${SIREPO_SRDB_HOST}:${SIREPO_SRDB_GUEST} "
+fi
+
+cmd_end="${docker_image} bash -l -c \"${in_docker_cmd}\""
+
+cmd="${cmd_start}${cmd_extra}${cmd_end}"
 
 echo -e "Command to run:\n\n${cmd}\n"
 if [ "${arg}" == "-d" ]; then

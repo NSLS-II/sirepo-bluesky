@@ -10,6 +10,8 @@ SyslogIdentifier=sirepo
 TimeoutStartSec=0
 # Restart=always
 WorkingDirectory=/repos/sirepo-bluesky
+Environment=SIREPO_SRDB_HOST=/sirepo
+Environment=SIREPO_SRDB_GUEST=/sirepo
 ExecStart=bash /repos/sirepo-bluesky/scripts/start_sirepo.sh -it
 
 [Install]
