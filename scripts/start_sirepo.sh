@@ -40,7 +40,7 @@ ${docker_binary} pull ${docker_image}
 
 ${docker_binary} images
 
-in_docker_cmd="mkdir -v -p /sirepo/ && cp -Rv /SIREPO_SRDB_ROOT/* /sirepo/ && sirepo service http"
+in_docker_cmd="mkdir -v /sirepo/ && cp -Rv /SIREPO_SRDB_ROOT/* /sirepo/ || echo 'The directory exists. Nothing to do'; sirepo service http"
 cmd_start="${docker_binary} run ${arg} --init --rm --name sirepo \
        -e SIREPO_AUTH_METHODS=bluesky:guest \
        -e SIREPO_AUTH_BLUESKY_SECRET=bluesky \
