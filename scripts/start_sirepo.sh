@@ -17,6 +17,7 @@ fi
 
 SIREPO_SRDB_HOST="${SIREPO_SRDB_HOST:-}"
 SIREPO_SRDB_GUEST="${SIREPO_SRDB_GUEST:-}"
+SIREPO_SRDB_ROOT="${SIREPO_SRDB_ROOT:-'/sirepo'}"
 
 unset cmd _cmd docker_image SIREPO_DOCKER_CONTAINER_ID
 
@@ -40,14 +41,20 @@ ${docker_binary} pull ${docker_image}
 
 ${docker_binary} images
 
-in_docker_cmd="mkdir -v -p /sirepo/ && cp -Rv /SIREPO_SRDB_ROOT/* /sirepo/ && sirepo service http"
+in_docker_cmd="mkdir -v -p ${SIREPO_SRDB_ROOT} && \
+    if [ ! -f "${SIREPO_SRDB_ROOT}/auth.db" ]; then \
+        cp -Rv /SIREPO_SRDB_ROOT/* ${SIREPO_SRDB_ROOT}/; \
+    else \
+        echo 'The directory exists. Nothing to do'; \
+    fi && \
+    sirepo service http"
 cmd_start="${docker_binary} run ${arg} --init --rm --name sirepo \
-       -e SIREPO_AUTH_METHODS=bluesky:guest \
-       -e SIREPO_AUTH_BLUESKY_SECRET=bluesky \
-       -e SIREPO_SRDB_ROOT=/sirepo \
-       -e SIREPO_COOKIE_IS_SECURE=false \
-       -p 8000:8000 \
-       -v $PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT:/SIREPO_SRDB_ROOT:ro,z "
+    -e SIREPO_AUTH_METHODS=bluesky:guest \
+    -e SIREPO_AUTH_BLUESKY_SECRET=bluesky \
+    -e SIREPO_SRDB_ROOT=${SIREPO_SRDB_ROOT} \
+    -e SIREPO_COOKIE_IS_SECURE=false \
+    -p 8000:8000 \
+    -v $PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT:/SIREPO_SRDB_ROOT:ro,z "
 
 cmd_extra=""
 if [ ! -z "${SIREPO_SRDB_HOST}" -a ! -z "${SIREPO_SRDB_GUEST}" ]; then
