@@ -128,7 +128,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
         _, duration = self.connection.run_simulation()
         self.duration.put(duration)
 
-        datafile = self.connection.get_datafile()
+        datafile = self.connection.get_datafile(file_index=-1)
 
         with open(sim_result_file, "wb") as f:
             f.write(datafile)
@@ -205,7 +205,7 @@ class BeamStatisticsReport(DeviceWithJSONData):
         self.connection.run_simulation()
         self.duration.put(time.monotonic() - start_time)
 
-        datafile = self.connection.get_datafile()
+        datafile = self.connection.get_datafile(file_index=-1)
         self.report.put(json.dumps(json.loads(datafile.decode())))
 
         logger.debug(
