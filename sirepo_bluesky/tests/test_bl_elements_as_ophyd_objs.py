@@ -231,3 +231,50 @@ def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
         ("change", ["models", "beamline", 5, "r_maj"], (10000.0, 50000.0)),
         ("change", "report", ("watchpointReport12", "beamStatisticsReport")),
     ]
+
+
+def test_madx_with_run_engine(RE, db, madx_resr_storage_ring_simulation, num_steps=5):
+    classes, objects = create_classes(
+        madx_resr_storage_ring_simulation.data, connection=madx_resr_storage_ring_simulation
+    )
+    globals().update(**objects)
+
+
+@pytest.mark.parametrize("method", ["set", "put"])
+def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
+    classes, objects = create_classes(
+        madx_resr_storage_ring_simulation.data, connection=madx_resr_storage_ring_simulation
+    )
+    globals().update(**objects)
+
+    for i, (k, v) in enumerate(objects.items()):
+        old_value = v.l.get()  # l is length
+        old_sirepo_value = madx_resr_storage_ring_simulation.data["models"]["elements"][i]["l"]
+
+        getattr(v.l, method)(old_value + 10)
+
+        new_value = v.l.get()
+        new_sirepo_value = madx_resr_storage_ring_simulation.data["models"]["elements"][i]["l"]
+
+        print(
+            f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n"
+        )
+
+        assert old_value == old_sirepo_value
+        assert new_value == new_sirepo_value
+        assert new_value != old_value
+        assert abs(new_value - (old_value + 10)) < 1e-8
+
+
+def test_mad_x_elements_simple_connection(madx_bl2_tdc_simulation):
+    classes, objects = create_classes(
+        madx_bl2_tdc_simulation.data, connection=madx_bl2_tdc_simulation
+    )
+
+    for name, obj in objects.items():
+        pprint.pprint(obj.read())
+
+    globals().update(**objects)
+
+    print(bpm5.summary())  # noqa
+    pprint.pprint(bpm5.read())  # noqa
