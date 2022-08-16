@@ -171,6 +171,7 @@ class SirepoBluesky(object):
         assert hasattr(self, 'cookies'), 'call auth() before run_simulation()'
         assert 'report' in self.data, 'client needs to set data[\'report\']'
         self.data['simulationId'] = self.sim_id
+        self.data['forceRun'] = True
         res = self._post_json('run-simulation', self.data)
         for _ in range(max_status_calls):
             state = res['state']
