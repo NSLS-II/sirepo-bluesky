@@ -57,7 +57,12 @@ jobs:
           sleep 10
           ${DOCKER_BINARY} images
           ${DOCKER_BINARY} ps -a
+          container=$(${DOCKER_BINARY} ps -q -f id=${SIREPO_DOCKER_CONTAINER_ID})
           ${DOCKER_BINARY} logs ${SIREPO_DOCKER_CONTAINER_ID}
+          if [ -z "${container}" ]; then
+              echo "Container ID ${SIREPO_DOCKER_CONTAINER_ID} is not running. Exiting."
+              exit 1
+          fi
 
       - name: Set up Python ${{ matrix.python-version }} with conda
         uses: conda-incubator/setup-miniconda@v2
@@ -87,8 +92,7 @@ jobs:
 
       - name: Test with pytest
         run: |
-          # set -vxuo pipefail
-          ${DOCKER_BINARY} ps -a
+          set -vxuo pipefail
           pytest -s -vv
           status=$?
           ${DOCKER_BINARY} ps -a
