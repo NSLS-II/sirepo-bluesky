@@ -85,7 +85,7 @@ jobs:
 
       - name: Test with pytest
         run: |
-          set -vxeuo pipefail
+          set -vxuo pipefail
           pytest -s -vv
           status=$?
           echo "Sirepo ${DOCKER_BINARY} container id: ${SIREPO_DOCKER_CONTAINER_ID}"
