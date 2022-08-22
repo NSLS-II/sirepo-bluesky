@@ -53,6 +53,8 @@ jobs:
       - name: Check Sirepo state
         run: |
           set -vxeuo pipefail
+          # Sleeping to allow sirepo time to start up
+          sleep 10
           ${DOCKER_BINARY} images
           ${DOCKER_BINARY} ps -a
           ${DOCKER_BINARY} logs ${SIREPO_DOCKER_CONTAINER_ID}
