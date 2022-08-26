@@ -15,6 +15,12 @@ elif [ "${arg}" != "-it" -a "${arg}" != "-d" ]; then
     exit 2
 fi
 
+if [ "${arg}" == "-it" ]; then
+    remove_container="--rm"
+else
+    remove_container=""
+fi
+
 SIREPO_SRDB_HOST="${SIREPO_SRDB_HOST:-}"
 SIREPO_SRDB_GUEST="${SIREPO_SRDB_GUEST:-}"
 SIREPO_SRDB_ROOT="${SIREPO_SRDB_ROOT:-'/sirepo'}"
@@ -34,7 +40,8 @@ else
     mkdir -p "${today}"
 fi
 
-docker_image="radiasoft/sirepo:beta"
+# docker_image="radiasoft/sirepo:beta"
+docker_image="radiasoft/sirepo:20220806.215448"
 docker_binary=${DOCKER_BINARY:-"docker"}
 
 ${docker_binary} pull ${docker_image}
@@ -48,7 +55,7 @@ in_docker_cmd="mkdir -v -p ${SIREPO_SRDB_ROOT} && \
         echo 'The directory exists. Nothing to do'; \
     fi && \
     sirepo service http"
-cmd_start="${docker_binary} run ${arg} --init --rm --name sirepo \
+cmd_start="${docker_binary} run ${arg} --init ${remove_container} --name sirepo \
     -e SIREPO_AUTH_METHODS=bluesky:guest \
     -e SIREPO_AUTH_BLUESKY_SECRET=bluesky \
     -e SIREPO_SRDB_ROOT=${SIREPO_SRDB_ROOT} \
