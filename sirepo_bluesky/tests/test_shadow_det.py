@@ -98,6 +98,10 @@ def test_shadow_detector_docker_beam_stats_report(RE, db, tmpdir):
         "xp",
         "z",
         "zp",
+        "emit_x",
+        "emit_z",
+        "sigxdix",
+        "sigzdiz",
     ]
 
     assert set(beam_statistics_report.keys()) == set(available_fields)
