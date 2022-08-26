@@ -239,6 +239,8 @@ def test_madx_with_run_engine(RE, db, madx_resr_storage_ring_simulation, num_ste
     )
     globals().update(**objects)
 
+    # TODO: actually test something here
+
 
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
