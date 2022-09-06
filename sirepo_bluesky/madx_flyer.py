@@ -14,19 +14,21 @@ class MADXFlyer(BlueskyFlyer):
     # and then all other Sirepo applications subclass from SirepoFlyer
     def __init__(self, connection, root_dir, report):
         super().__init__()
-        self.name = 'madx_flyer'
+        self.name = "madx_flyer"
         self.connection = connection
         self._root_dir = root_dir
         self.report = report  # TODO: property
         self._datum_docs = deque()
 
     def __repr__(self):
-        return (f'Flyer with sim_type={self.connection.sim_type} and '
-                f'sim_id="{self.connection.sim_id}" at {self.connection.server}')
+        return (
+            f"Flyer with sim_type={self.connection.sim_type} and "
+            f'sim_id="{self.connection.sim_id}" at {self.connection.server}'
+        )
 
     def kickoff(self):
-        self.connection.data['report'] = self.report
-        self.connection.data['forceRun'] = True
+        self.connection.data["report"] = self.report
+        self.connection.data["forceRun"] = True
         res, elapsed_time = self.connection.run_simulation()
         datafile = self.connection.get_datafile(file_index=0)
 
@@ -64,26 +66,36 @@ class MADXFlyer(BlueskyFlyer):
         # 2 for loops, name of column and row num
         for row_num in range(self._num_rows):
             for col_name in self._column_names:
-                datum_document = self._datum_factory(datum_kwargs={"row_num": row_num, "col_name": col_name})
+                datum_document = self._datum_factory(
+                    datum_kwargs={"row_num": row_num, "col_name": col_name}
+                )
                 print(f"{datum_document = }")
                 self._datum_docs.append(datum_document)
                 self._asset_docs_cache.append(("datum", datum_document))
         return NullStatus()
 
     def describe_collect(self):
-        return_dict = {self.name:
-                       {f'{self.name}_NAME': {'source': f'{self.name}_NAME',
-                                               'dtype': 'string',
-                                               'shape': [],
-                                               'external': 'MADXFILE:'}
-                        }
-                       }
+        return_dict = {
+            self.name: {
+                f"{self.name}_NAME": {
+                    "source": f"{self.name}_NAME",
+                    "dtype": "string",
+                    "shape": [],
+                    "external": "MADXFILE:",
+                }
+            }
+        }
         return_dict[self.name].update(
-            {f'{self.name}_{field}': {'source': f'{self.name}_{field}',
-                                    'dtype': 'number',
-                                    'shape': [],
-                                    'external': 'MADXFILE:'}
-            for field in self._column_names[1:]  # Don't include NAME, it's already in the dict
+            {
+                f"{self.name}_{field}": {
+                    "source": f"{self.name}_{field}",
+                    "dtype": "number",
+                    "shape": [],
+                    "external": "MADXFILE:",
+                }
+                for field in self._column_names[
+                    1:
+                ]  # Don't include NAME, it's already in the dict
             }
         )
         return return_dict
@@ -92,8 +104,12 @@ class MADXFlyer(BlueskyFlyer):
         now = ttime.time()
         data_dict = {}
         for i, datum_doc in enumerate(self._datum_docs):
-            data_dict[f'{self.name}_{datum_doc["datum_kwargs"]["col_name"]}'] = datum_doc["datum_id"]
-        yield {'data': data_dict,
-               'timestamps': {key: now for key in data_dict},
-               'time': now,
-               'filled': {key: False for key in data_dict}}
+            data_dict[
+                f'{self.name}_{datum_doc["datum_kwargs"]["col_name"]}'
+            ] = datum_doc["datum_id"]
+        yield {
+            "data": data_dict,
+            "timestamps": {key: now for key in data_dict},
+            "time": now,
+            "filled": {key: False for key in data_dict},
+        }
