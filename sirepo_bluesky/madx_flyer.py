@@ -55,13 +55,15 @@ class MADXFlyer(BlueskyFlyer):
 
         # Store the dataframe from raw madx datafile
         self._dataframe = read_madx_file(sim_result_file)
+        self._column_names = list(self._dataframe.columns)
+        self._num_rows = len(self._dataframe)
 
         return NullStatus()
 
     def complete(self, *args, **kwargs):
         # 2 for loops, name of column and row num
-        for row_num in [0]:
-            for col_name in ["NAME", "S"]:
+        for row_num in range(self._num_rows):
+            for col_name in self._column_names:
                 datum_document = self._datum_factory(datum_kwargs={"row_num": row_num, "col_name": col_name})
                 print(f"{datum_document = }")
                 self._datum_docs.append(datum_document)
@@ -69,18 +71,21 @@ class MADXFlyer(BlueskyFlyer):
         return NullStatus()
 
     def describe_collect(self):
-        # parameterize - stash list of columns
         return_dict = {self.name:
                        {f'{self.name}_NAME': {'source': f'{self.name}_NAME',
                                                'dtype': 'string',
                                                'shape': [],
-                                               'external': 'MADXFILE:'},
-                        f'{self.name}_S': {'source': f'{self.name}_S',
-                                               'dtype': 'number',
-                                               'shape': [],
-                                               'external': 'MADXFILE:'},
+                                               'external': 'MADXFILE:'}
                         }
                        }
+        return_dict[self.name].update(
+            {f'{self.name}_{field}': {'source': f'{self.name}_{field}',
+                                    'dtype': 'number',
+                                    'shape': [],
+                                    'external': 'MADXFILE:'}
+            for field in self._column_names[1:]  # Don't include NAME, it's already in the dict
+            }
+        )
         return return_dict
 
     def collect(self):
