@@ -1,9 +1,10 @@
 import numpy as np
 import tfs
 
-# TODO: finish madx handler code
+# TODO: row num/maybe col name as parameter
 def read_madx_file(filename):
     df = tfs.read(filename)
+    return df
 
 # vvv Below is srw handler code vvv
 # ---------------------------------
