@@ -1,15 +1,15 @@
 import datetime
 
-from bluesky.run_engine import RunEngine
-from bluesky.callbacks import best_effort
-
+import bluesky.plan_stubs as bps  # noqa F401
+import bluesky.plans as bp  # noqa F401
 import databroker
+from bluesky.callbacks import best_effort
+from bluesky.run_engine import RunEngine
 from databroker import Broker
-
 from ophyd.utils import make_dir_tree
 
+from sirepo_bluesky.madx_handler import MADXFileHandler
 from sirepo_bluesky.srw_handler import SRWFileHandler
-
 
 RE = RunEngine({})
 bec = best_effort.BestEffortCallback()
@@ -26,6 +26,7 @@ except Exception:
 RE.subscribe(db.insert)
 db.reg.register_handler('srw', SRWFileHandler, overwrite=True)
 db.reg.register_handler('SIREPO_FLYER', SRWFileHandler, overwrite=True)
+db.reg.register_handler('madx', MADXFileHandler, overwrite=True)
 
 root_dir = '/tmp/sirepo_flyer_data'
 _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)

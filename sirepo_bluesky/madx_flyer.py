@@ -1,12 +1,16 @@
-from collections import deque
 import datetime
+import logging
+import time as ttime
+from collections import deque
+from pathlib import Path
+
 from event_model import compose_resource
 from ophyd.sim import NullStatus, new_uid
-from pathlib import Path
-import time as ttime
 
 from .madx_handler import read_madx_file
 from .sirepo_flyer import BlueskyFlyer
+
+logger = logging.getLogger("sirepo-bluesky")
 
 
 class MADXFlyer(BlueskyFlyer):
@@ -18,7 +22,7 @@ class MADXFlyer(BlueskyFlyer):
         self.connection = connection
         self._root_dir = root_dir
         self.report = report  # TODO: property
-        self._datum_docs = deque()
+        self._datum_docs = {}
 
     def __repr__(self):
         return (
@@ -65,12 +69,13 @@ class MADXFlyer(BlueskyFlyer):
     def complete(self, *args, **kwargs):
         # 2 for loops, name of column and row num
         for row_num in range(self._num_rows):
+            self._datum_docs[row_num] = deque()
             for col_name in self._column_names:
                 datum_document = self._datum_factory(
                     datum_kwargs={"row_num": row_num, "col_name": col_name}
                 )
-                print(f"{datum_document = }")
-                self._datum_docs.append(datum_document)
+                logger.debug(f"{datum_document = }")
+                self._datum_docs[row_num].append(datum_document)
                 self._asset_docs_cache.append(("datum", datum_document))
         return NullStatus()
 
@@ -101,15 +106,18 @@ class MADXFlyer(BlueskyFlyer):
         return return_dict
 
     def collect(self):
-        now = ttime.time()
-        data_dict = {}
-        for i, datum_doc in enumerate(self._datum_docs):
-            data_dict[
-                f'{self.name}_{datum_doc["datum_kwargs"]["col_name"]}'
-            ] = datum_doc["datum_id"]
-        yield {
-            "data": data_dict,
-            "timestamps": {key: now for key in data_dict},
-            "time": now,
-            "filled": {key: False for key in data_dict},
-        }
+        def now():
+            return ttime.time()
+
+        for row_num in range(self._num_rows):
+            data_dict = {}
+            for datum_doc in self._datum_docs[row_num]:
+                data_dict[
+                    f'{self.name}_{datum_doc["datum_kwargs"]["col_name"]}'
+                ] = datum_doc["datum_id"]
+            yield {
+                "data": data_dict,
+                "timestamps": {key: now() for key in data_dict},
+                "time": now(),
+                "filled": {key: False for key in data_dict},
+            }
