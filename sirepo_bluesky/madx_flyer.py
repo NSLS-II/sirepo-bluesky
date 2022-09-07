@@ -74,7 +74,7 @@ class MADXFlyer(BlueskyFlyer):
                 datum_document = self._datum_factory(
                     datum_kwargs={"row_num": row_num, "col_name": col_name}
                 )
-                logger.debug(f"{datum_document = }")
+                logger.debug(f"datum_document = {datum_document}")
                 self._datum_docs[row_num].append(datum_document)
                 self._asset_docs_cache.append(("datum", datum_document))
         return NullStatus()
