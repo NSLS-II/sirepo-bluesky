@@ -67,7 +67,6 @@ class MADXFlyer(BlueskyFlyer):
         return NullStatus()
 
     def complete(self, *args, **kwargs):
-        # 2 for loops, name of column and row num
         for row_num in range(self._num_rows):
             self._datum_docs[row_num] = deque()
             for col_name in self._column_names:

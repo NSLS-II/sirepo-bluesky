@@ -2,7 +2,6 @@ import tfs
 from area_detector_handlers import HandlerBase
 
 
-# TODO: row num/maybe col name as parameter
 def read_madx_file(filename):
     df = tfs.read(filename)
     return df
