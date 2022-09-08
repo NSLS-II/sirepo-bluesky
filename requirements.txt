@@ -1,3 +1,4 @@
+area-detector-handlers
 bluesky
 databroker
 inflection
@@ -14,4 +15,5 @@ scikit-image
 # These requirement should be installed from the 'nsls2forge' or 'conda-forge' conda channel.
 # shadow3
 # srwpy
+tfs-pandas
 unyt

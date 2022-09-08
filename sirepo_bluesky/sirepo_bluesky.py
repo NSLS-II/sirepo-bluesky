@@ -121,7 +121,7 @@ class SirepoBluesky(object):
                 return optic_id
         raise ValueError(f'Not valid optic {optic_name}')
 
-    def get_datafile(self):
+    def get_datafile(self, file_index=-1):
         """ Request the raw datafile of simulation results from the server.
 
             Notes
@@ -129,7 +129,7 @@ class SirepoBluesky(object):
             Call auth() and run_simulation() before this.
         """
         assert hasattr(self, 'cookies'), 'call auth() before get_datafile()'
-        url = 'download-data-file/{}/{}/{}/-1'.format(self.sim_type, self.sim_id, self.data['report'])
+        url = f"download-data-file/{self.sim_type}/{self.sim_id}/{self.data['report']}/{file_index}"
         response = requests.get('{}/{}'.format(self.server, url), cookies=self.cookies)
         self._assert_success(response, url)
         return response.content
@@ -171,6 +171,7 @@ class SirepoBluesky(object):
         assert hasattr(self, 'cookies'), 'call auth() before run_simulation()'
         assert 'report' in self.data, 'client needs to set data[\'report\']'
         self.data['simulationId'] = self.sim_id
+        self.data['forceRun'] = True
         res = self._post_json('run-simulation', self.data)
         for _ in range(max_status_calls):
             state = res['state']

@@ -86,6 +86,7 @@ class SirepoFlyer(BlueskyFlyer):
 
         RE(bp.fly([sirepo_flyer]))
     """
+    # TODO: Rename SirepoFlyer to SRWFlyer + documentation references
     def __init__(self, sim_id, server_name, params_to_change, root_dir, sim_code='srw',
                  watch_name='Watchpoint', run_parallel=True):
         super().__init__()

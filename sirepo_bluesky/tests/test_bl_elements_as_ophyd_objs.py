@@ -8,7 +8,9 @@ import dictdiffer
 import matplotlib.pyplot as plt
 import numpy as np
 import pytest
+import tfs
 
+from sirepo_bluesky.madx_flyer import MADXFlyer
 from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport, create_classes
 
 
@@ -193,13 +195,10 @@ def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
 
 
 def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
-    from sirepo_bluesky.sirepo_ophyd import create_classes
-
     classes, objects = create_classes(
         shadow_tes_simulation.data, connection=shadow_tes_simulation
     )
     globals().update(**objects)
-    from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport
 
     bsr = BeamStatisticsReport(name="bsr", connection=shadow_tes_simulation)
 
@@ -231,3 +230,74 @@ def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
         ("change", ["models", "beamline", 5, "r_maj"], (10000.0, 50000.0)),
         ("change", "report", ("watchpointReport12", "beamStatisticsReport")),
     ]
+
+
+@pytest.mark.parametrize("method", ["set", "put"])
+def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
+    classes, objects = create_classes(
+        madx_resr_storage_ring_simulation.data, connection=madx_resr_storage_ring_simulation
+    )
+    globals().update(**objects)
+
+    for i, (k, v) in enumerate(objects.items()):
+        old_value = v.l.get()  # l is length
+        old_sirepo_value = madx_resr_storage_ring_simulation.data["models"]["elements"][i]["l"]
+
+        getattr(v.l, method)(old_value + 10)
+
+        new_value = v.l.get()
+        new_sirepo_value = madx_resr_storage_ring_simulation.data["models"]["elements"][i]["l"]
+
+        print(
+            f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n"
+        )
+
+        assert old_value == old_sirepo_value
+        assert new_value == new_sirepo_value
+        assert new_value != old_value
+        assert abs(new_value - (old_value + 10)) < 1e-8
+
+
+def test_mad_x_elements_simple_connection(madx_bl2_tdc_simulation):
+    classes, objects = create_classes(
+        madx_bl2_tdc_simulation.data, connection=madx_bl2_tdc_simulation
+    )
+
+    for name, obj in objects.items():
+        pprint.pprint(obj.read())
+
+    globals().update(**objects)
+
+    print(bpm5.summary())  # noqa
+    pprint.pprint(bpm5.read())  # noqa
+
+
+def test_madx_with_run_engine(RE, db, madx_bl2_tdc_simulation):
+    classes, objects = create_classes(
+        madx_bl2_tdc_simulation.data, connection=madx_bl2_tdc_simulation
+    )
+    globals().update(**objects)
+
+    madx_flyer = MADXFlyer(connection=madx_bl2_tdc_simulation,
+                           root_dir="/tmp/sirepo-bluesky-data",
+                           report="elementAnimation250-20")
+
+    (uid,) = RE(bp.fly([madx_flyer]))  # noqa F821
+    hdr = db[uid]
+    tbl = hdr.table(stream_name="madx_flyer", fill=True)
+    print(tbl)
+
+    resource_files = []
+    for name, doc in hdr.documents():
+        if name == "resource":
+            resource_files.append(os.path.join(doc["root"], doc["resource_path"]))
+
+    # Check that we have only one resource madx file for all datum documents:
+    assert len(set(resource_files)) == 1
+
+    df = tfs.read(resource_files[0])
+    for column in df.columns:
+        if column == "NAME":
+            assert (tbl[f"madx_flyer_{column}"].astype("string").values == df[column].values).all()
+        else:
+            assert np.allclose(np.array(tbl[f"madx_flyer_{column}"]).astype(float), np.array(df[column]))

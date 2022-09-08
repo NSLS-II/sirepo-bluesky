@@ -182,7 +182,7 @@ class SirepoShadowDetector(Device):
         _, duration = self.sb.run_simulation()
         self.duration.put(duration)
 
-        datafile = self.sb.get_datafile()
+        datafile = self.sb.get_datafile(file_index=-1)
         if self._sim_report_type == ShadowSimReportTypes.beam_stats_report.name:
             self.beam_statistics_report.put(json.dumps(json.loads(datafile.decode())))
         else:

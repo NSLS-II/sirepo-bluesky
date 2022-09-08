@@ -4,7 +4,7 @@ import hashlib
 import json
 import logging
 import time
-from collections import deque
+from collections import deque, namedtuple
 from pathlib import Path
 
 import inflection
@@ -23,7 +23,10 @@ logger = logging.getLogger("sirepo-bluesky")
 # stream_handler = logging.StreamHandler(sys.stdout)
 # logger.addHandler(stream_handler)
 
-RESERVED_OPHYD_TO_SIREPO_ATTRS = {"position": "element_position"}  # ophyd <-> sirepo
+RESERVED_OPHYD_TO_SIREPO_ATTRS = {  # ophyd <-> sirepo
+    "position": "element_position",
+    "name": "element_name",
+}
 RESERVED_SIREPO_TO_OPHYD_ATTRS = {
     v: k for k, v in RESERVED_OPHYD_TO_SIREPO_ATTRS.items()
 }
@@ -90,7 +93,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
         self._datum_factory = None
 
         sim_type = self.connection.data["simulationType"]
-        allowed_sim_types = ("srw", "shadow")
+        allowed_sim_types = ("srw", "shadow", "madx")
         if sim_type not in allowed_sim_types:
             raise RuntimeError(
                 f"Unknown simulation type: {sim_type}\n"
@@ -125,7 +128,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
         _, duration = self.connection.run_simulation()
         self.duration.put(duration)
 
-        datafile = self.connection.get_datafile()
+        datafile = self.connection.get_datafile(file_index=-1)
 
         with open(sim_result_file, "wb") as f:
             f.write(datafile)
@@ -158,7 +161,9 @@ class SirepoWatchpoint(DeviceWithJSONData):
         self._resource_document = None
         self._datum_factory = None
 
-        logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
+        logger.debug(
+            f"\nReport for {self.name}: {self.connection.data['report']}\n"
+        )
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -200,10 +205,12 @@ class BeamStatisticsReport(DeviceWithJSONData):
         self.connection.run_simulation()
         self.duration.put(time.monotonic() - start_time)
 
-        datafile = self.connection.get_datafile()
+        datafile = self.connection.get_datafile(file_index=-1)
         self.report.put(json.dumps(json.loads(datafile.decode())))
 
-        logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
+        logger.debug(
+            f"\nReport for {self.name}: {self.connection.data['report']}\n"
+        )
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -243,8 +250,24 @@ def create_classes(sirepo_data, connection, create_objects=True):
     classes = {}
     objects = {}
     data = copy.deepcopy(sirepo_data)
-    for i, el in enumerate(data["models"]["beamline"]):
+
+    sim_type = connection.sim_type
+
+    SimTypeConfig = namedtuple("SimTypeConfig", "element_location class_name_field")
+
+    srw_config = SimTypeConfig("beamline", "title")
+    shadow_config = SimTypeConfig("beamline", "title")
+    madx_config = SimTypeConfig("elements", "element_name")
+
+    config_dict = {
+        "srw": srw_config,
+        "shadow": shadow_config,
+        "madx": madx_config,
+    }
+
+    for i, el in enumerate(data["models"][config_dict[sim_type].element_location]):
         logger.debug(f"Processing {el}...")
+
         for ophyd_key, sirepo_key in RESERVED_OPHYD_TO_SIREPO_ATTRS.items():
             # We have to rename the reserved attribute names. Example error
             # from ophyd:
@@ -252,10 +275,17 @@ def create_classes(sirepo_data, connection, create_objects=True):
             #   TypeError: The attribute name(s) {'position'} are part of the
             #   bluesky interface and cannot be used as component names. Choose
             #   a different name.
-            el[sirepo_key] = el[ophyd_key]
-            el.pop(ophyd_key)
+            if ophyd_key in el:
+                el[sirepo_key] = el[ophyd_key]
+                el.pop(ophyd_key)
+            else:
+                pass
 
-        class_name = inflection.camelize(el["title"].replace(" ", "_"))
+        class_name = inflection.camelize(
+            el[config_dict[sim_type].class_name_field]
+            .replace(" ", "_")
+            .replace(".", "")
+        )
         object_name = inflection.underscore(class_name)
 
         base_classes = (Device,)
@@ -276,7 +306,9 @@ def create_classes(sirepo_data, connection, create_objects=True):
             components[k] = Cpt(
                 cpt_class,
                 value=v,
-                sirepo_dict=sirepo_data["models"]["beamline"][i],
+                sirepo_dict=sirepo_data["models"][
+                    config_dict[sim_type].element_location
+                ][i],
                 sirepo_param=k,
             )
         components.update(**extra_kwargs)
