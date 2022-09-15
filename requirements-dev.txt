@@ -15,5 +15,6 @@ numpydoc
 pandoc
 sphinx
 sphinx-copybutton
-sphinx_rtd_theme
+# sphinx_rtd_theme
+cloud-sptheme
 tabulate
