@@ -28,7 +28,9 @@ jobs:
           export DOCKER_BINARY="docker"
           echo "DOCKER_BINARY=${DOCKER_BINARY}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.6.0
@@ -86,6 +88,11 @@ jobs:
           if [ $status -gt 0 ]; then
               exit $status
           fi
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.REPOSITORY_NAME }}-docs
+          path: docs/build/html/
 
       - name: Deploy documentation to nsls-ii.github.io
         # We pin to the SHA, not the tag, for security reasons.
