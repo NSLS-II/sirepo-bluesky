@@ -324,3 +324,74 @@ def create_classes(sirepo_data, connection, create_objects=True):
             objects[object_name] = cls(name=object_name)
 
     return classes, objects
+
+
+def create_variable_classes(sirepo_data, connection, create_objects=True):
+    classes = {}
+    objects = {}
+    data = copy.deepcopy(sirepo_data)
+
+    sim_type = connection.sim_type
+
+    SimTypeConfig = namedtuple("SimTypeConfig", "element_location class_name_field")
+
+    srw_config = SimTypeConfig("beamline", "title")
+    shadow_config = SimTypeConfig("beamline", "title")
+    madx_config = SimTypeConfig("rpnVariables", "element_name")
+
+    config_dict = {
+        "srw": srw_config,
+        "shadow": shadow_config,
+        "madx": madx_config,
+    }
+
+    for i, el in enumerate(data["models"]["rpnVariables"]):
+        logger.debug(f"Processing {el}...")
+
+        for ophyd_key, sirepo_key in RESERVED_OPHYD_TO_SIREPO_ATTRS.items():
+            # We have to rename the reserved attribute names. Example error
+            # from ophyd:
+            #
+            #   TypeError: The attribute name(s) {'position'} are part of the
+            #   bluesky interface and cannot be used as component names. Choose
+            #   a different name.
+            if ophyd_key in el:
+                el[sirepo_key] = el[ophyd_key]
+                el.pop(ophyd_key)
+            else:
+                pass
+
+        class_name = inflection.camelize(
+            el[config_dict[sim_type].class_name_field]
+            .replace(" ", "_")
+            .replace(".", "")
+        )
+        object_name = inflection.underscore(class_name)
+
+        base_classes = (Device,)
+        extra_kwargs = {"connection": connection}
+
+        components = {}
+        for k, v in el.items():
+
+            components[k] = Cpt(
+                SirepoSignal,
+                value=v,
+                sirepo_dict=sirepo_data["models"][
+                    "rpnVariables"
+                ][i],
+                sirepo_param=k,
+            )
+        components.update(**extra_kwargs)
+
+        cls = type(
+            class_name,
+            base_classes,
+            components,
+        )
+
+        classes[object_name] = cls
+        if create_objects:
+            objects[object_name] = cls(name=object_name)
+
+    return classes, objects
