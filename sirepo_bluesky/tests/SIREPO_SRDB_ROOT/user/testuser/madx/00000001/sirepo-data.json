@@ -1,0 +1,2437 @@
+{
+    "models": {
+        "beamlines": [
+            {
+                "angle": 0.3491,
+                "count": 60,
+                "distance": 29.282529318564507,
+                "id": 228,
+                "items": [
+                    146,
+                    164,
+                    172,
+                    182,
+                    188,
+                    212,
+                    227
+                ],
+                "length": 29.92205000000001,
+                "name": "BEAMLINE_FULL"
+            },
+            {
+                "angle": -0.3491,
+                "count": 8,
+                "distance": 6.753928278498348,
+                "id": 164,
+                "items": [
+                    147,
+                    148,
+                    149,
+                    150,
+                    151,
+                    152,
+                    153,
+                    154,
+                    155,
+                    156,
+                    157,
+                    158,
+                    159,
+                    160,
+                    161,
+                    162
+                ],
+                "length": 6.76165,
+                "name": "F1"
+            },
+            {
+                "angle": 0,
+                "count": 3,
+                "distance": 4.184900000000001,
+                "id": 172,
+                "items": [
+                    165,
+                    166,
+                    167,
+                    168,
+                    169,
+                    170,
+                    171
+                ],
+                "length": 4.184900000000001,
+                "name": "F2"
+            },
+            {
+                "angle": 0,
+                "count": 24,
+                "distance": 9.07,
+                "id": 146,
+                "items": [
+                    103,
+                    104,
+                    105,
+                    106,
+                    107,
+                    108,
+                    109,
+                    110,
+                    111,
+                    112,
+                    113,
+                    114,
+                    120,
+                    115,
+                    121,
+                    116,
+                    122,
+                    117,
+                    121,
+                    118,
+                    123,
+                    119,
+                    124,
+                    125,
+                    126,
+                    127,
+                    128,
+                    129,
+                    130,
+                    131,
+                    132,
+                    133,
+                    102,
+                    133,
+                    134,
+                    135,
+                    136,
+                    137,
+                    138,
+                    139,
+                    140,
+                    141,
+                    142,
+                    143,
+                    144,
+                    145
+                ],
+                "length": 9.069999999999999,
+                "name": "H"
+            },
+            {
+                "angle": 0.3491,
+                "count": 5,
+                "distance": 1.3636771804357173,
+                "id": 182,
+                "items": [
+                    173,
+                    174,
+                    175,
+                    176,
+                    177,
+                    178,
+                    179,
+                    180,
+                    181
+                ],
+                "length": 1.37,
+                "name": "L1"
+            },
+            {
+                "angle": 0,
+                "count": 2,
+                "distance": 1.72,
+                "id": 188,
+                "items": [
+                    183,
+                    184,
+                    185,
+                    186,
+                    187
+                ],
+                "length": 1.72,
+                "name": "L2"
+            },
+            {
+                "angle": 0,
+                "count": 11,
+                "distance": 4.0855,
+                "id": 212,
+                "items": [
+                    187,
+                    189,
+                    190,
+                    191,
+                    192,
+                    193,
+                    194,
+                    195,
+                    196,
+                    197,
+                    198,
+                    199,
+                    200,
+                    201,
+                    202,
+                    203,
+                    204,
+                    205,
+                    206,
+                    207,
+                    208,
+                    209,
+                    210,
+                    211
+                ],
+                "length": 4.0855,
+                "name": "L3"
+            },
+            {
+                "angle": 0,
+                "count": 6,
+                "distance": 1.9100000000000001,
+                "id": 213,
+                "items": [
+                    187,
+                    189,
+                    190,
+                    191,
+                    192,
+                    193,
+                    194,
+                    195,
+                    196,
+                    197,
+                    200
+                ],
+                "length": 1.9100000000000001,
+                "name": "L3a"
+            },
+            {
+                "angle": 0.3491,
+                "count": 7,
+                "distance": 2.7130915943838,
+                "id": 227,
+                "items": [
+                    214,
+                    215,
+                    216,
+                    217,
+                    218,
+                    219,
+                    220,
+                    221,
+                    222,
+                    223,
+                    224,
+                    225,
+                    226
+                ],
+                "length": 2.7300000000000004,
+                "name": "L4"
+            }
+        ],
+        "bunch": {
+            "alfx": 0,
+            "alfy": 0,
+            "beamDefinition": "energy",
+            "betx": 1,
+            "bety": 1,
+            "ex": 1e-06,
+            "ey": 1e-06,
+            "longitudinalMethod": "2",
+            "matchTwissParameters": "0",
+            "numberOfParticles": 1000,
+            "randomSeed": 123456789
+        },
+        "bunchReport1": {
+            "colorMap": "afmhot",
+            "histogramBins": 200,
+            "notes": "",
+            "x": "x",
+            "y": "px"
+        },
+        "bunchReport2": {
+            "colorMap": "afmhot",
+            "histogramBins": 200,
+            "notes": "",
+            "x": "y",
+            "y": "py"
+        },
+        "bunchReport3": {
+            "colorMap": "afmhot",
+            "histogramBins": 200,
+            "notes": "",
+            "x": "x",
+            "y": "y"
+        },
+        "bunchReport4": {
+            "colorMap": "afmhot",
+            "histogramBins": 200,
+            "notes": "",
+            "x": "t",
+            "y": "pt"
+        },
+        "command_beam": {
+            "_id": 101,
+            "_type": "beam",
+            "bcurrent": 0,
+            "beta": 0,
+            "brho": 0,
+            "bunched": "1",
+            "bv": 1,
+            "charge": 1,
+            "energy": "e_beam",
+            "et": 0.001,
+            "ex": 1,
+            "exn": 2.89e-06,
+            "ey": 1,
+            "eyn": 2.62e-06,
+            "gamma": 0,
+            "kbunch": 1,
+            "mass": 0.0005109989461,
+            "name": null,
+            "npart": 1,
+            "particle": "electron",
+            "pc": 0,
+            "radiate": "0",
+            "sequence": "",
+            "sige": 0.01,
+            "sigt": 1
+        },
+        "commands": [
+            {
+                "_id": 101,
+                "_type": "beam",
+                "bcurrent": 0,
+                "beta": 0,
+                "brho": 0,
+                "bunched": "1",
+                "bv": 1,
+                "charge": 1,
+                "energy": "e_beam",
+                "et": 0.001,
+                "ex": 1,
+                "exn": 2.89e-06,
+                "ey": 1,
+                "eyn": 2.62e-06,
+                "gamma": 0,
+                "kbunch": 1,
+                "mass": 0.0005109989461,
+                "name": null,
+                "npart": 1,
+                "particle": "electron",
+                "pc": 0,
+                "radiate": "0",
+                "sequence": "",
+                "sige": 0.01,
+                "sigt": 1
+            },
+            {
+                "_id": 230,
+                "_type": "select",
+                "class": "",
+                "clear": "1",
+                "column": "",
+                "flag": "TWISS",
+                "full": "0",
+                "name": null,
+                "pattern": "",
+                "range": "",
+                "sequence": "",
+                "slice": 1,
+                "thick": "0"
+            },
+            {
+                "_id": 231,
+                "_type": "select",
+                "class": "",
+                "clear": "0",
+                "column": "name, s, betx, alfx, bety, alfy, Dx, Dy",
+                "flag": "TWISS",
+                "full": "0",
+                "name": null,
+                "pattern": "HP",
+                "range": "",
+                "sequence": "",
+                "slice": 1,
+                "thick": "0"
+            },
+            {
+                "_id": 232,
+                "_type": "select",
+                "class": "",
+                "clear": "0",
+                "column": "name, s, betx, alfx, bety, alfy, Dx, Dy",
+                "flag": "TWISS",
+                "full": "0",
+                "name": null,
+                "pattern": "\"HES\u201d",
+                "range": "",
+                "sequence": "",
+                "slice": 1,
+                "thick": "0"
+            },
+            {
+                "_id": 233,
+                "_type": "select",
+                "class": "",
+                "clear": "0",
+                "column": "name, s, betx, alfx, bety, alfy, Dx, Dy",
+                "flag": "TWISS",
+                "full": "0",
+                "name": null,
+                "pattern": "FP",
+                "range": "",
+                "sequence": "",
+                "slice": 1,
+                "thick": "0"
+            },
+            {
+                "_id": 234,
+                "_type": "select",
+                "class": "",
+                "clear": "0",
+                "column": "name, s, betx, alfx, bety, alfy, Dx, Dy",
+                "flag": "TWISS",
+                "full": "0",
+                "name": null,
+                "pattern": "IP",
+                "range": "",
+                "sequence": "",
+                "slice": 1,
+                "thick": "0"
+            },
+            {
+                "_id": 235,
+                "_type": "select",
+                "class": "",
+                "clear": "0",
+                "column": "name, s, betx, alfx, bety, alfy, Dx, Dy",
+                "flag": "TWISS",
+                "full": "0",
+                "name": null,
+                "pattern": "\u201cFQ\u201d",
+                "range": "",
+                "sequence": "",
+                "slice": 1,
+                "thick": "0"
+            },
+            {
+                "_id": 236,
+                "_type": "twiss",
+                "alfx": "ax0",
+                "alfy": "ay0",
+                "beta0": "",
+                "betx": "bx0",
+                "bety": "by0",
+                "centre": "0",
+                "chrom": "0",
+                "ddpx": 0,
+                "ddpy": 0,
+                "ddx": 0,
+                "ddy": 0,
+                "deltap": 0,
+                "dmux": 0,
+                "dmuy": 0,
+                "dpx": 0,
+                "dpy": 0,
+                "dx": 0,
+                "dy": 0,
+                "energy": 0,
+                "file": "1",
+                "keeporbit": "",
+                "line": "",
+                "mux": 0,
+                "muy": 0,
+                "name": null,
+                "phix": 0,
+                "phiy": 0,
+                "pt": 0,
+                "px": 0,
+                "py": 0,
+                "r11": 0,
+                "r12": 0,
+                "r21": 0,
+                "r22": 0,
+                "range": "",
+                "re11": 1,
+                "re12": 0,
+                "re13": 0,
+                "re14": 0,
+                "re15": 0,
+                "re16": 0,
+                "re21": 0,
+                "re22": 1,
+                "re23": 0,
+                "re24": 0,
+                "re25": 0,
+                "re26": 0,
+                "re31": 0,
+                "re32": 0,
+                "re33": 1,
+                "re34": 0,
+                "re35": 0,
+                "re36": 0,
+                "re41": 0,
+                "re42": 0,
+                "re43": 0,
+                "re44": 1,
+                "re45": 0,
+                "re46": 0,
+                "re51": 0,
+                "re52": 0,
+                "re53": 0,
+                "re54": 0,
+                "re55": 1,
+                "re56": 0,
+                "re61": 0,
+                "re62": 0,
+                "re63": 0,
+                "re64": 0,
+                "re65": 0,
+                "re66": 1,
+                "ripken": "0",
+                "rmatrix": "0",
+                "sectoracc": "0",
+                "sectorfile": "0",
+                "sectormap": "0",
+                "sectorpure": "0",
+                "sectortable": "",
+                "sequence": "",
+                "t": 0,
+                "tolerance": 1e-06,
+                "useorbit": "",
+                "wx": 0,
+                "wy": 0,
+                "x": 0,
+                "y": 0
+            },
+            {
+                "_id": 237,
+                "_type": "vary",
+                "lower": -30,
+                "name": "IIQD",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 30
+            },
+            {
+                "_id": 238,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IIQ65",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
+                "_id": 239,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IIQ7",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
+                "_id": 240,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IIQ75",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
+                "_id": 241,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IIQ8",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
+                "_id": 242,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IIQ9",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
+                "_id": 243,
+                "_type": "constraint",
+                "betx": "bx1",
+                "bety": "by1",
+                "name": null,
+                "range": "IP85",
+                "sequence": 228
+            },
+            {
+                "_id": 244,
+                "_type": "constraint",
+                "betx": "50",
+                "bety": "50",
+                "name": null,
+                "range": "IQ65",
+                "sequence": 228
+            },
+            {
+                "_id": 245,
+                "_type": "constraint",
+                "betx": "50",
+                "name": null,
+                "range": "IQ7",
+                "sequence": 228
+            },
+            {
+                "_id": 246,
+                "_type": "constraint",
+                "bety": "45",
+                "name": null,
+                "range": "IQ9",
+                "sequence": 228
+            },
+            {
+                "_id": 247,
+                "_type": "lmdif",
+                "calls": "5000",
+                "name": null,
+                "tolerance": 1e-08
+            },
+            {
+                "_id": 248,
+                "_type": "migrad",
+                "calls": "5000",
+                "name": null,
+                "strategy": 1,
+                "tolerance": 1e-08
+            },
+            {
+                "_id": 249,
+                "_type": "endmatch",
+                "name": null
+            },
+            {
+                "_id": 250,
+                "_type": "twiss",
+                "alfx": "ax0",
+                "alfy": "ay0",
+                "beta0": "",
+                "betx": "bx0",
+                "bety": "by0",
+                "centre": "0",
+                "chrom": "0",
+                "ddpx": 0,
+                "ddpy": 0,
+                "ddx": 0,
+                "ddy": 0,
+                "deltap": 0,
+                "dmux": 0,
+                "dmuy": 0,
+                "dpx": 0,
+                "dpy": 0,
+                "dx": 0,
+                "dy": 0,
+                "energy": 0,
+                "file": "1",
+                "keeporbit": "",
+                "line": "",
+                "mux": 0,
+                "muy": 0,
+                "name": null,
+                "phix": 0,
+                "phiy": 0,
+                "pt": 0,
+                "px": 0,
+                "py": 0,
+                "r11": 0,
+                "r12": 0,
+                "r21": 0,
+                "r22": 0,
+                "range": "",
+                "re11": 1,
+                "re12": 0,
+                "re13": 0,
+                "re14": 0,
+                "re15": 0,
+                "re16": 0,
+                "re21": 0,
+                "re22": 1,
+                "re23": 0,
+                "re24": 0,
+                "re25": 0,
+                "re26": 0,
+                "re31": 0,
+                "re32": 0,
+                "re33": 1,
+                "re34": 0,
+                "re35": 0,
+                "re36": 0,
+                "re41": 0,
+                "re42": 0,
+                "re43": 0,
+                "re44": 1,
+                "re45": 0,
+                "re46": 0,
+                "re51": 0,
+                "re52": 0,
+                "re53": 0,
+                "re54": 0,
+                "re55": 1,
+                "re56": 0,
+                "re61": 0,
+                "re62": 0,
+                "re63": 0,
+                "re64": 0,
+                "re65": 0,
+                "re66": 1,
+                "ripken": "0",
+                "rmatrix": "0",
+                "sectoracc": "0",
+                "sectorfile": "0",
+                "sectormap": "0",
+                "sectorpure": "0",
+                "sectortable": "",
+                "sequence": "",
+                "t": 0,
+                "tolerance": 1e-06,
+                "useorbit": "",
+                "wx": 0,
+                "wy": 0,
+                "x": 0,
+                "y": 0
+            }
+        ],
+        "elementAnimation236-20": {
+            "aspectRatio": "1",
+            "colorMap": "afmhot",
+            "framesPerSecond": "2",
+            "histogramBins": 200,
+            "horizontalOffset": 0,
+            "horizontalSize": 0,
+            "includeLattice": "1",
+            "notes": "",
+            "panelTitle": "twiss.file",
+            "plotRangeType": "none",
+            "valueList": {
+                "x": [
+                    "s",
+                    "betx",
+                    "alfx",
+                    "bety",
+                    "alfy",
+                    "dx"
+                ],
+                "y1": [
+                    "s",
+                    "betx",
+                    "alfx",
+                    "bety",
+                    "alfy",
+                    "dx"
+                ],
+                "y2": [
+                    "None",
+                    "s",
+                    "betx",
+                    "alfx",
+                    "bety",
+                    "alfy",
+                    "dx"
+                ],
+                "y3": [
+                    "None",
+                    "s",
+                    "betx",
+                    "alfx",
+                    "bety",
+                    "alfy",
+                    "dx"
+                ]
+            },
+            "verticalOffset": 0,
+            "verticalSize": 0,
+            "x": "s",
+            "y1": "betx",
+            "y2": "bety",
+            "y3": "None"
+        },
+        "elementAnimation250-20": {
+            "aspectRatio": "1",
+            "colorMap": "afmhot",
+            "framesPerSecond": "2",
+            "histogramBins": 200,
+            "horizontalOffset": 0,
+            "horizontalSize": 0,
+            "includeLattice": "1",
+            "notes": "",
+            "panelTitle": "twiss2.file",
+            "plotRangeType": "none",
+            "valueList": {
+                "x": [
+                    "s",
+                    "betx",
+                    "alfx",
+                    "bety",
+                    "alfy",
+                    "dx"
+                ],
+                "y1": [
+                    "s",
+                    "betx",
+                    "alfx",
+                    "bety",
+                    "alfy",
+                    "dx"
+                ],
+                "y2": [
+                    "None",
+                    "s",
+                    "betx",
+                    "alfx",
+                    "bety",
+                    "alfy",
+                    "dx"
+                ],
+                "y3": [
+                    "None",
+                    "s",
+                    "betx",
+                    "alfx",
+                    "bety",
+                    "alfy",
+                    "dx"
+                ]
+            },
+            "verticalOffset": 0,
+            "verticalSize": 0,
+            "x": "s",
+            "y1": "betx",
+            "y2": "bety",
+            "y3": "None"
+        },
+        "elements": [
+            {
+                "_id": 120,
+                "l": 0.845,
+                "name": "CHO1",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 121,
+                "l": 0.08,
+                "name": "CHO2",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 122,
+                "l": 0.24,
+                "name": "CHO3",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 123,
+                "l": 0.535,
+                "name": "CHO4",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 148,
+                "l": 0.6705,
+                "name": "FO01",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 150,
+                "l": 0.35,
+                "name": "FO02",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 152,
+                "l": 0.1925,
+                "name": "FO03",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 154,
+                "l": 1.08075,
+                "name": "FO041",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 156,
+                "l": 0.6775,
+                "name": "FO042",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 158,
+                "l": 0.223,
+                "name": "FO05",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 160,
+                "l": 1.6654,
+                "name": "FO06",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 162,
+                "l": 1.152,
+                "name": "FO07",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 165,
+                "l": 0.9475,
+                "name": "FO08",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 167,
+                "l": 2,
+                "name": "FO09",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 169,
+                "l": 0.4929,
+                "name": "FO10",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 171,
+                "l": 0.5445,
+                "name": "FO11",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 104,
+                "l": 0.2,
+                "name": "HO00",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 106,
+                "l": 0.17,
+                "name": "HO01",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 108,
+                "l": 0.2,
+                "name": "HO02",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 110,
+                "l": 0.2,
+                "name": "HO03",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 112,
+                "l": 0.17,
+                "name": "HO04",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 125,
+                "l": 0.17,
+                "name": "HO06",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 127,
+                "l": 0.2,
+                "name": "HO07",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 129,
+                "l": 0.2,
+                "name": "HO08",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 131,
+                "l": 0.17,
+                "name": "HO09",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 133,
+                "l": "1.50/2",
+                "name": "HO10",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 135,
+                "l": 0.17,
+                "name": "HO11",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 137,
+                "l": 0.2,
+                "name": "HO12",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 139,
+                "l": 0.2,
+                "name": "HO13",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 141,
+                "l": 0.17,
+                "name": "HO14",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 143,
+                "l": 0.25,
+                "name": "HO15",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 145,
+                "l": 0.28,
+                "name": "HO16",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 208,
+                "l": 0.385,
+                "name": "IDEFL",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 174,
+                "l": 0.17,
+                "name": "IO01",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 176,
+                "l": 0.095,
+                "name": "IO02",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 178,
+                "l": 0.27,
+                "name": "IO03",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 180,
+                "l": 0.235,
+                "name": "IO04",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 183,
+                "l": 0.86,
+                "name": "IO05",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 185,
+                "l": 0.1,
+                "name": "IO06",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 186,
+                "l": 0.76,
+                "name": "IO07",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 189,
+                "l": 0.2,
+                "name": "IO08",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 191,
+                "l": 0.135,
+                "name": "IO09",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 193,
+                "l": 0.115,
+                "name": "IO10",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 195,
+                "l": 0.15,
+                "name": "IO11",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 197,
+                "l": 0.91,
+                "name": "IO12",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 199,
+                "l": 0.13,
+                "name": "IO125",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 201,
+                "l": 0.254,
+                "name": "IO13",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 203,
+                "l": 0.211,
+                "name": "IO14",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 205,
+                "l": 0.17,
+                "name": "IO15",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 215,
+                "l": 0.13,
+                "name": "IO16",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 217,
+                "l": 0.2,
+                "name": "IO17",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 219,
+                "l": 0.14,
+                "name": "IO18",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 221,
+                "l": 0.56,
+                "name": "IO19",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 223,
+                "l": 0.42,
+                "name": "IO20",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 225,
+                "l": 0.5,
+                "name": "IO21",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 207,
+                "l": 0.36,
+                "name": "IOD1",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 209,
+                "l": 0.255,
+                "name": "IOD2",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 211,
+                "l": 0.3105,
+                "name": "IOD3",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 102,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "name": "m2",
+                "type": "MARKER"
+            },
+            {
+                "_id": 103,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "name": "Mar.START",
+                "type": "MARKER"
+            },
+            {
+                "_id": 198,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "name": "MarIP",
+                "type": "MARKER"
+            },
+            {
+                "_id": 144,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "BPM5",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 149,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "FP1",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 159,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "FP2",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 170,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "FP3",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 153,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "HES",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 105,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "HPOP1",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 113,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "HPOP2",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 124,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "HPOP3",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 132,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "HPOP4",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 134,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "HPOP5",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 142,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "HPOP6",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 175,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP1",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 181,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP2",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 184,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP3",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 187,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP4",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 196,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP5",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 200,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP6",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 202,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP7",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 206,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP8",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 226,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP85",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 210,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP9",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 114,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "Mar.CHIN",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 119,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "Mar.CHOUT",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 151,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ifq1/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "FQ1",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 157,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ifq2/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "FQ2",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 161,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ifq3/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "FQ3",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 166,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ifq4/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "FQ4",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 168,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ifq5/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "FQ5",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 107,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ihq1/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "HQ1",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 109,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ihq2/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.2,
+                "name": "HQ2",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 111,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ihq3/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "HQ3",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 126,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ihq4/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "HQ4",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 128,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ihq5/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.2,
+                "name": "HQ5",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 130,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ihq6/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "HQ6",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 136,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ihq7/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "HQ7",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 138,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ihq8/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.2,
+                "name": "HQ8",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 140,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "ihq9/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "HQ9",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 177,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq1/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "IQ1",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 179,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq2/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "IQ2",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 190,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq4*225/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "IQ4",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 192,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq5*225/hr",
+                "k1s": 0,
+                "l": 0.2,
+                "name": "IQ5",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 194,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq6*225/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "IQ6",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 214,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq65*500/hr",
+                "k1s": 0,
+                "l": 0.076,
+                "name": "IQ65",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 218,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq7*500/hr",
+                "k1s": 0,
+                "l": 0.076,
+                "name": "IQ7",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 220,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq75*500/hr",
+                "k1s": 0,
+                "l": 0.076,
+                "name": "IQ75",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 222,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq8*500/hr",
+                "k1s": 0,
+                "l": 0.076,
+                "name": "IQ8",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 224,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq9*500/hr",
+                "k1s": 0,
+                "l": 0.076,
+                "name": "IQ9",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 204,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiqd*225/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "IQD",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 116,
+                "_super": "_APERTURE_ELEMENT",
+                "add_angle": "0 0 0 0 0",
+                "angle": "-midangle",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "e1": "+midangle/2",
+                "e2": "-midangle/2",
+                "fint": 0,
+                "fintx": -1,
+                "h1": 0,
+                "h2": 0,
+                "hgap": 0,
+                "k1": 0,
+                "k2": 0,
+                "l": 0.41,
+                "name": "CHBEND2",
+                "thick": "0",
+                "tilt": "pi/2",
+                "type": "RBEND"
+            },
+            {
+                "_id": 117,
+                "_super": "_APERTURE_ELEMENT",
+                "add_angle": "0 0 0 0 0",
+                "angle": "-midangle",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "e1": "-midangle/2",
+                "e2": "+midangle/2",
+                "fint": 0,
+                "fintx": -1,
+                "h1": 0,
+                "h2": 0,
+                "hgap": 0,
+                "k1": 0,
+                "k2": 0,
+                "l": 0.41,
+                "name": "CHBEND3",
+                "thick": "0",
+                "tilt": "pi/2",
+                "type": "RBEND"
+            },
+            {
+                "_id": 115,
+                "_super": "_APERTURE_ELEMENT",
+                "angle": "+inangle",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "e1": "-inangle*3/2",
+                "e2": "inangle/2",
+                "fint": 0,
+                "fintx": -1,
+                "h1": 0,
+                "h2": 0,
+                "hgap": 0,
+                "k1": 0,
+                "k2": 0,
+                "l": 0.41,
+                "name": "CHBEND1",
+                "thick": "0",
+                "tilt": "pi/2",
+                "type": "SBEND"
+            },
+            {
+                "_id": 118,
+                "_super": "_APERTURE_ELEMENT",
+                "angle": "+inangle",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "e1": "+inangle/2",
+                "e2": "-inangle*3/2",
+                "fint": 0,
+                "fintx": -1,
+                "h1": 0,
+                "h2": 0,
+                "hgap": 0,
+                "k1": 0,
+                "k2": 0,
+                "l": 0.41,
+                "name": "CHBEND4",
+                "thick": "0",
+                "tilt": "pi/2",
+                "type": "SBEND"
+            },
+            {
+                "_id": 147,
+                "_super": "_APERTURE_ELEMENT",
+                "angle": -0.3491,
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "e1": 0,
+                "e2": 0,
+                "fint": 0,
+                "fintx": -1,
+                "h1": 0,
+                "h2": 0,
+                "hgap": 0.115,
+                "k1": 0,
+                "k2": 0,
+                "l": 0.4,
+                "name": "FD1",
+                "thick": "0",
+                "tilt": 0,
+                "type": "SBEND"
+            },
+            {
+                "_id": 163,
+                "_super": "_APERTURE_ELEMENT",
+                "angle": 0.3491,
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "e1": 0,
+                "e2": 0,
+                "fint": 0.5,
+                "fintx": -1,
+                "h1": 0,
+                "h2": 0,
+                "hgap": 0.015,
+                "k1": 0,
+                "k2": 0,
+                "l": 0.4,
+                "name": "FD2",
+                "thick": "0",
+                "tilt": 0,
+                "type": "SBEND"
+            },
+            {
+                "_id": 173,
+                "_super": "_APERTURE_ELEMENT",
+                "angle": 0.3491,
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "e1": 0,
+                "e2": 0,
+                "fint": 0.5,
+                "fintx": -1,
+                "h1": 0,
+                "h2": 0,
+                "hgap": 0.015,
+                "k1": 0,
+                "k2": 0,
+                "l": 0.4,
+                "name": "ID1",
+                "thick": "0",
+                "tilt": 0,
+                "type": "SBEND"
+            },
+            {
+                "_id": 216,
+                "_super": "_APERTURE_ELEMENT",
+                "angle": 0.3491,
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "e1": 0,
+                "e2": 0,
+                "fint": 0.5,
+                "fintx": -1,
+                "h1": 0,
+                "h2": 0,
+                "hgap": 0.015,
+                "k1": 0,
+                "k2": 0,
+                "l": 0.4,
+                "name": "ID2",
+                "thick": "0",
+                "tilt": 0,
+                "type": "SBEND"
+            },
+            {
+                "_id": 155,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k2": "ifs1/4.444e-3/hr",
+                "k2s": 0,
+                "l": 0.05,
+                "name": "FS1",
+                "tilt": 0,
+                "type": "SEXTUPOLE"
+            }
+        ],
+        "matchSummaryAnimation": {
+            "aspectRatio": "1",
+            "colorMap": "afmhot",
+            "framesPerSecond": "2",
+            "histogramBins": 200,
+            "horizontalOffset": 0,
+            "horizontalSize": 0,
+            "includeLattice": "0",
+            "notes": "",
+            "panelTitle": "Match Summary",
+            "plotRangeType": "none",
+            "valueList": {
+                "x": [],
+                "y1": [],
+                "y2": [
+                    "None"
+                ],
+                "y3": [
+                    "None"
+                ]
+            },
+            "verticalOffset": 0,
+            "verticalSize": 0,
+            "x": "",
+            "y1": "",
+            "y2": "None",
+            "y3": "None"
+        },
+        "panelState": {
+            "hidden": []
+        },
+        "rpnCache": {
+            "+inangle": 0,
+            "+inangle/2": 0,
+            "+midangle/2": 0,
+            "-inangle*3/2": 0,
+            "-midangle": 0,
+            "-midangle/2": 0,
+            "1.50/2": 0.75,
+            "1/4.4444e-3/hr": 1.1710759998224984,
+            "ax0": -1,
+            "ax1": -1.703,
+            "ax2": 0,
+            "ax3": 0,
+            "ax4": 1.3645,
+            "ay0": -1,
+            "ay1": -0.972,
+            "ay2": 0,
+            "ay3": 0,
+            "ay4": 2.99,
+            "bx0": 10,
+            "bx1": 0.5,
+            "bx2": 0.5,
+            "bx3": 0.9,
+            "bx4": 2.378,
+            "by0": 10,
+            "by1": 0.5,
+            "by2": 0.5,
+            "by3": 0.9,
+            "by4": 11.267,
+            "chang": 0,
+            "che1": 0,
+            "che2": 0,
+            "chl": 0.41,
+            "e_beam": 0.0576,
+            "e_beam/2.99792458e-4": 192.13291883413555,
+            "hr": 192.13291883413555,
+            "ib": 32,
+            "ib*1.8e-3": 0.0576,
+            "ich": 11,
+            "ifq1": -6.65,
+            "ifq1/4.4444e-3/hr": -7.787655398819615,
+            "ifq2": 7.195,
+            "ifq2/4.4444e-3/hr": 8.425891818722876,
+            "ifq3": -4.249,
+            "ifq3/4.4444e-3/hr": -4.975901923245796,
+            "ifq4": 7.282,
+            "ifq4/4.4444e-3/hr": 8.527775430707432,
+            "ifq5": -4.257,
+            "ifq5/4.4444e-3/hr": -4.9852705312443755,
+            "ifs1": 0,
+            "ifs1/4.444e-3/hr": 0,
+            "ihq1": 5.76,
+            "ihq1/4.4444e-3/hr": 6.745397758977591,
+            "ihq2": -5.823,
+            "ihq2/4.4444e-3/hr": -6.819175546966409,
+            "ihq3": 6.2567,
+            "ihq3/4.4444e-3/hr": 7.327071208089425,
+            "ihq4": 0,
+            "ihq4/4.4444e-3/hr": 0,
+            "ihq5": 0,
+            "ihq5/4.4444e-3/hr": 0,
+            "ihq6": 0,
+            "ihq6/4.4444e-3/hr": 0,
+            "ihq7": -7.063,
+            "ihq7/4.4444e-3/hr": -8.271309786746306,
+            "ihq8": -2.941,
+            "ihq8/4.4444e-3/hr": -3.4441345154779675,
+            "ihq9": 11.179,
+            "ihq9/4.4444e-3/hr": 13.09145860201571,
+            "iiq1": -7.449,
+            "iiq1/4.4444e-3/hr": -8.72334512267779,
+            "iiq2": 12.269,
+            "iiq2/4.4444e-3/hr": 14.367931441822233,
+            "iiq3": 0,
+            "iiq4": 25.272,
+            "iiq4*225/hr": 29.595136713187504,
+            "iiq5": -16.467,
+            "iiq5*225/hr": -19.28391564799219,
+            "iiq6": 17.009,
+            "iiq6*225/hr": 19.918632492664067,
+            "iiq65": -10.721,
+            "iiq65*500/hr": -27.899956095642366,
+            "iiq7": 13.312,
+            "iiq7*500/hr": 34.64268403555556,
+            "iiq75": -11.465,
+            "iiq75*500/hr": -29.8361157202257,
+            "iiq8": 0.395,
+            "iiq8*500/hr": 1.0279342092881947,
+            "iiq9": -13.248,
+            "iiq9*500/hr": -34.476132670000005,
+            "iiqd": 2.8013,
+            "iiqd*225/hr": 3.280502392950782,
+            "inangle": 0,
+            "inangle/2": 0,
+            "k1t": 1.1710759998224984,
+            "midangle": 0,
+            "pi/2": 1.5707963267948966
+        },
+        "rpnVariables": [
+            {
+                "name": "ib",
+                "value": 32
+            },
+            {
+                "name": "e_beam",
+                "value": "ib*1.8e-3"
+            },
+            {
+                "name": "hr",
+                "value": "e_beam/2.99792458e-4"
+            },
+            {
+                "name": "k1t",
+                "value": "1/4.4444e-3/hr"
+            },
+            {
+                "name": "chl",
+                "value": 0.41
+            },
+            {
+                "name": "chang",
+                "value": 0
+            },
+            {
+                "name": "che1",
+                "value": 0
+            },
+            {
+                "name": "che2",
+                "value": 0
+            },
+            {
+                "name": "ich",
+                "value": 11
+            },
+            {
+                "name": "inangle",
+                "value": 0
+            },
+            {
+                "name": "midangle",
+                "value": 0
+            },
+            {
+                "name": "ifs1",
+                "value": 0
+            },
+            {
+                "name": "ihq1",
+                "value": 5.76
+            },
+            {
+                "name": "ihq2",
+                "value": -5.823
+            },
+            {
+                "name": "ihq3",
+                "value": 6.2567
+            },
+            {
+                "name": "ihq4",
+                "value": 0
+            },
+            {
+                "name": "ihq5",
+                "value": 0
+            },
+            {
+                "name": "ihq6",
+                "value": 0
+            },
+            {
+                "name": "ihq7",
+                "value": -7.063
+            },
+            {
+                "name": "ihq8",
+                "value": -2.941
+            },
+            {
+                "name": "ihq9",
+                "value": 11.179
+            },
+            {
+                "name": "ifq1",
+                "value": -6.65
+            },
+            {
+                "name": "ifq2",
+                "value": 7.195
+            },
+            {
+                "name": "ifq3",
+                "value": -4.249
+            },
+            {
+                "name": "ifq4",
+                "value": 7.282
+            },
+            {
+                "name": "ifq5",
+                "value": -4.257
+            },
+            {
+                "name": "iiq1",
+                "value": -7.449
+            },
+            {
+                "name": "iiq2",
+                "value": 12.269
+            },
+            {
+                "name": "iiq3",
+                "value": 0
+            },
+            {
+                "name": "iiq4",
+                "value": 25.272
+            },
+            {
+                "name": "iiq5",
+                "value": -16.467
+            },
+            {
+                "name": "iiq6",
+                "value": 17.009
+            },
+            {
+                "name": "iiqd",
+                "value": 2.8013
+            },
+            {
+                "name": "iiq65",
+                "value": -10.721
+            },
+            {
+                "name": "iiq7",
+                "value": 13.312
+            },
+            {
+                "name": "iiq75",
+                "value": -11.465
+            },
+            {
+                "name": "iiq8",
+                "value": 0.395
+            },
+            {
+                "name": "iiq9",
+                "value": -13.248
+            },
+            {
+                "name": "bx0",
+                "value": 10
+            },
+            {
+                "name": "by0",
+                "value": 10
+            },
+            {
+                "name": "ax0",
+                "value": -1
+            },
+            {
+                "name": "ay0",
+                "value": -1
+            },
+            {
+                "name": "bx1",
+                "value": 0.5
+            },
+            {
+                "name": "by1",
+                "value": 0.5
+            },
+            {
+                "name": "ax1",
+                "value": -1.703
+            },
+            {
+                "name": "ay1",
+                "value": -0.972
+            },
+            {
+                "name": "bx2",
+                "value": 0.5
+            },
+            {
+                "name": "by2",
+                "value": 0.5
+            },
+            {
+                "name": "ax2",
+                "value": 0
+            },
+            {
+                "name": "ay2",
+                "value": 0
+            },
+            {
+                "name": "bx3",
+                "value": 0.9
+            },
+            {
+                "name": "by3",
+                "value": 0.9
+            },
+            {
+                "name": "ax3",
+                "value": 0
+            },
+            {
+                "name": "ay3",
+                "value": 0
+            },
+            {
+                "name": "bx4",
+                "value": 2.378
+            },
+            {
+                "name": "by4",
+                "value": 11.267
+            },
+            {
+                "name": "ax4",
+                "value": 1.3645
+            },
+            {
+                "name": "ay4",
+                "value": 2.99
+            }
+        ],
+        "simulation": {
+            "activeBeamlineId": 228,
+            "commandTemplate": "particle",
+            "computeTwissFromParticles": "0",
+            "documentationUrl": "",
+            "enableParticleTracking": "1",
+            "folder": "/",
+            "isExample": false,
+            "lastModified": 1643921815570,
+            "name": "BL2_TDC",
+            "notes": "",
+            "outOfSessionSimulationId": "jgqjNyYW",
+            "simulationId": "4nim2JpC",
+            "simulationSerial": 1643921815558923,
+            "visualizationBeamlineId": 228
+        },
+        "twissEllipseReport1": {
+            "dim": "x",
+            "notes": ""
+        },
+        "twissEllipseReport2": {
+            "dim": "y",
+            "notes": ""
+        },
+        "twissReport": {
+            "includeLattice": "1",
+            "y1": "betx",
+            "y2": "bety",
+            "y3": "dx"
+        }
+    },
+    "rsmanifest": {
+        "image": {
+            "git_commit": "d7c7c172d0363b1dfec19c308fcc0168aded84a0",
+            "git_remote_origin_url": "https://github.com/radiasoft/sirepo",
+            "name": "radiasoft/sirepo",
+            "type": "docker",
+            "uri": "https://registry.hub.docker.com/radiasoft/sirepo:20220127.185826",
+            "version": "20220127.185826"
+        },
+        "version": "20190612.150000"
+    },
+    "simulationType": "madx",
+    "version": "20220125.215036"
+}

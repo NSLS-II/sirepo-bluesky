@@ -98,31 +98,35 @@ def test_shadow_detector_docker_beam_stats_report(RE, db, tmpdir):
         "xp",
         "z",
         "zp",
+        "emit_x",
+        "emit_z",
+        "sigxdix",
+        "sigzdiz",
     ]
 
     assert set(beam_statistics_report.keys()) == set(available_fields)
 
-    length = 806
+    length = 803
 
     for field in available_fields:
         assert np.array(beam_statistics_report[field]).shape == (length,)
 
     assert np.allclose(
-        np.mean(beam_statistics_report["angxpzp"]), -4.045918161185424e-07
+        np.mean(beam_statistics_report["angxpzp"]), -6.709432215885232e-08
     )
-    assert np.allclose(np.mean(beam_statistics_report["angxz"]), -3.5334861183335793e-07)
-    assert np.allclose(np.mean(beam_statistics_report["s"]), 33.55136476426801)
-    assert np.allclose(np.mean(beam_statistics_report["sigdix"]), 0.000842173185311512)
-    assert np.allclose(np.mean(beam_statistics_report["sigdiz"]), 0.00012148976606081912)
-    assert np.allclose(np.mean(beam_statistics_report["sigmax"]), 0.0028351785597699897)
+    assert np.allclose(np.mean(beam_statistics_report["angxz"]), 5.799778383039559e-07)
+    assert np.allclose(np.mean(beam_statistics_report["s"]), 33.527130759651484)
+    assert np.allclose(np.mean(beam_statistics_report["sigdix"]), 0.00010306010813853688)
+    assert np.allclose(np.mean(beam_statistics_report["sigdiz"]), 5.194134141905759e-05)
+    assert np.allclose(np.mean(beam_statistics_report["sigmax"]), 0.0003968859146781542)
     assert np.allclose(
         np.mean(beam_statistics_report["sigmaxpzp"]), -2.317882293458049e-12
     )
     assert np.allclose(
         np.mean(beam_statistics_report["sigmaxz"]), 6.3950298662456295e-09
     )
-    assert np.allclose(np.mean(beam_statistics_report["sigmaz"]), 0.0004745737749984571)
+    assert np.allclose(np.mean(beam_statistics_report["sigmaz"]), 0.00017662967956586314)
     assert np.allclose(np.mean(beam_statistics_report["x"]), -1.742303638933747e-17)
     assert np.allclose(np.mean(beam_statistics_report["xp"]), -9.277770695212126e-27)
-    assert np.allclose(np.mean(beam_statistics_report["z"]), -9.476726285805737e-07)
-    assert np.allclose(np.mean(beam_statistics_report["zp"]), -2.1840296685632408e-08)
+    assert np.allclose(np.mean(beam_statistics_report["z"]), -4.3043179437100645e-09)
+    assert np.allclose(np.mean(beam_statistics_report["zp"]), 2.5086128695294103e-13)

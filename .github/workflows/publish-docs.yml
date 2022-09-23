@@ -28,7 +28,9 @@ jobs:
           export DOCKER_BINARY="docker"
           echo "DOCKER_BINARY=${DOCKER_BINARY}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.6.0
@@ -43,9 +45,16 @@ jobs:
       - name: Check Sirepo state
         run: |
           set -vxeuo pipefail
+          # Sleeping to allow sirepo time to start up
+          sleep 10
           ${DOCKER_BINARY} images
           ${DOCKER_BINARY} ps -a
+          container=$(${DOCKER_BINARY} ps -q -f id=${SIREPO_DOCKER_CONTAINER_ID})
           ${DOCKER_BINARY} logs ${SIREPO_DOCKER_CONTAINER_ID}
+          if [ -z "${container}" ]; then
+              echo "Container ID ${SIREPO_DOCKER_CONTAINER_ID} is not running. Exiting."
+              exit 1
+          fi
 
       - name: Set up Python ${{ matrix.python-version }} with conda
         uses: conda-incubator/setup-miniconda@v2
@@ -79,6 +88,11 @@ jobs:
           if [ $status -gt 0 ]; then
               exit $status
           fi
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.REPOSITORY_NAME }}-docs
+          path: docs/build/html/
 
       - name: Deploy documentation to nsls-ii.github.io
         # We pin to the SHA, not the tag, for security reasons.

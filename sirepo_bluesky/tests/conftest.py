@@ -11,6 +11,7 @@ from ophyd.utils import make_dir_tree
 from sirepo_bluesky.shadow_handler import ShadowFileHandler
 from sirepo_bluesky.sirepo_bluesky import SirepoBluesky
 from sirepo_bluesky.srw_handler import SRWFileHandler
+from sirepo_bluesky.madx_handler import MADXFileHandler
 
 
 @pytest.fixture(scope="function")
@@ -27,6 +28,8 @@ def db():
     db.reg.register_handler('srw', SRWFileHandler, overwrite=True)
     db.reg.register_handler('shadow', ShadowFileHandler, overwrite=True)
     db.reg.register_handler('SIREPO_FLYER', SRWFileHandler, overwrite=True)
+    db.reg.register_handler('madx', MADXFileHandler, overwrite=True)
+
     return db
 
 
@@ -95,4 +98,18 @@ def shadow_basic_simulation(make_dirs):
 def shadow_tes_simulation(make_dirs):
     connection = SirepoBluesky("http://localhost:8000")
     data, _ = connection.auth("shadow", "00000002")
+    return connection
+
+
+@pytest.fixture(scope="function")
+def madx_resr_storage_ring_simulation(make_dirs):
+    connection = SirepoBluesky("http://localhost:8000")
+    data, _ = connection.auth("madx", "1Mku4rqp")
+    return connection
+
+
+@pytest.fixture(scope="function")
+def madx_bl2_tdc_simulation(make_dirs):
+    connection = SirepoBluesky("http://localhost:8000")
+    data, _ = connection.auth("madx", "00000001")
     return connection
