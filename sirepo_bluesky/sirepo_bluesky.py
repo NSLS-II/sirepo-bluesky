@@ -61,7 +61,8 @@ class SirepoBluesky(object):
 
         self.cookies = None
         res = self._post_json('bluesky-auth', req)
-        assert 'state' in res and res['state'] == 'ok', 'bluesky_auth failed: {}'.format(res)
+        if not ('state' in res and res['state'] == 'ok'):
+            raise Exception('bluesky_auth failed: {}'.format(res))
         self.sim_type = sim_type
         self.sim_id = sim_id
         self.schema = res['schema']
@@ -70,7 +71,8 @@ class SirepoBluesky(object):
 
     def copy_sim(self, sim_name):
         """ Create a copy of the current simulation. Returns a new instance of SirepoBluesky. """
-        assert self.sim_id
+        if not self.sim_id:
+            raise NotImplementedError
         # simulationId, simulationType, name, folder
         res = self._post_json('copy-simulation', {
             'simulationId': self.sim_id,
@@ -89,12 +91,14 @@ class SirepoBluesky(object):
 
     def delete_copy(self):
         """ Delete a simulation which was created using copy_sim(). """
-        assert self.is_copy
+        if not self.is_copy:
+            raise NotImplementedError
         res = self._post_json('delete-simulation', {
             'simulationId': self.sim_id,
             'simulationType': self.sim_type,
         })
-        assert res['state'] == 'ok'
+        if not res['state'] == 'ok':
+            raise NotImplementedError
         self.sim_id = None
 
     def compute_grazing_orientation(self, optical_element):
@@ -112,7 +116,7 @@ class SirepoBluesky(object):
         for e in elements:
             if e[field] == value:
                 return e
-        assert False, 'element not found, {}={}'.format(field, value)
+        raise ValueError(f'element not found, {field}={value}')
 
     def find_optic_id_by_name(self, optic_name):
         """ Return optic element from simulation data. """
@@ -128,7 +132,8 @@ class SirepoBluesky(object):
             -----
             Call auth() and run_simulation() before this.
         """
-        assert hasattr(self, 'cookies'), 'call auth() before get_datafile()'
+        if not hasattr(self, 'cookies'):
+            raise Exception('must call auth() before get_datafile()')
         url = f"download-data-file/{self.sim_type}/{self.sim_id}/{self.data['report']}/{file_index}"
         response = requests.get('{}/{}'.format(self.server, url), cookies=self.cookies)
         self._assert_success(response, url)
@@ -168,8 +173,10 @@ class SirepoBluesky(object):
 
         """
         start_time = time.monotonic()
-        assert hasattr(self, 'cookies'), 'call auth() before run_simulation()'
-        assert 'report' in self.data, 'client needs to set data[\'report\']'
+        if not hasattr(self, 'cookies'):
+            raise Exception('call auth() before run_simulation()')
+        if not 'report' in self.data:
+            raise Exception('client needs to set data[\'report\']')
         self.data['simulationId'] = self.sim_id
         self.data['forceRun'] = True
         res = self._post_json('run-simulation', self.data)
@@ -177,17 +184,18 @@ class SirepoBluesky(object):
             state = res['state']
             if state == 'completed' or state == 'error':
                 break
-            assert 'nextRequestSeconds' in res, \
-                'missing "nextRequestSeconds" in response: {}'.format(res)
+            if not 'nextRequestSeconds' in res:
+                raise Exception(f'missing "nextRequestSeconds" in response: {res}')
             time.sleep(res['nextRequestSeconds'])
             res = self._post_json('run-status', res['nextRequest'])
-        assert state == 'completed', 'simulation failed to completed: {}'.format(state)
+        if not state == 'completed':
+            raise Exception(f'simulation failed to completed: {state}')
         return res, time.monotonic() - start_time
 
     @staticmethod
     def _assert_success(response, url):
-        assert response.status_code == requests.codes.ok,\
-            '{} request failed, status: {}'.format(url, response.status_code)
+        if not response.status_code == requests.codes.ok:
+            raise Exception('{url} request failed, status: {response.status_code}')
 
     def _post_json(self, url, payload):
         response = requests.post('{}/{}'.format(self.server, url), json=payload, cookies=self.cookies)

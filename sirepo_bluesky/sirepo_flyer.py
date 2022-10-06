@@ -344,8 +344,8 @@ class SirepoFlyer(BlueskyFlyer):
         statuses = [status for sim, status in self.return_status.items()]
         durations = [duration for sim, duration in self.return_duration.items()]
 
-        assert len(self._copies) == len(self._datum_ids), \
-            f'len(self._copies) != len(self._datum_ids) ({len(self._copies)} != {len(self._datum_ids)})'
+        if not len(self._copies) == len(self._datum_ids):
+            raise Exception(f'len(self._copies) != len(self._datum_ids) ({len(self._copies)} != {len(self._datum_ids)})')
 
         now = ttime.time()
         for i, datum_id in enumerate(self._datum_ids):
