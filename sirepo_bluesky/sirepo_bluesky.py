@@ -6,6 +6,8 @@ import hashlib
 import base64
 import numpy as np
 
+class SirepoBlueskyClientException(Exception):
+    pass
 
 class SirepoBluesky(object):
     """
@@ -62,7 +64,7 @@ class SirepoBluesky(object):
         self.cookies = None
         res = self._post_json('bluesky-auth', req)
         if not ('state' in res and res['state'] == 'ok'):
-            raise Exception('bluesky_auth failed: {}'.format(res))
+            raise SirepoBlueskyClientException(f'bluesky_auth failed: {res}')
         self.sim_type = sim_type
         self.sim_id = sim_id
         self.schema = res['schema']
@@ -72,8 +74,8 @@ class SirepoBluesky(object):
     def copy_sim(self, sim_name):
         """ Create a copy of the current simulation. Returns a new instance of SirepoBluesky. """
         if not self.sim_id:
-            raise NotImplementedError
-        # simulationId, simulationType, name, folder
+            raise ValueError(f'sim_id is {repr(self.sim_id)}')
+        # simulationId, simulat)ionType, name, folder
         res = self._post_json('copy-simulation', {
             'simulationId': self.sim_id,
             'simulationType': self.sim_type,
@@ -92,13 +94,13 @@ class SirepoBluesky(object):
     def delete_copy(self):
         """ Delete a simulation which was created using copy_sim(). """
         if not self.is_copy:
-            raise NotImplementedError
+            raise ValueError('This simulation is not a copy')
         res = self._post_json('delete-simulation', {
             'simulationId': self.sim_id,
             'simulationType': self.sim_type,
         })
         if not res['state'] == 'ok':
-            raise NotImplementedError
+            raise SirepoBlueskyClientException(f'Could not delete simulation: {res}')
         self.sim_id = None
 
     def compute_grazing_orientation(self, optical_element):
@@ -135,7 +137,7 @@ class SirepoBluesky(object):
         if not hasattr(self, 'cookies'):
             raise Exception('must call auth() before get_datafile()')
         url = f"download-data-file/{self.sim_type}/{self.sim_id}/{self.data['report']}/{file_index}"
-        response = requests.get('{}/{}'.format(self.server, url), cookies=self.cookies)
+        response = requests.get(f'{self.server}/{url}', cookies=self.cookies)
         self._assert_success(response, url)
         return response.content
 
@@ -175,7 +177,7 @@ class SirepoBluesky(object):
         start_time = time.monotonic()
         if not hasattr(self, 'cookies'):
             raise Exception('call auth() before run_simulation()')
-        if not 'report' in self.data:
+        if 'report' not in self.data:
             raise Exception('client needs to set data[\'report\']')
         self.data['simulationId'] = self.sim_id
         self.data['forceRun'] = True
@@ -184,21 +186,21 @@ class SirepoBluesky(object):
             state = res['state']
             if state == 'completed' or state == 'error':
                 break
-            if not 'nextRequestSeconds' in res:
+            if 'nextRequestSeconds' not in res:
                 raise Exception(f'missing "nextRequestSeconds" in response: {res}')
             time.sleep(res['nextRequestSeconds'])
             res = self._post_json('run-status', res['nextRequest'])
         if not state == 'completed':
-            raise Exception(f'simulation failed to completed: {state}')
+            raise SirepoBlueskyClientException(f'simulation failed to complete: {state}')
         return res, time.monotonic() - start_time
 
     @staticmethod
     def _assert_success(response, url):
         if not response.status_code == requests.codes.ok:
-            raise Exception('{url} request failed, status: {response.status_code}')
+            raise SirepoBlueskyClientException(f'{url} request failed, status: {response.status_code}')
 
     def _post_json(self, url, payload):
-        response = requests.post('{}/{}'.format(self.server, url), json=payload, cookies=self.cookies)
+        response = requests.post(f'{self.server}/{url}', json=payload, cookies=self.cookies)
         self._assert_success(response, url)
         if not self.cookies:
             self.cookies = response.cookies
