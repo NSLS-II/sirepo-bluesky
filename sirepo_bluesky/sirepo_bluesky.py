@@ -76,8 +76,7 @@ class SirepoBluesky(object):
     def copy_sim(self, sim_name):
         """ Create a copy of the current simulation. Returns a new instance of SirepoBluesky. """
         if not self.sim_id:
-            raise ValueError(f'sim_id is {repr(self.sim_id)}')
-        # simulationId, simulat)ionType, name, folder
+            raise ValueError(f'sim_id is {self.sim_id}')
         res = self._post_json('copy-simulation', {
             'simulationId': self.sim_id,
             'simulationType': self.sim_type,
