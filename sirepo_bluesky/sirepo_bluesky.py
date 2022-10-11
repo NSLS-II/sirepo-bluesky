@@ -6,8 +6,10 @@ import hashlib
 import base64
 import numpy as np
 
+
 class SirepoBlueskyClientException(Exception):
     pass
+
 
 class SirepoBluesky(object):
     """
