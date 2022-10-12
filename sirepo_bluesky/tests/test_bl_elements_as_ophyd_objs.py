@@ -12,7 +12,7 @@ import pytest
 import tfs
 
 from sirepo_bluesky.madx_flyer import MADXFlyer
-from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport, create_classes, create_variable_classes
+from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport, create_classes
 
 
 def test_beamline_elements_as_ophyd_objects(srw_tes_simulation):
@@ -305,21 +305,22 @@ def test_madx_with_run_engine(RE, db, madx_bl2_tdc_simulation):
 
 
 def test_madx_variables_with_run_engine(RE, db, madx_bl2_tdc_simulation):
+    data = madx_bl2_tdc_simulation.data
     classes, objects = create_classes(
-        madx_bl2_tdc_simulation.data, connection=madx_bl2_tdc_simulation
+        data, connection=madx_bl2_tdc_simulation,
+        extra_model_fields=["rpnVariables"],
     )
 
-    classes_var, objects_var = create_variable_classes(
-        madx_bl2_tdc_simulation.data, connection=madx_bl2_tdc_simulation
-    )
     globals().update(**objects)
+
+    assert len(objects) == len(data["models"]["elements"]) + len(data["models"]["rpnVariables"])
 
     madx_flyer = MADXFlyer(connection=madx_bl2_tdc_simulation,
                            root_dir="/tmp/sirepo-bluesky-data",
                            report="elementAnimation250-20")
 
-    def madx_plan(parameter="ihq1", value=2.0):
-        yield from bps.mv(objects_var[parameter].value, value)
+    def madx_plan(parameter=ihq1, value=2.0):  # noqa F821
+        yield from bps.mv(parameter.value, value)
         return (yield from bp.fly([madx_flyer]))
 
     (uid,) = RE(madx_plan())  # noqa F821
