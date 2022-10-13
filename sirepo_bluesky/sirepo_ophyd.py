@@ -246,7 +246,8 @@ class SirepoSignalGrazingAngle(SirepoSignal):
         return NullStatus()
 
 
-def create_classes(sirepo_data, connection, create_objects=True):
+def create_classes(sirepo_data, connection, create_objects=True,
+                   extra_model_fields=[]):
     classes = {}
     objects = {}
     data = copy.deepcopy(sirepo_data)
@@ -265,62 +266,67 @@ def create_classes(sirepo_data, connection, create_objects=True):
         "madx": madx_config,
     }
 
-    for i, el in enumerate(data["models"][config_dict[sim_type].element_location]):
-        logger.debug(f"Processing {el}...")
+    model_fields = [config_dict[sim_type].element_location] + extra_model_fields
 
-        for ophyd_key, sirepo_key in RESERVED_OPHYD_TO_SIREPO_ATTRS.items():
-            # We have to rename the reserved attribute names. Example error
-            # from ophyd:
-            #
-            #   TypeError: The attribute name(s) {'position'} are part of the
-            #   bluesky interface and cannot be used as component names. Choose
-            #   a different name.
-            if ophyd_key in el:
-                el[sirepo_key] = el[ophyd_key]
-                el.pop(ophyd_key)
-            else:
-                pass
+    data_models = {}
+    for model_field in model_fields:
+        data_models[model_field] = data["models"][model_field]
 
-        class_name = inflection.camelize(
-            el[config_dict[sim_type].class_name_field]
-            .replace(" ", "_")
-            .replace(".", "")
-        )
-        object_name = inflection.underscore(class_name)
+    for model_field, data_model in data_models.items():
+        for i, el in enumerate(data_model):
+            logger.debug(f"Processing {el}...")
 
-        base_classes = (Device,)
-        extra_kwargs = {"connection": connection}
-        if el["type"] == "watch":
-            base_classes = (SirepoWatchpoint, Device)
+            for ophyd_key, sirepo_key in RESERVED_OPHYD_TO_SIREPO_ATTRS.items():
+                # We have to rename the reserved attribute names. Example error
+                # from ophyd:
+                #
+                #   TypeError: The attribute name(s) {'position'} are part of the
+                #   bluesky interface and cannot be used as component names. Choose
+                #   a different name.
+                if ophyd_key in el:
+                    el[sirepo_key] = el[ophyd_key]
+                    el.pop(ophyd_key)
+                else:
+                    pass
 
-        components = {}
-        for k, v in el.items():
-
-            if el["type"] in ["sphericalMirror", "toroidalMirror", "ellipsoidMirror"] \
-                    and k == "grazingAngle":
-                cpt_class = SirepoSignalGrazingAngle
-            else:
-                # TODO: Cover the cases for mirror and crystal grazing angles
-                cpt_class = SirepoSignal
-
-            components[k] = Cpt(
-                cpt_class,
-                value=v,
-                sirepo_dict=sirepo_data["models"][
-                    config_dict[sim_type].element_location
-                ][i],
-                sirepo_param=k,
+            class_name = inflection.camelize(
+                el[config_dict[sim_type].class_name_field]
+                .replace(" ", "_")
+                .replace(".", "")
             )
-        components.update(**extra_kwargs)
+            object_name = inflection.underscore(class_name)
 
-        cls = type(
-            class_name,
-            base_classes,
-            components,
-        )
+            base_classes = (Device,)
+            extra_kwargs = {"connection": connection}
+            if "type" in el and el["type"] == "watch":
+                base_classes = (SirepoWatchpoint, Device)
 
-        classes[object_name] = cls
-        if create_objects:
-            objects[object_name] = cls(name=object_name)
+            components = {}
+            for k, v in el.items():
+
+                if "type" in el and el["type"] in ["sphericalMirror", "toroidalMirror", "ellipsoidMirror"] \
+                        and k == "grazingAngle":
+                    cpt_class = SirepoSignalGrazingAngle
+                else:
+                    # TODO: Cover the cases for mirror and crystal grazing angles
+                    cpt_class = SirepoSignal
+
+                components[k] = Cpt(
+                    cpt_class,
+                    value=v,
+                    sirepo_dict=sirepo_data["models"][model_field][i],
+                    sirepo_param=k,
+                )
+            components.update(**extra_kwargs)
+
+            cls = type(
+                class_name,
+                base_classes,
+                components,
+            )
+
+            classes[object_name] = cls
+            if create_objects:
+                objects[object_name] = cls(name=object_name)
 
     return classes, objects

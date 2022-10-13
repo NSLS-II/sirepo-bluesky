@@ -4,6 +4,7 @@ import os
 import pprint
 
 import bluesky.plans as bp
+import bluesky.plan_stubs as bps
 import dictdiffer
 import matplotlib.pyplot as plt
 import numpy as np
@@ -301,3 +302,49 @@ def test_madx_with_run_engine(RE, db, madx_bl2_tdc_simulation):
             assert (tbl[f"madx_flyer_{column}"].astype("string").values == df[column].values).all()
         else:
             assert np.allclose(np.array(tbl[f"madx_flyer_{column}"]).astype(float), np.array(df[column]))
+
+
+def test_madx_variables_with_run_engine(RE, db, madx_bl2_tdc_simulation):
+    data = madx_bl2_tdc_simulation.data
+    classes, objects = create_classes(
+        data, connection=madx_bl2_tdc_simulation,
+        extra_model_fields=["rpnVariables"],
+    )
+
+    globals().update(**objects)
+
+    assert len(objects) == len(data["models"]["elements"]) + len(data["models"]["rpnVariables"])
+
+    madx_flyer = MADXFlyer(connection=madx_bl2_tdc_simulation,
+                           root_dir="/tmp/sirepo-bluesky-data",
+                           report="elementAnimation250-20")
+
+    def madx_plan(parameter=ihq1, value=2.0):  # noqa F821
+        yield from bps.mv(parameter.value, value)
+        return (yield from bp.fly([madx_flyer]))
+
+    (uid,) = RE(madx_plan())  # noqa F821
+    hdr = db[uid]
+    tbl = hdr.table(stream_name="madx_flyer", fill=True)
+    print(tbl)
+
+    S = [0.2, 1.34, 4.76, 5.9, 7.4, 8.54, 10.1405, 12.91425,
+         19.47205, 20.58655, 21.38655, 22.24655, 23.10655,
+         23.10655, 24.10655, 25.01655, 25.14655, 25.40055,
+         25.88155, 26.88155, 29.92205]
+    BETX = [1.04080000e+01, 2.23630865e+01, 5.45490503e+01, 6.85639797e+01,
+            8.95080711e+01, 3.07485642e+02, 1.48819798e+01, 4.01917445e+02,
+            8.76888193e+01, 1.72370137e+02, 2.04524432e+02, 1.22838562e+01,
+            5.31960299e+01, 5.31960299e+01, 4.15143523e+01, 3.39923407e-02,
+            6.42294261e-01, 6.54463047e+00, 3.12227617e+01, 1.23493229e+02,
+            2.78859359e-02]
+    BETY = [1.04080000e+01, 3.89622295e+00, 2.29735786e+01, 4.91159086e+01,
+            9.85840248e+01, 5.81731898e+00, 7.01313899e+01, 7.34896758e+01,
+            2.01619048e+02, 8.91117598e+01, 9.45050916e+00, 1.70765137e+00,
+            3.19775219e+01, 3.19775219e+01, 5.35173761e+01, 5.06793788e+00,
+            2.34217363e+00, 4.32283940e-02, 7.17054244e+00, 7.55144928e+01,
+            2.00861311e+00]
+
+    assert np.allclose(np.array(tbl["madx_flyer_S"]).astype(float), S)
+    assert np.allclose(np.array(tbl["madx_flyer_BETX"]).astype(float), BETX)
+    assert np.allclose(np.array(tbl["madx_flyer_BETY"]).astype(float), BETY)
