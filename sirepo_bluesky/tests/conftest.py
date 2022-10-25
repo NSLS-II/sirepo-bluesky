@@ -104,12 +104,19 @@ def shadow_tes_simulation(make_dirs):
 @pytest.fixture(scope="function")
 def madx_resr_storage_ring_simulation(make_dirs):
     connection = SirepoBluesky("http://localhost:8000")
-    data, _ = connection.auth("madx", "1Mku4rqp")
+    data, _ = connection.auth("madx", "00000000")
     return connection
 
 
 @pytest.fixture(scope="function")
-def madx_bl2_tdc_simulation(make_dirs):
+def madx_bl1_compton_simulation(make_dirs):
     connection = SirepoBluesky("http://localhost:8000")
     data, _ = connection.auth("madx", "00000001")
+    return connection
+
+
+@pytest.fixture(scope="function")
+def madx_bl2_triplet_tdc_simulation(make_dirs):
+    connection = SirepoBluesky("http://localhost:8000")
+    data, _ = connection.auth("madx", "00000002")
     return connection

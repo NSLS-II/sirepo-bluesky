@@ -2,24 +2,26 @@
     "models": {
         "beamlines": [
             {
-                "angle": 1.5707963267948966,
-                "count": 80,
-                "distance": 27.209126191037402,
+                "angle": 0.3491,
+                "count": 81,
+                "distance": 28.228355430776748,
                 "id": 228,
                 "items": [
                     146,
                     164,
+                    172,
                     182,
                     188,
-                    212
+                    212,
+                    227
                 ],
-                "length": 27.935782962607604,
+                "length": 28.86265000000001,
                 "name": "BEAMLINE_FULL"
             },
             {
                 "angle": -0.3491,
                 "count": 10,
-                "distance": 6.753528299443501,
+                "distance": 6.753928278498348,
                 "id": 164,
                 "items": [
                     147,
@@ -37,150 +39,39 @@
                     158,
                     159,
                     258,
-                    315,
+                    160,
                     161,
                     162
                 ],
-                "length": 6.761249999999995,
+                "length": 6.76165,
                 "name": "F1"
             },
             {
                 "angle": 0,
-                "count": 0,
-                "distance": 1.6650000000000003,
-                "id": 315,
+                "count": 8,
+                "distance": 4.2,
+                "id": 172,
                 "items": [
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    313,
-                    314
-                ],
-                "l": 0,
-                "length": 1.6650000000000003,
-                "name": "FO06"
-            },
-            {
-                "angle": 0.3491,
-                "count": 14,
-                "distance": 5.7723384182302455,
-                "id": 182,
-                "items": [
-                    173,
-                    271,
-                    177,
-                    272,
-                    179,
-                    176,
-                    277,
-                    178,
-                    273,
-                    274,
-                    175,
-                    275,
-                    276,
-                    180,
-                    190,
-                    171,
-                    192,
-                    270,
-                    194,
-                    169,
-                    278,
-                    269,
-                    181,
-                    268,
-                    292,
-                    266,
-                    187
-                ],
-                "length": 5.78,
-                "name": "G1"
-            },
-            {
-                "angle": 0,
-                "count": 12,
-                "distance": 3.460000000000001,
-                "id": 188,
-                "items": [
-                    187,
-                    183,
-                    284,
-                    185,
-                    279,
-                    280,
-                    200,
-                    281,
-                    218,
-                    264,
-                    222,
-                    262,
-                    224,
-                    167,
-                    202,
                     165,
-                    288,
-                    301,
-                    210,
-                    302,
-                    196,
-                    303,
-                    226
+                    166,
+                    262,
+                    263,
+                    264,
+                    265,
+                    266,
+                    170,
+                    267,
+                    259,
+                    268,
+                    168,
+                    269,
+                    260,
+                    270,
+                    261,
+                    171
                 ],
-                "length": 3.460000000000001,
-                "name": "G2"
-            },
-            {
-                "angle": 1.5707963267948966,
-                "count": 15,
-                "distance": 3.0761331361597786,
-                "id": 212,
-                "items": [
-                    189,
-                    287,
-                    191,
-                    214,
-                    193,
-                    220,
-                    195,
-                    300,
-                    282,
-                    304,
-                    283,
-                    184,
-                    199,
-                    204,
-                    201,
-                    307,
-                    203,
-                    198,
-                    285,
-                    308,
-                    286,
-                    309,
-                    289,
-                    310,
-                    207,
-                    311,
-                    305,
-                    312,
-                    306,
-                    206
-                ],
-                "length": 3.394132962607597,
-                "name": "G3"
+                "length": 4.2,
+                "name": "F2"
             },
             {
                 "angle": 0,
@@ -240,6 +131,89 @@
                 ],
                 "length": 8.54,
                 "name": "H"
+            },
+            {
+                "angle": 0.3491,
+                "count": 8,
+                "distance": 1.6233965219385893,
+                "id": 182,
+                "items": [
+                    173,
+                    271,
+                    273,
+                    272,
+                    175,
+                    176,
+                    177,
+                    178,
+                    179,
+                    274,
+                    276,
+                    275,
+                    277,
+                    180,
+                    181
+                ],
+                "length": 1.6300000000000001,
+                "name": "L1"
+            },
+            {
+                "angle": 0,
+                "count": 4,
+                "distance": 1.365,
+                "id": 188,
+                "items": [
+                    183,
+                    184,
+                    185,
+                    278,
+                    280,
+                    279,
+                    281,
+                    187
+                ],
+                "length": 1.365,
+                "name": "L2"
+            },
+            {
+                "angle": 0,
+                "count": 14,
+                "distance": 3.624,
+                "id": 212,
+                "items": [
+                    187,
+                    189,
+                    190,
+                    191,
+                    192,
+                    193,
+                    194,
+                    195,
+                    196,
+                    282,
+                    284,
+                    283,
+                    198,
+                    199,
+                    200,
+                    201,
+                    202,
+                    203,
+                    204,
+                    285,
+                    287,
+                    286,
+                    206,
+                    289,
+                    288,
+                    207,
+                    208,
+                    209,
+                    210,
+                    211
+                ],
+                "length": 3.624,
+                "name": "L3"
             },
             {
                 "angle": 0,
@@ -415,7 +389,7 @@
                 "flag": "TWISS",
                 "full": "0",
                 "name": null,
-                "pattern": "H",
+                "pattern": "HP",
                 "range": "",
                 "sequence": "",
                 "slice": 1,
@@ -430,7 +404,7 @@
                 "flag": "TWISS",
                 "full": "0",
                 "name": null,
-                "pattern": "DD",
+                "pattern": "\"HES\u201d",
                 "range": "",
                 "sequence": "",
                 "slice": 1,
@@ -445,7 +419,7 @@
                 "flag": "TWISS",
                 "full": "0",
                 "name": null,
-                "pattern": "F",
+                "pattern": "FP",
                 "range": "",
                 "sequence": "",
                 "slice": 1,
@@ -460,7 +434,7 @@
                 "flag": "TWISS",
                 "full": "0",
                 "name": null,
-                "pattern": "G",
+                "pattern": "IP",
                 "range": "",
                 "sequence": "",
                 "slice": 1,
@@ -475,7 +449,7 @@
                 "flag": "TWISS",
                 "full": "0",
                 "name": null,
-                "pattern": "FQ",
+                "pattern": "\u201cFQ\u201d",
                 "range": "",
                 "sequence": "",
                 "slice": 1,
@@ -596,7 +570,7 @@
                 "_id": 237,
                 "_type": "vary",
                 "lower": -30,
-                "name": "IFQ1",
+                "name": "IIQD",
                 "opt": 0,
                 "slope": "-none-",
                 "step": 0.001,
@@ -606,7 +580,7 @@
                 "_id": 238,
                 "_type": "vary",
                 "lower": -20,
-                "name": "IFQ3",
+                "name": "IIQ65",
                 "opt": 0,
                 "slope": "-none-",
                 "step": 0.001,
@@ -615,12 +589,10 @@
             {
                 "_id": 243,
                 "_type": "constraint",
-                "betx": null,
-                "bety": null,
-                "dpx": 0,
-                "dx": 0,
+                "betx": "bx1",
+                "bety": "by1",
                 "name": null,
-                "range": "GP01",
+                "range": "IP85",
                 "sequence": 228
             },
             {
@@ -758,31 +730,11 @@
                 "_id": 293,
                 "_type": "vary",
                 "lower": -30,
-                "name": "IHQ7",
+                "name": "IFQ3",
                 "opt": 0,
                 "slope": "-none-",
                 "step": 0.001,
                 "upper": 30
-            },
-            {
-                "_id": 241,
-                "_type": "vary",
-                "lower": -20,
-                "name": "IHQ8",
-                "opt": 0,
-                "slope": "-none-",
-                "step": 0.001,
-                "upper": 20
-            },
-            {
-                "_id": 242,
-                "_type": "vary",
-                "lower": -20,
-                "name": "IHQ9",
-                "opt": 0,
-                "slope": "-none-",
-                "step": 0.001,
-                "upper": 20
             },
             {
                 "_id": 294,
@@ -790,7 +742,7 @@
                 "alfx": null,
                 "alfy": null,
                 "betx": null,
-                "bety": 50,
+                "bety": 30,
                 "dpx": null,
                 "dpy": null,
                 "dx": null,
@@ -800,28 +752,10 @@
                 "name": "CO1",
                 "px": null,
                 "py": null,
-                "range": "FQ2",
+                "range": "FP4",
                 "sequence": 228,
                 "x": null,
                 "y": null
-            },
-            {
-                "_id": 245,
-                "_type": "constraint",
-                "betx": 50,
-                "bety": null,
-                "name": null,
-                "range": "FQ3",
-                "sequence": 228
-            },
-            {
-                "_id": 244,
-                "_type": "constraint",
-                "betx": "50",
-                "bety": null,
-                "name": null,
-                "range": "GQ6",
-                "sequence": 228
             },
             {
                 "_id": 299,
@@ -926,6 +860,26 @@
                 "y": 0
             },
             {
+                "_id": 241,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IIQ8",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
+                "_id": 242,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IIQ9",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
                 "_id": 240,
                 "_type": "vary",
                 "lower": -20,
@@ -944,6 +898,23 @@
                 "slope": "-none-",
                 "step": 0.001,
                 "upper": 20
+            },
+            {
+                "_id": 245,
+                "_type": "constraint",
+                "betx": "50",
+                "name": null,
+                "range": "IQ7",
+                "sequence": 228
+            },
+            {
+                "_id": 244,
+                "_type": "constraint",
+                "betx": "50",
+                "bety": "50",
+                "name": null,
+                "range": "IQ65",
+                "sequence": 228
             },
             {
                 "_id": 246,
@@ -972,8 +943,7 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ],
                 "y1": [
                     "s",
@@ -981,8 +951,7 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ],
                 "y2": [
                     "None",
@@ -991,8 +960,7 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ],
                 "y3": [
                     "None",
@@ -1001,8 +969,7 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ]
             },
             "verticalOffset": 0,
@@ -1030,8 +997,7 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ],
                 "y1": [
                     "s",
@@ -1039,8 +1005,7 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ],
                 "y2": [
                     "None",
@@ -1049,8 +1014,7 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ],
                 "y3": [
                     "None",
@@ -1059,8 +1023,7 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ]
             },
             "verticalOffset": 0,
@@ -1088,8 +1051,7 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ],
                 "y1": [
                     "s",
@@ -1097,8 +1059,7 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ],
                 "y2": [
                     "None",
@@ -1107,8 +1068,7 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ],
                 "y3": [
                     "None",
@@ -1117,15 +1077,14 @@
                     "alfx",
                     "bety",
                     "alfy",
-                    "dx",
-                    "dy"
+                    "dx"
                 ]
             },
             "verticalOffset": 0,
             "verticalSize": 0,
             "x": "s",
-            "y1": "dx",
-            "y2": "dy",
+            "y1": "betx",
+            "y2": "bety",
             "y3": "None"
         },
         "elements": [
@@ -1151,20 +1110,6 @@
                 "_id": 123,
                 "l": 0.535,
                 "name": "CHO4",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 313,
-                "l": 0.1,
-                "name": "DDM",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 267,
-                "description": "",
-                "isMarked": false,
-                "l": 0.54,
-                "name": "FGO13",
                 "type": "DRIFT"
             },
             {
@@ -1204,15 +1149,9 @@
                 "type": "DRIFT"
             },
             {
-                "_id": 314,
-                "l": 0.065,
-                "name": "FO061",
-                "type": "DRIFT"
-            },
-            {
                 "_id": 160,
                 "l": 1.6654,
-                "name": "FO062",
+                "name": "FO06",
                 "type": "DRIFT"
             },
             {
@@ -1222,271 +1161,83 @@
                 "type": "DRIFT"
             },
             {
-                "_id": 271,
-                "description": "",
-                "isMarked": false,
-                "l": 0.54,
-                "name": "GO01",
+                "_id": 165,
+                "l": 0.96,
+                "name": "FO08",
                 "type": "DRIFT"
             },
             {
-                "_id": 281,
-                "description": "",
-                "isMarked": false,
-                "l": 0.125,
-                "name": "GO017",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 272,
-                "description": "",
-                "isMarked": false,
-                "l": 0.07,
-                "name": "GO02",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 176,
-                "l": 0.06,
-                "name": "GO03",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 178,
-                "l": 0.23,
-                "name": "GO04",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 274,
-                "description": "",
-                "isMarked": false,
-                "l": 1.01,
-                "name": "GO05",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 275,
-                "description": "",
-                "isMarked": false,
-                "l": 0.175,
-                "name": "GO06",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 180,
-                "l": 0.475,
-                "name": "GO07",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 171,
-                "l": 0.065,
-                "name": "GO08",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 270,
-                "description": "",
-                "isMarked": false,
-                "l": 0.065,
-                "name": "GO09",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 169,
-                "l": 0.75,
-                "name": "GO10",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 269,
-                "description": "",
-                "isMarked": false,
-                "l": 0.1,
-                "name": "GO11",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 268,
-                "description": "",
-                "isMarked": false,
-                "l": 0.6,
-                "name": "GO12",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 266,
-                "description": "",
-                "isMarked": false,
-                "l": 0.54,
-                "name": "GO13",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 183,
-                "l": 0.52,
-                "name": "GO14",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 185,
-                "l": 0.57,
-                "name": "GO15",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 280,
-                "description": "",
-                "isMarked": false,
-                "l": 0.05,
-                "name": "GO16",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 264,
-                "description": "",
-                "isMarked": false,
-                "l": 0.115,
-                "name": "GO18",
+                "_id": 167,
+                "l": 2,
+                "name": "FO09",
                 "type": "DRIFT"
             },
             {
                 "_id": 262,
                 "description": "",
                 "isMarked": false,
-                "l": 0.11,
-                "name": "GO19",
+                "l": 0.04,
+                "name": "FO091",
                 "type": "DRIFT"
             },
             {
-                "_id": 167,
-                "l": 0.115,
-                "name": "GO20",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 165,
-                "l": 0.19,
-                "name": "GO21",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 301,
-                "l": 0.58,
-                "name": "GO22",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 302,
-                "l": 0.3425,
-                "name": "GO23",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 303,
-                "l": 0.3425,
-                "name": "GO24",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 189,
+                "_id": 264,
+                "description": "",
+                "isMarked": false,
                 "l": 0.14,
-                "name": "GO25",
+                "name": "FO092",
                 "type": "DRIFT"
             },
             {
-                "_id": 191,
-                "l": 0.115,
-                "name": "GO26",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 193,
-                "l": 0.07,
-                "name": "GO27",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 195,
-                "l": 0.09,
-                "name": "GO28",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 282,
+                "_id": 266,
                 "description": "",
                 "isMarked": false,
-                "l": 0.13,
-                "name": "GO29",
+                "l": 0.1,
+                "name": "FO093",
                 "type": "DRIFT"
             },
             {
-                "_id": 283,
+                "_id": 267,
                 "description": "",
                 "isMarked": false,
-                "l": 0.09,
-                "name": "GO30",
+                "l": 0.145,
+                "name": "FO094",
                 "type": "DRIFT"
             },
             {
-                "_id": 199,
-                "l": 0.18,
-                "name": "GO31",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 201,
-                "l": 0.39,
-                "name": "GO32",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 203,
-                "l": 0.09,
-                "name": "GO33",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 285,
+                "_id": 268,
                 "description": "",
                 "isMarked": false,
-                "l": 0.09,
-                "name": "GO34",
+                "l": 1.52,
+                "name": "FO095",
                 "type": "DRIFT"
             },
             {
-                "_id": 286,
-                "description": "",
-                "isMarked": false,
-                "l": 0.33,
-                "name": "GO35",
+                "_id": 169,
+                "l": 0.4929,
+                "name": "FO10",
                 "type": "DRIFT"
             },
             {
-                "_id": 289,
+                "_id": 269,
                 "description": "",
                 "isMarked": false,
                 "l": 0.06,
-                "name": "GO36",
+                "name": "FO101",
                 "type": "DRIFT"
             },
             {
-                "_id": 207,
-                "l": 0.185,
-                "name": "GO37",
+                "_id": 270,
+                "description": "",
+                "isMarked": false,
+                "l": 0.425,
+                "name": "FO103",
                 "type": "DRIFT"
             },
             {
-                "_id": 305,
-                "l": 0.2,
-                "name": "GO38",
-                "type": "DRIFT"
-            },
-            {
-                "_id": 306,
-                "l": 0.12,
-                "name": "GO39",
+                "_id": 171,
+                "l": 0.56,
+                "name": "FO11",
                 "type": "DRIFT"
             },
             {
@@ -1598,9 +1349,111 @@
                 "type": "DRIFT"
             },
             {
+                "_id": 271,
+                "description": "",
+                "isMarked": false,
+                "l": 0.1,
+                "name": "IO011",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 272,
+                "description": "",
+                "isMarked": false,
+                "l": 0.065,
+                "name": "IO012",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 176,
+                "l": 0.09,
+                "name": "IO02",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 178,
+                "l": 0.13,
+                "name": "IO03",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 274,
+                "description": "",
+                "isMarked": false,
+                "l": 0.04,
+                "name": "IO041",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 275,
+                "description": "",
+                "isMarked": false,
+                "l": 0.175,
+                "name": "IO042",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 180,
+                "l": 0.33,
+                "name": "IO043",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 183,
+                "l": 0.365,
+                "name": "IO05",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 185,
+                "l": 0.07,
+                "name": "IO06",
+                "type": "DRIFT"
+            },
+            {
                 "_id": 186,
                 "l": 0.76,
                 "name": "IO07",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 280,
+                "description": "",
+                "isMarked": false,
+                "l": 0.87,
+                "name": "IO071",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 281,
+                "description": "",
+                "isMarked": false,
+                "l": 0.06,
+                "name": "IO072",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 189,
+                "l": 0.105,
+                "name": "IO08",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 191,
+                "l": 0.12,
+                "name": "IO09",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 193,
+                "l": 0.1,
+                "name": "IO10",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 195,
+                "l": 0.12,
+                "name": "IO11",
                 "type": "DRIFT"
             },
             {
@@ -1610,9 +1463,59 @@
                 "type": "DRIFT"
             },
             {
+                "_id": 282,
+                "description": "",
+                "isMarked": false,
+                "l": 0.085,
+                "name": "IO121",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 283,
+                "description": "",
+                "isMarked": false,
+                "l": 0.755,
+                "name": "IO122",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 199,
+                "l": 0.13,
+                "name": "IO125",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 201,
+                "l": 0.254,
+                "name": "IO13",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 203,
+                "l": 0.122,
+                "name": "IO14",
+                "type": "DRIFT"
+            },
+            {
                 "_id": 205,
                 "l": 0.17,
                 "name": "IO15",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 285,
+                "description": "",
+                "isMarked": false,
+                "l": 0.072,
+                "name": "IO151",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 286,
+                "description": "",
+                "isMarked": false,
+                "l": 0.155,
+                "name": "IO152",
                 "type": "DRIFT"
             },
             {
@@ -1665,6 +1568,20 @@
                 "_id": 225,
                 "l": 0.5,
                 "name": "IO21",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 207,
+                "l": 0.225,
+                "name": "IOD1",
+                "type": "DRIFT"
+            },
+            {
+                "_id": 289,
+                "description": "",
+                "isMarked": false,
+                "l": 0.11,
+                "name": "IOD11",
                 "type": "DRIFT"
             },
             {
@@ -1742,164 +1659,6 @@
                 "tilt": 0,
                 "type": "KICKER",
                 "vkick": "SlimTrimCal*ift4v"
-            },
-            {
-                "_id": 310,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "hkick=SlimTrimCal*igt9h vkick=SlimTrimCal*igt9v ",
-                "hkick": "SlimTrimCal*igt10h",
-                "isMarked": false,
-                "l": 0,
-                "name": "GT10HV",
-                "tilt": 0,
-                "type": "KICKER",
-                "vkick": "SlimTrimCal*igt10v"
-            },
-            {
-                "_id": 273,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "hkick": "SlimTrimCal*igt1h",
-                "l": 0,
-                "name": "GT1HV",
-                "tilt": 0,
-                "type": "KICKER",
-                "vkick": "SlimTrimCal*igt1v"
-            },
-            {
-                "_id": 276,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "hkick=SlimTrimCal*iit1h vkick=SlimTrimCal*iit1v ",
-                "hkick": "SlimTrimCal*igt2h",
-                "isMarked": false,
-                "l": 0,
-                "name": "GT2HV",
-                "tilt": 0,
-                "type": "KICKER",
-                "vkick": "SlimTrimCal*igt2v"
-            },
-            {
-                "_id": 278,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "hkick=SlimTrimCal*iit2h vkick=SlimTrimCal*iit2v ",
-                "hkick": "SlimTrimCal*igt3h",
-                "isMarked": false,
-                "l": 0,
-                "name": "GT3HV",
-                "tilt": 0,
-                "type": "KICKER",
-                "vkick": "SlimTrimCal*igt3v"
-            },
-            {
-                "_id": 292,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "hkick=SlimTrimCal*iit7h vkick=SlimTrimCal*iit7v ",
-                "hkick": "SlimTrimCal*igt41h",
-                "isMarked": false,
-                "l": 0,
-                "name": "GT41HV",
-                "tilt": 0,
-                "type": "KICKER",
-                "vkick": "SlimTrimCal*igt41v"
-            },
-            {
-                "_id": 284,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "hkick=SlimTrimCal*iit4h vkick=SlimTrimCal*iit4v ",
-                "hkick": "SlimTrimCal*igt42h",
-                "isMarked": false,
-                "l": 0,
-                "name": "GT42HV",
-                "tilt": 0,
-                "type": "KICKER",
-                "vkick": "SlimTrimCal*igt42v"
-            },
-            {
-                "_id": 279,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "hkick=SlimTrimCal*iit2h vkick=SlimTrimCal*iit2v ",
-                "hkick": "SlimTrimCal*igt5h",
-                "isMarked": false,
-                "l": 0,
-                "name": "GT5HV",
-                "tilt": 0,
-                "type": "KICKER",
-                "vkick": "SlimTrimCal*igt5v"
-            },
-            {
-                "_id": 288,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "hkick=SlimTrimCal*iit4h vkick=SlimTrimCal*iit4v ",
-                "hkick": "OldTrimCal*igt7h",
-                "isMarked": false,
-                "l": 0,
-                "name": "GT7HV",
-                "tilt": 0,
-                "type": "KICKER",
-                "vkick": "OldTrimCal*igt7v"
-            },
-            {
-                "_id": 287,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "hkick=SlimTrimCal*iit4h vkick=SlimTrimCal*iit4v ",
-                "hkick": "SlimTrimCal*igt8h",
-                "isMarked": false,
-                "l": 0,
-                "name": "GT8HV",
-                "tilt": 0,
-                "type": "KICKER",
-                "vkick": "SlimTrimCal*igt8v"
-            },
-            {
-                "_id": 304,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "hkick=SlimTrimCal*igt8h vkick=SlimTrimCal*igt8v ",
-                "hkick": "SlimTrimCal*igt9h",
-                "isMarked": false,
-                "l": 0,
-                "name": "GT9HV",
-                "tilt": 0,
-                "type": "KICKER",
-                "vkick": "SlimTrimCal*igt9v"
             },
             {
                 "_id": 251,
@@ -1994,6 +1753,132 @@
                 "tilt": 0,
                 "type": "KICKER",
                 "vkick": "SlimTrimCal*iht6v"
+            },
+            {
+                "_id": 273,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "hkick": "SlimTrimCal*iit1h",
+                "l": 0,
+                "name": "IT1HV",
+                "tilt": 0,
+                "type": "KICKER",
+                "vkick": "SlimTrimCal*iit1v"
+            },
+            {
+                "_id": 276,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "description": "hkick=SlimTrimCal*iit1h vkick=SlimTrimCal*iit1v ",
+                "hkick": "SlimTrimCal*iit2h",
+                "isMarked": false,
+                "l": 0,
+                "name": "IT2HV",
+                "tilt": 0,
+                "type": "KICKER",
+                "vkick": "SlimTrimCal*iit2v"
+            },
+            {
+                "_id": 278,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "description": "hkick=SlimTrimCal*iit2h vkick=SlimTrimCal*iit2v ",
+                "hkick": "SlimTrimCal*iit3h",
+                "isMarked": false,
+                "l": 0,
+                "name": "IT3HV",
+                "tilt": 0,
+                "type": "KICKER",
+                "vkick": "SlimTrimCal*iit3v"
+            },
+            {
+                "_id": 279,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "description": "hkick=SlimTrimCal*iit2h vkick=SlimTrimCal*iit2v ",
+                "hkick": "SlimTrimCal*iit4h",
+                "isMarked": false,
+                "l": 0,
+                "name": "IT4HV",
+                "tilt": 0,
+                "type": "KICKER",
+                "vkick": "SlimTrimCal*iit4v"
+            },
+            {
+                "_id": 284,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "description": "hkick=SlimTrimCal*iit4h vkick=SlimTrimCal*iit4v ",
+                "hkick": "SlimTrimCal*iit5h",
+                "isMarked": false,
+                "l": 0,
+                "name": "IT5HV",
+                "tilt": 0,
+                "type": "KICKER",
+                "vkick": "SlimTrimCal*iit5v"
+            },
+            {
+                "_id": 292,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "description": "hkick=SlimTrimCal*iit7h vkick=SlimTrimCal*iit7v ",
+                "hkick": "SlimTrimCal*iit65h",
+                "isMarked": false,
+                "l": 0,
+                "name": "IT65HV",
+                "tilt": 0,
+                "type": "KICKER",
+                "vkick": "SlimTrimCal*iit65v"
+            },
+            {
+                "_id": 287,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "description": "hkick=SlimTrimCal*iit4h vkick=SlimTrimCal*iit4v ",
+                "hkick": "SlimTrimCal*iit6h",
+                "isMarked": false,
+                "l": 0,
+                "name": "IT6HV",
+                "tilt": 0,
+                "type": "KICKER",
+                "vkick": "SlimTrimCal*iit6v"
+            },
+            {
+                "_id": 288,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "description": "hkick=SlimTrimCal*iit4h vkick=SlimTrimCal*iit4v ",
+                "hkick": "OldTrimCal*iit7h",
+                "isMarked": false,
+                "l": 0,
+                "name": "IT7HV",
+                "tilt": 0,
+                "type": "KICKER",
+                "vkick": "OldTrimCal*iit7v"
             },
             {
                 "_id": 265,
@@ -2095,155 +1980,6 @@
                 "type": "MONITOR"
             },
             {
-                "_id": 175,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "l": 0,
-                "name": "GP01",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 181,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "l": 0,
-                "name": "GP03",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 187,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "l": 0,
-                "name": "GP04",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 200,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "l": 0,
-                "name": "GP06",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 202,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "l": 0,
-                "name": "GP07",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 210,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "l": 0,
-                "name": "GP08",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 196,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "l": 0,
-                "name": "GP09",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 226,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "l": 0,
-                "name": "GP10",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 206,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "l": 0,
-                "name": "GP12",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 184,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "l": 0,
-                "name": "GP13",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 309,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "",
-                "isMarked": false,
-                "l": 0,
-                "name": "GP14",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 307,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "",
-                "isMarked": false,
-                "l": 0,
-                "name": "GP15",
-                "type": "MONITOR"
-            },
-            {
-                "_id": 308,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "",
-                "isMarked": false,
-                "l": 0,
-                "name": "GP16",
-                "type": "MONITOR"
-            },
-            {
                 "_id": 153,
                 "_super": "_APERTURE_ELEMENT",
                 "aper_offset": "0",
@@ -2321,6 +2057,116 @@
                 "type": "MONITOR"
             },
             {
+                "_id": 175,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP1",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 181,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP2",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 184,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP3",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 187,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP4",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 196,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP5",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 200,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP6",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 202,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP7",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 210,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP8",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 226,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IP85",
+                "type": "MONITOR"
+            },
+            {
+                "_id": 206,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "l": 0,
+                "name": "IPslits",
+                "type": "MONITOR"
+            },
+            {
                 "_id": 114,
                 "_super": "_APERTURE_ELEMENT",
                 "aper_offset": "0",
@@ -2388,185 +2234,31 @@
                 "type": "QUADRUPOLE"
             },
             {
-                "_id": 177,
+                "_id": 166,
                 "_super": "_APERTURE_ELEMENT",
                 "aper_offset": "0",
                 "aper_tol": "0 0 0",
                 "aperture": "0",
                 "apertype": "circle",
-                "k1": "igq1/4.4444e-3/hr",
+                "k1": "ifq4/4.4444e-3/hr",
                 "k1s": 0,
                 "l": 0.1,
-                "name": "GQ1",
+                "name": "FQ4",
                 "thick": "0",
                 "tilt": 0,
                 "type": "QUADRUPOLE"
             },
             {
-                "_id": 214,
+                "_id": 168,
                 "_super": "_APERTURE_ELEMENT",
                 "aper_offset": "0",
                 "aper_tol": "0 0 0",
                 "aperture": "0",
                 "apertype": "circle",
-                "k1": "igq10*225/hr",
+                "k1": "ifq5/4.4444e-3/hr",
                 "k1s": 0,
                 "l": 0.1,
-                "name": "GQ10",
-                "thick": "0",
-                "tilt": 0,
-                "type": "QUADRUPOLE"
-            },
-            {
-                "_id": 220,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "k1": "igq11*225/hr",
-                "k1s": 0,
-                "l": 0.2,
-                "name": "GQ11",
-                "thick": "0",
-                "tilt": 0,
-                "type": "QUADRUPOLE"
-            },
-            {
-                "_id": 300,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "k1=igq11*225/hr ",
-                "isMarked": false,
-                "k1": "igq11*225/hr",
-                "k1s": 0,
-                "l": 0.2,
-                "name": "GQ12",
-                "thick": "0",
-                "tilt": 0,
-                "type": "QUADRUPOLE"
-            },
-            {
-                "_id": 179,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "k1": "igq2/4.4444e-3/hr",
-                "k1s": 0,
-                "l": 0.1,
-                "name": "GQ2",
-                "thick": "0",
-                "tilt": 0,
-                "type": "QUADRUPOLE"
-            },
-            {
-                "_id": 277,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "description": "k1=iiq2/4.4444e-3/hr ",
-                "isMarked": false,
-                "k1": "igq3/4.4444e-3/hr",
-                "k1s": 0,
-                "l": 0.1,
-                "name": "GQ3",
-                "thick": "0",
-                "tilt": 0,
-                "type": "QUADRUPOLE"
-            },
-            {
-                "_id": 190,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "k1": "igq4*225/hr",
-                "k1s": 0,
-                "l": 0.1,
-                "name": "GQ4",
-                "thick": "0",
-                "tilt": 0,
-                "type": "QUADRUPOLE"
-            },
-            {
-                "_id": 192,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "k1": "igq5*225/hr",
-                "k1s": 0,
-                "l": 0.2,
-                "name": "GQ5",
-                "thick": "0",
-                "tilt": 0,
-                "type": "QUADRUPOLE"
-            },
-            {
-                "_id": 194,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "k1": "igq6*225/hr",
-                "k1s": 0,
-                "l": 0.1,
-                "name": "GQ6",
-                "thick": "0",
-                "tilt": 0,
-                "type": "QUADRUPOLE"
-            },
-            {
-                "_id": 218,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "k1": "igq7*225/hr",
-                "k1s": 0,
-                "l": 0.1,
-                "name": "GQ7",
-                "thick": "0",
-                "tilt": 0,
-                "type": "QUADRUPOLE"
-            },
-            {
-                "_id": 222,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "k1": "igq8*225/hr",
-                "k1s": 0,
-                "l": 0.2,
-                "name": "GQ8",
-                "thick": "0",
-                "tilt": 0,
-                "type": "QUADRUPOLE"
-            },
-            {
-                "_id": 224,
-                "_super": "_APERTURE_ELEMENT",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "k1": "igq9*225/hr",
-                "k1s": 0,
-                "l": 0.1,
-                "name": "GQ9",
+                "name": "FQ5",
                 "thick": "0",
                 "tilt": 0,
                 "type": "QUADRUPOLE"
@@ -2707,16 +2399,183 @@
                 "type": "QUADRUPOLE"
             },
             {
+                "_id": 177,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq1/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "IQ1",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 179,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq2/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "IQ2",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 277,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "description": "k1=iiq2/4.4444e-3/hr ",
+                "isMarked": false,
+                "k1": "iiq3/4.4444e-3/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "IQ3",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 190,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq4*225/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "IQ4",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 192,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq5*225/hr",
+                "k1s": 0,
+                "l": 0.2,
+                "name": "IQ5",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 194,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq6*225/hr",
+                "k1s": 0,
+                "l": 0.1,
+                "name": "IQ6",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 214,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq65*500/hr",
+                "k1s": 0,
+                "l": 0.076,
+                "name": "IQ65",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 218,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq7*500/hr",
+                "k1s": 0,
+                "l": 0.076,
+                "name": "IQ7",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 220,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq75*500/hr",
+                "k1s": 0,
+                "l": 0.076,
+                "name": "IQ75",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 222,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq8*500/hr",
+                "k1s": 0,
+                "l": 0.076,
+                "name": "IQ8",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
+                "_id": 224,
+                "_super": "_APERTURE_ELEMENT",
+                "aper_offset": "0",
+                "aper_tol": "0 0 0",
+                "aperture": "0",
+                "apertype": "circle",
+                "k1": "iiq9*500/hr",
+                "k1s": 0,
+                "l": 0.076,
+                "name": "IQ9",
+                "thick": "0",
+                "tilt": 0,
+                "type": "QUADRUPOLE"
+            },
+            {
                 "_id": 204,
                 "_super": "_APERTURE_ELEMENT",
                 "aper_offset": "0",
                 "aper_tol": "0 0 0",
                 "aperture": "0",
                 "apertype": "circle",
-                "k1": "pmq*500/hr",
+                "k1": "iiqd*500/hr",
                 "k1s": 0,
-                "l": 0.06,
-                "name": "PMQD",
+                "l": 0.076,
+                "name": "IQD",
                 "thick": "0",
                 "tilt": 0,
                 "type": "QUADRUPOLE"
@@ -2765,62 +2624,6 @@
                 "k2": 0,
                 "l": 0.41,
                 "name": "CHBEND3",
-                "thick": "0",
-                "tilt": "pi/2",
-                "type": "RBEND"
-            },
-            {
-                "_id": 311,
-                "_super": "_APERTURE_ELEMENT",
-                "add_angle": "0 0 0 0 0",
-                "angle": "pi/4",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "bend": "0.0",
-                "description": "e1=+midangle/2 e2=-midangle/2 tilt=pi/2 ",
-                "e1": 0,
-                "e2": "-pi/4",
-                "fint": 0,
-                "fintx": -1,
-                "h1": 0,
-                "h2": 0,
-                "hgap": 0,
-                "isBend": true,
-                "isMarked": false,
-                "k1": 0,
-                "k2": 0,
-                "l": 0.27,
-                "name": "GD31",
-                "thick": "0",
-                "tilt": "pi/2",
-                "type": "RBEND"
-            },
-            {
-                "_id": 312,
-                "_super": "_APERTURE_ELEMENT",
-                "add_angle": "0 0 0 0 0",
-                "angle": "pi/4",
-                "aper_offset": "0",
-                "aper_tol": "0 0 0",
-                "aperture": "0",
-                "apertype": "circle",
-                "bend": "45.0",
-                "description": "e2=-pi/4 tilt=pi/2 ",
-                "e1": "pi/4",
-                "e2": 0,
-                "fint": 0,
-                "fintx": -1,
-                "h1": 0,
-                "h2": 0,
-                "hgap": 0,
-                "isBend": true,
-                "isMarked": false,
-                "k1": 0,
-                "k2": 0,
-                "l": 0.27,
-                "name": "GD32",
                 "thick": "0",
                 "tilt": "pi/2",
                 "type": "RBEND"
@@ -2935,7 +2738,7 @@
                 "k1": 0,
                 "k2": 0,
                 "l": 0.4,
-                "name": "GD1",
+                "name": "ID1",
                 "thick": "0",
                 "tilt": 0,
                 "type": "SBEND"
@@ -2958,7 +2761,7 @@
                 "k1": 0,
                 "k2": 0,
                 "l": 0.4,
-                "name": "GD2",
+                "name": "ID2",
                 "thick": "0",
                 "tilt": 0,
                 "type": "SBEND"
@@ -3030,11 +2833,10 @@
             "-inangle*3/2": 0,
             "-midangle": 0,
             "-midangle/2": 0,
-            "-pi/4": -0.7853981633974483,
-            "0.0007*0.17/hr": 7.06581550841751e-07,
-            "0.0025*0.008/hr": 1.1875320182214302e-07,
+            "0.0007*0.17/hr": 6.193628906597223e-07,
+            "0.0025*0.008/hr": 1.0409460347222224e-07,
             "1.50/2": 0.75,
-            "1/4.4444e-3/hr": 1.3359868803679125,
+            "1/4.4444e-3/hr": 1.1710759998224984,
             "ax0": -1,
             "ax1": -1.703,
             "ax2": 0,
@@ -3059,18 +2861,22 @@
             "che1": 0,
             "che2": 0,
             "chl": 0.41,
-            "e_beam": 0.05049,
-            "e_beam/2.99792458e-4": 168.41651166554695,
-            "hr": 168.41651166554695,
-            "ib": 28.05,
-            "ib*1.8e-3": 0.05049,
+            "e_beam": 0.0576,
+            "e_beam/2.99792458e-4": 192.13291883413555,
+            "hr": 192.13291883413555,
+            "ib": 32,
+            "ib*1.8e-3": 0.0576,
             "ich": 11,
-            "ifq1": 9.82,
-            "ifq1/4.4444e-3/hr": 13.1193911652129,
-            "ifq2": -5.48,
-            "ifq2/4.4444e-3/hr": -7.321208104416161,
-            "ifq3": 9.123,
-            "ifq3/4.4444e-3/hr": 12.188208309596464,
+            "ifq1": -6.65,
+            "ifq1/4.4444e-3/hr": -7.787655398819615,
+            "ifq2": 7.195,
+            "ifq2/4.4444e-3/hr": 8.425891818722876,
+            "ifq3": -4.249,
+            "ifq3/4.4444e-3/hr": -4.975901923245796,
+            "ifq4": 7.282,
+            "ifq4/4.4444e-3/hr": 8.527775430707432,
+            "ifq5": -4.257,
+            "ifq5/4.4444e-3/hr": -4.9852705312443755,
             "ifs1": 0,
             "ifs1/4.444e-3/hr": 0,
             "ifs2": 0,
@@ -3083,67 +2889,24 @@
             "ift3v": 0,
             "ift4h": 0,
             "ift4v": 0,
-            "igq1": -3.53,
-            "igq1/4.4444e-3/hr": -4.716033687698731,
-            "igq10": 0,
-            "igq10*225/hr": 0,
-            "igq11": 0,
-            "igq11*225/hr": 0,
-            "igq12": 0,
-            "igq2": 7.5,
-            "igq2/4.4444e-3/hr": 10.019901602759344,
-            "igq3": -5.42,
-            "igq3/4.4444e-3/hr": -7.241048891594086,
-            "igq4": -10.2,
-            "igq4*225/hr": -13.626929909090912,
-            "igq5": 9.03,
-            "igq5*225/hr": 12.063840890106952,
-            "igq6": -7.87,
-            "igq6*225/hr": -10.514111606327987,
-            "igq7": -4,
-            "igq7*225/hr": -5.343894081996436,
-            "igq8": 4,
-            "igq8*225/hr": 5.343894081996436,
-            "igq9": -4,
-            "igq9*225/hr": -5.343894081996436,
-            "igt10h": 0,
-            "igt10v": 0,
-            "igt1h": 0,
-            "igt1v": 0,
-            "igt2h": 0,
-            "igt2v": 0,
-            "igt3h": 0,
-            "igt3v": 0,
-            "igt41h": 0,
-            "igt41v": 0,
-            "igt42h": 0,
-            "igt42v": 0,
-            "igt5h": 0,
-            "igt5v": 0,
-            "igt7h": 0,
-            "igt7v": 0,
-            "igt8h": 0,
-            "igt8v": 0,
-            "igt9h": 0,
-            "igt9v": 0,
-            "ihq1": 7,
-            "ihq1/4.4444e-3/hr": 9.351908162575388,
-            "ihq2": -6.2,
-            "ihq2/4.4444e-3/hr": -8.283118658281058,
-            "ihq3": 7.7,
-            "ihq3/4.4444e-3/hr": 10.287098978832926,
+            "ihq1": 5.76,
+            "ihq1/4.4444e-3/hr": 6.745397758977591,
+            "ihq2": -5.823,
+            "ihq2/4.4444e-3/hr": -6.819175546966409,
+            "ihq3": 6.2567,
+            "ihq3/4.4444e-3/hr": 7.327071208089425,
             "ihq4": 0,
             "ihq4/4.4444e-3/hr": 0,
             "ihq5": 0,
             "ihq5/4.4444e-3/hr": 0,
             "ihq6": 0,
             "ihq6/4.4444e-3/hr": 0,
-            "ihq7": 10.752,
-            "ihq7/4.4444e-3/hr": 14.364530937715797,
-            "ihq8": -3.273,
-            "ihq8/4.4444e-3/hr": -4.372685059444178,
-            "ihq9": -2.963,
-            "ihq9/4.4444e-3/hr": -3.9585291265301246,
+            "ihq7": -7.063,
+            "ihq7/4.4444e-3/hr": -8.271309786746306,
+            "ihq8": -2.941,
+            "ihq8/4.4444e-3/hr": -3.4441345154779675,
+            "ihq9": 11.179,
+            "ihq9/4.4444e-3/hr": 13.09145860201571,
             "iht1h": 0,
             "iht1v": 0,
             "iht2h": 0,
@@ -3158,18 +2921,55 @@
             "iht6v": 0,
             "ihth": 0,
             "ihtv": 0,
+            "iiq1": -7.449,
+            "iiq1/4.4444e-3/hr": -8.72334512267779,
+            "iiq2": 12.269,
+            "iiq2/4.4444e-3/hr": 14.367931441822233,
+            "iiq3": 0,
+            "iiq3/4.4444e-3/hr": 0,
+            "iiq4": 25.272,
+            "iiq4*225/hr": 29.595136713187504,
+            "iiq5": -16.467,
+            "iiq5*225/hr": -19.28391564799219,
+            "iiq6": 17.009,
+            "iiq6*225/hr": 19.918632492664067,
+            "iiq65": -10.721,
+            "iiq65*500/hr": -27.899956095642366,
+            "iiq7": 13.312,
+            "iiq7*500/hr": 34.64268403555556,
+            "iiq75": -11.465,
+            "iiq75*500/hr": -29.8361157202257,
+            "iiq8": 0.395,
+            "iiq8*500/hr": 1.0279342092881947,
+            "iiq9": -13.248,
+            "iiq9*500/hr": -34.476132670000005,
+            "iiqd": 2.8013,
+            "iiqd*500/hr": 7.290005317668403,
+            "iit1h": 0,
+            "iit1v": 0,
+            "iit2h": 0,
+            "iit2v": 0,
+            "iit3h": 0,
+            "iit3v": 0,
+            "iit4h": 0,
+            "iit4v": 0,
+            "iit5h": 0,
+            "iit5v": 0,
+            "iit65h": 0,
+            "iit65v": 0,
+            "iit6h": 0,
+            "iit6v": 0,
+            "iit7h": 0,
+            "iit7v": 0,
             "inangle": 0,
             "inangle/2": 0,
-            "k1t": 1.3359868803679125,
+            "k1t": 1.1710759998224984,
             "midangle": 0,
-            "oldtrimcal": 7.06581550841751e-07,
-            "oldtrimcal*igt7h": 0,
-            "oldtrimcal*igt7v": 0,
+            "oldtrimcal": 6.193628906597223e-07,
+            "oldtrimcal*iit7h": 0,
+            "oldtrimcal*iit7v": 0,
             "pi/2": 1.5707963267948966,
-            "pi/4": 0.7853981633974483,
-            "pmq": 10,
-            "pmq*500/hr": 29.688300455535753,
-            "slimtrimcal": 1.1875320182214302e-07,
+            "slimtrimcal": 1.0409460347222224e-07,
             "slimtrimcal*ift1h": 0,
             "slimtrimcal*ift1v": 0,
             "slimtrimcal*ift2h": 0,
@@ -3178,24 +2978,6 @@
             "slimtrimcal*ift3v": 0,
             "slimtrimcal*ift4h": 0,
             "slimtrimcal*ift4v": 0,
-            "slimtrimcal*igt10h": 0,
-            "slimtrimcal*igt10v": 0,
-            "slimtrimcal*igt1h": 0,
-            "slimtrimcal*igt1v": 0,
-            "slimtrimcal*igt2h": 0,
-            "slimtrimcal*igt2v": 0,
-            "slimtrimcal*igt3h": 0,
-            "slimtrimcal*igt3v": 0,
-            "slimtrimcal*igt41h": 0,
-            "slimtrimcal*igt41v": 0,
-            "slimtrimcal*igt42h": 0,
-            "slimtrimcal*igt42v": 0,
-            "slimtrimcal*igt5h": 0,
-            "slimtrimcal*igt5v": 0,
-            "slimtrimcal*igt8h": 0,
-            "slimtrimcal*igt8v": 0,
-            "slimtrimcal*igt9h": 0,
-            "slimtrimcal*igt9v": 0,
             "slimtrimcal*iht1h": 0,
             "slimtrimcal*iht1v": 0,
             "slimtrimcal*iht3h": 0,
@@ -3205,7 +2987,21 @@
             "slimtrimcal*iht5h": 0,
             "slimtrimcal*iht5v": 0,
             "slimtrimcal*iht6h": 0,
-            "slimtrimcal*iht6v": 0
+            "slimtrimcal*iht6v": 0,
+            "slimtrimcal*iit1h": 0,
+            "slimtrimcal*iit1v": 0,
+            "slimtrimcal*iit2h": 0,
+            "slimtrimcal*iit2v": 0,
+            "slimtrimcal*iit3h": 0,
+            "slimtrimcal*iit3v": 0,
+            "slimtrimcal*iit4h": 0,
+            "slimtrimcal*iit4v": 0,
+            "slimtrimcal*iit5h": 0,
+            "slimtrimcal*iit5v": 0,
+            "slimtrimcal*iit65h": 0,
+            "slimtrimcal*iit65v": 0,
+            "slimtrimcal*iit6h": 0,
+            "slimtrimcal*iit6v": 0
         },
         "rpnVariables": [
             {
@@ -3314,7 +3110,7 @@
             },
             {
                 "name": "ib",
-                "value": 28.05
+                "value": 32
             },
             {
                 "name": "ich",
@@ -3322,15 +3118,23 @@
             },
             {
                 "name": "ifq1",
-                "value": 9.82
+                "value": -6.65
             },
             {
                 "name": "ifq2",
-                "value": -5.48
+                "value": 7.195
             },
             {
                 "name": "ifq3",
-                "value": 9.123
+                "value": -4.249
+            },
+            {
+                "name": "ifq4",
+                "value": 7.282
+            },
+            {
+                "name": "ifq5",
+                "value": -4.257
             },
             {
                 "name": "ifs1",
@@ -3373,144 +3177,16 @@
                 "value": 0
             },
             {
-                "name": "igq1",
-                "value": -3.53
-            },
-            {
-                "name": "igq10",
-                "value": 0
-            },
-            {
-                "name": "igq11",
-                "value": 0
-            },
-            {
-                "name": "igq12",
-                "value": 0
-            },
-            {
-                "name": "igq2",
-                "value": 7.5
-            },
-            {
-                "name": "igq3",
-                "value": -5.42
-            },
-            {
-                "name": "igq4",
-                "value": -10.2
-            },
-            {
-                "name": "igq5",
-                "value": 9.03
-            },
-            {
-                "name": "igq6",
-                "value": -7.87
-            },
-            {
-                "name": "igq7",
-                "value": -4
-            },
-            {
-                "name": "igq8",
-                "value": 4
-            },
-            {
-                "name": "igq9",
-                "value": -4
-            },
-            {
-                "name": "igt10h",
-                "value": 0
-            },
-            {
-                "name": "igt10v",
-                "value": 0
-            },
-            {
-                "name": "igt1h",
-                "value": 0
-            },
-            {
-                "name": "igt1v",
-                "value": 0
-            },
-            {
-                "name": "igt2h",
-                "value": 0
-            },
-            {
-                "name": "igt2v",
-                "value": 0
-            },
-            {
-                "name": "igt3h",
-                "value": 0
-            },
-            {
-                "name": "igt3v",
-                "value": 0
-            },
-            {
-                "name": "igt41h",
-                "value": 0
-            },
-            {
-                "name": "igt41v",
-                "value": 0
-            },
-            {
-                "name": "igt42h",
-                "value": 0
-            },
-            {
-                "name": "igt42v",
-                "value": 0
-            },
-            {
-                "name": "igt5h",
-                "value": 0
-            },
-            {
-                "name": "igt5v",
-                "value": 0
-            },
-            {
-                "name": "igt7h",
-                "value": 0
-            },
-            {
-                "name": "igt7v",
-                "value": 0
-            },
-            {
-                "name": "igt8h",
-                "value": 0
-            },
-            {
-                "name": "igt8v",
-                "value": 0
-            },
-            {
-                "name": "igt9h",
-                "value": 0
-            },
-            {
-                "name": "igt9v",
-                "value": 0
-            },
-            {
                 "name": "ihq1",
-                "value": 7
+                "value": 5.76
             },
             {
                 "name": "ihq2",
-                "value": -6.2
+                "value": -5.823
             },
             {
                 "name": "ihq3",
-                "value": 7.7
+                "value": 6.2567
             },
             {
                 "name": "ihq4",
@@ -3526,15 +3202,15 @@
             },
             {
                 "name": "ihq7",
-                "value": 10.752
+                "value": -7.063
             },
             {
                 "name": "ihq8",
-                "value": -3.273
+                "value": -2.941
             },
             {
                 "name": "ihq9",
-                "value": -2.963
+                "value": 11.179
             },
             {
                 "name": "iht1h",
@@ -3593,6 +3269,118 @@
                 "value": 0
             },
             {
+                "name": "iiq1",
+                "value": -7.449
+            },
+            {
+                "name": "iiq2",
+                "value": 12.269
+            },
+            {
+                "name": "iiq3",
+                "value": 0
+            },
+            {
+                "name": "iiq4",
+                "value": 25.272
+            },
+            {
+                "name": "iiq5",
+                "value": -16.467
+            },
+            {
+                "name": "iiq6",
+                "value": 17.009
+            },
+            {
+                "name": "iiq65",
+                "value": -10.721
+            },
+            {
+                "name": "iiq7",
+                "value": 13.312
+            },
+            {
+                "name": "iiq75",
+                "value": -11.465
+            },
+            {
+                "name": "iiq8",
+                "value": 0.395
+            },
+            {
+                "name": "iiq9",
+                "value": -13.248
+            },
+            {
+                "name": "iiqd",
+                "value": 2.8013
+            },
+            {
+                "name": "iit1h",
+                "value": 0
+            },
+            {
+                "name": "iit1v",
+                "value": 0
+            },
+            {
+                "name": "iit2h",
+                "value": 0
+            },
+            {
+                "name": "iit2v",
+                "value": 0
+            },
+            {
+                "name": "iit3h",
+                "value": 0
+            },
+            {
+                "name": "iit3v",
+                "value": 0
+            },
+            {
+                "name": "iit4h",
+                "value": 0
+            },
+            {
+                "name": "iit4v",
+                "value": 0
+            },
+            {
+                "name": "iit5h",
+                "value": 0
+            },
+            {
+                "name": "iit5v",
+                "value": 0
+            },
+            {
+                "name": "iit65h",
+                "value": 0
+            },
+            {
+                "name": "iit65v",
+                "value": 0
+            },
+            {
+                "name": "iit6h",
+                "value": 0
+            },
+            {
+                "name": "iit6v",
+                "value": 0
+            },
+            {
+                "name": "iit7h",
+                "value": 0
+            },
+            {
+                "name": "iit7v",
+                "value": 0
+            },
+            {
                 "name": "inangle",
                 "value": 0
             },
@@ -3609,10 +3397,6 @@
                 "value": "0.0007*0.17/hr"
             },
             {
-                "name": "pmq",
-                "value": 10
-            },
-            {
                 "name": "SlimTrimCal",
                 "value": "0.0025*0.008/hr"
             }
@@ -3625,22 +3409,22 @@
             "enableParticleTracking": "1",
             "folder": "/",
             "isExample": false,
-            "lastModified": 1666721809168,
-            "name": "BL1_Compton_wTrims 2",
+            "lastModified": 1666720520074,
+            "name": "BL2_Triplet_TDC_full",
             "notes": "",
-            "outOfSessionSimulationId": "NAeZFkd2",
-            "simulationId": "8FTtPKzk",
-            "simulationSerial": 1666721809153628,
+            "outOfSessionSimulationId": "ns3lWwf8",
+            "simulationId": "5kTixh1n",
+            "simulationSerial": 1666720520067141,
             "visualizationBeamlineId": 228
         },
         "treeMap": {
-            "DRIFT": false,
+            "DRIFT": true,
             "KICKER": true,
             "MARKER": true,
             "MONITOR": true,
-            "QUADRUPOLE": true,
+            "QUADRUPOLE": false,
             "RBEND": true,
-            "SBEND": true,
+            "SBEND": false,
             "SEXTUPOLE": true
         },
         "twissEllipseReport1": {

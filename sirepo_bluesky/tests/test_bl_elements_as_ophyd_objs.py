@@ -235,19 +235,21 @@ def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
 
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
+    connection = madx_resr_storage_ring_simulation
+    data = connection.data
     classes, objects = create_classes(
-        madx_resr_storage_ring_simulation.data, connection=madx_resr_storage_ring_simulation
+        data, connection=connection
     )
     globals().update(**objects)
 
     for i, (k, v) in enumerate(objects.items()):
         old_value = v.l.get()  # l is length
-        old_sirepo_value = madx_resr_storage_ring_simulation.data["models"]["elements"][i]["l"]
+        old_sirepo_value = data["models"]["elements"][i]["l"]
 
         getattr(v.l, method)(old_value + 10)
 
         new_value = v.l.get()
-        new_sirepo_value = madx_resr_storage_ring_simulation.data["models"]["elements"][i]["l"]
+        new_sirepo_value = data["models"]["elements"][i]["l"]
 
         print(
             f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n"
@@ -259,11 +261,12 @@ def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
         assert abs(new_value - (old_value + 10)) < 1e-8
 
 
-def test_mad_x_elements_simple_connection(madx_bl2_tdc_simulation):
+def test_mad_x_elements_simple_connection(madx_bl2_triplet_tdc_simulation):
+    connection = madx_bl2_triplet_tdc_simulation
+    data = connection.data
     classes, objects = create_classes(
-        madx_bl2_tdc_simulation.data, connection=madx_bl2_tdc_simulation
+        data, connection=connection
     )
-
     for name, obj in objects.items():
         pprint.pprint(obj.read())
 
@@ -273,13 +276,15 @@ def test_mad_x_elements_simple_connection(madx_bl2_tdc_simulation):
     pprint.pprint(bpm5.read())  # noqa
 
 
-def test_madx_with_run_engine(RE, db, madx_bl2_tdc_simulation):
+def test_madx_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
+    connection = madx_bl2_triplet_tdc_simulation
+    data = connection.data
     classes, objects = create_classes(
-        madx_bl2_tdc_simulation.data, connection=madx_bl2_tdc_simulation
+        data, connection=connection
     )
     globals().update(**objects)
 
-    madx_flyer = MADXFlyer(connection=madx_bl2_tdc_simulation,
+    madx_flyer = MADXFlyer(connection=connection,
                            root_dir="/tmp/sirepo-bluesky-data",
                            report="elementAnimation250-20")
 
@@ -304,10 +309,11 @@ def test_madx_with_run_engine(RE, db, madx_bl2_tdc_simulation):
             assert np.allclose(np.array(tbl[f"madx_flyer_{column}"]).astype(float), np.array(df[column]))
 
 
-def test_madx_variables_with_run_engine(RE, db, madx_bl2_tdc_simulation):
-    data = madx_bl2_tdc_simulation.data
+def test_madx_variables_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
+    connection = madx_bl2_triplet_tdc_simulation
+    data = connection.data
     classes, objects = create_classes(
-        data, connection=madx_bl2_tdc_simulation,
+        data, connection=connection,
         extra_model_fields=["rpnVariables"],
     )
 
@@ -315,7 +321,7 @@ def test_madx_variables_with_run_engine(RE, db, madx_bl2_tdc_simulation):
 
     assert len(objects) == len(data["models"]["elements"]) + len(data["models"]["rpnVariables"])
 
-    madx_flyer = MADXFlyer(connection=madx_bl2_tdc_simulation,
+    madx_flyer = MADXFlyer(connection=connection,
                            root_dir="/tmp/sirepo-bluesky-data",
                            report="elementAnimation250-20")
 
