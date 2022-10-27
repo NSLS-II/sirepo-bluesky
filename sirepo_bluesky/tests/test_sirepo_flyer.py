@@ -35,7 +35,7 @@ def _test_sirepo_flyer(RE_no_plot, db, tmpdir, sim_id, server_name):
 
     RE_no_plot.subscribe(db.insert)
 
-    root_dir = f'{tmpdir}/sirepo_flyer_data'
+    root_dir = f'{tmpdir}/sirepo-bluesky-data'
     _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
 
     params_to_change = []
