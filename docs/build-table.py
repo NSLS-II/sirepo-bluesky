@@ -36,7 +36,7 @@ def find_predefined_examples(
                 ]
             )
 
-    tbl = tabulate(table, headers, tablefmt=tablefmt)
+    tbl = tabulate(table, headers, tablefmt=tablefmt, maxcolwidths=[20, 80])
     if verbose:
         print(tbl)
     with open(outfile, "w") as f:

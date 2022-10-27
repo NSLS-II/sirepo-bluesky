@@ -17,4 +17,4 @@ sphinx
 sphinx-copybutton
 # sphinx_rtd_theme
 cloud-sptheme
-tabulate
+tabulate>=0.9.0
