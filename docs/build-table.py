@@ -56,7 +56,7 @@ if __name__ == "__main__":
         "--sim-type",
         type=str,
         required=True,
-        help="simulation type (`srw`, `shadow`, etc.)",
+        help="simulation type (`srw`, `shadow`, `madx`, etc.)",
     )
     parser.add_argument("--pattern", type=str, default="00*", help="search pattern")
     parser.add_argument(
