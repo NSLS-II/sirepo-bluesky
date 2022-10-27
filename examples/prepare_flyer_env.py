@@ -28,5 +28,5 @@ db.reg.register_handler('srw', SRWFileHandler, overwrite=True)
 db.reg.register_handler('SIREPO_FLYER', SRWFileHandler, overwrite=True)
 db.reg.register_handler('madx', MADXFileHandler, overwrite=True)
 
-root_dir = '/tmp/sirepo_flyer_data'
+root_dir = '/tmp/sirepo-bluesky-data'
 _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)
