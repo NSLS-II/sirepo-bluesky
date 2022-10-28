@@ -237,9 +237,7 @@ def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
 def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
     connection = madx_resr_storage_ring_simulation
     data = connection.data
-    classes, objects = create_classes(
-        data, connection=connection
-    )
+    classes, objects = create_classes(data, connection=connection)
     globals().update(**objects)
 
     for i, (k, v) in enumerate(objects.items()):
@@ -264,9 +262,7 @@ def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
 def test_mad_x_elements_simple_connection(madx_bl2_triplet_tdc_simulation):
     connection = madx_bl2_triplet_tdc_simulation
     data = connection.data
-    classes, objects = create_classes(
-        data, connection=connection
-    )
+    classes, objects = create_classes(data, connection=connection)
     for name, obj in objects.items():
         pprint.pprint(obj.read())
 
@@ -279,14 +275,14 @@ def test_mad_x_elements_simple_connection(madx_bl2_triplet_tdc_simulation):
 def test_madx_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     connection = madx_bl2_triplet_tdc_simulation
     data = connection.data
-    classes, objects = create_classes(
-        data, connection=connection
-    )
+    classes, objects = create_classes(data, connection=connection)
     globals().update(**objects)
 
-    madx_flyer = MADXFlyer(connection=connection,
-                           root_dir="/tmp/sirepo-bluesky-data",
-                           report="elementAnimation250-20")
+    madx_flyer = MADXFlyer(
+        connection=connection,
+        root_dir="/tmp/sirepo-bluesky-data",
+        report="elementAnimation250-20",
+    )
 
     (uid,) = RE(bp.fly([madx_flyer]))  # noqa F821
     hdr = db[uid]
@@ -304,26 +300,36 @@ def test_madx_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     df = tfs.read(resource_files[0])
     for column in df.columns:
         if column == "NAME":
-            assert (tbl[f"madx_flyer_{column}"].astype("string").values == df[column].values).all()
+            assert (
+                tbl[f"madx_flyer_{column}"].astype("string").values == df[column].values
+            ).all()
         else:
-            assert np.allclose(np.array(tbl[f"madx_flyer_{column}"]).astype(float), np.array(df[column]))
+            assert np.allclose(
+                np.array(tbl[f"madx_flyer_{column}"]).astype(float),
+                np.array(df[column]),
+            )
 
 
 def test_madx_variables_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     connection = madx_bl2_triplet_tdc_simulation
     data = connection.data
     classes, objects = create_classes(
-        data, connection=connection,
+        data,
+        connection=connection,
         extra_model_fields=["rpnVariables"],
     )
 
     globals().update(**objects)
 
-    assert len(objects) == len(data["models"]["elements"]) + len(data["models"]["rpnVariables"])
+    assert len(objects) == len(data["models"]["elements"]) + len(
+        data["models"]["rpnVariables"]
+    )
 
-    madx_flyer = MADXFlyer(connection=connection,
-                           root_dir="/tmp/sirepo-bluesky-data",
-                           report="elementAnimation250-20")
+    madx_flyer = MADXFlyer(
+        connection=connection,
+        root_dir="/tmp/sirepo-bluesky-data",
+        report="elementAnimation250-20",
+    )
 
     def madx_plan(parameter=ihq1, value=2.0):  # noqa F821
         yield from bps.mv(parameter.value, value)
@@ -334,22 +340,78 @@ def test_madx_variables_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation)
     tbl = hdr.table(stream_name="madx_flyer", fill=True)
     print(tbl)
 
-    S = [0.2, 1.34, 4.76, 5.9, 7.4, 8.54, 9.6105, 12.38425,
-         16.69165, 18.94165, 20.06665, 21.13165, 21.49665,
-         22.49665, 22.49665, 23.34165, 24.18165, 24.31165,
-         24.56565, 24.99065, 26.02065, 28.86265]
-    BETX = [10.408, 22.36308646, 54.54905034, 68.56397971, 
-            89.50807112, 307.4856416, 40.73865381, 294.9778573, 
-            9.096680097, 107.8726081, 319.2483447, 199.0675119, 
-            91.07793387, 8.802320195, 8.802320195, 86.43782501, 
-            103.4247185, 106.1910538, 111.7023327, 579.491275, 
-            5793.638223, 3.239075108]
-    BETY = [10.408, 3.896222946, 22.97357858, 49.11590862,
-            98.58402476, 5.817318976, 23.09293647, 144.6412107,
-            77.24882134, 28.57325457, 0.185399505, 28.69475679,
-            56.73496998, 182.0833344, 182.0833344, 225.3607656,
-            36.86708925, 21.98084814, 3.944913321, 8.171674062,
-            224.1750557, 0.1061422279]
+    S = [
+        0.2,
+        1.34,
+        4.76,
+        5.9,
+        7.4,
+        8.54,
+        9.6105,
+        12.38425,
+        16.69165,
+        18.94165,
+        20.06665,
+        21.13165,
+        21.49665,
+        22.49665,
+        22.49665,
+        23.34165,
+        24.18165,
+        24.31165,
+        24.56565,
+        24.99065,
+        26.02065,
+        28.86265,
+    ]
+    BETX = [
+        10.408,
+        22.36308646,
+        54.54905034,
+        68.56397971,
+        89.50807112,
+        307.4856416,
+        40.73865381,
+        294.9778573,
+        9.096680097,
+        107.8726081,
+        319.2483447,
+        199.0675119,
+        91.07793387,
+        8.802320195,
+        8.802320195,
+        86.43782501,
+        103.4247185,
+        106.1910538,
+        111.7023327,
+        579.491275,
+        5793.638223,
+        3.239075108,
+    ]
+    BETY = [
+        10.408,
+        3.896222946,
+        22.97357858,
+        49.11590862,
+        98.58402476,
+        5.817318976,
+        23.09293647,
+        144.6412107,
+        77.24882134,
+        28.57325457,
+        0.185399505,
+        28.69475679,
+        56.73496998,
+        182.0833344,
+        182.0833344,
+        225.3607656,
+        36.86708925,
+        21.98084814,
+        3.944913321,
+        8.171674062,
+        224.1750557,
+        0.1061422279,
+    ]
 
     assert np.allclose(np.array(tbl["madx_flyer_S"]).astype(float), S)
     assert np.allclose(np.array(tbl["madx_flyer_BETX"]).astype(float), BETX)
