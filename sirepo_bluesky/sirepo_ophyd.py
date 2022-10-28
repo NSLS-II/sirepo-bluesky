@@ -337,7 +337,7 @@ def create_classes(sirepo_data, connection, create_objects=True,
 
     data_models = {}
     for model_field in model_fields:
-        if model_field in ["undulator", "intensityReport"]:
+        if sim_type == "srw" and model_field in ["undulator", "intensityReport"]:
             if model_field == "intensityReport":
                 title = "SingleElectronSpectrum"
             else:
