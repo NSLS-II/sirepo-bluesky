@@ -36,7 +36,20 @@ def find_predefined_examples(
                 ]
             )
 
-    tbl = tabulate(table, headers, tablefmt=tablefmt)
+    maxcolwidths = [20, 80]
+
+    tbl = tabulate(table, headers, tablefmt=tablefmt, maxcolwidths=maxcolwidths)
+
+    indented_tbl = "\n".join([f"   {row}" for row in tbl.split("\n")])
+
+    tbl = f"""
+.. table::
+   :width: 100%
+   :widths: {" ".join([str(x) for x in maxcolwidths])}
+
+{indented_tbl}
+"""
+
     if verbose:
         print(tbl)
     with open(outfile, "w") as f:
