@@ -338,7 +338,11 @@ def create_classes(sirepo_data, connection, create_objects=True,
     data_models = {}
     for model_field in model_fields:
         if model_field in ["undulator", "intensityReport"]:
-            data["models"][model_field].update({"title": model_field, "type": model_field})
+            if model_field == "intensityReport":
+                title = "SingleElectronSpectrum"
+            else:
+                title = model_field
+            data["models"][model_field].update({"title": title, "type": model_field})
             data_models[model_field] = [data["models"][model_field]]
         else:
             data_models[model_field] = data["models"][model_field]
@@ -372,6 +376,8 @@ def create_classes(sirepo_data, connection, create_objects=True,
             extra_kwargs = {"connection": connection}
             if "type" in el and el["type"] == "watch":
                 base_classes = (SirepoWatchpoint, Device)
+            elif "type" in el and el["type"] == "intensityReport":
+                base_classes = (SingleElectronSpectrumReport, Device)
 
             components = {}
             for k, v in el.items():
@@ -382,7 +388,6 @@ def create_classes(sirepo_data, connection, create_objects=True,
                 else:
                     # TODO: Cover the cases for mirror and crystal grazing angles
                     cpt_class = SirepoSignal
-
 
                 if el["type"] not in ["undulator", "intensityReport"]:
                     sirepo_dict = sirepo_data["models"][model_field][i]

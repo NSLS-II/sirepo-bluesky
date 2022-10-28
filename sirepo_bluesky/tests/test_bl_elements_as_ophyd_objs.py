@@ -110,7 +110,8 @@ def test_beamline_elements_simple_connection(srw_basic_simulation):
 
 def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
     classes, objects = create_classes(
-        srw_ari_simulation.data, connection=srw_ari_simulation
+        srw_ari_simulation.data, connection=srw_ari_simulation,
+        extra_model_fields=["undulator", "intensityReport"]
     )
     globals().update(**objects)
 
