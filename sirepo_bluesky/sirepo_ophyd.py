@@ -389,7 +389,7 @@ def create_classes(sirepo_data, connection, create_objects=True,
                     # TODO: Cover the cases for mirror and crystal grazing angles
                     cpt_class = SirepoSignal
 
-                if el["type"] not in ["undulator", "intensityReport"]:
+                if "type" in el and el["type"] not in ["undulator", "intensityReport"]:
                     sirepo_dict = sirepo_data["models"][model_field][i]
                 else:
                     sirepo_dict = sirepo_data["models"][model_field]
