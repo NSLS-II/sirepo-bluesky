@@ -235,19 +235,19 @@ def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
 
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
-    classes, objects = create_classes(
-        madx_resr_storage_ring_simulation.data, connection=madx_resr_storage_ring_simulation
-    )
+    connection = madx_resr_storage_ring_simulation
+    data = connection.data
+    classes, objects = create_classes(data, connection=connection)
     globals().update(**objects)
 
     for i, (k, v) in enumerate(objects.items()):
         old_value = v.l.get()  # l is length
-        old_sirepo_value = madx_resr_storage_ring_simulation.data["models"]["elements"][i]["l"]
+        old_sirepo_value = data["models"]["elements"][i]["l"]
 
         getattr(v.l, method)(old_value + 10)
 
         new_value = v.l.get()
-        new_sirepo_value = madx_resr_storage_ring_simulation.data["models"]["elements"][i]["l"]
+        new_sirepo_value = data["models"]["elements"][i]["l"]
 
         print(
             f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n"
@@ -259,11 +259,10 @@ def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
         assert abs(new_value - (old_value + 10)) < 1e-8
 
 
-def test_mad_x_elements_simple_connection(madx_bl2_tdc_simulation):
-    classes, objects = create_classes(
-        madx_bl2_tdc_simulation.data, connection=madx_bl2_tdc_simulation
-    )
-
+def test_mad_x_elements_simple_connection(madx_bl2_triplet_tdc_simulation):
+    connection = madx_bl2_triplet_tdc_simulation
+    data = connection.data
+    classes, objects = create_classes(data, connection=connection)
     for name, obj in objects.items():
         pprint.pprint(obj.read())
 
@@ -273,15 +272,17 @@ def test_mad_x_elements_simple_connection(madx_bl2_tdc_simulation):
     pprint.pprint(bpm5.read())  # noqa
 
 
-def test_madx_with_run_engine(RE, db, madx_bl2_tdc_simulation):
-    classes, objects = create_classes(
-        madx_bl2_tdc_simulation.data, connection=madx_bl2_tdc_simulation
-    )
+def test_madx_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
+    connection = madx_bl2_triplet_tdc_simulation
+    data = connection.data
+    classes, objects = create_classes(data, connection=connection)
     globals().update(**objects)
 
-    madx_flyer = MADXFlyer(connection=madx_bl2_tdc_simulation,
-                           root_dir="/tmp/sirepo-bluesky-data",
-                           report="elementAnimation250-20")
+    madx_flyer = MADXFlyer(
+        connection=connection,
+        root_dir="/tmp/sirepo-bluesky-data",
+        report="elementAnimation250-20",
+    )
 
     (uid,) = RE(bp.fly([madx_flyer]))  # noqa F821
     hdr = db[uid]
@@ -299,25 +300,36 @@ def test_madx_with_run_engine(RE, db, madx_bl2_tdc_simulation):
     df = tfs.read(resource_files[0])
     for column in df.columns:
         if column == "NAME":
-            assert (tbl[f"madx_flyer_{column}"].astype("string").values == df[column].values).all()
+            assert (
+                tbl[f"madx_flyer_{column}"].astype("string").values == df[column].values
+            ).all()
         else:
-            assert np.allclose(np.array(tbl[f"madx_flyer_{column}"]).astype(float), np.array(df[column]))
+            assert np.allclose(
+                np.array(tbl[f"madx_flyer_{column}"]).astype(float),
+                np.array(df[column]),
+            )
 
 
-def test_madx_variables_with_run_engine(RE, db, madx_bl2_tdc_simulation):
-    data = madx_bl2_tdc_simulation.data
+def test_madx_variables_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
+    connection = madx_bl2_triplet_tdc_simulation
+    data = connection.data
     classes, objects = create_classes(
-        data, connection=madx_bl2_tdc_simulation,
+        data,
+        connection=connection,
         extra_model_fields=["rpnVariables"],
     )
 
     globals().update(**objects)
 
-    assert len(objects) == len(data["models"]["elements"]) + len(data["models"]["rpnVariables"])
+    assert len(objects) == len(data["models"]["elements"]) + len(
+        data["models"]["rpnVariables"]
+    )
 
-    madx_flyer = MADXFlyer(connection=madx_bl2_tdc_simulation,
-                           root_dir="/tmp/sirepo-bluesky-data",
-                           report="elementAnimation250-20")
+    madx_flyer = MADXFlyer(
+        connection=connection,
+        root_dir="/tmp/sirepo-bluesky-data",
+        report="elementAnimation250-20",
+    )
 
     def madx_plan(parameter=ihq1, value=2.0):  # noqa F821
         yield from bps.mv(parameter.value, value)
@@ -328,22 +340,78 @@ def test_madx_variables_with_run_engine(RE, db, madx_bl2_tdc_simulation):
     tbl = hdr.table(stream_name="madx_flyer", fill=True)
     print(tbl)
 
-    S = [0.2, 1.34, 4.76, 5.9, 7.4, 8.54, 10.1405, 12.91425,
-         19.47205, 20.58655, 21.38655, 22.24655, 23.10655,
-         23.10655, 24.10655, 25.01655, 25.14655, 25.40055,
-         25.88155, 26.88155, 29.92205]
-    BETX = [1.04080000e+01, 2.23630865e+01, 5.45490503e+01, 6.85639797e+01,
-            8.95080711e+01, 3.07485642e+02, 1.48819798e+01, 4.01917445e+02,
-            8.76888193e+01, 1.72370137e+02, 2.04524432e+02, 1.22838562e+01,
-            5.31960299e+01, 5.31960299e+01, 4.15143523e+01, 3.39923407e-02,
-            6.42294261e-01, 6.54463047e+00, 3.12227617e+01, 1.23493229e+02,
-            2.78859359e-02]
-    BETY = [1.04080000e+01, 3.89622295e+00, 2.29735786e+01, 4.91159086e+01,
-            9.85840248e+01, 5.81731898e+00, 7.01313899e+01, 7.34896758e+01,
-            2.01619048e+02, 8.91117598e+01, 9.45050916e+00, 1.70765137e+00,
-            3.19775219e+01, 3.19775219e+01, 5.35173761e+01, 5.06793788e+00,
-            2.34217363e+00, 4.32283940e-02, 7.17054244e+00, 7.55144928e+01,
-            2.00861311e+00]
+    S = [
+        0.2,
+        1.34,
+        4.76,
+        5.9,
+        7.4,
+        8.54,
+        9.6105,
+        12.38425,
+        16.69165,
+        18.94165,
+        20.06665,
+        21.13165,
+        21.49665,
+        22.49665,
+        22.49665,
+        23.34165,
+        24.18165,
+        24.31165,
+        24.56565,
+        24.99065,
+        26.02065,
+        28.86265,
+    ]
+    BETX = [
+        10.408,
+        22.36308646,
+        54.54905034,
+        68.56397971,
+        89.50807112,
+        307.4856416,
+        40.73865381,
+        294.9778573,
+        9.096680097,
+        107.8726081,
+        319.2483447,
+        199.0675119,
+        91.07793387,
+        8.802320195,
+        8.802320195,
+        86.43782501,
+        103.4247185,
+        106.1910538,
+        111.7023327,
+        579.491275,
+        5793.638223,
+        3.239075108,
+    ]
+    BETY = [
+        10.408,
+        3.896222946,
+        22.97357858,
+        49.11590862,
+        98.58402476,
+        5.817318976,
+        23.09293647,
+        144.6412107,
+        77.24882134,
+        28.57325457,
+        0.185399505,
+        28.69475679,
+        56.73496998,
+        182.0833344,
+        182.0833344,
+        225.3607656,
+        36.86708925,
+        21.98084814,
+        3.944913321,
+        8.171674062,
+        224.1750557,
+        0.1061422279,
+    ]
 
     assert np.allclose(np.array(tbl["madx_flyer_S"]).astype(float), S)
     assert np.allclose(np.array(tbl["madx_flyer_BETX"]).astype(float), BETX)
