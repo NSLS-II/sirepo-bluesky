@@ -348,7 +348,7 @@ def create_classes(sirepo_data, connection, create_objects=True,
             data_models[model_field] = data["models"][model_field]
 
     for model_field, data_model in data_models.items():
-        for i, el in enumerate(data_model):
+        for i, el in enumerate(data_model):  # 'el' is a dict, 'data_model' is a list of dicts
             logger.debug(f"Processing {el}...")
 
             for ophyd_key, sirepo_key in RESERVED_OPHYD_TO_SIREPO_ATTRS.items():
@@ -390,6 +390,8 @@ def create_classes(sirepo_data, connection, create_objects=True,
                     cpt_class = SirepoSignal
 
                 if "type" in el and el["type"] not in ["undulator", "intensityReport"]:
+                    sirepo_dict = sirepo_data["models"][model_field][i]
+                elif sim_type == "madx" and model_field in ["rpnVariables"]:
                     sirepo_dict = sirepo_data["models"][model_field][i]
                 else:
                     sirepo_dict = sirepo_data["models"][model_field]
