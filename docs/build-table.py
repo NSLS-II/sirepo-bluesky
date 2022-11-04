@@ -16,7 +16,7 @@ def find_predefined_examples(
     verbose=False,
 ):
 
-    base_url = "https://github.com/NSLS-II/sirepo-bluesky/tree/master/"
+    base_url = "https://github.com/NSLS-II/sirepo-bluesky/tree/main/"
 
     pattern_file = f"{pattern}/sirepo-data.json"
     sim_jsons = sorted(glob.glob(os.path.join(path, sim_type, pattern_file)))
