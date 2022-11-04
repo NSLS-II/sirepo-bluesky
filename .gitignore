@@ -86,6 +86,7 @@ target/
 
 # Testing artifacts
 TES-Shadow-timing.png
+ses-vs-ampl.png
 
 # Sirepo related files
 db/

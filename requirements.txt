@@ -8,6 +8,7 @@ matplotlib
 numconv
 numpy
 ophyd
+peakutils
 pymongo
 pyqt5>=5.9
 requests

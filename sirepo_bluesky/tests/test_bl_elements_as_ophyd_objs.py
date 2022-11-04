@@ -8,6 +8,7 @@ import bluesky.plan_stubs as bps
 import dictdiffer
 import matplotlib.pyplot as plt
 import numpy as np
+import peakutils
 import pytest
 import tfs
 
@@ -37,22 +38,23 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
     globals().update(**objects)
 
     for i, (k, v) in enumerate(objects.items()):
-        old_value = v.element_position.get()
-        old_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
+        if "element_position" in v.component_names:
+            old_value = v.element_position.get()
+            old_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
 
-        getattr(v.element_position, method)(old_value + 100)
+            getattr(v.element_position, method)(old_value + 100)
 
-        new_value = v.element_position.get()
-        new_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
+            new_value = v.element_position.get()
+            new_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
 
-        print(
-            f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n"
-        )
+            print(
+                f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n"
+            )
 
-        assert old_value == old_sirepo_value
-        assert new_value == new_sirepo_value
-        assert new_value != old_value
-        assert abs(new_value - (old_value + 100)) < 1e-8
+            assert old_value == old_sirepo_value
+            assert new_value == new_sirepo_value
+            assert new_value != old_value
+            assert abs(new_value - (old_value + 100)) < 1e-8
 
 
 @pytest.mark.parametrize("method", ["set", "put"])
@@ -104,6 +106,55 @@ def test_beamline_elements_simple_connection(srw_basic_simulation):
 
     print(watchpoint.summary())  # noqa F821
     pprint.pprint(watchpoint.read())  # noqa F821
+
+
+def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
+    classes, objects = create_classes(
+        srw_ari_simulation.data, connection=srw_ari_simulation,
+        extra_model_fields=["undulator", "intensityReport"]
+    )
+    globals().update(**objects)
+
+    undulator.verticalAmplitude.kind = "hinted"  # noqa F821
+
+    single_electron_spectrum.initialEnergy.get()  # noqa F821
+    single_electron_spectrum.initialEnergy.put(20)  # noqa F821
+    single_electron_spectrum.finalEnergy.put(1100)  # noqa F821
+
+    assert srw_ari_simulation.data["models"]["intensityReport"]["initialEnergy"] == 20
+    assert srw_ari_simulation.data["models"]["intensityReport"]["finalEnergy"] == 1100
+
+    (uid,) = RE(bp.scan([single_electron_spectrum],  # noqa F821
+                        undulator.verticalAmplitude, 0.2, 1, num_steps))  # noqa F821
+
+    hdr = db[uid]
+    tbl = hdr.table()
+    print(tbl)
+
+    ses_data = np.array(list(hdr.data("single_electron_spectrum_image")))
+    ampl_data = np.array(list(hdr.data("undulator_verticalAmplitude")))
+    # Check the shape of the image data is right:
+    assert ses_data.shape == (num_steps, 2000)
+
+    resource_files = []
+    for name, doc in hdr.documents():
+        if name == "resource":
+            resource_files.append(os.path.basename(doc["resource_path"]))
+
+    # Check that all resource files are unique:
+    assert len(set(resource_files)) == num_steps
+
+    fig = plt.figure()
+    ax = fig.add_subplot()
+    for i in range(num_steps):
+        ax.plot(ses_data[i, :], label=f"vert. magn. fld. {ampl_data[i]:.3f}T")
+        peak = peakutils.indexes(ses_data[i, :])
+        ax.scatter(peak, ses_data[i, peak])
+    ax.grid()
+    ax.legend()
+    ax.set_title("Single-Electron Spectrum vs. Vertical Magnetic Field")
+    fig.savefig("ses-vs-ampl.png")
+    # plt.show()
 
 
 def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
