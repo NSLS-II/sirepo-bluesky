@@ -12,18 +12,18 @@ Applications
 - Added support for the MAD-X App in Sirepo via detector & flyer API.
   Corresponding simulation examples were added too (sim_id=00000001 and
   00000002). The corresponding handler ``MADXFileHandler`` was implemented for
-  reading of MAD-X produced files.
+  the reading of MAD-X-produced files.
 - Implemented ``SingleElectronSpectrumReport`` from the Source page of
   Sirepo/SRW.
 - Added the ``duration`` component for detectors.
 - Implemented the ``stateless-compute`` support for the grazing angle
-  orientation. That is necessary to support recalculation of some properties
-  which are normally triggered by the JavaScript client side.
+  orientation. That is necessary to support the recalculation of some
+  properties which are normally triggered by the JavaScript client side.
 - Converted assertions to exceptions throughout the library code.
 
 Tests
 .....
-- All integrated simulation codes have corresponging extensive tests (`pytest
+- All integrated simulation codes have corresponding extensive tests (`pytest
   <https://docs.pytest.org/>`_ framework).
 
 Examples
@@ -38,20 +38,21 @@ Documentation
 - Added a documentation/notebook with an example of the use of MAD-X via
   sirepo-bluesky API.
 - Changed the Sphinx theme to `Cloud <https://cloud-sptheme.readthedocs.io>`_.
-- Consitent table widths for simulation lists for different simulation codes.
+- Consistent table widths for simulation lists for different simulation codes.
 - Fixed the version string in the published documentation at
   nsls-ii.github.io/sirepo-bluesky.
 
 Scripts/services
 ................
-- Added support for persistent location for the Sirepo database of simulations.
+- Added support for a persistent location for the Sirepo database of
+  simulations.
 - Using the ``radiasoft/sirepo:20220806.215448`` version of the Sirepo Docker
   image (support of newer images will be added in the following release).
 - Added an example systemd unit for ``sirepo.service``.
 
 CI improvements
 ...............
-- Added checks whether the Sirepo container is running before executing the
+- Added checks on whether the Sirepo container is running before executing the
   tests.
 - Using ``mamba`` for faster installation.
 - Uploading docs artifacts for each CI run (to allow inspection of the
