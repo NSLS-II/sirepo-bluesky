@@ -26,6 +26,7 @@ logger = logging.getLogger("sirepo-bluesky")
 RESERVED_OPHYD_TO_SIREPO_ATTRS = {  # ophyd <-> sirepo
     "position": "element_position",
     "name": "element_name",
+    "class": "command_class"
 }
 RESERVED_SIREPO_TO_OPHYD_ATTRS = {
     v: k for k, v in RESERVED_OPHYD_TO_SIREPO_ATTRS.items()
@@ -364,12 +365,18 @@ def create_classes(sirepo_data, connection, create_objects=True,
                 else:
                     pass
 
-            class_name = inflection.camelize(
-                el[config_dict[sim_type].class_name_field]
-                .replace(" ", "_")
-                .replace(".", "")
-                .replace("-", "_")
-            )
+            class_name = el[config_dict[sim_type].class_name_field]
+            if model_field == "commands":
+                # Use command type and index in the model as class name to
+                # prevent overwriting any other elements or rpnVariables
+                class_name = f"{el['_type']}_{i}"
+            else:
+                class_name = inflection.camelize(
+                    el[config_dict[sim_type].class_name_field]
+                    .replace(" ", "_")
+                    .replace(".", "")
+                    .replace("-", "_")
+                )
             object_name = inflection.underscore(class_name)
 
             base_classes = (Device,)
