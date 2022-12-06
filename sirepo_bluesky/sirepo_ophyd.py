@@ -26,7 +26,7 @@ logger = logging.getLogger("sirepo-bluesky")
 RESERVED_OPHYD_TO_SIREPO_ATTRS = {  # ophyd <-> sirepo
     "position": "element_position",
     "name": "element_name",
-    "class": "command_class"
+    "class": "command_class",
 }
 RESERVED_SIREPO_TO_OPHYD_ATTRS = {
     v: k for k, v in RESERVED_OPHYD_TO_SIREPO_ATTRS.items()
@@ -34,6 +34,7 @@ RESERVED_SIREPO_TO_OPHYD_ATTRS = {
 
 
 # TODO: add SirepoSignalRO similar to EpicsSignalRO.
+
 
 class SirepoSignal(Signal):
     def __init__(self, sirepo_dict, sirepo_param, *args, **kwargs):
@@ -164,9 +165,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
         self._resource_document = None
         self._datum_factory = None
 
-        logger.debug(
-            f"\nReport for {self.name}: {self.connection.data['report']}\n"
-        )
+        logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -248,8 +247,9 @@ class SingleElectronSpectrumReport(SirepoWatchpoint):
         self._resource_document = None
         self._datum_factory = None
 
-        logger.debug(f"\nReport for {self.name}: "
-                     f"{self.connection.data['report']}\n")
+        logger.debug(
+            f"\nReport for {self.name}: " f"{self.connection.data['report']}\n"
+        )
 
         return NullStatus()
 
@@ -276,9 +276,7 @@ class BeamStatisticsReport(DeviceWithJSONData):
         datafile = self.connection.get_datafile(file_index=-1)
         self.report.put(json.dumps(json.loads(datafile.decode())))
 
-        logger.debug(
-            f"\nReport for {self.name}: {self.connection.data['report']}\n"
-        )
+        logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
 
         # We call the trigger on super at the end to update the sirepo_data_json
         # and the corresponding hash after the simulation is run.
@@ -314,8 +312,7 @@ class SirepoSignalGrazingAngle(SirepoSignal):
         return NullStatus()
 
 
-def create_classes(sirepo_data, connection, create_objects=True,
-                   extra_model_fields=[]):
+def create_classes(sirepo_data, connection, create_objects=True, extra_model_fields=[]):
     classes = {}
     objects = {}
     data = copy.deepcopy(sirepo_data)
@@ -349,7 +346,9 @@ def create_classes(sirepo_data, connection, create_objects=True,
             data_models[model_field] = data["models"][model_field]
 
     for model_field, data_model in data_models.items():
-        for i, el in enumerate(data_model):  # 'el' is a dict, 'data_model' is a list of dicts
+        for i, el in enumerate(
+            data_model
+        ):  # 'el' is a dict, 'data_model' is a list of dicts
             logger.debug(f"Processing {el}...")
 
             for ophyd_key, sirepo_key in RESERVED_OPHYD_TO_SIREPO_ATTRS.items():
@@ -390,8 +389,12 @@ def create_classes(sirepo_data, connection, create_objects=True,
             components = {}
             for k, v in el.items():
 
-                if "type" in el and el["type"] in ["sphericalMirror", "toroidalMirror", "ellipsoidMirror"] \
-                        and k == "grazingAngle":
+                if (
+                    "type" in el
+                    and el["type"]
+                    in ["sphericalMirror", "toroidalMirror", "ellipsoidMirror"]
+                    and k == "grazingAngle"
+                ):
                     cpt_class = SirepoSignalGrazingAngle
                 else:
                     # TODO: Cover the cases for mirror and crystal grazing angles

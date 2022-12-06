@@ -40,12 +40,16 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
     for i, (k, v) in enumerate(objects.items()):
         if "element_position" in v.component_names:
             old_value = v.element_position.get()
-            old_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
+            old_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i][
+                "position"
+            ]
 
             getattr(v.element_position, method)(old_value + 100)
 
             new_value = v.element_position.get()
-            new_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
+            new_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i][
+                "position"
+            ]
 
             print(
                 f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n"
@@ -110,8 +114,9 @@ def test_beamline_elements_simple_connection(srw_basic_simulation):
 
 def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
     classes, objects = create_classes(
-        srw_ari_simulation.data, connection=srw_ari_simulation,
-        extra_model_fields=["undulator", "intensityReport"]
+        srw_ari_simulation.data,
+        connection=srw_ari_simulation,
+        extra_model_fields=["undulator", "intensityReport"],
     )
     globals().update(**objects)
 
@@ -124,8 +129,15 @@ def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
     assert srw_ari_simulation.data["models"]["intensityReport"]["initialEnergy"] == 20
     assert srw_ari_simulation.data["models"]["intensityReport"]["finalEnergy"] == 1100
 
-    (uid,) = RE(bp.scan([single_electron_spectrum],  # noqa F821
-                        undulator.verticalAmplitude, 0.2, 1, num_steps))  # noqa F821
+    (uid,) = RE(
+        bp.scan(
+            [single_electron_spectrum],  # noqa F821
+            undulator.verticalAmplitude,
+            0.2,
+            1,
+            num_steps,
+        )
+    )  # noqa F821
 
     hdr = db[uid]
     tbl = hdr.table()
@@ -468,6 +480,7 @@ def test_madx_variables_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation)
     assert np.allclose(np.array(tbl["madx_flyer_BETX"]).astype(float), BETX)
     assert np.allclose(np.array(tbl["madx_flyer_BETY"]).astype(float), BETY)
 
+
 def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     connection = madx_bl2_triplet_tdc_simulation
     data = connection.data
@@ -520,7 +533,7 @@ def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
         24.56565,
         24.99065,
         26.02065,
-        28.86265
+        28.86265,
     ]
     BETX = [
         10.408000,
@@ -544,7 +557,7 @@ def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
         1.852264,
         4.701896,
         28.344746,
-        0.272005
+        0.272005,
     ]
     BETY = [
         10.408000,
@@ -568,7 +581,7 @@ def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
         32.661415,
         78.122592,
         92.869304,
-        12.453373
+        12.453373,
     ]
 
     assert np.allclose(np.array(tbl["madx_flyer_S"]).astype(float), S)
