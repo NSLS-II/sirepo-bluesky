@@ -369,7 +369,8 @@ def create_classes(sirepo_data, connection, create_objects=True,
             if model_field == "commands":
                 # Use command type and index in the model as class name to
                 # prevent overwriting any other elements or rpnVariables
-                class_name = f"{el['_type']}_{i}"
+                # Examples of class names: beam0, select1, twiss7
+                class_name = inflection.camelize(f"{el['_type']}{i}")
             else:
                 class_name = inflection.camelize(
                     el[config_dict[sim_type].class_name_field]
@@ -398,7 +399,7 @@ def create_classes(sirepo_data, connection, create_objects=True,
 
                 if "type" in el and el["type"] not in ["undulator", "intensityReport"]:
                     sirepo_dict = sirepo_data["models"][model_field][i]
-                elif sim_type == "madx" and model_field in ["rpnVariables"]:
+                elif sim_type == "madx" and model_field in ["rpnVariables", "commands"]:
                     sirepo_dict = sirepo_data["models"][model_field][i]
                 else:
                     sirepo_dict = sirepo_data["models"][model_field]
