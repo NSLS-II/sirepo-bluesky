@@ -132,7 +132,7 @@ def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
     (uid,) = RE(
         bp.scan(
             [single_electron_spectrum],  # noqa F821
-            undulator.verticalAmplitude,
+            undulator.verticalAmplitude,  # noqa F821
             0.2,
             1,
             num_steps,
