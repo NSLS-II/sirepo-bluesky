@@ -403,82 +403,11 @@ def test_madx_variables_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation)
     tbl = hdr.table(stream_name="madx_flyer", fill=True)
     print(tbl)
 
-    S = [
-        0.2,
-        1.34,
-        4.76,
-        5.9,
-        7.4,
-        8.54,
-        9.6105,
-        12.38425,
-        16.69165,
-        18.94165,
-        20.06665,
-        21.13165,
-        21.49665,
-        22.49665,
-        22.49665,
-        23.34165,
-        24.18165,
-        24.31165,
-        24.56565,
-        24.99065,
-        26.02065,
-        28.86265,
-    ]
-    BETX = [
-        10.408,
-        22.36308646,
-        54.54905034,
-        68.56397971,
-        89.50807112,
-        307.4856416,
-        40.73865381,
-        294.9778573,
-        9.096680097,
-        107.8726081,
-        319.2483447,
-        199.0675119,
-        91.07793387,
-        8.802320195,
-        8.802320195,
-        86.43782501,
-        103.4247185,
-        106.1910538,
-        111.7023327,
-        579.491275,
-        5793.638223,
-        3.239075108,
-    ]
-    BETY = [
-        10.408,
-        3.896222946,
-        22.97357858,
-        49.11590862,
-        98.58402476,
-        5.817318976,
-        23.09293647,
-        144.6412107,
-        77.24882134,
-        28.57325457,
-        0.185399505,
-        28.69475679,
-        56.73496998,
-        182.0833344,
-        182.0833344,
-        225.3607656,
-        36.86708925,
-        21.98084814,
-        3.944913321,
-        8.171674062,
-        224.1750557,
-        0.1061422279,
-    ]
+    expected_data_len = 151
 
-    assert np.allclose(np.array(tbl["madx_flyer_S"]).astype(float), S)
-    assert np.allclose(np.array(tbl["madx_flyer_BETX"]).astype(float), BETX)
-    assert np.allclose(np.array(tbl["madx_flyer_BETY"]).astype(float), BETY)
+    assert len(tbl["madx_flyer_S"]) == expected_data_len
+    assert len(tbl["madx_flyer_BETX"]) == expected_data_len
+    assert len(tbl["madx_flyer_BETY"]) == expected_data_len
 
 
 def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
@@ -491,6 +420,7 @@ def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     )
 
     globals().update(**objects)
+    pprint.pprint(classes, sort_dicts=False)
 
     assert len(objects) == len(data["models"]["elements"]) + len(
         data["models"]["commands"]
@@ -502,7 +432,7 @@ def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
         report="elementAnimation250-20",
     )
 
-    def madx_plan(element=match16, value=1.0):  # noqa F821
+    def madx_plan(element=match8, value=1.0):  # noqa F821
         yield from bps.mv(element.deltap, value)
         return (yield from bp.fly([madx_flyer]))
 
@@ -511,82 +441,11 @@ def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     tbl = hdr.table(stream_name="madx_flyer", fill=True)
     print(tbl)
 
-    S = [
-        0.20000,
-        1.34000,
-        4.76000,
-        5.90000,
-        7.40000,
-        8.54000,
-        9.61050,
-        12.38425,
-        16.69165,
-        18.94165,
-        20.06665,
-        21.13165,
-        21.49665,
-        22.49665,
-        22.49665,
-        23.34165,
-        24.18165,
-        24.31165,
-        24.56565,
-        24.99065,
-        26.02065,
-        28.86265,
-    ]
-    BETX = [
-        10.408000,
-        10.354387,
-        3.814022,
-        3.244625,
-        3.722423,
-        13.560196,
-        2.071744,
-        12.418481,
-        2.522746,
-        4.848420,
-        10.179698,
-        5.237850,
-        2.047153,
-        1.263596,
-        1.263596,
-        2.600907,
-        1.912882,
-        1.874522,
-        1.852264,
-        4.701896,
-        28.344746,
-        0.272005,
-    ]
-    BETY = [
-        10.408000,
-        9.453506,
-        2.957846,
-        2.723835,
-        3.887070,
-        0.432363,
-        2.708033,
-        6.227945,
-        179.081303,
-        780.653538,
-        502.913016,
-        292.055947,
-        303.779822,
-        337.086493,
-        337.086493,
-        273.558544,
-        1.608260,
-        1.205618,
-        32.661415,
-        78.122592,
-        92.869304,
-        12.453373,
-    ]
+    expected_data_len = 151
 
-    assert np.allclose(np.array(tbl["madx_flyer_S"]).astype(float), S)
-    assert np.allclose(np.array(tbl["madx_flyer_BETX"]).astype(float), BETX)
-    assert np.allclose(np.array(tbl["madx_flyer_BETY"]).astype(float), BETY)
+    assert len(tbl["madx_flyer_S"]) == expected_data_len
+    assert len(tbl["madx_flyer_BETX"]) == expected_data_len
+    assert len(tbl["madx_flyer_BETY"]) == expected_data_len
 
 
 def test_madx_variables_and_commands_with_run_engine(
@@ -612,7 +471,7 @@ def test_madx_variables_and_commands_with_run_engine(
         report="elementAnimation250-20",
     )
 
-    def madx_plan(element=match16, parameter=ihq1, value=1.0):  # noqa F821
+    def madx_plan(element=match8, parameter=ihq1, value=1.0):  # noqa F821
         yield from bps.mv(element.deltap, value)
         yield from bps.mv(parameter.value, value)
         return (yield from bp.fly([madx_flyer]))
@@ -622,79 +481,8 @@ def test_madx_variables_and_commands_with_run_engine(
     tbl = hdr.table(stream_name="madx_flyer", fill=True)
     print(tbl)
 
-    S = [
-        0.2,
-        1.34,
-        4.76,
-        5.9,
-        7.4,
-        8.54,
-        9.6105,
-        12.38425,
-        16.69165,
-        18.94165,
-        20.06665,
-        21.13165,
-        21.49665,
-        22.49665,
-        22.49665,
-        23.34165,
-        24.18165,
-        24.31165,
-        24.56565,
-        24.99065,
-        26.02065,
-        28.86265,
-    ]
-    BETX = [
-        10.408,
-        26.36823148,
-        79.46190212,
-        103.6210282,
-        140.3313459,
-        488.789931,
-        65.86466965,
-        454.5456102,
-        50.72568002,
-        179.8669197,
-        354.5215834,
-        169.0406808,
-        59.35075109,
-        46.39089107,
-        46.39089107,
-        88.90826335,
-        42.32938156,
-        36.64972828,
-        26.73519957,
-        86.25259069,
-        756.5705174,
-        0.109784421,
-    ]
-    BETY = [
-        10.408,
-        2.838597398,
-        39.69699101,
-        79.82049262,
-        153.8203268,
-        8.369019056,
-        39.62777489,
-        229.4736303,
-        7035.006014,
-        30696.98669,
-        19782.62676,
-        11495.79344,
-        11959.99285,
-        13278.8394,
-        13278.8394,
-        10779.68184,
-        63.71732299,
-        46.92980128,
-        1283.904078,
-        642.7747039,
-        7457.247957,
-        302.100827,
-    ]
+    expected_data_len = 151
 
-    assert np.allclose(np.array(tbl["madx_flyer_S"]).astype(float), S)
-    assert np.allclose(np.array(tbl["madx_flyer_BETX"]).astype(float), BETX)
-    assert np.allclose(np.array(tbl["madx_flyer_BETY"]).astype(float), BETY)
+    assert len(tbl["madx_flyer_S"]) == expected_data_len
+    assert len(tbl["madx_flyer_BETX"]) == expected_data_len
+    assert len(tbl["madx_flyer_BETY"]) == expected_data_len
