@@ -4,7 +4,7 @@
             {
                 "angle": 1.5707963267948966,
                 "count": 80,
-                "distance": 27.209126191037402,
+                "distance": 27.20874250459768,
                 "id": 228,
                 "items": [
                     146,
@@ -13,7 +13,7 @@
                     188,
                     212
                 ],
-                "length": 27.935782962607604,
+                "length": 27.935382962607598,
                 "name": "BEAMLINE_FULL"
             },
             {
@@ -765,59 +765,9 @@
                 "upper": 30
             },
             {
-                "_id": 241,
-                "_type": "vary",
-                "lower": -20,
-                "name": "IHQ8",
-                "opt": 0,
-                "slope": "-none-",
-                "step": 0.001,
-                "upper": 20
-            },
-            {
-                "_id": 242,
-                "_type": "vary",
-                "lower": -20,
-                "name": "IHQ9",
-                "opt": 0,
-                "slope": "-none-",
-                "step": 0.001,
-                "upper": 20
-            },
-            {
-                "_id": 294,
-                "_type": "constraint",
-                "alfx": null,
-                "alfy": null,
-                "betx": null,
-                "bety": 50,
-                "dpx": null,
-                "dpy": null,
-                "dx": null,
-                "dy": null,
-                "mux": null,
-                "muy": null,
-                "name": "CO1",
-                "px": null,
-                "py": null,
-                "range": "FQ2",
-                "sequence": 228,
-                "x": null,
-                "y": null
-            },
-            {
-                "_id": 245,
-                "_type": "constraint",
-                "betx": 50,
-                "bety": null,
-                "name": null,
-                "range": "FQ3",
-                "sequence": 228
-            },
-            {
                 "_id": 244,
                 "_type": "constraint",
-                "betx": "50",
+                "betx": 40,
                 "bety": null,
                 "name": null,
                 "range": "GQ6",
@@ -828,7 +778,15 @@
                 "_type": "lmdif",
                 "calls": 500,
                 "name": "LM1",
-                "tolerance": 1e-07
+                "tolerance": 1e-08
+            },
+            {
+                "_id": 316,
+                "_type": "migrad",
+                "calls": 500,
+                "name": "MI1",
+                "strategy": 1,
+                "tolerance": 1e-08
             },
             {
                 "_id": 298,
@@ -926,6 +884,16 @@
                 "y": 0
             },
             {
+                "_id": 241,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IHQ8",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
                 "_id": 240,
                 "_type": "vary",
                 "lower": -20,
@@ -946,11 +914,51 @@
                 "upper": 20
             },
             {
+                "_id": 242,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IHQ9",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
+                "_id": 294,
+                "_type": "constraint",
+                "alfx": null,
+                "alfy": null,
+                "betx": null,
+                "bety": 50,
+                "dpx": null,
+                "dpy": null,
+                "dx": null,
+                "dy": null,
+                "mux": null,
+                "muy": null,
+                "name": "CO1",
+                "px": null,
+                "py": null,
+                "range": "FQ2",
+                "sequence": 228,
+                "x": null,
+                "y": null
+            },
+            {
                 "_id": 246,
                 "_type": "constraint",
                 "bety": "45",
                 "name": null,
                 "range": "IQ9",
+                "sequence": 228
+            },
+            {
+                "_id": 245,
+                "_type": "constraint",
+                "betx": 50,
+                "bety": null,
+                "name": null,
+                "range": "FQ3",
                 "sequence": 228
             }
         ],
@@ -3625,12 +3633,12 @@
             "enableParticleTracking": "1",
             "folder": "/",
             "isExample": false,
-            "lastModified": 1666721809168,
-            "name": "BL1_Compton_wTrims 2",
+            "lastModified": 1671545277681,
+            "name": "BL1_Compton_wTrims",
             "notes": "",
-            "outOfSessionSimulationId": "NAeZFkd2",
+            "outOfSessionSimulationId": "yua6Hr5q",
             "simulationId": "00000001",
-            "simulationSerial": 1666721809153628,
+            "simulationSerial": 1671545277663511,
             "visualizationBeamlineId": 228
         },
         "treeMap": {
@@ -3660,15 +3668,15 @@
     },
     "rsmanifest": {
         "image": {
-            "git_commit": "0d9c859244b52a76d2561690745ea964c51ca026",
+            "git_commit": "de49af07a2121f1ebeba02df9b9580725a38447c",
             "git_remote_origin_url": "https://github.com/radiasoft/sirepo",
             "name": "radiasoft/sirepo",
             "type": "docker",
-            "uri": "https://registry.hub.docker.com/radiasoft/sirepo:20221018.191459",
-            "version": "20221018.191459"
+            "uri": "https://registry.hub.docker.com/radiasoft/sirepo:20221206.183032",
+            "version": "20221206.183032"
         },
         "version": "20190612.150000"
     },
     "simulationType": "madx",
-    "version": "20221018.184701"
+    "version": "20221206.180636"
 }
