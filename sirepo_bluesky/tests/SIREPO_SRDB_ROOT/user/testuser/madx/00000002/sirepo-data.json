@@ -12,8 +12,51 @@
                     172,
                     182,
                     188,
-                    212,
-                    227
+                    187,
+                    189,
+                    190,
+                    191,
+                    192,
+                    193,
+                    194,
+                    195,
+                    196,
+                    282,
+                    284,
+                    283,
+                    198,
+                    199,
+                    200,
+                    201,
+                    202,
+                    203,
+                    204,
+                    285,
+                    287,
+                    286,
+                    206,
+                    289,
+                    288,
+                    207,
+                    208,
+                    209,
+                    210,
+                    211,
+                    214,
+                    215,
+                    216,
+                    217,
+                    218,
+                    219,
+                    220,
+                    290,
+                    288,
+                    291,
+                    222,
+                    223,
+                    224,
+                    225,
+                    226
                 ],
                 "length": 28.86265000000001,
                 "name": "BEAMLINE_FULL"
@@ -389,7 +432,7 @@
                 "flag": "TWISS",
                 "full": "0",
                 "name": null,
-                "pattern": "HP",
+                "pattern": "H",
                 "range": "",
                 "sequence": "",
                 "slice": 1,
@@ -419,7 +462,7 @@
                 "flag": "TWISS",
                 "full": "0",
                 "name": null,
-                "pattern": "FP",
+                "pattern": "F",
                 "range": "",
                 "sequence": "",
                 "slice": 1,
@@ -434,7 +477,7 @@
                 "flag": "TWISS",
                 "full": "0",
                 "name": null,
-                "pattern": "IP",
+                "pattern": "I",
                 "range": "",
                 "sequence": "",
                 "slice": 1,
@@ -449,7 +492,7 @@
                 "flag": "TWISS",
                 "full": "0",
                 "name": null,
-                "pattern": "\u201cFQ\u201d",
+                "pattern": "\u201cQ\u201d",
                 "range": "",
                 "sequence": "",
                 "slice": 1,
@@ -585,6 +628,64 @@
                 "slope": "-none-",
                 "step": 0.001,
                 "upper": 20
+            },
+            {
+                "_id": 239,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IIQ7",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
+                "_id": 240,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IIQ75",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
+                "_id": 241,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IIQ8",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
+                "_id": 242,
+                "_type": "vary",
+                "lower": -20,
+                "name": "IIQ9",
+                "opt": 0,
+                "slope": "-none-",
+                "step": 0.001,
+                "upper": 20
+            },
+            {
+                "_id": 245,
+                "_type": "constraint",
+                "betx": "50",
+                "bety": 5,
+                "name": null,
+                "range": "IQ7",
+                "sequence": 228
+            },
+            {
+                "_id": 246,
+                "_type": "constraint",
+                "betx": 5,
+                "bety": "45",
+                "name": null,
+                "range": "IQ9",
+                "sequence": 228
             },
             {
                 "_id": 243,
@@ -758,6 +859,15 @@
                 "y": null
             },
             {
+                "_id": 244,
+                "_type": "constraint",
+                "betx": "50",
+                "bety": "50",
+                "name": null,
+                "range": "IQ65",
+                "sequence": 228
+            },
+            {
                 "_id": 299,
                 "_type": "lmdif",
                 "calls": 500,
@@ -858,71 +968,6 @@
                 "wy": 0,
                 "x": 0,
                 "y": 0
-            },
-            {
-                "_id": 241,
-                "_type": "vary",
-                "lower": -20,
-                "name": "IIQ8",
-                "opt": 0,
-                "slope": "-none-",
-                "step": 0.001,
-                "upper": 20
-            },
-            {
-                "_id": 242,
-                "_type": "vary",
-                "lower": -20,
-                "name": "IIQ9",
-                "opt": 0,
-                "slope": "-none-",
-                "step": 0.001,
-                "upper": 20
-            },
-            {
-                "_id": 240,
-                "_type": "vary",
-                "lower": -20,
-                "name": "IIQ75",
-                "opt": 0,
-                "slope": "-none-",
-                "step": 0.001,
-                "upper": 20
-            },
-            {
-                "_id": 239,
-                "_type": "vary",
-                "lower": -20,
-                "name": "IIQ7",
-                "opt": 0,
-                "slope": "-none-",
-                "step": 0.001,
-                "upper": 20
-            },
-            {
-                "_id": 245,
-                "_type": "constraint",
-                "betx": "50",
-                "name": null,
-                "range": "IQ7",
-                "sequence": 228
-            },
-            {
-                "_id": 244,
-                "_type": "constraint",
-                "betx": "50",
-                "bety": "50",
-                "name": null,
-                "range": "IQ65",
-                "sequence": 228
-            },
-            {
-                "_id": 246,
-                "_type": "constraint",
-                "bety": "45",
-                "name": null,
-                "range": "IQ9",
-                "sequence": 228
             }
         ],
         "elementAnimation236-20": {
@@ -3409,12 +3454,12 @@
             "enableParticleTracking": "1",
             "folder": "/",
             "isExample": false,
-            "lastModified": 1666720520074,
+            "lastModified": 1671545226233,
             "name": "BL2_Triplet_TDC_full",
             "notes": "",
-            "outOfSessionSimulationId": "ns3lWwf8",
+            "outOfSessionSimulationId": "eULHUrb8",
             "simulationId": "00000002",
-            "simulationSerial": 1666720520067141,
+            "simulationSerial": 1671545226226030,
             "visualizationBeamlineId": 228
         },
         "treeMap": {
@@ -3444,15 +3489,15 @@
     },
     "rsmanifest": {
         "image": {
-            "git_commit": "0d9c859244b52a76d2561690745ea964c51ca026",
+            "git_commit": "de49af07a2121f1ebeba02df9b9580725a38447c",
             "git_remote_origin_url": "https://github.com/radiasoft/sirepo",
             "name": "radiasoft/sirepo",
             "type": "docker",
-            "uri": "https://registry.hub.docker.com/radiasoft/sirepo:20221018.191459",
-            "version": "20221018.191459"
+            "uri": "https://registry.hub.docker.com/radiasoft/sirepo:20221206.183032",
+            "version": "20221206.183032"
         },
         "version": "20190612.150000"
     },
     "simulationType": "madx",
-    "version": "20221018.184701"
+    "version": "20221206.180636"
 }

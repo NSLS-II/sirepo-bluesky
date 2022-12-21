@@ -6,7 +6,7 @@ intake<=0.6.4
 ipython
 matplotlib
 numconv
-numpy
+numpy<1.24.0
 ophyd
 peakutils
 pymongo
