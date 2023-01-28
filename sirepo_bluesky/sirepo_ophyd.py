@@ -98,7 +98,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
         allowed_sim_types = ("srw", "shadow", "madx")
         if sim_type not in allowed_sim_types:
             raise RuntimeError(
-                f"Unknown simulation type: {sim_type}\n" f"Allowed simulation types: {allowed_sim_types}"
+                f"Unknown simulation type: {sim_type}\nAllowed simulation types: {allowed_sim_types}"
             )
 
     def trigger(self, *args, **kwargs):
@@ -242,7 +242,7 @@ class SingleElectronSpectrumReport(SirepoWatchpoint):
         self._resource_document = None
         self._datum_factory = None
 
-        logger.debug(f"\nReport for {self.name}: " f"{self.connection.data['report']}\n")
+        logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
 
         return NullStatus()
 

@@ -116,9 +116,7 @@ class SirepoFlyer(BlueskyFlyer):
         self.procs = None
 
     def __repr__(self):
-        return (
-            f'{self.name} with sim_code="{self._sim_code}" and ' f'sim_id="{self._sim_id}" at {self._server_name}'
-        )
+        return f'{self.name} with sim_code="{self._sim_code}" and sim_id="{self._sim_id}" at {self._server_name}'
 
     @property
     def sim_id(self):

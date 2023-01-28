@@ -60,7 +60,7 @@ class SirepoSRWDetector(Device):
         super().__init__(name=name, **kwargs)
 
         if sim_id is None:
-            raise ValueError(f"Simulation ID must be provided. " f"Currently it is set to {sim_id}")
+            raise ValueError(f"Simulation ID must be provided. Currently it is set to {sim_id}")
 
         self._asset_docs_cache = deque()
         self._resource_document = None

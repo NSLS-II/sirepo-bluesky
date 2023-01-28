@@ -32,7 +32,7 @@ def find_predefined_examples(
             table.append(
                 [
                     f"``{sim_id}``",
-                    f"`{desc} " f"<{os.path.join(base_url, trimmed_json_path)}>`_",
+                    f"`{desc} <{os.path.join(base_url, trimmed_json_path)}>`_",
                 ]
             )
 
