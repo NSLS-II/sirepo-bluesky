@@ -33,18 +33,18 @@ import cloud_sptheme as sptheme
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.githubpages',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.viewcode',
-    'IPython.sphinxext.ipython_directive',
-    'IPython.sphinxext.ipython_console_highlighting',
-    'matplotlib.sphinxext.plot_directive',
-    'numpydoc',
-    'sphinx_copybutton',
-    'nbsphinx',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.githubpages",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.viewcode",
+    "IPython.sphinxext.ipython_directive",
+    "IPython.sphinxext.ipython_console_highlighting",
+    "matplotlib.sphinxext.plot_directive",
+    "numpydoc",
+    "sphinx_copybutton",
+    "nbsphinx",
 ]
 
 # Configuration options for plot_directive. See:
@@ -57,27 +57,28 @@ autosummary_generate = True
 numpydoc_show_class_members = False
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ".rst"
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = "index"
 
 # General information about the project.
-project = 'sirepo-bluesky'
-copyright = '2020, Brookhaven National Laboratory'
-author = 'Brookhaven National Laboratory'
+project = "sirepo-bluesky"
+copyright = "2020, Brookhaven National Laboratory"
+author = "Brookhaven National Laboratory"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 import sirepo_bluesky
+
 # The short X.Y version.
 version = sirepo_bluesky.__version__
 # The full version, including alpha/beta/rc tags.
@@ -88,7 +89,7 @@ release = sirepo_bluesky.__version__
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'en'
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -96,7 +97,7 @@ language = 'en'
 exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = "sphinx"
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
@@ -107,7 +108,7 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'cloud'
+html_theme = "cloud"
 html_theme_path = [sptheme.get_theme_dir()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -119,7 +120,7 @@ html_theme_path = [sptheme.get_theme_dir()]
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -127,9 +128,9 @@ html_static_path = ['_static']
 # This is required for the alabaster theme
 # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
 html_sidebars = {
-    '**': [
-        'globaltoc.html',
-        'searchbox.html',
+    "**": [
+        "globaltoc.html",
+        "searchbox.html",
     ]
 }
 
@@ -137,7 +138,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'sirepo-bluesky'
+htmlhelp_basename = "sirepo-bluesky"
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -146,15 +147,12 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     #
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     #
     # 'preamble': '',
-
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
@@ -164,8 +162,13 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'sirepo-bluesky.tex', 'sirepo-bluesky Documentation',
-     'Contributors', 'manual'),
+    (
+        master_doc,
+        "sirepo-bluesky.tex",
+        "sirepo-bluesky Documentation",
+        "Contributors",
+        "manual",
+    ),
 ]
 
 
@@ -173,10 +176,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'sirepo-bluesky', 'sirepo-bluesky Documentation',
-     [author], 1)
-]
+man_pages = [(master_doc, "sirepo-bluesky", "sirepo-bluesky Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output -------------------------------------------
@@ -185,19 +185,23 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'sirepo-bluesky', 'sirepo-bluesky Documentation',
-     author, 'sirepo-bluesky', 'Sirepo-Bluesky interface',
-     'Miscellaneous'),
+    (
+        master_doc,
+        "sirepo-bluesky",
+        "sirepo-bluesky Documentation",
+        author,
+        "sirepo-bluesky",
+        "Sirepo-Bluesky interface",
+        "Miscellaneous",
+    ),
 ]
-
-
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3/', None),
-    'numpy': ('https://docs.scipy.org/doc/numpy/', None),
-    'scipy': ('https://docs.scipy.org/doc/scipy/reference/', None),
-    'pandas': ('https://pandas.pydata.org/pandas-docs/stable', None),
-    'matplotlib': ('https://matplotlib.org', None),
+    "python": ("https://docs.python.org/3/", None),
+    "numpy": ("https://docs.scipy.org/doc/numpy/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/reference/", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),
+    "matplotlib": ("https://matplotlib.org", None),
 }

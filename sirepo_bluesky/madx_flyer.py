@@ -52,8 +52,7 @@ class MADXFlyer(BlueskyFlyer):
         self._asset_docs_cache.append(("resource", self._resource_document))
 
         sim_result_file = str(
-            Path(self._resource_document["root"])
-            / Path(self._resource_document["resource_path"])
+            Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
         )
 
         with open(sim_result_file, "wb") as file:
@@ -70,9 +69,7 @@ class MADXFlyer(BlueskyFlyer):
         for row_num in range(self._num_rows):
             self._datum_docs[row_num] = deque()
             for col_name in self._column_names:
-                datum_document = self._datum_factory(
-                    datum_kwargs={"row_num": row_num, "col_name": col_name}
-                )
+                datum_document = self._datum_factory(datum_kwargs={"row_num": row_num, "col_name": col_name})
                 logger.debug(f"datum_document = {datum_document}")
                 self._datum_docs[row_num].append(datum_document)
                 self._asset_docs_cache.append(("datum", datum_document))
@@ -97,9 +94,7 @@ class MADXFlyer(BlueskyFlyer):
                     "shape": [],
                     "external": "MADXFILE:",
                 }
-                for field in self._column_names[
-                    1:
-                ]  # Don't include NAME, it's already in the dict
+                for field in self._column_names[1:]  # Don't include NAME, it's already in the dict
             }
         )
         return return_dict
@@ -111,9 +106,7 @@ class MADXFlyer(BlueskyFlyer):
         for row_num in range(self._num_rows):
             data_dict = {}
             for datum_doc in self._datum_docs[row_num]:
-                data_dict[
-                    f'{self.name}_{datum_doc["datum_kwargs"]["col_name"]}'
-                ] = datum_doc["datum_id"]
+                data_dict[f'{self.name}_{datum_doc["datum_kwargs"]["col_name"]}'] = datum_doc["datum_id"]
             yield {
                 "data": data_dict,
                 "timestamps": {key: now() for key in data_dict},

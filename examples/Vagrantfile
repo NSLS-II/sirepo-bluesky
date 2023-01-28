@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
     config.persistent_storage.volgroupname = "docker"
 
     config.ssh.forward_x11 = false
-    
+
     # https://stackoverflow.com/a/33137719/3075806
     # Undo mapping of hostname to 127.0.0.1
     config.vm.provision "shell",

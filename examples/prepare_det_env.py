@@ -19,18 +19,18 @@ bec = best_effort.BestEffortCallback()
 RE.subscribe(bec)
 
 # MongoDB backend:
-db = Broker.named('local')  # mongodb backend
+db = Broker.named("local")  # mongodb backend
 try:
     databroker.assets.utils.install_sentinels(db.reg.config, version=1)
 except Exception:
     pass
 
 RE.subscribe(db.insert)
-db.reg.register_handler('srw', SRWFileHandler, overwrite=True)
-db.reg.register_handler('shadow', ShadowFileHandler, overwrite=True)
-db.reg.register_handler('SIREPO_FLYER', SRWFileHandler, overwrite=True)
+db.reg.register_handler("srw", SRWFileHandler, overwrite=True)
+db.reg.register_handler("shadow", ShadowFileHandler, overwrite=True)
+db.reg.register_handler("SIREPO_FLYER", SRWFileHandler, overwrite=True)
 
 plt.ion()
 
-root_dir = '/tmp/sirepo-bluesky-data'
+root_dir = "/tmp/sirepo-bluesky-data"
 _ = make_dir_tree(datetime.datetime.now().year, base_path=root_dir)

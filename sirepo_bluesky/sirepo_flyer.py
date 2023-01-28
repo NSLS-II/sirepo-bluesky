@@ -3,18 +3,19 @@ import hashlib
 import os
 import time as ttime
 from collections import deque
-from multiprocessing import Process, Manager
+from multiprocessing import Manager, Process
 from pathlib import Path
 
 from ophyd.sim import NullStatus, new_uid
 
-from .sirepo_bluesky import SirepoBluesky
 from sirepo_bluesky.srw_handler import read_srw_file
+
+from .sirepo_bluesky import SirepoBluesky
 
 
 class BlueskyFlyer:
     def __init__(self):
-        self.name = 'bluesky_flyer'
+        self.name = "bluesky_flyer"
         self._asset_docs_cache = deque()
         self._resource_uids = []
         self._datum_counter = None
@@ -86,11 +87,20 @@ class SirepoFlyer(BlueskyFlyer):
 
         RE(bp.fly([sirepo_flyer]))
     """
+
     # TODO: Rename SirepoFlyer to SRWFlyer + documentation references
-    def __init__(self, sim_id, server_name, params_to_change, root_dir, sim_code='srw',
-                 watch_name='Watchpoint', run_parallel=True):
+    def __init__(
+        self,
+        sim_id,
+        server_name,
+        params_to_change,
+        root_dir,
+        sim_code="srw",
+        watch_name="Watchpoint",
+        run_parallel=True,
+    ):
         super().__init__()
-        self.name = 'sirepo_flyer'
+        self.name = "sirepo_flyer"
         self._sim_id = sim_id
         self._server_name = server_name
         self._params_to_change = params_to_change
@@ -106,8 +116,9 @@ class SirepoFlyer(BlueskyFlyer):
         self.procs = None
 
     def __repr__(self):
-        return (f'{self.name} with sim_code="{self._sim_code}" and '
-                f'sim_id="{self._sim_id}" at {self._server_name}')
+        return (
+            f'{self.name} with sim_code="{self._sim_code}" and ' f'sim_id="{self._sim_id}" at {self._server_name}'
+        )
 
     @property
     def sim_id(self):
@@ -180,7 +191,7 @@ class SirepoFlyer(BlueskyFlyer):
         if isinstance(value, bool):
             self._run_parallel = value
         else:
-            raise TypeError(f'invalid type: {type(value)}. Must be boolean')
+            raise TypeError(f"invalid type: {type(value)}. Must be boolean")
 
     def kickoff(self):
         sb = SirepoBluesky(self.server_name)
@@ -189,49 +200,62 @@ class SirepoFlyer(BlueskyFlyer):
         self._srw_files = []
         autocompute_data = {}
         # grazing angle; check params_to_change
-        for component in data['models']['beamline']:
-            if 'autocomputeVectors' in component.keys():
-                autocompute_data[component['title']] = component['autocomputeVectors']
+        for component in data["models"]["beamline"]:
+            if "autocomputeVectors" in component.keys():
+                autocompute_data[component["title"]] = component["autocomputeVectors"]
         update_grazing_vecs_list = []
         for i in self.params_to_change:
             grazing_vecs_dict = {}
             for elem, param in i.items():
                 for param_name, val in param.items():
-                    if elem in autocompute_data.keys() and param_name == 'grazingAngle':
-                        grazing_vecs_dict[elem] = {'angle': val, 'autocompute_type': autocompute_data[elem]}
+                    if elem in autocompute_data.keys() and param_name == "grazingAngle":
+                        grazing_vecs_dict[elem] = {
+                            "angle": val,
+                            "autocompute_type": autocompute_data[elem],
+                        }
             update_grazing_vecs_list.append(grazing_vecs_dict)
 
         for i in range(self._copy_count):
             datum_id = new_uid()
             date = datetime.datetime.now()
-            srw_file = str(Path(self.root_dir) / Path(date.strftime('%Y/%m/%d')) / Path(f'{datum_id}.dat'))
+            srw_file = str(Path(self.root_dir) / Path(date.strftime("%Y/%m/%d")) / Path(f"{datum_id}.dat"))
             self._srw_files.append(srw_file)
             _resource_uid = new_uid()
-            resource = {'spec': 'SIREPO_FLYER',
-                        'root': self.root_dir,  # from 00-startup.py (added by mrakitin for future generations :D)
-                        'resource_path': srw_file,
-                        'resource_kwargs': {},
-                        'path_semantics': {'posix': 'posix', 'nt': 'windows'}[os.name],
-                        'uid': _resource_uid}
+            resource = {
+                "spec": "SIREPO_FLYER",
+                "root": self.root_dir,  # from 00-startup.py (added by mrakitin for future generations :D)
+                "resource_path": srw_file,
+                "resource_kwargs": {},
+                "path_semantics": {"posix": "posix", "nt": "windows"}[os.name],
+                "uid": _resource_uid,
+            }
             self._resource_uids.append(_resource_uid)
-            self._asset_docs_cache.append(('resource', resource))
+            self._asset_docs_cache.append(("resource", resource))
 
         for i in range(len(self.params_to_change)):
             # name doesn't need to be unique, server will rename it
-            c1 = sb.copy_sim('{} Bluesky'.format(sb.data['models']['simulation']['name']), )
-            print('copy {} -> {}, {}'.format(sb.data['models']['simulation']['simulationId'],
-                                             c1.sim_id,
-                                             c1.data['models']['simulation']['name']))
+            c1 = sb.copy_sim(
+                "{} Bluesky".format(sb.data["models"]["simulation"]["name"]),
+            )
+            print(
+                "copy {} -> {}, {}".format(
+                    sb.data["models"]["simulation"]["simulationId"],
+                    c1.sim_id,
+                    c1.data["models"]["simulation"]["name"],
+                )
+            )
 
             for key, parameters_to_update in self.params_to_change[i].items():
                 optic_id = sb.find_optic_id_by_name(key)
-                c1.data['models']['beamline'][optic_id].update(parameters_to_update)
+                c1.data["models"]["beamline"][optic_id].update(parameters_to_update)
                 # update vectors if needed
                 if key in update_grazing_vecs_list[i]:
-                    sb.update_grazing_vectors(c1.data['models']['beamline'][optic_id],
-                                              update_grazing_vecs_list[i][key])
-            watch = sb.find_element(c1.data['models']['beamline'], 'title', self.watch_name)
-            c1.data['report'] = 'watchpointReport{}'.format(watch['id'])
+                    sb.update_grazing_vectors(
+                        c1.data["models"]["beamline"][optic_id],
+                        update_grazing_vecs_list[i][key],
+                    )
+            watch = sb.find_element(c1.data["models"]["beamline"], "title", self.watch_name)
+            c1.data["report"] = "watchpointReport{}".format(watch["id"])
             self._copies.append(c1)
 
         if self.run_parallel:
@@ -241,7 +265,10 @@ class SirepoFlyer(BlueskyFlyer):
             self.procs = []
 
             for i in range(self.copy_count):
-                p = Process(target=self._run, args=(self._copies[i], self.return_status, self.return_duration))
+                p = Process(
+                    target=self._run,
+                    args=(self._copies[i], self.return_status, self.return_duration),
+                )
                 p.start()
                 self.procs.append(p)
             # wait for procs to finish
@@ -250,10 +277,10 @@ class SirepoFlyer(BlueskyFlyer):
         else:
             # run serial
             for i in range(self.copy_count):
-                print(f'running sim: {self._copies[i].sim_id}')
+                print(f"running sim: {self._copies[i].sim_id}")
                 status, duration = self._copies[i].run_simulation()
                 print(f"Status of sim {self._copies[i].sim_id}: {status['state']} in {duration:.01f} seconds")
-                self.return_status[self._copies[i].sim_id] = status['state']
+                self.return_status[self._copies[i].sim_id] = status["state"]
                 self.return_duration[self._copies[i].sim_id] = duration
         return NullStatus()
 
@@ -263,45 +290,66 @@ class SirepoFlyer(BlueskyFlyer):
                 p.join()
         for i in range(len(self._copies)):
             datum_id = self._resource_uids[i]
-            datum = {'resource': self._resource_uids[i],
-                     'datum_kwargs': {},
-                     'datum_id': datum_id}
-            self._asset_docs_cache.append(('datum', datum))
+            datum = {
+                "resource": self._resource_uids[i],
+                "datum_kwargs": {},
+                "datum_id": datum_id,
+            }
+            self._asset_docs_cache.append(("datum", datum))
             self._datum_ids.append(datum_id)
         return NullStatus()
 
     def describe_collect(self):
-        return_dict = {self.name:
-                       {f'{self.name}_image': {'source': f'{self.name}_image',
-                                               'dtype': 'array',
-                                               'shape': [-1, -1],
-                                               'external': 'FILESTORE:'},
-                        f'{self.name}_shape': {'source': f'{self.name}_shape',
-                                               'dtype': 'array',
-                                               'shape': [2]},
-                        f'{self.name}_mean': {'source': f'{self.name}_mean',
-                                              'dtype': 'number',
-                                              'shape': []},
-                        f'{self.name}_photon_energy': {'source': f'{self.name}_photon_energy',
-                                                       'dtype': 'number',
-                                                       'shape': []},
-                        f'{self.name}_horizontal_extent': {'source': f'{self.name}_horizontal_extent',
-                                                           'dtype': 'array',
-                                                           'shape': [2]},
-                        f'{self.name}_vertical_extent': {'source': f'{self.name}_vertical_extent',
-                                                         'dtype': 'array',
-                                                         'shape': [2]},
-                        f'{self.name}_hash_value': {'source': f'{self.name}_hash_value',
-                                                    'dtype': 'string',
-                                                    'shape': []},
-                        f'{self.name}_status': {'source': f'{self.name}_status',
-                                                'dtype': 'string',
-                                                'shape': []},
-                        f'{self.name}_duration': {'source': f'{self.name}_duration',
-                                                  'dtype': 'number',
-                                                  'shape': []},
-                        }
-                       }
+        return_dict = {
+            self.name: {
+                f"{self.name}_image": {
+                    "source": f"{self.name}_image",
+                    "dtype": "array",
+                    "shape": [-1, -1],
+                    "external": "FILESTORE:",
+                },
+                f"{self.name}_shape": {
+                    "source": f"{self.name}_shape",
+                    "dtype": "array",
+                    "shape": [2],
+                },
+                f"{self.name}_mean": {
+                    "source": f"{self.name}_mean",
+                    "dtype": "number",
+                    "shape": [],
+                },
+                f"{self.name}_photon_energy": {
+                    "source": f"{self.name}_photon_energy",
+                    "dtype": "number",
+                    "shape": [],
+                },
+                f"{self.name}_horizontal_extent": {
+                    "source": f"{self.name}_horizontal_extent",
+                    "dtype": "array",
+                    "shape": [2],
+                },
+                f"{self.name}_vertical_extent": {
+                    "source": f"{self.name}_vertical_extent",
+                    "dtype": "array",
+                    "shape": [2],
+                },
+                f"{self.name}_hash_value": {
+                    "source": f"{self.name}_hash_value",
+                    "dtype": "string",
+                    "shape": [],
+                },
+                f"{self.name}_status": {
+                    "source": f"{self.name}_status",
+                    "dtype": "string",
+                    "shape": [],
+                },
+                f"{self.name}_duration": {
+                    "source": f"{self.name}_duration",
+                    "dtype": "number",
+                    "shape": [],
+                },
+            }
+        }
         elem_name = []
         curr_param = []
         for inputs in self.params_to_change:
@@ -311,10 +359,15 @@ class SirepoFlyer(BlueskyFlyer):
 
         for i in range(len(elem_name)):
             for j in range(len(curr_param[i])):
-                return_dict[self.name].update({f'{self.name}_{elem_name[i]}_{curr_param[i][j]}': {
-                    'source': f'{self.name}_{elem_name[i]}_{curr_param[i][j]}',
-                    'dtype': 'number',
-                    'shape': []}})
+                return_dict[self.name].update(
+                    {
+                        f"{self.name}_{elem_name[i]}_{curr_param[i][j]}": {
+                            "source": f"{self.name}_{elem_name[i]}_{curr_param[i][j]}",
+                            "dtype": "number",
+                            "shape": [],
+                        }
+                    }
+                )
         return return_dict
 
     def collect(self):
@@ -327,60 +380,66 @@ class SirepoFlyer(BlueskyFlyer):
         hash_values = []
         for i in range(len(self._copies)):
             data_file = self._copies[i].get_datafile()
-            with open(self._srw_files[i], 'wb') as f:
+            with open(self._srw_files[i], "wb") as f:
                 f.write(data_file)
 
             ret = read_srw_file(self._srw_files[i])
-            means.append(ret['mean'])
-            shapes.append(ret['shape'])
-            photon_energies.append(ret['photon_energy'])
-            horizontal_extents.append(ret['horizontal_extent'])
-            vertical_extents.append(ret['vertical_extent'])
+            means.append(ret["mean"])
+            shapes.append(ret["shape"])
+            photon_energies.append(ret["photon_energy"])
+            horizontal_extents.append(ret["horizontal_extent"])
+            vertical_extents.append(ret["vertical_extent"])
             hash_values.append(hashlib.md5(data_file).hexdigest())
 
-            print(f'copy {self._copies[i].sim_id} data hash: {hash_values[i]}')
+            print(f"copy {self._copies[i].sim_id} data hash: {hash_values[i]}")
             self._copies[i].delete_copy()
 
         statuses = [status for sim, status in self.return_status.items()]
         durations = [duration for sim, duration in self.return_duration.items()]
 
         if not len(self._copies) == len(self._datum_ids):
-            raise Exception(f'len(self._copies) != len(self._datum_ids) \
-                            ({len(self._copies)} != {len(self._datum_ids)})')
+            raise Exception(
+                f"len(self._copies) != len(self._datum_ids) \
+                            ({len(self._copies)} != {len(self._datum_ids)})"
+            )
 
         now = ttime.time()
         for i, datum_id in enumerate(self._datum_ids):
             elem_name = []
             curr_param = []
-            data = {f'{self.name}_image': datum_id,
-                    f'{self.name}_shape': shapes[i],
-                    f'{self.name}_mean': means[i],
-                    f'{self.name}_photon_energy': photon_energies[i],
-                    f'{self.name}_horizontal_extent': horizontal_extents[i],
-                    f'{self.name}_vertical_extent': vertical_extents[i],
-                    f'{self.name}_hash_value': hash_values[i],
-                    f'{self.name}_status': statuses[i],
-                    f'{self.name}_duration': durations[i],
-                    }
+            data = {
+                f"{self.name}_image": datum_id,
+                f"{self.name}_shape": shapes[i],
+                f"{self.name}_mean": means[i],
+                f"{self.name}_photon_energy": photon_energies[i],
+                f"{self.name}_horizontal_extent": horizontal_extents[i],
+                f"{self.name}_vertical_extent": vertical_extents[i],
+                f"{self.name}_hash_value": hash_values[i],
+                f"{self.name}_status": statuses[i],
+                f"{self.name}_duration": durations[i],
+            }
             for inputs in self.params_to_change:
                 for key, params in inputs.items():
                     elem_name.append(key)
                     curr_param.append(list(params.keys()))
             for ii in range(len(elem_name)):
                 for jj in range(len(curr_param[ii])):
-                    data[f'{self.name}_{elem_name[ii]}_{curr_param[ii][jj]}'] = \
-                        self.params_to_change[i][elem_name[ii]][curr_param[ii][jj]]
+                    data[f"{self.name}_{elem_name[ii]}_{curr_param[ii][jj]}"] = self.params_to_change[i][
+                        elem_name[ii]
+                    ][curr_param[ii][jj]]
 
-            yield {'data': data,
-                   'timestamps': {key: now for key in data},
-                   'time': now,
-                   'filled': {key: False for key in data}}
+            yield {
+                "data": data,
+                "timestamps": {key: now for key in data},
+                "time": now,
+                "filled": {key: False for key in data},
+            }
 
     @staticmethod
     def _run(sim, return_status, return_duration):
-        """ Run simulations using multiprocessing. """
-        print(f'running sim {sim.sim_id}')
+        """Run simulations using multiprocessing."""
+        print(f"running sim {sim.sim_id}")
         status, duration = sim.run_simulation()
         print(f"Status of sim {sim.sim_id}: {status['state']} in {duration:.01f} seconds")
-        return_status[sim.sim_id] = status['state']
+        return_status[sim.sim_id] = status["state"]
         return_duration[sim.sim_id] = duration

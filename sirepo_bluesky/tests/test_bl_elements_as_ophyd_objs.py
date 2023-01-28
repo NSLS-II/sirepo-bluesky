@@ -3,8 +3,8 @@ import json
 import os
 import pprint
 
-import bluesky.plans as bp
 import bluesky.plan_stubs as bps
+import bluesky.plans as bp
 import dictdiffer
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,9 +17,7 @@ from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport, create_classes
 
 
 def test_beamline_elements_as_ophyd_objects(srw_tes_simulation):
-    classes, objects = create_classes(
-        srw_tes_simulation.data, connection=srw_tes_simulation
-    )
+    classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
 
     for name, obj in objects.items():
         pprint.pprint(obj.read())
@@ -32,24 +30,18 @@ def test_beamline_elements_as_ophyd_objects(srw_tes_simulation):
 
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_beamline_elements_set_put(srw_tes_simulation, method):
-    classes, objects = create_classes(
-        srw_tes_simulation.data, connection=srw_tes_simulation
-    )
+    classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
     globals().update(**objects)
 
     for i, (k, v) in enumerate(objects.items()):
         if "element_position" in v.component_names:
             old_value = v.element_position.get()
-            old_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i][
-                "position"
-            ]
+            old_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
 
             getattr(v.element_position, method)(old_value + 100)
 
             new_value = v.element_position.get()
-            new_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i][
-                "position"
-            ]
+            new_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
 
             print(
                 f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n"
@@ -63,9 +55,7 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
 
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_grazing_angle_calculation(srw_tes_simulation, method):
-    classes, objects = create_classes(
-        srw_tes_simulation.data, connection=srw_tes_simulation
-    )
+    classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
     globals().update(**objects)
 
     params_before = copy.deepcopy(toroid.grazingAngle._sirepo_dict)  # noqa F821
@@ -99,9 +89,7 @@ def test_grazing_angle_calculation(srw_tes_simulation, method):
 
 
 def test_beamline_elements_simple_connection(srw_basic_simulation):
-    classes, objects = create_classes(
-        srw_basic_simulation.data, connection=srw_basic_simulation
-    )
+    classes, objects = create_classes(srw_basic_simulation.data, connection=srw_basic_simulation)
 
     for name, obj in objects.items():
         pprint.pprint(obj.read())
@@ -170,9 +158,7 @@ def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
 
 
 def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
-    classes, objects = create_classes(
-        shadow_tes_simulation.data, connection=shadow_tes_simulation
-    )
+    classes, objects = create_classes(shadow_tes_simulation.data, connection=shadow_tes_simulation)
     globals().update(**objects)
 
     aperture.horizontalSize.kind = "hinted"  # noqa F821
@@ -217,9 +203,7 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
 
 
 def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
-    classes, objects = create_classes(
-        shadow_tes_simulation.data, connection=shadow_tes_simulation
-    )
+    classes, objects = create_classes(shadow_tes_simulation.data, connection=shadow_tes_simulation)
     globals().update(**objects)
 
     bsr = BeamStatisticsReport(name="bsr", connection=shadow_tes_simulation)
@@ -259,9 +243,7 @@ def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
 
 
 def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
-    classes, objects = create_classes(
-        shadow_tes_simulation.data, connection=shadow_tes_simulation
-    )
+    classes, objects = create_classes(shadow_tes_simulation.data, connection=shadow_tes_simulation)
     globals().update(**objects)
 
     bsr = BeamStatisticsReport(name="bsr", connection=shadow_tes_simulation)
@@ -280,14 +262,10 @@ def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
     bsr_data_5 = json.loads(tbl["bsr_sirepo_data_json"][5])
 
     w9_diffs = list(dictdiffer.diff(w9_data_1, w9_data_5))
-    assert w9_diffs == [
-        ("change", ["models", "beamline", 5, "r_maj"], (10000.0, 50000.0))
-    ]
+    assert w9_diffs == [("change", ["models", "beamline", 5, "r_maj"], (10000.0, 50000.0))]
 
     bsr_diffs = list(dictdiffer.diff(bsr_data_1, bsr_data_5))
-    assert bsr_diffs == [
-        ("change", ["models", "beamline", 5, "r_maj"], (10000.0, 50000.0))
-    ]
+    assert bsr_diffs == [("change", ["models", "beamline", 5, "r_maj"], (10000.0, 50000.0))]
 
     w9_bsr_diffs = list(dictdiffer.diff(w9_data_1, bsr_data_5))
     assert w9_bsr_diffs == [
@@ -312,9 +290,7 @@ def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
         new_value = v.l.get()
         new_sirepo_value = data["models"]["elements"][i]["l"]
 
-        print(
-            f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n"
-        )
+        print(f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n")
 
         assert old_value == old_sirepo_value
         assert new_value == new_sirepo_value
@@ -363,9 +339,7 @@ def test_madx_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     df = tfs.read(resource_files[0])
     for column in df.columns:
         if column == "NAME":
-            assert (
-                tbl[f"madx_flyer_{column}"].astype("string").values == df[column].values
-            ).all()
+            assert (tbl[f"madx_flyer_{column}"].astype("string").values == df[column].values).all()
         else:
             assert np.allclose(
                 np.array(tbl[f"madx_flyer_{column}"]).astype(float),
@@ -384,9 +358,7 @@ def test_madx_variables_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation)
 
     globals().update(**objects)
 
-    assert len(objects) == len(data["models"]["elements"]) + len(
-        data["models"]["rpnVariables"]
-    )
+    assert len(objects) == len(data["models"]["elements"]) + len(data["models"]["rpnVariables"])
 
     madx_flyer = MADXFlyer(
         connection=connection,
@@ -422,9 +394,7 @@ def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     globals().update(**objects)
     pprint.pprint(classes, sort_dicts=False)
 
-    assert len(objects) == len(data["models"]["elements"]) + len(
-        data["models"]["commands"]
-    )
+    assert len(objects) == len(data["models"]["elements"]) + len(data["models"]["commands"])
 
     madx_flyer = MADXFlyer(
         connection=connection,
@@ -448,9 +418,7 @@ def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     assert len(tbl["madx_flyer_BETY"]) == expected_data_len
 
 
-def test_madx_variables_and_commands_with_run_engine(
-    RE, db, madx_bl2_triplet_tdc_simulation
-):
+def test_madx_variables_and_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     connection = madx_bl2_triplet_tdc_simulation
     data = connection.data
     classes, objects = create_classes(
@@ -461,9 +429,9 @@ def test_madx_variables_and_commands_with_run_engine(
 
     globals().update(**objects)
 
-    assert len(objects) == len(data["models"]["elements"]) + len(
-        data["models"]["rpnVariables"]
-    ) + len(data["models"]["commands"])
+    assert len(objects) == len(data["models"]["elements"]) + len(data["models"]["rpnVariables"]) + len(
+        data["models"]["commands"]
+    )
 
     madx_flyer = MADXFlyer(
         connection=connection,

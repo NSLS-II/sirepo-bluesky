@@ -36,6 +36,7 @@ class SirepoSRWDetector(Device):
         States whether user wants to grab source page info instead of beamline
 
     """
+
     image = Cpt(ExternalFileReference, kind="normal")
     shape = Cpt(Signal)
     mean = Cpt(Signal, kind="hinted")
@@ -45,14 +46,21 @@ class SirepoSRWDetector(Device):
     vertical_extent = Cpt(Signal)
     sirepo_json = Cpt(Signal, kind="normal", value="")
 
-    def __init__(self, name='srw_det', sim_type='srw', sim_id=None, watch_name=None,
-                 sirepo_server='http://10.10.10.10:8000', source_simulation=False,
-                 root_dir='/tmp/srw_det_data', **kwargs):
+    def __init__(
+        self,
+        name="srw_det",
+        sim_type="srw",
+        sim_id=None,
+        watch_name=None,
+        sirepo_server="http://10.10.10.10:8000",
+        source_simulation=False,
+        root_dir="/tmp/srw_det_data",
+        **kwargs,
+    ):
         super().__init__(name=name, **kwargs)
 
         if sim_id is None:
-            raise ValueError(f"Simulation ID must be provided. "
-                             f"Currently it is set to {sim_id}")
+            raise ValueError(f"Simulation ID must be provided. " f"Currently it is set to {sim_id}")
 
         self._asset_docs_cache = deque()
         self._resource_document = None
@@ -80,8 +88,8 @@ class SirepoSRWDetector(Device):
         self.active_parameters = {}
         self.autocompute_params = {}
         self.source_simulation = source_simulation
-        self.one_d_reports = ['intensityReport']
-        self.two_d_reports = ['watchpointReport']
+        self.one_d_reports = ["intensityReport"]
+        self.two_d_reports = ["watchpointReport"]
 
         self.connect(sim_type=self._sim_type, sim_id=self._sim_id)
 
@@ -95,13 +103,13 @@ class SirepoSRWDetector(Device):
     Get new parameter values from Sirepo server
 
     """
+
     def update_parameters(self):
         data, sirepo_schema = self.sb.auth(self._sim_type, self._sim_id)
         self.data = data
         for key, value in self.sirepo_components.items():
             optic_id = self.sb.find_optic_id_by_name(key)
-            self.parameters = {f'sirepo_{k}': v for k, v in
-                               data['models']['beamline'][optic_id].items()}
+            self.parameters = {f"sirepo_{k}": v for k, v in data["models"]["beamline"][optic_id].items()}
             for k, v in self.parameters.items():
                 getattr(value, k).set(v)
 
@@ -111,68 +119,72 @@ class SirepoSRWDetector(Device):
         date = datetime.datetime.now()
         file_name = new_uid()
         self._resource_document, self._datum_factory, _ = compose_resource(
-            start={'uid': 'needed for compose_resource() but will be discarded'},
+            start={"uid": "needed for compose_resource() but will be discarded"},
             spec=self._sim_type,
             root=self._root_dir,
-            resource_path=str(Path(date.strftime('%Y/%m/%d')) / Path(f'{file_name}.dat')),
-            resource_kwargs={}
+            resource_path=str(Path(date.strftime("%Y/%m/%d")) / Path(f"{file_name}.dat")),
+            resource_kwargs={},
         )
         # now discard the start uid, a real one will be added later
-        self._resource_document.pop('run_start')
-        self._asset_docs_cache.append(('resource', self._resource_document))
+        self._resource_document.pop("run_start")
+        self._asset_docs_cache.append(("resource", self._resource_document))
 
-        sim_result_file = str(Path(self._resource_document['root']) /
-                              Path(self._resource_document['resource_path']))
+        sim_result_file = str(
+            Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
+        )
 
         if not self.source_simulation:
             if self.sirepo_component is not None:
-                for component in self.data['models']['beamline']:
-                    if 'autocomputeVectors' in component.keys():
-                        self.autocompute_params[component['title']] = component['autocomputeVectors']
+                for component in self.data["models"]["beamline"]:
+                    if "autocomputeVectors" in component.keys():
+                        self.autocompute_params[component["title"]] = component["autocomputeVectors"]
                 for i in range(len(self.active_parameters)):
-                    real_field = self.fields['field' + str(i)].replace('sirepo_', '')
-                    dict_key = self.fields['field' + str(i)].replace('sirepo', self.parents['par' + str(i)])
+                    real_field = self.fields["field" + str(i)].replace("sirepo_", "")
+                    dict_key = self.fields["field" + str(i)].replace("sirepo", self.parents["par" + str(i)])
                     x = self.active_parameters[dict_key].read()[
-                        f'{self.parents["par" + str(i)]}_{self.fields["field" + str(i)]}']['value']
-                    element = self.sb.find_element(self.data['models']['beamline'],
-                                                   'title',
-                                                   self.parents['par' + str(i)])
+                        f'{self.parents["par" + str(i)]}_{self.fields["field" + str(i)]}'
+                    ]["value"]
+                    element = self.sb.find_element(
+                        self.data["models"]["beamline"],
+                        "title",
+                        self.parents["par" + str(i)],
+                    )
                     element[real_field] = x
-                    if self.parents[f'par{i}'] in self.autocompute_params.keys() and 'grazingAngle' in dict_key:
+                    if self.parents[f"par{i}"] in self.autocompute_params.keys() and "grazingAngle" in dict_key:
                         grazing_vecs_dict = {}
                         autocompute_key = f'{self.parents[f"par{i}"]}_sirepo_autocomputeVectors'
-                        autocompute_type = self.sirepo_components[self.parents[f'par{i}']].read()[
-                            autocompute_key]['value']
-                        grazing_vecs_dict['angle'] = x
-                        grazing_vecs_dict['autocompute_type'] = autocompute_type
-                        optic_id = self.sb.find_optic_id_by_name(self.parents[f'par{i}'])
-                        self.sb.update_grazing_vectors(self.data['models']['beamline'][optic_id],
-                                                       grazing_vecs_dict)
+                        autocompute_type = self.sirepo_components[self.parents[f"par{i}"]].read()[autocompute_key][
+                            "value"
+                        ]
+                        grazing_vecs_dict["angle"] = x
+                        grazing_vecs_dict["autocompute_type"] = autocompute_type
+                        optic_id = self.sb.find_optic_id_by_name(self.parents[f"par{i}"])
+                        self.sb.update_grazing_vectors(
+                            self.data["models"]["beamline"][optic_id], grazing_vecs_dict
+                        )
 
-            watch = self.sb.find_element(self.data['models']['beamline'],
-                                         'title',
-                                         self.watch_name)
+            watch = self.sb.find_element(self.data["models"]["beamline"], "title", self.watch_name)
 
-            self.data['report'] = 'watchpointReport{}'.format(watch['id'])
+            self.data["report"] = "watchpointReport{}".format(watch["id"])
         else:
-            self.data['report'] = "intensityReport"
+            self.data["report"] = "intensityReport"
 
         _, duration = self.sb.run_simulation()
         self.duration.put(duration)
 
         datafile = self.sb.get_datafile(file_index=-1)
 
-        with open(sim_result_file, 'wb') as f:
+        with open(sim_result_file, "wb") as f:
             f.write(datafile)
 
         def update_components(_data):
-            self.shape.put(_data['shape'])
-            self.mean.put(_data['mean'])
-            self.photon_energy.put(_data['photon_energy'])
-            self.horizontal_extent.put(_data['horizontal_extent'])
-            self.vertical_extent.put(_data['vertical_extent'])
+            self.shape.put(_data["shape"])
+            self.mean.put(_data["mean"])
+            self.photon_energy.put(_data["photon_energy"])
+            self.horizontal_extent.put(_data["horizontal_extent"])
+            self.vertical_extent.put(_data["vertical_extent"])
 
-        if self.data['report'] in self.one_d_reports:
+        if self.data["report"] in self.one_d_reports:
             ndim = 1
         else:
             ndim = 2
@@ -223,16 +235,15 @@ class SirepoSRWDetector(Device):
 
             # Create sirepo component for each optical element, set active element
             # to the one selected by the user
-            for i in range(len(data['models']['beamline'])):
-                optic = (data['models']['beamline'][i]['title'])
+            for i in range(len(data["models"]["beamline"])):
+                optic = data["models"]["beamline"][i]["title"]
                 optic_id = self.sb.find_optic_id_by_name(optic)
 
-                self.parameters = {f'sirepo_{k}': v for k, v in
-                                   data['models']['beamline'][optic_id].items()}
+                self.parameters = {f"sirepo_{k}": v for k, v in data["models"]["beamline"][optic_id].items()}
 
                 self.optic_parameters[optic] = self.parameters
 
-                SirepoComponent = class_factory('SirepoComponent')
+                SirepoComponent = class_factory("SirepoComponent")
                 sirepo_component = SirepoComponent(name=optic)
 
                 for k, v in self.parameters.items():
@@ -244,22 +255,23 @@ class SirepoSRWDetector(Device):
 
         else:
             # Create source components
-            self.source_parameters = {f'sirepo_intensityReport_{k}': v for k, v in
-                                      data['models']['intensityReport'].items()}
+            self.source_parameters = {
+                f"sirepo_intensityReport_{k}": v for k, v in data["models"]["intensityReport"].items()
+            }
 
             def source_class_factory(cls_name):
                 dd = {k: Cpt(SynAxis) for k in self.source_parameters}
                 return type(cls_name, (Device,), dd)
 
-            SirepoComponent = source_class_factory('SirepoComponent')
-            self.source_component = SirepoComponent(name='intensityReport')
+            SirepoComponent = source_class_factory("SirepoComponent")
+            self.source_component = SirepoComponent(name="intensityReport")
 
             for k, v in self.source_parameters.items():
                 getattr(self.source_component, k).set(v)
 
         for k in self.optic_parameters:
-            if self.optic_parameters[k]['sirepo_type'] == 'watch':
-                self.watch_name = self.optic_parameters[k]['sirepo_title']
+            if self.optic_parameters[k]["sirepo_type"] == "watch":
+                self.watch_name = self.optic_parameters[k]["sirepo_title"]
 
     def view_sirepo_components(self):
         """
@@ -267,11 +279,11 @@ class SirepoSRWDetector(Device):
         """
         watchpoints = []
         for k in self.optic_parameters:
-            print(f'OPTIC:  {k}')
-            print(f'PARAMETERS: {self.optic_parameters[k]}')
-            if self.optic_parameters[k]['sirepo_type'] == 'watch':
+            print(f"OPTIC:  {k}")
+            print(f"PARAMETERS: {self.optic_parameters[k]}")
+            if self.optic_parameters[k]["sirepo_type"] == "watch":
                 watchpoints.append(k)
-        print(f'WATCHPOINTS: {watchpoints}')
+        print(f"WATCHPOINTS: {watchpoints}")
 
     def select_optic(self, name):
         """
@@ -298,10 +310,10 @@ class SirepoSRWDetector(Device):
         """
         real_name = f"sirepo_{name}"
         ct = 0
-        while f'field{ct}' in self.fields.keys():
+        while f"field{ct}" in self.fields.keys():
             ct += 1
-        fieldkey = f'field{ct}'
-        parentkey = f'par{ct}'
+        fieldkey = f"field{ct}"
+        parentkey = f"par{ct}"
 
         self.fields[fieldkey] = real_name
         self.parents[parentkey] = self.sirepo_component.name

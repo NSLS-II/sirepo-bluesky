@@ -14,8 +14,8 @@ from ophyd import Device, Signal
 from ophyd.sim import NullStatus, new_uid
 
 from . import ExternalFileReference
-from .srw_handler import read_srw_file
 from .shadow_handler import read_shadow_file
+from .srw_handler import read_srw_file
 
 logger = logging.getLogger("sirepo-bluesky")
 # Note: the following handler could be created/added to the logger on the client side:
@@ -28,9 +28,7 @@ RESERVED_OPHYD_TO_SIREPO_ATTRS = {  # ophyd <-> sirepo
     "name": "element_name",
     "class": "command_class",
 }
-RESERVED_SIREPO_TO_OPHYD_ATTRS = {
-    v: k for k, v in RESERVED_OPHYD_TO_SIREPO_ATTRS.items()
-}
+RESERVED_SIREPO_TO_OPHYD_ATTRS = {v: k for k, v in RESERVED_OPHYD_TO_SIREPO_ATTRS.items()}
 
 
 # TODO: add SirepoSignalRO similar to EpicsSignalRO.
@@ -100,8 +98,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
         allowed_sim_types = ("srw", "shadow", "madx")
         if sim_type not in allowed_sim_types:
             raise RuntimeError(
-                f"Unknown simulation type: {sim_type}\n"
-                f"Allowed simulation types: {allowed_sim_types}"
+                f"Unknown simulation type: {sim_type}\n" f"Allowed simulation types: {allowed_sim_types}"
             )
 
     def trigger(self, *args, **kwargs):
@@ -123,8 +120,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
         self._asset_docs_cache.append(("resource", self._resource_document))
 
         sim_result_file = str(
-            Path(self._resource_document["root"])
-            / Path(self._resource_document["resource_path"])
+            Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
         )
 
         self.connection.data["report"] = f"watchpointReport{self.id._sirepo_dict['id']}"
@@ -208,8 +204,7 @@ class SingleElectronSpectrumReport(SirepoWatchpoint):
         self._asset_docs_cache.append(("resource", self._resource_document))
 
         sim_result_file = str(
-            Path(self._resource_document["root"])
-            / Path(self._resource_document["resource_path"])
+            Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
         )
 
         self.connection.data["report"] = "intensityReport"
@@ -247,9 +242,7 @@ class SingleElectronSpectrumReport(SirepoWatchpoint):
         self._resource_document = None
         self._datum_factory = None
 
-        logger.debug(
-            f"\nReport for {self.name}: " f"{self.connection.data['report']}\n"
-        )
+        logger.debug(f"\nReport for {self.name}: " f"{self.connection.data['report']}\n")
 
         return NullStatus()
 
@@ -346,9 +339,7 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
             data_models[model_field] = data["models"][model_field]
 
     for model_field, data_model in data_models.items():
-        for i, el in enumerate(
-            data_model
-        ):  # 'el' is a dict, 'data_model' is a list of dicts
+        for i, el in enumerate(data_model):  # 'el' is a dict, 'data_model' is a list of dicts
             logger.debug(f"Processing {el}...")
 
             for ophyd_key, sirepo_key in RESERVED_OPHYD_TO_SIREPO_ATTRS.items():
@@ -372,10 +363,7 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
                 class_name = inflection.camelize(f"{el['_type']}{i}")
             else:
                 class_name = inflection.camelize(
-                    el[config_dict[sim_type].class_name_field]
-                    .replace(" ", "_")
-                    .replace(".", "")
-                    .replace("-", "_")
+                    el[config_dict[sim_type].class_name_field].replace(" ", "_").replace(".", "").replace("-", "_")
                 )
             object_name = inflection.underscore(class_name)
 
@@ -391,8 +379,7 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
 
                 if (
                     "type" in el
-                    and el["type"]
-                    in ["sphericalMirror", "toroidalMirror", "ellipsoidMirror"]
+                    and el["type"] in ["sphericalMirror", "toroidalMirror", "ellipsoidMirror"]
                     and k == "grazingAngle"
                 ):
                     cpt_class = SirepoSignalGrazingAngle

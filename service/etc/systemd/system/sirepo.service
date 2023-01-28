@@ -16,4 +16,3 @@ ExecStart=bash /repos/sirepo-bluesky/scripts/start_sirepo.sh -it
 
 [Install]
 WantedBy=multi-user.target
-
