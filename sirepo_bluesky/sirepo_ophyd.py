@@ -31,9 +31,6 @@ RESERVED_OPHYD_TO_SIREPO_ATTRS = {  # ophyd <-> sirepo
 RESERVED_SIREPO_TO_OPHYD_ATTRS = {v: k for k, v in RESERVED_OPHYD_TO_SIREPO_ATTRS.items()}
 
 
-# TODO: add SirepoSignalRO similar to EpicsSignalRO.
-
-
 class SirepoSignal(Signal):
     def __init__(self, sirepo_dict, sirepo_param, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -50,6 +47,15 @@ class SirepoSignal(Signal):
 
     def put(self, *args, **kwargs):
         self.set(*args, **kwargs).wait()
+
+
+class ReadOnlyException(Exception):
+    ...
+
+
+class SirepoSignalRO(SirepoSignal):
+    def set(self, *args, **kwargs):
+        raise ReadOnlyException("Cannot set/put the read-only signal.")
 
 
 class DeviceWithJSONData(Device):
