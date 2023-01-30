@@ -31,9 +31,9 @@ def _test_shadow_detector(RE, db, tmpdir, sim_id, server_name, sim_report_type):
     shadow_det.active_parameters["Aperture_horizontalSize"].set(1.0)
     shadow_det.active_parameters["Aperture_verticalSize"].set(1.0)
 
-    shadow_det.duration.kind = 'hinted'
+    shadow_det.duration.kind = "hinted"
 
-    uid, = RE(bp.count([shadow_det]))
+    (uid,) = RE(bp.count([shadow_det]))
 
     # Check that the duration for each step in the simulation is positive:
     sim_durations = np.array(db[uid].table()["shadow_det_duration"])
@@ -111,20 +111,14 @@ def test_shadow_detector_docker_beam_stats_report(RE, db, tmpdir):
     for field in available_fields:
         assert np.array(beam_statistics_report[field]).shape == (length,)
 
-    assert np.allclose(
-        np.mean(beam_statistics_report["angxpzp"]), -6.709432215885232e-08
-    )
+    assert np.allclose(np.mean(beam_statistics_report["angxpzp"]), -6.709432215885232e-08)
     assert np.allclose(np.mean(beam_statistics_report["angxz"]), 5.799778383039559e-07)
     assert np.allclose(np.mean(beam_statistics_report["s"]), 33.527130759651484)
     assert np.allclose(np.mean(beam_statistics_report["sigdix"]), 0.00010306010813853688)
     assert np.allclose(np.mean(beam_statistics_report["sigdiz"]), 5.194134141905759e-05)
     assert np.allclose(np.mean(beam_statistics_report["sigmax"]), 0.0003968859146781542)
-    assert np.allclose(
-        np.mean(beam_statistics_report["sigmaxpzp"]), -2.317882293458049e-12
-    )
-    assert np.allclose(
-        np.mean(beam_statistics_report["sigmaxz"]), 6.3950298662456295e-09
-    )
+    assert np.allclose(np.mean(beam_statistics_report["sigmaxpzp"]), -2.317882293458049e-12)
+    assert np.allclose(np.mean(beam_statistics_report["sigmaxz"]), 6.3950298662456295e-09)
     assert np.allclose(np.mean(beam_statistics_report["sigmaz"]), 0.00017662967956586314)
     assert np.allclose(np.mean(beam_statistics_report["x"]), -1.742303638933747e-17)
     assert np.allclose(np.mean(beam_statistics_report["xp"]), -9.277770695212126e-27)

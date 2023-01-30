@@ -32,7 +32,7 @@ def find_predefined_examples(
             table.append(
                 [
                     f"``{sim_id}``",
-                    f"`{desc} " f"<{os.path.join(base_url, trimmed_json_path)}>`_",
+                    f"`{desc} <{os.path.join(base_url, trimmed_json_path)}>`_",
                 ]
             )
 
@@ -72,13 +72,9 @@ if __name__ == "__main__":
         help="simulation type (`srw`, `shadow`, `madx`, etc.)",
     )
     parser.add_argument("--pattern", type=str, default="00*", help="search pattern")
-    parser.add_argument(
-        "--outfile", type=str, required=True, help="output file for the resulting table"
-    )
+    parser.add_argument("--outfile", type=str, required=True, help="output file for the resulting table")
     parser.add_argument("--tablefmt", type=str, default="rst", help="table format")
-    parser.add_argument(
-        "--verbose", action="store_true", help="print the resulting table"
-    )
+    parser.add_argument("--verbose", action="store_true", help="print the resulting table")
 
     args = parser.parse_args()
 

@@ -1,6 +1,6 @@
 import numpy as np
-import Shadow.ShadowTools
 import Shadow.ShadowLibExtensions as sd
+import Shadow.ShadowTools
 
 
 def read_shadow_file_col(filename, parameter=30):
@@ -53,15 +53,16 @@ def read_shadow_file_col(filename, parameter=30):
 
     mean_value = np.mean(data)
 
-    return {'data': data,
-            'shape': data.shape,
-            'mean': mean_value,
-            'photon_energy': mean_value,
-            'horizontal_extent': [0, 1],
-            'vertical_extent': [0, 1],
-            # 'labels': labels,
-            # 'units': units,
-            }
+    return {
+        "data": data,
+        "shape": data.shape,
+        "mean": mean_value,
+        "photon_energy": mean_value,
+        "horizontal_extent": [0, 1],
+        "vertical_extent": [0, 1],
+        # 'labels': labels,
+        # 'units': units,
+    }
 
 
 def read_shadow_file(filename, histogram_bins=None):
@@ -73,25 +74,26 @@ def read_shadow_file(filename, histogram_bins=None):
 
     # 1=X spatial coordinate; 3=Z spatial coordinate
     data_dict = beam.histo2(1, 3, nolost=1, nbins=histogram_bins)
-    data = data_dict['histogram']
+    data = data_dict["histogram"]
 
     # This returns a list of N values (N=number of rays)
     photon_energy_list = Shadow.ShadowTools.getshcol(filename, col=11)  # 11=Energy [eV]
     photon_energy = np.mean(photon_energy_list)
 
-    return {'data': data,
-            'shape': data.shape,
-            'mean': np.mean(data),
-            'photon_energy': photon_energy,
-            'horizontal_extent': data_dict['xrange'][:2],
-            'vertical_extent': data_dict['yrange'][:2],
-            # 'labels': labels,
-            # 'units': units,
-            }
+    return {
+        "data": data,
+        "shape": data.shape,
+        "mean": np.mean(data),
+        "photon_energy": photon_energy,
+        "horizontal_extent": data_dict["xrange"][:2],
+        "vertical_extent": data_dict["yrange"][:2],
+        # 'labels': labels,
+        # 'units': units,
+    }
 
 
 class ShadowFileHandler:
-    specs = {'shadow'}
+    specs = {"shadow"}
 
     def __init__(self, filename, histogram_bins, **kwargs):
         self._name = filename
@@ -99,4 +101,4 @@ class ShadowFileHandler:
 
     def __call__(self, **kwargs):
         d = read_shadow_file(self._name, histogram_bins=self._histogram_bins)
-        return d['data']
+        return d["data"]

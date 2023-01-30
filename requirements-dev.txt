@@ -4,9 +4,11 @@ black
 dictdiffer
 flake8
 isort
+pre-commit
 pytest
 vcrpy
 # These are dependencies of various sphinx extensions for documentation.
+cloud-sptheme
 ipython
 jupyter
 matplotlib
@@ -15,6 +17,4 @@ numpydoc
 pandoc
 sphinx
 sphinx-copybutton
-# sphinx_rtd_theme
-cloud-sptheme
 tabulate>=0.9.0

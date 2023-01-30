@@ -42,4 +42,3 @@ html: simulations-srw.inc simulations-srw-other.inc simulations-shadow.inc simul
 
 show:
 	@python -c "import webbrowser; webbrowser.open_new_tab('file://$(shell pwd)/$(BUILDDIR)/html/index.html')"
-
