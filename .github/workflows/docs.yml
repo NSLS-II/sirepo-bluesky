@@ -74,6 +74,12 @@ jobs:
           pip list
           conda list
 
+      - name: Copy databroker config file
+        run: |
+          set -vxeuo pipefail
+          mkdir -v -p ~/.config/databroker/
+          cp examples/local.yml ~/.config/databroker/
+
       - name: Build Docs
         run: |
           set -vxeuo pipefail
