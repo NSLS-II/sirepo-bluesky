@@ -382,7 +382,6 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
 
             components = {}
             for k, v in el.items():
-
                 if (
                     "type" in el
                     and el["type"] in ["sphericalMirror", "toroidalMirror", "ellipsoidMirror"]
