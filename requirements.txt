@@ -2,11 +2,10 @@ area-detector-handlers
 bluesky
 databroker
 inflection
-intake<=0.6.4
 ipython
 matplotlib
 numconv
-numpy<1.24.0
+numpy
 ophyd
 peakutils
 pymongo

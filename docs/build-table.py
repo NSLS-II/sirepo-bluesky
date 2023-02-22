@@ -15,7 +15,6 @@ def find_predefined_examples(
     tablefmt="rst",
     verbose=False,
 ):
-
     base_url = "https://github.com/NSLS-II/sirepo-bluesky/tree/main/"
 
     pattern_file = f"{pattern}/sirepo-data.json"
