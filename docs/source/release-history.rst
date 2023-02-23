@@ -2,6 +2,47 @@
 Release History
 ===============
 
+v0.6.0 (2023-02-23)
+-------------------
+This is a major release dropping support of `intake
+<https://intake.readthedocs.io/en/latest/>`_ and extending support of MAD-X
+simulations.
+
+API
+...
+- Added ``SirepoSignalRO``.
+- Removed `intake <https://intake.readthedocs.io/en/latest/>`_ from the code
+  base.
+
+Applications
+............
+- Added support for the MAD-X commands via the API.
+
+Examples
+........
+- Updated MAD-X simulation examples to better reflect ATF Beamline 1 and
+  Beamline 2.
+
+Documentation
+.............
+- Added axes labels to the Beam Statistics Report plots.
+- Fixed minor spelling errors.
+- Updated the documentation with the new MAD-X simulation examples
+  demonstrating the ``betx``/``bety`` vs. ``s`` distribution plots before and
+  after a parameters change, compared to the Sirepo browser-based interface.
+
+Linting/styling
+................
+- Enforced formatting with `black <https://black.readthedocs.io/en/stable/>`_,
+  `flake8 <https://flake8.pycqa.org/en/latest/>`_, and `isort
+  <https://pycqa.github.io/isort/>`_ via `pre-commit hook
+  <https://pre-commit.com/>`_.
+
+CI improvements
+...............
+- Updated the linter CI config to run the ``pre-commit`` checks.
+
+
 v0.5.0 (2022-11-04)
 -------------------
 This is a major release dropping support of Python 3.7 and adding support of
