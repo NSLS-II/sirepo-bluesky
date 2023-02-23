@@ -5,7 +5,7 @@ Release History
 v0.6.0 (2023-02-23)
 -------------------
 This is a major release dropping support of `intake
-<https://intake.readthedocs.io/en/latest/>` and extending support of MAD-X
+<https://intake.readthedocs.io/en/latest/>`_ and extending support of MAD-X
 simulations.
 
 API
