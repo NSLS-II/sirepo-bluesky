@@ -38,7 +38,7 @@ jobs:
       - name: Start Sirepo Docker container
         uses: mrakitin/start-sirepo-action@v1
         with:
-          docker-binary: ${{ matrix.docker-binary }}
+          docker-binary: ${{ env.DOCKER_BINARY }}
 
       - name: Set up Python ${{ matrix.python-version }} with conda
         uses: conda-incubator/setup-miniconda@v2
