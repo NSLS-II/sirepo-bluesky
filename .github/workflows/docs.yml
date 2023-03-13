@@ -1,6 +1,8 @@
 name: Documentation
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
   build_docs:
@@ -32,25 +34,9 @@ jobs:
         uses: supercharge/mongodb-github-action@1.6.0
 
       - name: Start Sirepo Docker container
-        run: |
-          set -vxeuo pipefail
-          . scripts/start_sirepo.sh -d
-          export SIREPO_DOCKER_CONTAINER_ID
-          echo "SIREPO_DOCKER_CONTAINER_ID=${SIREPO_DOCKER_CONTAINER_ID}" >> $GITHUB_ENV
-
-      - name: Check Sirepo state
-        run: |
-          set -vxeuo pipefail
-          # Sleeping to allow sirepo time to start up
-          sleep 10
-          ${DOCKER_BINARY} images
-          ${DOCKER_BINARY} ps -a
-          container=$(${DOCKER_BINARY} ps -q -f id=${SIREPO_DOCKER_CONTAINER_ID})
-          ${DOCKER_BINARY} logs ${SIREPO_DOCKER_CONTAINER_ID}
-          if [ -z "${container}" ]; then
-              echo "Container ID ${SIREPO_DOCKER_CONTAINER_ID} is not running. Exiting."
-              exit 1
-          fi
+        uses: mrakitin/start-sirepo-action@v1
+        with:
+          docker-binary: ${{ env.DOCKER_BINARY }}
 
       - name: Set up Python ${{ matrix.python-version }} with conda
         uses: conda-incubator/setup-miniconda@v2
@@ -65,9 +51,8 @@ jobs:
       - name: Install documentation-building requirements
         run: |
           set -vxeo pipefail
-          sudo apt-get update && sudo apt-get install pandoc
           conda env list
-          mamba install -c conda-forge shadow3 srwpy
+          mamba install -c conda-forge shadow3 srwpy pandoc
           pip install --upgrade pip wheel
           pip install -v .
           pip install -r requirements-dev.txt
