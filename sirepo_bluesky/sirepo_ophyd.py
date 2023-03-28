@@ -188,7 +188,30 @@ class SirepoWatchpoint(DeviceWithJSONData):
 
     def describe(self):
         res = super().describe()
+
+        sim_type = self.connection.data["simulationType"]
+
+
         res[self.image.name].update(dict(external="FILESTORE"))
+
+        for key in [self.shape.name]:
+            res[key].update(dict(dtype_str="<i8"))
+
+        for key in [self.vertical_extent.name, self.horizontal_extent.name]:
+            res[key].update(dict(dtype_str="<f8"))
+
+
+        if sim_type == "shadow":
+
+            ny = nx = self.connection.data["models"]["watchpointReport12"]["histogramBins"]
+            res[self.image.name].update(dict(shape=(ny, nx)))
+
+        if sim_type == "srw":
+
+            raise ValueError('fix this later please')
+        
+
+        print(res, res[f'{self.image.name}']['shape'])
         return res
 
     def unstage(self):

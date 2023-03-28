@@ -87,7 +87,7 @@ def read_shadow_file(filename, histogram_bins=None):
             # This returns a list of N values (N=number of rays)
             photon_energy_list = Shadow.ShadowTools.getshcol(filename, col=11)  # 11=Energy [eV]
 
-    data = data_dict["histogram"]
+    data = data_dict["histogram"].astype(float)
     photon_energy = np.mean(photon_energy_list)
 
     # convert to um
@@ -100,9 +100,16 @@ def read_shadow_file(filename, histogram_bins=None):
         "flux": data.sum(),
         "mean": data.mean(),
         "photon_energy": photon_energy,
+<<<<<<< HEAD
         "horizontal_extent": horizontal_extent,
         "vertical_extent": vertical_extent,
         "units": "um",
+=======
+        "horizontal_extent": np.array(data_dict["xrange"][:2]).astype(float),
+        "vertical_extent": np.array(data_dict["yrange"][:2]).astype(float),
+        # 'labels': labels,
+        # 'units': units,
+>>>>>>> 370b982 (started working on support for tiled)
     }
 
     ret.update(utils.get_beam_stats(data, horizontal_extent, vertical_extent))
