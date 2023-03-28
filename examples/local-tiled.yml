@@ -1,0 +1,15 @@
+local:
+  direct:
+    authentication:
+      allow_anonymous_access: true
+    trees:
+      - tree: databroker.mongo_normalized:Tree.from_uri
+        path: /
+        args:
+          # TODO Update to databroker.tst.... once DNS is set up.
+          uri: mongodb://localhost:27017/datastore
+          asset_registry_uri: mongodb://localhost:27017/filestore
+          handler_registry:
+            srw: sirepo_bluesky.srw_handler:SRWFileHandler
+            shadow: sirepo_bluesky.shadow_handler:ShadowFileHandler
+            SIREPO_FLYER: sirepo_bluesky.srw_handler:SRWFileHandler
