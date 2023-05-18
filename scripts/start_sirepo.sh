@@ -40,9 +40,9 @@ else
     mkdir -p "${today}"
 fi
 
-docker_image="radiasoft/sirepo:beta"
-# docker_image="radiasoft/sirepo:20220806.215448"
-# docker_image="radiasoft/sirepo:prod"
+docker_image="radiasoft/sirepo:${DOCKER_IMAGE_TAG:-'beta'}"
+# docker_image="radiasoft/sirepo:${DOCKER_IMAGE_TAG:-'20220806.215448'}"
+# docker_image="radiasoft/sirepo:${DOCKER_IMAGE_TAG:-'prod'}"
 docker_binary=${DOCKER_BINARY:-"docker"}
 
 ${docker_binary} pull ${docker_image}
