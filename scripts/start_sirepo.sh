@@ -40,9 +40,9 @@ else
     mkdir -p "${today}"
 fi
 
-# docker_image="radiasoft/sirepo:beta"
+docker_image="radiasoft/sirepo:beta"
 # docker_image="radiasoft/sirepo:20220806.215448"
-docker_image="radiasoft/sirepo:prod"
+# docker_image="radiasoft/sirepo:prod"
 docker_binary=${DOCKER_BINARY:-"docker"}
 
 ${docker_binary} pull ${docker_image}
@@ -55,7 +55,7 @@ in_docker_cmd="mkdir -v -p ${SIREPO_SRDB_ROOT} && \
     else \
         echo 'The directory exists. Nothing to do'; \
     fi && \
-    sirepo service http"
+    ~/.radia-run/start"
 cmd_start="${docker_binary} run ${arg} --init ${remove_container} --name sirepo \
     -e SIREPO_AUTH_METHODS=bluesky:guest \
     -e SIREPO_AUTH_BLUESKY_SECRET=bluesky \
