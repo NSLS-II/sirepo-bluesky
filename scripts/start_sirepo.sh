@@ -56,6 +56,8 @@ else \
     echo 'The directory exists. Nothing to do'; \
 fi && \
 sed -i -E \"s;export SIREPO_SRDB_ROOT=\"\(.*\)\";export SIREPO_SRDB_ROOT=\"$SIREPO_SRDB_ROOT\";g\" ~/.radia-run/start && \
+sed -i -E \"s;export SIREPO_COOKIE_PRIVATE_KEY=(.*)$;export SIREPO_COOKIE_IS_SECURE=false\nenv | sort;g\" ~/.radia-run/start && \
+cat ~/.radia-run/start && \
 ~/.radia-run/start
 EOF
 )
