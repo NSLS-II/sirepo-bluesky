@@ -10,7 +10,7 @@ ophyd
 peakutils
 pymongo
 pyqt5>=5.9
-requests<2.31
+requests
 # These requirement should be installed from the 'nsls2forge' or 'conda-forge' conda channel.
 # shadow3
 # srwpy
