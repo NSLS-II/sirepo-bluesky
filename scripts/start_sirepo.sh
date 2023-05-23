@@ -22,14 +22,15 @@ else
 fi
 
 SIREPO_SRDB_HOST="${SIREPO_SRDB_HOST:-}"
+SIREPO_SRDB_HOST_RO="${SIREPO_SRDB_HOST_RO:-}"
 SIREPO_SRDB_GUEST="${SIREPO_SRDB_GUEST:-}"
 SIREPO_SRDB_ROOT="${SIREPO_SRDB_ROOT:-'/sirepo'}"
 
 unset cmd _cmd docker_image SIREPO_DOCKER_CONTAINER_ID
 
+year=$(date +"%Y")
 month=$(date +"%m")
 day=$(date +"%d")
-year=$(date +"%Y")
 
 today="${HOME}/tmp/data/${year}/${month}/${day}"
 
@@ -61,18 +62,16 @@ cat ~/.radia-run/start && \
 EOF
 )
 
-if [ -d "$PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT" ]; then
-    HOST_SRDB_ROOT="$PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT"
-    echo "HOST_SRDB_ROOT=${HOST_SRDB_ROOT}"
-elif [ -d "/tmp/SIREPO_SRDB_ROOT" ]; then
-    HOST_SRDB_ROOT="/tmp/SIREPO_SRDB_ROOT"
-    echo "HOST_SRDB_ROOT=${HOST_SRDB_ROOT}"
-else
-    echo "Cannot determine the location of the host SIREPO_SRDB_ROOT dir."
-    exit 1
+if [ -z "${SIREPO_SRDB_HOST_RO}" ]; then
+    if [ -d "$PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT" ]; then
+        SIREPO_SRDB_HOST_RO="$PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT"
+    else
+        echo "Cannot determine the location of the host SIREPO_SRDB_ROOT dir."
+        exit 1
+    fi
 fi
 
-echo "HOST_SRDB_ROOT=${HOST_SRDB_ROOT}"
+echo "SIREPO_SRDB_HOST_RO=${SIREPO_SRDB_HOST_RO}"
 
 cmd_start="${docker_binary} run ${arg} --init ${remove_container} --name sirepo \
     -e SIREPO_AUTH_METHODS=bluesky:guest \
@@ -80,11 +79,11 @@ cmd_start="${docker_binary} run ${arg} --init ${remove_container} --name sirepo 
     -e SIREPO_SRDB_ROOT=${SIREPO_SRDB_ROOT} \
     -e SIREPO_COOKIE_IS_SECURE=false \
     -p 8000:8000 \
-    -v $HOST_SRDB_ROOT:/SIREPO_SRDB_ROOT:ro,z "
+    -v $SIREPO_SRDB_HOST_RO:/SIREPO_SRDB_ROOT:ro,z "
 
 cmd_extra=""
 if [ ! -z "${SIREPO_SRDB_HOST}" -a ! -z "${SIREPO_SRDB_GUEST}" ]; then
-    cmd_extra="-v ${SIREPO_SRDB_HOST}:${SIREPO_SRDB_GUEST} "
+    cmd_extra="-v ${SIREPO_SRDB_HOST}:${SIREPO_SRDB_GUEST}:rw,z "
 fi
 
 cmd_end="${docker_image} bash -l -c \"${in_docker_cmd}\""
