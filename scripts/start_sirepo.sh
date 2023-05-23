@@ -56,11 +56,19 @@ else \
     echo 'The directory exists. Nothing to do'; \
 fi && \
 sed -i -E \"s;export SIREPO_SRDB_ROOT=\"\(.*\)\";export SIREPO_SRDB_ROOT=\"$SIREPO_SRDB_ROOT\";g\" ~/.radia-run/start && \
-sed -i -E \"s;export SIREPO_COOKIE_PRIVATE_KEY=(.*)$;export SIREPO_COOKIE_IS_SECURE=false\nenv | sort;g\" ~/.radia-run/start && \
 cat ~/.radia-run/start && \
 ~/.radia-run/start
 EOF
 )
+
+if [ -d "$PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT" ]; then
+    HOST_SRDB_ROOT="$PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT"
+elif [ -d "/tmp/SIREPO_SRDB_ROOT" ]; then
+    HOST_SRDB_ROOT="/tmp/SIREPO_SRDB_ROOT"
+else
+    echo "Cannot determine the location of the host SIREPO_SRDB_ROOT dir."
+    exit 1
+fi
 
 cmd_start="${docker_binary} run ${arg} --init ${remove_container} --name sirepo \
     -e SIREPO_AUTH_METHODS=bluesky:guest \
@@ -68,7 +76,7 @@ cmd_start="${docker_binary} run ${arg} --init ${remove_container} --name sirepo 
     -e SIREPO_SRDB_ROOT=${SIREPO_SRDB_ROOT} \
     -e SIREPO_COOKIE_IS_SECURE=false \
     -p 8000:8000 \
-    -v $PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT:/SIREPO_SRDB_ROOT:ro,z "
+    -v $HOST_SRDB_ROOT:/SIREPO_SRDB_ROOT:ro,z "
 
 cmd_extra=""
 if [ ! -z "${SIREPO_SRDB_HOST}" -a ! -z "${SIREPO_SRDB_GUEST}" ]; then
