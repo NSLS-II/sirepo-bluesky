@@ -63,12 +63,16 @@ EOF
 
 if [ -d "$PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT" ]; then
     HOST_SRDB_ROOT="$PWD/sirepo_bluesky/tests/SIREPO_SRDB_ROOT"
+    echo "HOST_SRDB_ROOT=${HOST_SRDB_ROOT}"
 elif [ -d "/tmp/SIREPO_SRDB_ROOT" ]; then
     HOST_SRDB_ROOT="/tmp/SIREPO_SRDB_ROOT"
+    echo "HOST_SRDB_ROOT=${HOST_SRDB_ROOT}"
 else
     echo "Cannot determine the location of the host SIREPO_SRDB_ROOT dir."
     exit 1
 fi
+
+echo "HOST_SRDB_ROOT=${HOST_SRDB_ROOT}"
 
 cmd_start="${docker_binary} run ${arg} --init ${remove_container} --name sirepo \
     -e SIREPO_AUTH_METHODS=bluesky:guest \
