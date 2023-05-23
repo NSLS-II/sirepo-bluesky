@@ -20,7 +20,7 @@ def _test_smoke_sirepo(sim_id, server_name):
 
 @vcr.use_cassette(f"{cassette_location}/test_smoke_sirepo.yml")
 def test_smoke_sirepo_vcr():
-    _test_smoke_sirepo(sim_id="87XJ4oEb", server_name="http://10.10.10.10:8000")
+    _test_smoke_sirepo(sim_id="00000000", server_name="http://localhost:8000")
 
 
 @pytest.mark.docker
@@ -89,7 +89,7 @@ def _test_sirepo_flyer(RE_no_plot, db, tmpdir, sim_id, server_name):
 
 @vcr.use_cassette(f"{cassette_location}/test_sirepo_flyer.yml")
 def test_sirepo_flyer_vcr(RE_no_plot, db, tmpdir):
-    _test_sirepo_flyer(RE_no_plot, db, tmpdir, sim_id="87XJ4oEb", server_name="http://10.10.10.10:8000")
+    _test_sirepo_flyer(RE_no_plot, db, tmpdir, sim_id="00000000", server_name="http://localhost:8000")
 
 
 @pytest.mark.docker
