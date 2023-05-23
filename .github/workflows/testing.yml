@@ -63,7 +63,7 @@ jobs:
           # line 1: GSETTINGS_SCHEMA_DIR_CONDA_BACKUP: unbound variable
           set -vxeo pipefail
           conda env list
-          mamba install -c conda-forge shadow3 srwpy "requests<=2.29" "urllib3<2.0"  # Temp workaround with pinning requests and urllib versions
+          mamba install -c conda-forge shadow3 srwpy "urllib3<2.0"  # Temp workaround with pinning urllib version to work with latest 'requests'
           pip install --upgrade pip wheel
           pip install -v .
           pip install -r requirements-dev.txt
