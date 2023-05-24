@@ -38,7 +38,7 @@ jobs:
         uses: supercharge/mongodb-github-action@1.6.0
 
       - name: Start Sirepo Docker container
-        uses: mrakitin/start-sirepo-action@test-new-beta-tag
+        uses: NSLS-II/start-sirepo-action@v2
         with:
           docker-binary: ${{ env.DOCKER_BINARY }}
 
