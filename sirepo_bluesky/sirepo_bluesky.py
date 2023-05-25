@@ -73,7 +73,7 @@ class SirepoBluesky(object):
         req["authHash"] = "v1:" + base64.urlsafe_b64encode(h.digest()).decode()
 
         self.cookies = None
-        res = self._post_json("bluesky-auth", req)
+        res = self._post_json("auth-bluesky-login", req)
         if not ("state" in res and res["state"] == "ok"):
             raise SirepoBlueskyClientException(f"bluesky_auth failed: {res}")
         self.sim_type = sim_type

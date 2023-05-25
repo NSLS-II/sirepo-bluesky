@@ -95,6 +95,8 @@ def test_shadow_detector_docker_beam_stats_report(RE, db, tmpdir):
         "sigmaxz",
         "sigmaz",
         "x",
+        "xi_x",
+        "xi_z",
         "xp",
         "z",
         "zp",

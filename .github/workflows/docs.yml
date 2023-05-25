@@ -1,11 +1,15 @@
-name: Documentation
+name: Build Documentation
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build_docs:
+    # pull requests are a duplicate of a branch push if within the same repo.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+
     name: Build documentation
     runs-on: ubuntu-latest
     strategy:
@@ -34,7 +38,7 @@ jobs:
         uses: supercharge/mongodb-github-action@1.6.0
 
       - name: Start Sirepo Docker container
-        uses: NSLS-II/start-sirepo-action@v1
+        uses: NSLS-II/start-sirepo-action@v2
         with:
           docker-binary: ${{ env.DOCKER_BINARY }}
 
@@ -80,3 +84,17 @@ jobs:
         with:
           name: ${{ env.REPOSITORY_NAME }}-docs
           path: docs/build/html/
+
+      - name: Deploy documentation to nsls-ii.github.io
+        if: github.repository_owner == 'NSLS-II' && github.ref_name == 'main'
+        # We pin to the SHA, not the tag, for security reasons.
+        # https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/security-hardening-for-github-actions#using-third-party-actions
+        uses: peaceiris/actions-gh-pages@bbdfb200618d235585ad98e965f4aafc39b4c501  # v3.7.3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DOCUMENTATION_DEPLOY_KEY }}
+          external_repository: NSLS-II/NSLS-II.github.io
+          publish_branch: master  # branch in the external repository
+          publish_dir: ./docs/build/html
+          destination_dir: ${{ env.REPOSITORY_NAME }}  # just the repo name, without the "NSLS-II/"
+          keep_files: true  # Keep old files.
+          force_orphan: false  # Keep git history.

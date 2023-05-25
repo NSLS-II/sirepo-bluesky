@@ -56,8 +56,8 @@ def test_srw_detector_vcr(RE, db, tmpdir):
         db,
         tmpdir,
         sim_type="srw",
-        sim_id="e75qHII6",
-        server_name="http://10.10.10.10:8000",
+        sim_id="00000001",
+        server_name="http://localhost:8000",
     )
 
 
@@ -123,8 +123,8 @@ def test_srw_det_grid_scan_vcr(RE, db, tmpdir):
         db,
         tmpdir,
         sim_type="srw",
-        sim_id="e75qHII6",
-        server_name="http://10.10.10.10:8000",
+        sim_id="00000001",
+        server_name="http://localhost:8000",
     )
 
 
