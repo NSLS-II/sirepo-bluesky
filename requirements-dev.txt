@@ -8,7 +8,8 @@ pre-commit
 pytest
 vcrpy
 # These are dependencies of various sphinx extensions for documentation.
-cloud-sptheme
+# cloud-sptheme
+furo
 ipython
 jupyter
 matplotlib
