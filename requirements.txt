@@ -1,4 +1,3 @@
---prefer-binary
 area-detector-handlers
 bluesky
 databroker
