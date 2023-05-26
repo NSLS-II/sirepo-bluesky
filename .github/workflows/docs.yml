@@ -56,7 +56,7 @@ jobs:
         run: |
           set -vxeo pipefail
           conda env list
-          mamba install -c conda-forge shadow3 srwpy pandoc
+          mamba install -c conda-forge pandoc
           pip install --upgrade pip wheel
           pip install -v .
           pip install -r requirements-dev.txt
