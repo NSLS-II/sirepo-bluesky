@@ -4,8 +4,8 @@ Release History
 
 v0.6.1 (2023-05-26)
 -------------------
-This is a maintenance release primarily addressing the continuous integration
-and testing matters.
+This is a maintenance release primarily addressing the packaging, continuous
+integration, and testing matters.
 
 API
 ...
@@ -14,8 +14,8 @@ API
 
 Tests
 .....
-- Recreated ``vcrpy`` cassettes for the tests using old API (to be deprecated
-  in the future).
+- Recreated `vcrpy <https://vcrpy.readthedocs.io/en/latest/>`_ cassettes for the
+  tests using old API (to be deprecated in the future).
 - Fixed beam statistics report test.
 
 CI improvements
@@ -29,9 +29,18 @@ CI improvements
 - Added ``workflow_dispatch`` trigger to CI workflows to be able to start them
   manually.
 
+Packaging
+.........
+- All dependencies, including ``srwpy`` and ``shadow3`` are now installed along
+  with ``sirepo-bluesky`` from the same source (either PyPI or conda-forge),
+  therefore users do not need to preinstall them.
+- Temporary fix for incompatibility between the ``requests`` package and
+  ``urllib3`` v2+.
+
 Documentation
--------------
+.............
 - Change Sphinx theme to `furo <https://pradyunsg.me/furo/>`_.
+- Update installation instructions.
 
 
 v0.6.0 (2023-02-23)
