@@ -74,14 +74,17 @@ Installation
 
 .. note::
 
-  The installation requires the SRW and Shadow3 packages to be installed to make
-  use of all features of the library, however the packages are not available on
-  PyPI for all versions of Python we support (e.g. the ``srwpy`` package's
-  wheels are only available for Python versions up to 3.8, and the ``shadow3``
-  package's wheels have issues with installation/usage). Those packages are
+  The installation requires the ``srwpy`` and ``shadow3`` simulation packages to
+  be installed to make use of all features of the library. Those packages are
   primarily used by the corresponding handlers to be able to load the data from
-  the package-specific formats.  That is why we hightly recommend using the
-  packages from the ``conda-forge`` conda channel:
+  the package-specific formats. The packages are installed automatically when
+  the ``sirepo-bluesky`` package is installed via ``pip``:
+
+  - https://pypi.org/project/srwpy
+  - https://pypi.org/project/shadow3
+
+  One can also install the packages using ``conda`` from the ``conda-forge``
+  channel:
 
   - https://anaconda.org/conda-forge/srwpy
   - https://anaconda.org/conda-forge/shadow3
@@ -95,7 +98,7 @@ At the command line:
 
 .. code:: bash
 
-   $ conda create -n sirepo-bluesky -c conda-forge -y python=3.9 srwpy shadow3
+   $ conda create -n sirepo-bluesky -c conda-forge -y python=3.10
    $ conda activate sirepo-bluesky
 
 Then, to install the released version, run one of the following commands:

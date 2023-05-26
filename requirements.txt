@@ -2,7 +2,6 @@ area-detector-handlers
 bluesky
 databroker
 inflection
-ipython
 matplotlib
 numconv
 numpy
@@ -11,8 +10,8 @@ peakutils
 pymongo
 pyqt5>=5.9
 requests
-# These requirement should be installed from the 'nsls2forge' or 'conda-forge' conda channel.
-# shadow3
-# srwpy
+shadow3>=23.1.4
+srwpy>=4.0.0b0
 tfs-pandas
 unyt
+urllib3<2.0.0

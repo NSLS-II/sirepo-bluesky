@@ -2,6 +2,47 @@
 Release History
 ===============
 
+v0.6.1 (2023-05-26)
+-------------------
+This is a maintenance release primarily addressing the packaging, continuous
+integration, and testing matters.
+
+API
+...
+- Fixed the deprecated API call ``bluesky-auth`` -> ``auth-bluesky-login`` to
+  authenticate with Sirepo using the _bluesky_ auth method.
+
+Tests
+.....
+- Recreated `vcrpy <https://vcrpy.readthedocs.io/en/latest/>`_ cassettes for the
+  tests using old API (to be deprecated in the future).
+- Fixed beam statistics report test.
+
+CI improvements
+...............
+- Applied `NSLS-II/start-sirepo-action
+  <https://github.com/NSLS-II/start-sirepo-action>`_ to start Sirepo in the CI
+  workflows (used in other repositories which need Sirepo with predefined
+  examples).
+- Fixed the Sirepo startup script to use ``radiasoft/sirepo:beta`` docker
+  image. The action above uses the script from this repository.
+- Added ``workflow_dispatch`` trigger to CI workflows to be able to start them
+  manually.
+
+Packaging
+.........
+- All dependencies, including ``srwpy`` and ``shadow3`` are now installed along
+  with ``sirepo-bluesky`` from the same source (either PyPI or conda-forge),
+  therefore users do not need to preinstall them.
+- Temporary fix for incompatibility between the ``requests`` package and
+  ``urllib3`` v2+.
+
+Documentation
+.............
+- Change Sphinx theme to `furo <https://pradyunsg.me/furo/>`_.
+- Update installation instructions.
+
+
 v0.6.0 (2023-02-23)
 -------------------
 This is a major release dropping support of `intake

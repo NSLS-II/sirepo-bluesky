@@ -21,8 +21,6 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-import cloud_sptheme as sptheme
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -108,8 +106,7 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "cloud"
-html_theme_path = [sptheme.get_theme_dir()]
+html_theme = "furo"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -125,15 +122,6 @@ html_static_path = ["_static"]
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #
-# This is required for the alabaster theme
-# refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
-html_sidebars = {
-    "**": [
-        "globaltoc.html",
-        "searchbox.html",
-    ]
-}
-
 
 # -- Options for HTMLHelp output ------------------------------------------
 
