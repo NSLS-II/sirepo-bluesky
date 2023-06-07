@@ -6,7 +6,7 @@ flake8
 isort
 pre-commit
 pytest
-vcrpy
+vcrpy>=4.3.1
 # These are dependencies of various sphinx extensions for documentation.
 # cloud-sptheme
 furo
