@@ -63,8 +63,8 @@ To to access the collected data with the `databroker
 <https://blueskyproject.io/databroker>`_ library, we need to configure it. For
 that, please copy the `local.yml
 <https://github.com/NSLS-II/sirepo-bluesky/blob/main/examples/local.yml>`_
-configuration file to the ``~/.config/databroker/`` directory if using macOS or Linux. For windows systems,
-copy the configuration file to the ``%APPDATA%\databroker`` directory. 
+configuration file to the ``~/.config/databroker/`` directory if using macOS or Linux. For Windows systems,
+copy the configuration file to the ``%APPDATA%\databroker`` directory.
 
 .. include:: ../../examples/local.yml
    :literal:
