@@ -2,6 +2,25 @@
 Release History
 ===============
 
+v0.6.2 (2023-06-08)
+-------------------
+This is a maintenance release with small packaging and documentation updates.
+
+Packaging
+.........
+- Added ``xraylib`` to the list of requirements as ``shadow3`` does not
+  automatically install it, and imports of ``xraylib`` will print the
+  information about that missing library, even for irrelevant code (like
+  MAD-X). Adding the package as a dependency explicitly silences the messages.
+
+- Remove pinning of the ``urllib3`` package as the issue is resolved on the
+  ``vcrpy`` side.
+
+Documentation
+.............
+- Update databroker configuration instructions for Windows.
+
+
 v0.6.1 (2023-05-26)
 -------------------
 This is a maintenance release primarily addressing the packaging, continuous
@@ -14,8 +33,8 @@ API
 
 Tests
 .....
-- Recreated `vcrpy <https://vcrpy.readthedocs.io/en/latest/>`_ cassettes for the
-  tests using old API (to be deprecated in the future).
+- Recreated `vcrpy <https://vcrpy.readthedocs.io/en/latest/>`_ cassettes for
+  the tests using old API (to be deprecated in the future).
 - Fixed beam statistics report test.
 
 CI improvements
