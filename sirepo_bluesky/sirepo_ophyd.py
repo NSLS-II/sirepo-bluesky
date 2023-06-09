@@ -257,7 +257,7 @@ class BeamStatisticsReport(DeviceWithJSONData):
     # NOTE: TES aperture changes don't seem to change the beam statistics
     # report graph on the website?
 
-    report = Cpt(Signal, value={}, kind="normal")
+    report = Cpt(Signal, value="", kind="normal")
 
     def __init__(self, connection, *args, **kwargs):
         super().__init__(*args, **kwargs)
