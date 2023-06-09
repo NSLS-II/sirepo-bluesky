@@ -1,5 +1,5 @@
-Notebooks (new API)
-===================
+Examples
+========
 
 .. toctree::
    :maxdepth: 2
