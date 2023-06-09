@@ -1,5 +1,3 @@
-import json
-
 import bluesky.plans as bp
 import numpy as np
 import pytest
