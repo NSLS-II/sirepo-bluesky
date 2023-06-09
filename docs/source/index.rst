@@ -10,7 +10,6 @@ sirepo-bluesky Documentation
    :maxdepth: 2
 
    installation
-   notebooks-old-api
-   notebooks-new-api
+   examples
    simulations
    release-history

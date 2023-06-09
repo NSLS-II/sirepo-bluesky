@@ -257,7 +257,7 @@ class BeamStatisticsReport(DeviceWithJSONData):
     # NOTE: TES aperture changes don't seem to change the beam statistics
     # report graph on the website?
 
-    report = Cpt(Signal, value={}, kind="normal")
+    report = Cpt(Signal, value="", kind="normal")  # values are always strings, not dictionaries
 
     def __init__(self, connection, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -284,11 +284,11 @@ class BeamStatisticsReport(DeviceWithJSONData):
 
     def stage(self):
         super().stage()
-        self.report.put({})
+        self.report.put("")
 
     def unstage(self):
         super().unstage()
-        self.report.put({})
+        self.report.put("")
 
 
 class SirepoSignalGrazingAngle(SirepoSignal):
