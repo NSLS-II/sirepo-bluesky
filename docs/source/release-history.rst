@@ -4,12 +4,12 @@ Release History
 
 v0.6.2 (2023-06-09)
 -------------------
-This is a maintenance release with small packaging and documentation updates.
+This is a maintenance release with small API, tests, packaging, and documentation updates.
 
 API
 ...
 - Fixed the ``BeamStatisticsReport``'s default values which cannot be a
-  dictionary (discovered by `bluesky v1.11.0
+  dictionary (discovered when using `bluesky v1.11.0
   <https://github.com/bluesky/bluesky/releases/tag/v1.11.0>`_).
 
 Packaging
@@ -24,7 +24,7 @@ Packaging
 
 Documentation
 .............
-- Update databroker configuration instructions for Windows.
+- Updated databroker configuration instructions for Windows.
 - Removed old API examples.
 
 Tests
