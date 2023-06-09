@@ -25,6 +25,11 @@ Packaging
 Documentation
 .............
 - Update databroker configuration instructions for Windows.
+- Removed old API examples.
+
+Tests
+.....
+- Removed a test for ``BeamStatisticsReport`` for the old API.
 
 
 v0.6.1 (2023-05-26)
