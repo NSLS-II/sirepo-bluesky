@@ -1,4 +1,5 @@
 import json
+from pprint import pprint
 
 import pytest
 import yaml
@@ -40,3 +41,22 @@ def test_json_yaml_converters(tmp_path):
     yaml_to_json(tmp_path / "test.yaml", tmp_path / "test3.json", indent=4)
     with open(tmp_path / "test3.json", "r") as fp:
         assert test_dict == json.load(fp)
+
+
+def test_dict_to_file_from_simulation(tmp_path, shadow_tes_simulation):
+    # Sirepo must be running for this test to pass
+    test_dict = shadow_tes_simulation.data
+
+    dict_to_file(tmp_path / "test1.json", test_dict)
+    with open(tmp_path / "test1.json", "r") as fp:
+        assert test_dict == json.load(fp)
+
+    dict_to_file(tmp_path / "test2.json", test_dict, indent=4)
+    with open(tmp_path / "test2.json", "r") as fp:
+        assert test_dict == json.load(fp)
+
+    dict_to_file(tmp_path / "test.yaml", test_dict)
+    with open(tmp_path / "test.yaml", "r") as fp:
+        assert test_dict == yaml.safe_load(fp)
+
+    pprint(test_dict)
