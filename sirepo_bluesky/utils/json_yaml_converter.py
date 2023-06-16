@@ -75,7 +75,7 @@ def dict_to_file(filename, dict, indent=2, **kwargs):
 
     Parameters
     ----------
-    fp : str
+    filename : str
             Filepath of new file.
     dict : dict
             Dictionary to be converted.
