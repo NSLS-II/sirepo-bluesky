@@ -11,25 +11,80 @@ class Filetype(Enum):
     YAML = 2
 
 
-def json_to_yaml(json_fp, yaml_fp, **kwargs):
+def json_to_yaml(json_fp, yaml_fp, openmode="x", **kwargs):
     """
     Converts a .json file into a .yaml or .yml file.
 
     Parameters
     ----------
     json_fp : str
-            Filepath of .json file.
+        Filepath of .json file.
     yaml_fp : str
-            Filepath of new .yaml or .yml file.
+        Filepath of new .yaml or .yml file.
+    openmode : str
+        Mode to be passed to open. Set to "x" by default to avoid overwriting files.
     kwargs : dict
+        Will be passed to yaml.dump.
     """
     with open(json_fp, "r") as fp:
         data = json.load(fp)
-    with open(yaml_fp, "w") as fp:
+    with open(yaml_fp, mode=openmode) as fp:
         yaml.dump(data, fp, **kwargs)
 
 
+def yaml_to_json(yaml_fp, json_fp, indent=2, openmode="x", **kwargs):
+    """
+    Converts a .yaml or .yml file into a .json file.
+
+    Parameters
+    ----------
+    yaml_fp : str
+        Filepath of new .yaml or .yml file.
+    json_fp : str
+        Filepath of .json file.
+    indent : int
+        Indentation of .json file, default is 2.
+    openmode : str
+        Mode to be passed to open. Set to "x" by default to avoid overwriting files.
+    kwargs : dict
+        Will be passed to json.dump.
+    """
+    with open(yaml_fp, "r") as fp:
+        data = yaml.safe_load(fp)
+    with open(json_fp, mode=openmode) as fp:
+        json.dump(data, fp, indent=indent, **kwargs)
+
+
+def dict_to_file(dict, filename, indent=2, openmode="x", **kwargs):
+    """
+    Converts a dict into a .json, .yaml, or .yml file.
+
+    Parameters
+    ----------
+    dict : dict
+        Dictionary to be converted.
+    filename : str
+        Filepath of new file.
+    indent : int
+        Indentation of .json file to be created, default is 2.
+    openmode : str
+        Mode to be passed to open. Set to "x" by default to avoid overwriting files.
+    kwargs : dict
+        Will be passed to json.dump or yaml.dump.
+    """
+    filetype = get_file_type(filename)
+    if filetype == Filetype.JSON:
+        with open(filename, mode=openmode) as jsonfile:
+            json.dump(dict, jsonfile, indent=indent, **kwargs)
+    elif filetype == Filetype.YAML:
+        with open(filename, mode=openmode) as yamlfile:
+            yaml.dump(dict, yamlfile, **kwargs)
+    else:
+        raise RuntimeError("Invalid file type: must be .json or .yaml")
+
+
 def cli_converter():
+    # Uses command json-yaml-converter on command line, must have conda deactivated
     parser = argparse.ArgumentParser(description="Converts from .json to .yaml/.yml and vice versa")
     parser.add_argument("-i", "--input-file", dest="input_file", help="The file to be converted")
     parser.add_argument("-o", "--output-file", dest="output_file", help="The target file after conversion")
@@ -41,61 +96,19 @@ def cli_converter():
         parser.error("Input_file and/or output_file is not specified")
     filetype_input = get_file_type(args.input_file)
     filetype_output = get_file_type(args.output_file)
-    if filetype_input == Filetype.JSON.value and filetype_output == Filetype.YAML.value:
+    if filetype_input == Filetype.JSON and filetype_output == Filetype.YAML:
         json_to_yaml(args.input_file, args.output_file)
-    elif filetype_input == Filetype.YAML.value and filetype_output == Filetype.JSON.value:
+    elif filetype_input == Filetype.YAML and filetype_output == Filetype.JSON:
         yaml_to_json(args.input_file, args.output_file, indent=args.indent)
     else:
-        raise RuntimeError(
-            "Invalid file type: input must be .json or .yaml/.yml and output must be the opposite type"
-        )
-
-
-def yaml_to_json(yaml_fp, json_fp, indent=2, **kwargs):
-    """
-    Converts a .yaml or .yml file into a .json file.
-
-    Parameters
-    ----------
-    yaml_fp : str
-            Filepath of new .yaml or .yml file.
-    json_fp : str
-            Filepath of .json file.
-    kwargs : dict
-    """
-    with open(yaml_fp, "r") as fp:
-        data = yaml.safe_load(fp)
-    with open(json_fp, "w") as fp:
-        json.dump(data, fp, indent=indent, **kwargs)
-
-
-def dict_to_file(filename, dict, indent=2, **kwargs):
-    """
-    Converts a dict into a .json, .yaml, or .yml file.
-
-    Parameters
-    ----------
-    filename : str
-            Filepath of new file.
-    dict : dict
-            Dictionary to be converted.
-    """
-    filetype = get_file_type(filename)
-    if filetype == Filetype.JSON.value:
-        with open(filename, "x") as jsonfile:
-            json.dump(dict, jsonfile, indent=indent, **kwargs)
-    elif filetype == Filetype.YAML.value:
-        with open(filename, "x") as yamlfile:
-            yaml.dump(dict, yamlfile, **kwargs)
-    else:
-        raise RuntimeError("Invalid file type: must be .json or .yaml")
+        raise RuntimeError("Invalid conversion: must convert from .json to .yaml/.yml or vice versa")
 
 
 def get_file_type(filename):
     filetype = os.path.splitext(filename)[-1]
     if filetype == ".json":
-        return Filetype.JSON.value
+        return Filetype.JSON
     elif filetype == ".yaml" or filetype == ".yml":
-        return Filetype.YAML.value
+        return Filetype.YAML
     else:
-        return -1
+        raise ValueError("Invalid file type: file must be .json or .yaml/.yml")
