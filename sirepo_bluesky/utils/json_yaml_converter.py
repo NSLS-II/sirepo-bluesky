@@ -84,7 +84,7 @@ def dict_to_file(dict, filename, indent=2, openmode="x", **kwargs):
 
 
 def cli_converter():
-    # Uses command json-yaml-converter on command line, must have conda deactivated
+    # Uses command json-yaml-converter on command line
     parser = argparse.ArgumentParser(description="Converts from .json to .yaml/.yml and vice versa")
     parser.add_argument("-i", "--input-file", dest="input_file", help="The file to be converted")
     parser.add_argument("-o", "--output-file", dest="output_file", help="The target file after conversion")
