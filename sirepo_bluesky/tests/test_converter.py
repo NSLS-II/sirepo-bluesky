@@ -73,16 +73,16 @@ def test_dict_to_file_from_simulation(tmp_path, shadow_tes_simulation):
 
 
 def test_cli_converter(tmp_path):
-    import os
+    import subprocess
 
     test_dict = {"a": 1, "b": 2, "c": 3}
 
     dict_to_file(test_dict, tmp_path / "test1.json")
 
-    os.system("json-yaml-converter -i " + str(tmp_path / "test1.json") + " -o " + str(tmp_path / "test.yaml"))
+    subprocess.run(["json-yaml-converter", "-i", tmp_path / "test1.json", "-o", tmp_path / "test.yaml"])
     with open(str(tmp_path / "test.yaml"), "r") as fp:
         assert test_dict == yaml.safe_load(fp)
 
-    os.system("json-yaml-converter -i " + str(tmp_path) + "/test.yaml -o " + str(tmp_path) + "/test2.json")
-    with open(str(tmp_path) + "/test2.json", "r") as fp:
-        assert test_dict == json.load(fp)
+    subprocess.run(["json-yaml-converter", "-i", tmp_path / "test.yaml", "-o", tmp_path / "test2.json"])
+    with open(str(tmp_path / "test2.json"), "r") as fp:
+        assert test_dict == yaml.safe_load(fp)
