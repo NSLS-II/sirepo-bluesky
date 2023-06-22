@@ -81,13 +81,17 @@ def test_cli_converter(tmp_path):
 
     assert os.path.isfile(tmp_path / "test1.json")
 
-    subprocess.run(f"json-yaml-converter -i {tmp_path / 'test1.json'} -o {tmp_path / 'test.yaml'} -v".split())
+    subprocess.run(
+        f"json-yaml-converter -i {tmp_path / 'test1.json'} -o {tmp_path / 'test.yaml'} -v".split(), check=True
+    )
 
     assert os.path.isfile(tmp_path / "test.yaml")
 
     with open(str(tmp_path / "test.yaml"), "r") as fp:
         assert test_dict == yaml.safe_load(fp)
 
-    subprocess.run(f"json-yaml-converter -i {tmp_path / 'test.yaml'} -o {tmp_path / 'test2.json'} -v".split())
+    subprocess.run(
+        f"json-yaml-converter -i {tmp_path / 'test.yaml'} -o {tmp_path / 'test2.json'} -v".split(), check=True
+    )
     with open(str(tmp_path / "test2.json"), "r") as fp:
         assert test_dict == yaml.safe_load(fp)
