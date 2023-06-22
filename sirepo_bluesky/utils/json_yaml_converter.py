@@ -91,15 +91,26 @@ def cli_converter():
     parser.add_argument(
         "--indent", default=2, type=int, dest="indent", help="The indentation for .json files, default is 2"
     )
+    parser.add_argument(
+        "-v", "--verbose", dest="verbose", action="store_true", help="Gives more information when running"
+    )
     args = parser.parse_args()
+    if args.verbose:
+        print(f"\n{args.input_file = }")
+        print(f"{args.output_file = }")
+        print(f"{args.indent = }")
     if not (args.input_file and args.output_file):
         parser.error("Input_file and/or output_file is not specified")
     filetype_input = get_file_type(args.input_file)
     filetype_output = get_file_type(args.output_file)
     if filetype_input == Filetype.JSON and filetype_output == Filetype.YAML:
         json_to_yaml(args.input_file, args.output_file)
+        if args.verbose:
+            print(".yaml file created.")
     elif filetype_input == Filetype.YAML and filetype_output == Filetype.JSON:
         yaml_to_json(args.input_file, args.output_file, indent=args.indent)
+        if args.verbose:
+            print(".json file created.")
     else:
         raise RuntimeError("Invalid conversion: must convert from .json to .yaml/.yml or vice versa")
 
