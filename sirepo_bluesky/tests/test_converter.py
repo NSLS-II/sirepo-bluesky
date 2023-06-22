@@ -1,4 +1,6 @@
 import json
+import os
+import subprocess
 from pprint import pprint
 
 import pytest
@@ -73,16 +75,19 @@ def test_dict_to_file_from_simulation(tmp_path, shadow_tes_simulation):
 
 
 def test_cli_converter(tmp_path):
-    import subprocess
-
     test_dict = {"a": 1, "b": 2, "c": 3}
 
     dict_to_file(test_dict, tmp_path / "test1.json")
 
-    subprocess.run(["json-yaml-converter", "-i", tmp_path / "test1.json", "-o", tmp_path / "test.yaml"])
+    assert os.path.isfile(tmp_path / "test1.json")
+
+    subprocess.run(f"json-yaml-converter -i {tmp_path / 'test1.json'} -o {tmp_path / 'test.yaml'}".split())
+
+    assert os.path.isfile(tmp_path / "test.yaml")
+
     with open(str(tmp_path / "test.yaml"), "r") as fp:
         assert test_dict == yaml.safe_load(fp)
 
-    subprocess.run(["json-yaml-converter", "-i", tmp_path / "test.yaml", "-o", tmp_path / "test2.json"])
+    subprocess.run(f"json-yaml-converter -i {tmp_path / 'test.yaml'} -o {tmp_path / 'test2.json'}".split())
     with open(str(tmp_path / "test2.json"), "r") as fp:
         assert test_dict == yaml.safe_load(fp)
