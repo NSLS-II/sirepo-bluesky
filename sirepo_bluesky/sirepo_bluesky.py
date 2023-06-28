@@ -119,6 +119,20 @@ class SirepoBluesky(object):
             raise SirepoBlueskyClientException(f"Could not delete simulation: {res}")
         self.sim_id = None
 
+    def compute_crl_characteristics(self, crl_element):
+        res = self._post_json(
+            "stateless-compute",
+            {
+                "method": "crl_characteristics",
+                "optical_element": crl_element,
+                "photon_energy": self.data["models"]["simulation"]["photonEnergy"],
+                "simulationId": self.sim_id,
+                "simulationType": self.sim_type,
+            },
+        )
+
+        return res
+
     def compute_grazing_orientation(self, optical_element):
         res = self._post_json(
             "stateless-compute",
