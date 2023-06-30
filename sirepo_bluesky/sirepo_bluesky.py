@@ -133,6 +133,43 @@ class SirepoBluesky(object):
 
         return res
 
+    def compute_crystal_init(self, crystal_element):
+        res = self._post_json(
+            "stateless-compute",
+            {
+                "method": "crystal_init",
+                "optical_element": crystal_element,
+                "simulationId": self.sim_id,
+                "simulationType": self.sim_type,
+            },
+        )
+        return res
+
+    def compute_crystal_orientation(self, crystal_element):
+        res_init = self._post_json(
+            "stateless-compute",
+            {
+                "method": "crystal_init",
+                "optical_element": crystal_element,
+                "simulationId": self.sim_id,
+                "simulationType": self.sim_type,
+            },
+        )
+        if res_init.pop("state") != "completed":
+            raise SirepoBlueskyClientException("crystal_init returned error state")
+        res = self._post_json(
+            "stateless-compute",
+            {
+                "method": "crystal_orientation",
+                "optical_element": dict(res_init),
+                "photon_energy": self.data["models"]["simulation"]["photonEnergy"],
+                "simulationId": self.sim_id,
+                "simulationType": self.sim_type,
+            },
+        )
+
+        return res
+
     def compute_grazing_orientation(self, optical_element):
         res = self._post_json(
             "stateless-compute",

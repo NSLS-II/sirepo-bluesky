@@ -1,10 +1,13 @@
+import json
 import pprint
 
 import bluesky.plan_stubs as bps
 import dictdiffer
 import numpy as np
 
+from sirepo_bluesky.sirepo_bluesky import SirepoBluesky
 from sirepo_bluesky.sirepo_ophyd import create_classes
+from sirepo_bluesky.utils.json_yaml_converter import dict_to_file
 
 
 def test_stateless_compute_basic(srw_chx_simulation, RE):
@@ -81,52 +84,23 @@ def test_stateless_compute_basic(srw_chx_simulation, RE):
     assert np.allclose(newresponse1, newresponse2)
 
 
-def test_stateless_compute_advanced(srw_chx_simulation, RE):
+def test_stateless_compute_advanced(srw_chx_simulation, tmp_path):
     classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
 
-    crl1 = objects["crl1"]
+    fname = tmp_path / "test.json"
 
-    for i in range(1, 1001):
-        RE(bps.mv(crl1.tipRadius, i))
+    _generate_test_file(fname)
 
-        response = srw_chx_simulation.compute_crl_characteristics(crl1.id._sirepo_dict)
-        crl1.id._sirepo_dict = srw_chx_simulation.compute_crl_characteristics(crl1.id._sirepo_dict)
-        assert response.pop("state") == "completed"
+    with open(fname, "r") as fp:
+        combined_dict = json.load(fp)
+    assert combined_dict
 
-        list1 = _remove_dict_strings(response)
-        list2 = _remove_dict_strings(crl1.id._sirepo_dict)
-
-        assert np.allclose(list1, list2)
-
-        print(f"Test Radius {i} Passed")
-
-    for i in range(1, 11):
-        RE(bps.mv(crl1.numberOfLenses, i))
-
-        response = srw_chx_simulation.compute_crl_characteristics(crl1.id._sirepo_dict)
-        crl1.id._sirepo_dict = srw_chx_simulation.compute_crl_characteristics(crl1.id._sirepo_dict)
-        assert response.pop("state") == "completed"
-
-        list1 = _remove_dict_strings(response)
-        list2 = _remove_dict_strings(crl1.id._sirepo_dict)
-
-        assert np.allclose(list1, list2)
-
-        print(f"Test Lenses {i} Passed")
-
-    for i in range(1, 101):
-        RE(bps.mv(crl1.wallThickness, i))
-
-        response = srw_chx_simulation.compute_crl_characteristics(crl1.id._sirepo_dict)
-        crl1.id._sirepo_dict = srw_chx_simulation.compute_crl_characteristics(crl1.id._sirepo_dict)
-        assert response.pop("state") == "completed"
-
-        list1 = _remove_dict_strings(response)
-        list2 = _remove_dict_strings(crl1.id._sirepo_dict)
-
-        assert np.allclose(list1, list2)
-
-        print(f"Test Wall Thickness {i} Passed")
+    for key in combined_dict["request"]:
+        actual_response = srw_chx_simulation.compute_crl_characteristics(combined_dict["request"][key])
+        expected_response = combined_dict["response"][key]
+        assert actual_response.pop("state") == "completed"
+        assert np.allclose(_remove_dict_strings(actual_response), _remove_dict_strings(expected_response))
+        print(f"{key} passed")
 
 
 def _remove_dict_strings(dict):
@@ -137,3 +111,38 @@ def _remove_dict_strings(dict):
         except ValueError:
             pass
     return newarr
+
+
+def _generate_test_file(fname):
+    srw_chx_simulation = SirepoBluesky("http://localhost:8000")
+    data, _ = srw_chx_simulation.auth("srw", "HXV1JQ5c")
+    classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
+    crl1 = objects["crl1"]
+
+    combined_dict = {"request": {}, "response": {}}
+
+    for radius in range(1, 201):
+        crl1.id._sirepo_dict["tipRadius"] = radius
+        expected_response = srw_chx_simulation.compute_crl_characteristics(crl1.id._sirepo_dict)
+        combined_dict["request"][f"radius{radius}"] = crl1.id._sirepo_dict.copy()
+        combined_dict["response"][f"radius{radius}"] = expected_response
+        print(f"Radius {radius} added")
+    crl1.id._sirepo_dict["tipRadius"] = 1500
+
+    for lenses in range(1, 201):
+        crl1.id._sirepo_dict["numberOfLenses"] = lenses
+        expected_response = srw_chx_simulation.compute_crl_characteristics(crl1.id._sirepo_dict)
+        combined_dict["request"][f"lenses{lenses}"] = crl1.id._sirepo_dict.copy()
+        combined_dict["response"][f"lenses{lenses}"] = expected_response
+        print(f"Lenses {lenses} added")
+    crl1.id._sirepo_dict["numberOfLenses"] = 1
+
+    for thickness in range(1, 201):
+        crl1.id._sirepo_dict["wallThickness"] = thickness
+        expected_response = srw_chx_simulation.compute_crl_characteristics(crl1.id._sirepo_dict)
+        combined_dict["request"][f"thickness{thickness}"] = crl1.id._sirepo_dict.copy()
+        combined_dict["response"][f"thickness{thickness}"] = expected_response
+        print(f"Thickness {thickness} added")
+    crl1.id._sirepo_dict["wallThickness"] = 80
+
+    dict_to_file(combined_dict, fname)
