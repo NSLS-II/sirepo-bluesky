@@ -311,6 +311,46 @@ class SirepoSignalGrazingAngle(SirepoSignal):
         return NullStatus()
 
 
+class SirepoSignalCRL(SirepoSignal):
+    def set(self, value):
+        super().set(value)
+        ret = self.parent.connection.compute_crl_characteristics(self._sirepo_dict)
+        # State is added to the ret dict from compute_crl_characteristics and we
+        # want to make sure the crl element is updated properly when parameters are changed.
+        ret.pop("state")
+        # Update crl element
+        for cpt in ["absoluteFocusPosition", "focalDistance"]:
+            getattr(self.parent, cpt).put(ret[cpt])
+        return NullStatus()
+
+
+class SirepoSignalCrystal(SirepoSignal):
+    def set(self, value):
+        super().set(value)
+        ret = self.parent.connection.compute_crystal_orientation(self._sirepo_dict)
+        # State is added to the ret dict from compute_crl_characteristics and we
+        # want to make sure the crl element is updated properly when parameters are changed.
+        ret.pop("state")
+        # Update crl element
+        for cpt in [
+            "dSpacing",
+            "grazingAngle",
+            "nvx" "nvy",
+            "nvz",
+            "outframevx" "outframevy" "outoptvx" "outoptvy",
+            "outoptvz",
+            "psi0i",
+            "psi0r",
+            "psiHBi",
+            "psiHBr",
+            "psiHi",
+            "psiHr",
+            "tvx" "tvy",
+        ]:
+            getattr(self.parent, cpt).put(ret[cpt])
+        return NullStatus()
+
+
 def create_classes(sirepo_data, connection, create_objects=True, extra_model_fields=[]):
     classes = {}
     objects = {}
