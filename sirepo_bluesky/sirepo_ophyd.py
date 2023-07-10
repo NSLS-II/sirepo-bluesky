@@ -335,9 +335,13 @@ class SirepoSignalCrystal(SirepoSignal):
         for cpt in [
             "dSpacing",
             "grazingAngle",
-            "nvx" "nvy",
+            "nvx",
+            "nvy",
             "nvz",
-            "outframevx" "outframevy" "outoptvx" "outoptvy",
+            "outframevx",
+            "outframevy",
+            "outoptvx",
+            "outoptvy",
             "outoptvz",
             "psi0i",
             "psi0r",
@@ -345,7 +349,8 @@ class SirepoSignalCrystal(SirepoSignal):
             "psiHBr",
             "psiHi",
             "psiHr",
-            "tvx" "tvy",
+            "tvx",
+            "tvy",
         ]:
             getattr(self.parent, cpt).put(ret[cpt])
         return NullStatus()
@@ -428,6 +433,34 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
                     and k == "grazingAngle"
                 ):
                     cpt_class = SirepoSignalGrazingAngle
+                elif "type" in el and el["type"] == "crl" and k not in ["absoluteFocusPosition", "focalDistance"]:
+                    cpt_class = SirepoSignalCRL
+                elif (
+                    "type" in el
+                    and el["type"] == "crystal"
+                    and k
+                    not in [
+                        "dSpacing",
+                        "grazingAngle",
+                        "nvx",
+                        "nvy",
+                        "nvz",
+                        "outframevx",
+                        "outframevy",
+                        "outoptvx",
+                        "outoptvy",
+                        "outoptvz",
+                        "psi0i",
+                        "psi0r",
+                        "psiHBi",
+                        "psiHBr",
+                        "psiHi",
+                        "psiHr",
+                        "tvx",
+                        "tvy",
+                    ]
+                ):
+                    cpt_class = SirepoSignalCrystal
                 else:
                     # TODO: Cover the cases for mirror and crystal grazing angles
                     cpt_class = SirepoSignal

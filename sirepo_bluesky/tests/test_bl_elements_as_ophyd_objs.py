@@ -54,6 +54,96 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
 
 
 @pytest.mark.parametrize("method", ["set", "put"])
+def test_crl_calculation(srw_chx_simulation, method):
+    classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
+    globals().update(**objects)
+
+    params_before = copy.deepcopy(crl1.tipRadius._sirepo_dict)  # noqa F821
+    params_before.pop("tipRadius")
+
+    getattr(crl1.tipRadius, method)(2000)  # noqa F821
+
+    params_after = copy.deepcopy(crl1.tipRadius._sirepo_dict)  # noqa F821
+    params_after.pop("tipRadius")
+
+    params_diff = list(dictdiffer.diff(params_before, params_after))
+    assert len(params_diff) > 0  # should not be empty
+
+    expected_values = {
+        "absoluteFocusPosition": -6.195573642892285,
+        "focalDistance": 237.666984823537,
+    }
+
+    actual_values = {
+        "absoluteFocusPosition": crl1.absoluteFocusPosition.get(),  # noqa F821
+        "focalDistance": crl1.focalDistance.get(),  # noqa F821
+    }
+
+    assert not list(dictdiffer.diff(expected_values, actual_values))
+
+
+@pytest.mark.parametrize("method", ["set", "put"])
+def test_crystal_calculation(srw_tes_simulation, method):
+    classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
+    globals().update(**objects)
+
+    params_before = copy.deepcopy(mono_crystal1.energy._sirepo_dict)  # noqa F821
+    params_before.pop("energy")
+
+    getattr(mono_crystal1.energy, method)(2000)  # noqa F821
+
+    params_after = copy.deepcopy(mono_crystal1.energy._sirepo_dict)  # noqa F821
+    params_after.pop("energy")
+
+    params_diff = list(dictdiffer.diff(params_before, params_after))
+    assert len(params_diff) > 0  # should not be empty
+
+    expected_values = {
+        "dSpacing": 3.1355713563754857,
+        "grazingAngle": 1419.9107955732711,
+        "nvx": 0,
+        "nvy": 0.15031366142760424,
+        "nvz": -0.9886383581412506,
+        "outframevx": 1.0,
+        "outframevy": 0.0,
+        "outoptvx": 0.0,
+        "outoptvy": 0.29721170287997256,
+        "outoptvz": -0.9548116063764552,
+        "psi0i": 6.530421915581681e-05,
+        "psi0r": -0.00020558072555357544,
+        "psiHBi": 4.559368494529194e-05,
+        "psiHBr": -0.00010207663788071082,
+        "psiHi": 4.559368494529194e-05,
+        "psiHr": -0.00010207663788071082,
+        "tvx": 0,
+        "tvy": 0.9886383581412506,
+    }
+
+    actual_values = {
+        "dSpacing": mono_crystal1.dSpacing.get(),  # noqa F821
+        "grazingAngle": mono_crystal1.grazingAngle.get(),  # noqa F821
+        "nvx": mono_crystal1.nvx.get(),  # noqa F821
+        "nvy": mono_crystal1.nvy.get(),  # noqa F821
+        "nvz": mono_crystal1.nvz.get(),  # noqa F821
+        "outframevx": mono_crystal1.outframevx.get(),  # noqa F821
+        "outframevy": mono_crystal1.outframevy.get(),  # noqa F821
+        "outoptvx": mono_crystal1.outoptvx.get(),  # noqa F821
+        "outoptvy": mono_crystal1.outoptvy.get(),  # noqa F821
+        "outoptvz": mono_crystal1.outoptvz.get(),  # noqa F821
+        "psi0i": mono_crystal1.psi0i.get(),  # noqa F821
+        "psi0r": mono_crystal1.psi0r.get(),  # noqa F821
+        "psiHBi": mono_crystal1.psiHBi.get(),  # noqa F821
+        "psiHBr": mono_crystal1.psiHBr.get(),  # noqa F821
+        "psiHi": mono_crystal1.psiHi.get(),  # noqa F821
+        "psiHr": mono_crystal1.psiHr.get(),  # noqa F821
+        "tvx": mono_crystal1.tvx.get(),  # noqa F821
+        "tvy": mono_crystal1.tvy.get(),  # noqa F821
+    }
+
+    assert not list(dictdiffer.diff(expected_values, actual_values))
+
+
+@pytest.mark.parametrize("method", ["set", "put"])
 def test_grazing_angle_calculation(srw_tes_simulation, method):
     classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
     globals().update(**objects)
