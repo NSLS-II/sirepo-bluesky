@@ -329,7 +329,7 @@ class SirepoSignalCrystal(SirepoSignal):
         super().set(value)
         ret = self.parent.connection.compute_crystal_orientation(self._sirepo_dict)
         # State is added to the ret dict from compute_crystal_orientation and we
-        # want to make sure the crl element is updated properly when parameters are changed.
+        # want to make sure the crystal element is updated properly when parameters are changed.
         ret.pop("state")
         # Update crl element
         for cpt in [
