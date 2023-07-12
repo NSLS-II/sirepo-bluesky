@@ -66,6 +66,13 @@ def make_dirs():
 
 
 @pytest.fixture(scope="function")
+def srw_empty_simulation(make_dirs):
+    connection = SirepoBluesky("http://localhost:8000")
+    data, _ = connection.auth("srw", "emptysim")
+    return connection
+
+
+@pytest.fixture(scope="function")
 def srw_youngs_double_slit_simulation(make_dirs):
     connection = SirepoBluesky("http://localhost:8000")
     data, _ = connection.auth("srw", "00000000")
