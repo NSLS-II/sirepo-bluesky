@@ -15,6 +15,7 @@ cassette_location = os.path.join(os.path.dirname(sirepo_bluesky.tests.__file__),
 
 
 def test_stateless_compute_crl_characteristics_basic(srw_chx_simulation, RE):
+    # changed tipRadius from 1500 to 150
     browser_request = {
         "absoluteFocusPosition": -8.7725,
         "attenuationLength": 0.007313,
