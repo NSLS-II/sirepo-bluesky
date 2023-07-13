@@ -28,6 +28,14 @@ def test_beamline_elements_as_ophyd_objects(srw_tes_simulation):
     pprint.pprint(mono_crystal1.read())  # noqa
 
 
+def test_empty_simulation(srw_empty_simulation):
+    classes, objects = create_classes(srw_empty_simulation.data, connection=srw_empty_simulation)
+    globals().update(**objects)
+
+    assert not srw_empty_simulation.data["models"]["beamline"]
+    assert not objects
+
+
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_beamline_elements_set_put(srw_tes_simulation, method):
     classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
