@@ -81,11 +81,11 @@ def read_shadow_file(filename, histogram_bins=None):
     with open(os.devnull, "w") as devnull:
         with contextlib.redirect_stdout(devnull):
             data_dict = beam.histo2(1, 3, nolost=1, nbins=histogram_bins)
-    data = data_dict["histogram"]
+            data = data_dict["histogram"]
 
-    # This returns a list of N values (N=number of rays)
-    photon_energy_list = Shadow.ShadowTools.getshcol(filename, col=11)  # 11=Energy [eV]
-    photon_energy = np.mean(photon_energy_list)
+            # This returns a list of N values (N=number of rays)
+            photon_energy_list = Shadow.ShadowTools.getshcol(filename, col=11)  # 11=Energy [eV]
+            photon_energy = np.mean(photon_energy_list)
 
     return {
         "data": data,
