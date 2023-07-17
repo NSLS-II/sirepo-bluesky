@@ -119,6 +119,49 @@ class SirepoBluesky(object):
             raise SirepoBlueskyClientException(f"Could not delete simulation: {res}")
         self.sim_id = None
 
+    def compute_crl_characteristics(self, crl_element):
+        res = self._post_json(
+            "stateless-compute",
+            {
+                "method": "crl_characteristics",
+                "optical_element": crl_element,
+                "photon_energy": self.data["models"]["simulation"]["photonEnergy"],
+                "simulationId": self.sim_id,
+                "simulationType": self.sim_type,
+            },
+        )
+
+        return res
+
+    def compute_crystal_init(self, crystal_element):
+        res = self._post_json(
+            "stateless-compute",
+            {
+                "method": "crystal_init",
+                "optical_element": crystal_element,
+                "simulationId": self.sim_id,
+                "simulationType": self.sim_type,
+            },
+        )
+        return res
+
+    def compute_crystal_orientation(self, crystal_element):
+        res_init = self.compute_crystal_init(crystal_element)
+        if res_init.pop("state") != "completed":
+            raise SirepoBlueskyClientException("crystal_init returned error state")
+        res = self._post_json(
+            "stateless-compute",
+            {
+                "method": "crystal_orientation",
+                "optical_element": dict(res_init),
+                "photon_energy": self.data["models"]["simulation"]["photonEnergy"],
+                "simulationId": self.sim_id,
+                "simulationType": self.sim_type,
+            },
+        )
+
+        return res
+
     def compute_grazing_orientation(self, optical_element):
         res = self._post_json(
             "stateless-compute",
@@ -159,6 +202,40 @@ class SirepoBluesky(object):
         response = requests.get(f"{self.server}/{url}", cookies=self.cookies)
         self._assert_success(response, url)
         return response.content
+
+    def process_beam_parameters(self):
+        res = self._post_json(
+            "stateless-compute",
+            {
+                "ebeam": self.data["models"]["electronBeam"],
+                "ebeam_position": self.data["models"]["electronBeamPosition"],
+                "method": "process_beam_parameters",
+                "simulationId": self.sim_id,
+                "simulationType": self.sim_type,
+                "source_type": self.data["models"]["simulation"]["sourceType"],
+                "undulator_length": self.data["models"]["undulator"]["length"],
+                "undulator_period": self.data["models"]["undulator"]["period"] / 1000.0,
+                "undulator_type": self.data["models"]["tabulatedUndulator"]["undulatorType"],
+            },
+        )
+        return res
+
+    def process_undulator_definition(self):
+        res = self._post_json(
+            "stateless-compute",
+            {
+                "amplitude": self.data["models"]["undulator"]["verticalAmplitude"],
+                "method": "process_undulator_definition",
+                "methodSignature": "process_undulator_definitionverticalDeflectingParameter",
+                "simulationId": self.sim_id,
+                "simulationType": self.sim_type,
+                # Could not locate undulator_definition in source code, using "B" as a placeholder
+                "undulator_definition": "B",
+                "undulator_parameter": self.data["models"]["undulator"]["horizontalDeflectingParameter"],
+                "undulator_period": self.data["models"]["undulator"]["period"] / 1000.0,
+            },
+        )
+        return res
 
     def simulation_list(self):
         """Returns a list of simulations for the authenticated user."""
