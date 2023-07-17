@@ -331,7 +331,7 @@ class SirepoSignalCrystal(SirepoSignal):
         # State is added to the ret dict from compute_crystal_orientation and we
         # want to make sure the crystal element is updated properly when parameters are changed.
         ret.pop("state")
-        # Update crl element
+        # Update crystal element
         for cpt in [
             "dSpacing",
             "grazingAngle",
