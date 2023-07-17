@@ -64,15 +64,15 @@ def test_stateless_compute_crl_characteristics_basic(srw_chx_simulation, RE):
     }
 
     diff = list(dictdiffer.diff(browser_request, expected_response))
-    assert diff
+    assert diff, "The browser request and expected response match, but are expected to be different."
     print(diff)
 
     classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
 
     crl1 = objects["crl1"]
 
-    print(crl1.summary())  # noqa
-    pprint.pprint(crl1.read())  # noqa
+    print(crl1.summary())
+    pprint.pprint(crl1.read())
 
     RE(bps.mv(crl1.tipRadius, 150))
 
@@ -84,9 +84,9 @@ def test_stateless_compute_crl_characteristics_basic(srw_chx_simulation, RE):
     newresponse1 = _remove_dict_strings(actual_response)
     newresponse2 = _remove_dict_strings(expected_response)
     pprint.pprint(newresponse1)
-    assert newresponse1.any()
+    assert newresponse1.any(), "No response was returned."
 
-    assert np.allclose(newresponse1, newresponse2)
+    assert np.allclose(newresponse1, newresponse2), "Actual response doesn't match expected response."
 
 
 @vcr.use_cassette(f"{cassette_location}/test_crl_characteristics.yml")
@@ -133,7 +133,7 @@ def test_stateless_compute_crystal(srw_tes_simulation, tmp_path):
 
 
 def _remove_dict_strings(dict):
-    newarr = np.array([], dtype=np.float64)
+    newarr = []
     for key in dict:
         if dict[key] is not None:
             try:
