@@ -4,15 +4,12 @@ import pprint
 
 import bluesky.plan_stubs as bps
 import bluesky.plans as bp
-import databroker
 import dictdiffer
 import numpy as np
 import vcr
-from databroker import Broker
 
 import sirepo_bluesky.tests
 from sirepo_bluesky.sirepo_ophyd import create_classes
-from sirepo_bluesky.srw_handler import SRWFileHandler
 from sirepo_bluesky.utils.json_yaml_converter import dict_to_file
 
 cassette_location = os.path.join(os.path.dirname(sirepo_bluesky.tests.__file__), "vcr_cassettes")
@@ -136,17 +133,9 @@ def test_stateless_compute_crystal(srw_tes_simulation, tmp_path):
         print(f"{key} passed")
 
 
-def test_stateless_compute_with_RE(RE, srw_chx_simulation):
+def test_stateless_compute_with_RE(RE, srw_chx_simulation, db):
     classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
     globals().update(**objects)
-    db = Broker.named("local")  # mongodb backend
-    try:
-        databroker.assets.utils.install_sentinels(db.reg.config, version=1)
-    except Exception:
-        pass
-
-    RE.subscribe(db.insert)
-    db.reg.register_handler("srw", SRWFileHandler, overwrite=True)
     crl1.tipRadius.kind = "hinted"  # noqa
     sample.duration.kind = "hinted"  # noqa
 
