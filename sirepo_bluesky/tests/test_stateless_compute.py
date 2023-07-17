@@ -3,12 +3,16 @@ import os
 import pprint
 
 import bluesky.plan_stubs as bps
+import bluesky.plans as bp
+import databroker
 import dictdiffer
 import numpy as np
 import vcr
+from databroker import Broker
 
 import sirepo_bluesky.tests
 from sirepo_bluesky.sirepo_ophyd import create_classes
+from sirepo_bluesky.srw_handler import SRWFileHandler
 from sirepo_bluesky.utils.json_yaml_converter import dict_to_file
 
 cassette_location = os.path.join(os.path.dirname(sirepo_bluesky.tests.__file__), "vcr_cassettes")
@@ -130,6 +134,34 @@ def test_stateless_compute_crystal(srw_tes_simulation, tmp_path):
         actual_orientation.pop("state")
         assert np.allclose(_remove_dict_strings(actual_orientation), _remove_dict_strings(expected_orientation))
         print(f"{key} passed")
+
+
+def test_stateless_compute_with_RE(RE, srw_chx_simulation):
+    classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
+    globals().update(**objects)
+    db = Broker.named("local")  # mongodb backend
+    try:
+        databroker.assets.utils.install_sentinels(db.reg.config, version=1)
+    except Exception:
+        pass
+
+    RE.subscribe(db.insert)
+    db.reg.register_handler("srw", SRWFileHandler, overwrite=True)
+    crl1.tipRadius.kind = "hinted"  # noqa
+    sample.duration.kind = "hinted"  # noqa
+
+    (uid,) = RE(bp.scan([sample], crl1.tipRadius, 500, 2500, 5))  # noqa
+
+    hdr = db[uid]
+    tbl = hdr.table(fill=True)
+
+    sirepo_dicts = []
+    for data in tbl["sample_sirepo_data_json"]:
+        sirepo_dicts.append(json.loads(data))
+    for i in range(0, len(sirepo_dicts) - 1):
+        diff = list(dictdiffer.diff(sirepo_dicts[i], sirepo_dicts[i + 1]))
+        print(diff)
+        assert diff, "tipRadius not properly updated in RE."
 
 
 def _remove_dict_strings(dict):
