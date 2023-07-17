@@ -401,7 +401,7 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
 
                 components[k] = Cpt(
                     cpt_class,
-                    value=v,
+                    value=(float(v) if type(v) is int else v),
                     sirepo_dict=sirepo_dict,
                     sirepo_param=k,
                 )
