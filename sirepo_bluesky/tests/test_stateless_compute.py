@@ -149,8 +149,13 @@ def test_stateless_compute_with_RE(RE, srw_chx_simulation, db):
         sirepo_dicts.append(json.loads(data))
     for i in range(0, len(sirepo_dicts) - 1):
         diff = list(dictdiffer.diff(sirepo_dicts[i], sirepo_dicts[i + 1]))
-        print(diff)
+        pprint.pprint(diff)
         assert diff, "tipRadius not properly updated in RE."
+    for data, tbl_radius, radius in zip(sirepo_dicts, tbl["crl1_tipRadius"], np.linspace(500, 2500, 5)):
+        assert (
+            data["models"]["beamline"][4]["tipRadius"] == radius
+        ), "Radius was not properly changed in the Run Engine."
+        assert tbl_radius == radius, "Radius was not properly changed in the Run Engine."
 
 
 def _remove_dict_strings(dict):
@@ -167,28 +172,38 @@ def _remove_dict_strings(dict):
 def _generate_test_crl_file(fname, crl, simulation):
     combined_dict = {"request": {}, "response": {}}
 
-    for radius in range(1, 201):
+    for material in ["Al", "Au", "B", "Be", "C"]:
+        crl.id._sirepo_dict["material"] = material
+        expected_response = simulation.compute_crl_characteristics(crl.id._sirepo_dict)
+        combined_dict["request"][material] = crl.id._sirepo_dict.copy()
+        combined_dict["response"][material] = expected_response
+        print(f"Material {material} added")
+    crl.id._sirepo_dict["material"] = "User-defined"
+    for radius in range(1000, 2100, 100):
         crl.id._sirepo_dict["tipRadius"] = radius
         expected_response = simulation.compute_crl_characteristics(crl.id._sirepo_dict)
-        combined_dict["request"][f"radius{radius}"] = crl.id._sirepo_dict.copy()
-        combined_dict["response"][f"radius{radius}"] = expected_response
-        print(f"Radius {radius} added")
+        key = f"Radius {radius} µm"
+        combined_dict["request"][key] = crl.id._sirepo_dict.copy()
+        combined_dict["response"][key] = expected_response
+        print(f"{key} added")
     crl.id._sirepo_dict["tipRadius"] = 1500
 
-    for lenses in range(1, 201):
+    for lenses in range(1, 11):
         crl.id._sirepo_dict["numberOfLenses"] = lenses
         expected_response = simulation.compute_crl_characteristics(crl.id._sirepo_dict)
-        combined_dict["request"][f"lenses{lenses}"] = crl.id._sirepo_dict.copy()
-        combined_dict["response"][f"lenses{lenses}"] = expected_response
-        print(f"Lenses {lenses} added")
+        key = f"Lenses {lenses}"
+        combined_dict["request"][key] = crl.id._sirepo_dict.copy()
+        combined_dict["response"][key] = expected_response
+        print(f"{key} added")
     crl.id._sirepo_dict["numberOfLenses"] = 1
 
-    for thickness in range(1, 201):
+    for thickness in range(20, 205, 5):
         crl.id._sirepo_dict["wallThickness"] = thickness
         expected_response = simulation.compute_crl_characteristics(crl.id._sirepo_dict)
-        combined_dict["request"][f"thickness{thickness}"] = crl.id._sirepo_dict.copy()
-        combined_dict["response"][f"thickness{thickness}"] = expected_response
-        print(f"Thickness {thickness} added")
+        key = f"Thickness {thickness} µm"
+        combined_dict["request"][key] = crl.id._sirepo_dict.copy()
+        combined_dict["response"][key] = expected_response
+        print(f"{key} added")
     crl.id._sirepo_dict["wallThickness"] = 80
 
     dict_to_file(combined_dict, fname)
@@ -197,22 +212,20 @@ def _generate_test_crl_file(fname, crl, simulation):
 def _generate_test_crystal_file(fname, crystal, simulation):
     combined_dict = {"request": {}, "init": {}, "orientation": {}}
 
-    for energy in range(1, 101):
+    for energy in range(100, 10100, 1000):
         crystal.id._sirepo_dict["energy"] = energy
-        combined_dict["request"][f"Si energy{energy}"] = crystal.id._sirepo_dict.copy()
-        combined_dict["init"][f"Si energy{energy}"] = simulation.compute_crystal_init(crystal.id._sirepo_dict)
-        combined_dict["orientation"][f"Si energy{energy}"] = simulation.compute_crystal_orientation(
-            crystal.id._sirepo_dict
-        )
-        print(f"Si Energy {energy} added")
+        key = f"Si {energy} eV"
+        combined_dict["request"][key] = crystal.id._sirepo_dict.copy()
+        combined_dict["init"][key] = simulation.compute_crystal_init(crystal.id._sirepo_dict)
+        combined_dict["orientation"][key] = simulation.compute_crystal_orientation(crystal.id._sirepo_dict)
+        print(f"{key} added")
     crystal.id._sirepo_dict["material"] = "Germanium (X0h)"
-    for energy in range(1, 21):
+    for energy in range(1000, 3100, 100):
         crystal.id._sirepo_dict["energy"] = energy
-        combined_dict["request"][f"Ge energy{energy}"] = crystal.id._sirepo_dict.copy()
-        combined_dict["init"][f"Ge energy{energy}"] = simulation.compute_crystal_init(crystal.id._sirepo_dict)
-        combined_dict["orientation"][f"Ge energy{energy}"] = simulation.compute_crystal_orientation(
-            crystal.id._sirepo_dict
-        )
-        print(f"Ge Energy {energy} added")
+        key = f"Ge {energy} eV"
+        combined_dict["request"][key] = crystal.id._sirepo_dict.copy()
+        combined_dict["init"][key] = simulation.compute_crystal_init(crystal.id._sirepo_dict)
+        combined_dict["orientation"][key] = simulation.compute_crystal_orientation(crystal.id._sirepo_dict)
+        print(f"{key} added")
 
     dict_to_file(combined_dict, fname)
