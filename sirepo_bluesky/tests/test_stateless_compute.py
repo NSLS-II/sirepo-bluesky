@@ -42,7 +42,7 @@ def test_stateless_compute_crl_characteristics_basic(srw_chx_simulation, RE):
     }
     expected_response = {
         "absoluteFocusPosition": 71.3036529974982,
-        "attenuationLength": 0.007313,
+        "attenuationLength": "0.007313",
         "focalDistance": 17.825023861765274,
         "focalPlane": "2",
         "horizontalApertureSize": "1",
@@ -66,7 +66,7 @@ def test_stateless_compute_crl_characteristics_basic(srw_chx_simulation, RE):
 
     diff = list(dictdiffer.diff(browser_request, expected_response))
     assert diff, "The browser request and expected response match, but are expected to be different."
-    print(diff)
+    pprint.pprint(diff)
 
     classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
 
@@ -80,14 +80,106 @@ def test_stateless_compute_crl_characteristics_basic(srw_chx_simulation, RE):
     actual_response = srw_chx_simulation.compute_crl_characteristics(crl1.id._sirepo_dict)
 
     assert actual_response.pop("state") == "completed"
+    diff2 = list(dictdiffer.diff(actual_response, expected_response))
+    pprint.pprint(diff2)
+    assert not diff2, "Actual response doesn't match expected response."
 
-    pprint.pprint(actual_response)
-    newresponse1 = _remove_dict_strings(actual_response)
-    newresponse2 = _remove_dict_strings(expected_response)
-    pprint.pprint(newresponse1)
-    assert newresponse1.any(), "No response was returned."
 
-    assert np.allclose(newresponse1, newresponse2), "Actual response doesn't match expected response."
+def test_stateless_compute_crystal_orientation_basic(srw_tes_simulation, RE):
+    classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
+    globals().update(**objects)
+    mc1 = mono_crystal1  # noqa
+
+    # changed energy from 2500 to 2000
+    browser_request = {
+        "asymmetryAngle": 0,
+        "crystalThickness": 0.003,
+        "dSpacing": 3.1355713563754857,
+        "diffractionAngle": "0",
+        "energy": 2000,
+        "grazingAngle": 912.3126255115334,
+        "h": "1",
+        "heightAmplification": 1,
+        "heightProfileFile": "",
+        "id": 4,
+        "k": "1",
+        "l": "1",
+        "material": "Si (SRW)",
+        "nvx": 0,
+        "nvy": 0.6119182833983884,
+        "nvz": -0.7909209912771121,
+        "orientation": "y",
+        "outframevx": 1,
+        "outframevy": 0,
+        "outoptvx": 0,
+        "outoptvy": 0.9679580305720843,
+        "outoptvz": -0.25111202888553913,
+        "position": 25,
+        "psi0i": 0.000028733167819721347,
+        "psi0r": -0.00015133473800612508,
+        "psiHBi": 0.00002006074060738366,
+        "psiHBr": -0.00007912710547916795,
+        "psiHi": 0.00002006074060738366,
+        "psiHr": -0.00007912710547916795,
+        "rotationAngle": 0,
+        "title": "Mono Crystal 1",
+        "transmissionImage": "1",
+        "tvx": 0,
+        "tvy": 0.7909209912771121,
+        "type": "crystal",
+        "useCase": "1",
+    }
+    expected_response = {
+        "asymmetryAngle": 0,
+        "crystalThickness": 0.003,
+        "dSpacing": 3.1355713563754857,
+        "diffractionAngle": "0",
+        "energy": 2000,
+        "grazingAngle": 1419.9107955732711,
+        "h": "1",
+        "heightAmplification": 1,
+        "heightProfileFile": "",
+        "id": 4,
+        "k": "1",
+        "l": "1",
+        "material": "Si (SRW)",
+        "nvx": 0,
+        "nvy": 0.15031366142760424,
+        "nvz": -0.9886383581412506,
+        "orientation": "y",
+        "outframevx": 1.0,
+        "outframevy": 0.0,
+        "outoptvx": 0.0,
+        "outoptvy": 0.29721170287997256,
+        "outoptvz": -0.9548116063764552,
+        "position": 25,
+        "psi0i": 6.530421915581681e-05,
+        "psi0r": -0.00020558072555357544,
+        "psiHBi": 4.559368494529194e-05,
+        "psiHBr": -0.00010207663788071082,
+        "psiHi": 4.559368494529194e-05,
+        "psiHr": -0.00010207663788071082,
+        "rotationAngle": 0,
+        "title": "Mono Crystal 1",
+        "transmissionImage": "1",
+        "tvx": 0,
+        "tvy": 0.9886383581412506,
+        "type": "crystal",
+        "useCase": "1",
+    }
+
+    diff = list(dictdiffer.diff(browser_request, expected_response))
+    assert diff, "The browser request and expected response match, but are expected to be different."
+    pprint.pprint(diff)
+
+    RE(bps.mv(mc1.energy, 2000))
+
+    actual_response = srw_tes_simulation.compute_crystal_orientation(mc1.id._sirepo_dict)
+
+    assert actual_response.pop("state") == "completed"
+    diff2 = list(dictdiffer.diff(actual_response, expected_response))
+    pprint.pprint(diff2)
+    assert not diff2, "Actual response doesn't match expected response."
 
 
 @vcr.use_cassette(f"{cassette_location}/test_crl_characteristics.yml")
@@ -109,7 +201,7 @@ def test_stateless_compute_crl_characteristics_advanced(srw_chx_simulation, tmp_
 
 
 @vcr.use_cassette(f"{cassette_location}/test_crystal_characteristics.yml")
-def test_stateless_compute_crystal(srw_tes_simulation, tmp_path):
+def test_stateless_compute_crystal_advanced(srw_tes_simulation, tmp_path):
     classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
 
     _generate_test_crystal_file(
