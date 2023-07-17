@@ -5,6 +5,8 @@ import numpy as np
 import Shadow.ShadowLibExtensions as sd
 import Shadow.ShadowTools
 
+from . import utils
+
 
 def read_shadow_file_col(filename, parameter=30):
     """Read specified parameter from the Shadow3 output binary file.
@@ -81,22 +83,31 @@ def read_shadow_file(filename, histogram_bins=None):
     with open(os.devnull, "w") as devnull:
         with contextlib.redirect_stdout(devnull):
             data_dict = beam.histo2(1, 3, nolost=1, nbins=histogram_bins)
-            data = data_dict["histogram"]
 
             # This returns a list of N values (N=number of rays)
             photon_energy_list = Shadow.ShadowTools.getshcol(filename, col=11)  # 11=Energy [eV]
-            photon_energy = np.mean(photon_energy_list)
 
-    return {
+    data = data_dict["histogram"]
+    photon_energy = np.mean(photon_energy_list)
+
+    # convert to um
+    horizontal_extent = 1e3 * np.array(data_dict["xrange"][:2])
+    vertical_extent = 1e3 * np.array(data_dict["yrange"][:2])
+
+    ret = {
         "data": data,
         "shape": data.shape,
-        "mean": np.mean(data),
+        "flux": data.sum(),
+        "mean": data.mean(),
         "photon_energy": photon_energy,
-        "horizontal_extent": data_dict["xrange"][:2],
-        "vertical_extent": data_dict["yrange"][:2],
-        # 'labels': labels,
-        # 'units': units,
+        "horizontal_extent": horizontal_extent,
+        "vertical_extent": vertical_extent,
+        "units": "um",
     }
+
+    ret.update(utils.get_beam_stats(data, horizontal_extent, vertical_extent))
+
+    return ret
 
 
 class ShadowFileHandler:

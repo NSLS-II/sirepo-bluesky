@@ -1,6 +1,8 @@
 import numpy as np
 import srwpy.uti_plot_com as srw_io
 
+from . import utils
+
 
 def read_srw_file(filename, ndim=2):
     data, mode, ranges, labels, units = srw_io.file_load(filename)
@@ -13,17 +15,27 @@ def read_srw_file(filename, ndim=2):
     else:
         raise ValueError(f"The value ndim={ndim} is not supported.")
 
-    return {
+    horizontal_extent = np.array(ranges[3:5])
+    vertical_extent = np.array(ranges[6:8])
+
+    ret = {
         "data": data,
         "shape": data.shape,
-        "mean": np.mean(data),
+        "flux": data.sum(),
+        "mean": data.mean(),
         "photon_energy": photon_energy,
-        "horizontal_extent": ranges[3:5],
-        "vertical_extent": ranges[6:8],
-        # 'mode': mode,
+        "horizontal_extent": horizontal_extent,
+        "vertical_extent": vertical_extent,
         "labels": labels,
-        "units": units,
+        "units": "units",
     }
+
+    if ndim == 1:
+        ret.update({key: np.nan for key in ["x", "y", "fwhm_x", "fwhm_y"]})
+    if ndim == 2:
+        ret.update(utils.get_beam_stats(data, horizontal_extent, vertical_extent))
+
+    return ret
 
 
 class SRWFileHandler:
