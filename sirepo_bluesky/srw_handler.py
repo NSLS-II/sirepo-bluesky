@@ -27,7 +27,7 @@ def read_srw_file(filename, ndim=2):
         "horizontal_extent": horizontal_extent,
         "vertical_extent": vertical_extent,
         "labels": labels,
-        "units": "units",
+        "units": units,
     }
 
     if ndim == 1:
