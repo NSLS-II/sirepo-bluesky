@@ -15,7 +15,7 @@ repos:
       - id: black-jupyter
         language_version: python3.10
         exclude: ^(.*\.py)
-        args: [--line-length=78]
+        args: [--line-length=88]
   - repo: https://github.com/pycqa/flake8
     rev: 6.0.0
     hooks:
