@@ -1,3 +1,6 @@
+import contextlib
+import os
+
 import numpy as np
 import Shadow.ShadowLibExtensions as sd
 import Shadow.ShadowTools
@@ -49,7 +52,9 @@ def read_shadow_file_col(filename, parameter=30):
           32   S2-stokes = 2 |Es| |Ep| cos(phase_s-phase_p)
           33   S3-stokes = 2 |Es| |Ep| sin(phase_s-phase_p)
     """
-    data = Shadow.ShadowTools.getshcol(filename, col=parameter)
+    with open(os.devnull, "w") as devnull:
+        with contextlib.redirect_stdout(devnull):
+            data = Shadow.ShadowTools.getshcol(filename, col=parameter)
 
     mean_value = np.mean(data)
 
@@ -73,12 +78,14 @@ def read_shadow_file(filename, histogram_bins=None):
     beam.load(filename)
 
     # 1=X spatial coordinate; 3=Z spatial coordinate
-    data_dict = beam.histo2(1, 3, nolost=1, nbins=histogram_bins)
-    data = data_dict["histogram"]
+    with open(os.devnull, "w") as devnull:
+        with contextlib.redirect_stdout(devnull):
+            data_dict = beam.histo2(1, 3, nolost=1, nbins=histogram_bins)
+            data = data_dict["histogram"]
 
-    # This returns a list of N values (N=number of rays)
-    photon_energy_list = Shadow.ShadowTools.getshcol(filename, col=11)  # 11=Energy [eV]
-    photon_energy = np.mean(photon_energy_list)
+            # This returns a list of N values (N=number of rays)
+            photon_energy_list = Shadow.ShadowTools.getshcol(filename, col=11)  # 11=Energy [eV]
+            photon_energy = np.mean(photon_energy_list)
 
     return {
         "data": data,
