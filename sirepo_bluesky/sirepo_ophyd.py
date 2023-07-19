@@ -379,6 +379,11 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
     sim_type = connection.sim_type
 
     SimTypeConfig = namedtuple("SimTypeConfig", "element_location class_name_field")
+    PropagationConfig = namedtuple(
+        "PropagationConfig",
+        "resize_before resize_after precision propagator_type "
+        + "fourier_resize hrange_mod hres_mod vrange_mod vres_mod",
+    )
 
     srw_config = SimTypeConfig("beamline", "title")
     shadow_config = SimTypeConfig("beamline", "title")
@@ -504,5 +509,59 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
             classes[object_name] = cls
             if create_objects:
                 objects[object_name] = cls(name=object_name)
+
+            prop_params = connection.data["models"]["propagation"][str(el["id"])][0]
+            sirepo_propagation = []
+            object_name = object_name + "_propagation"
+            for i in range(9):
+                sirepo_propagation.append(
+                    SirepoSignal(
+                        name=f"{object_name} {i+1}",
+                        value=prop_params[i],
+                        sirepo_dict=prop_params,
+                        sirepo_param=i,
+                    )
+                )
+            propagation = PropagationConfig(
+                sirepo_propagation[0],
+                sirepo_propagation[1],
+                sirepo_propagation[2],
+                sirepo_propagation[3],
+                sirepo_propagation[4],
+                sirepo_propagation[5],
+                sirepo_propagation[6],
+                sirepo_propagation[7],
+                sirepo_propagation[8],
+            )
+            classes[object_name] = propagation
+            if create_objects:
+                objects[object_name] = propagation
+
+        post_prop_params = connection.data["models"]["postPropagation"]
+        sirepo_propagation = []
+        object_name = "postPropagation"
+        for i in range(9):
+            sirepo_propagation.append(
+                SirepoSignal(
+                    name=f"{object_name} {i+1}",
+                    value=post_prop_params[i],
+                    sirepo_dict=post_prop_params,
+                    sirepo_param=i,
+                )
+            )
+        propagation = PropagationConfig(
+            sirepo_propagation[0],
+            sirepo_propagation[1],
+            sirepo_propagation[2],
+            sirepo_propagation[3],
+            sirepo_propagation[4],
+            sirepo_propagation[5],
+            sirepo_propagation[6],
+            sirepo_propagation[7],
+            sirepo_propagation[8],
+        )
+        classes[object_name] = propagation
+        if create_objects:
+            objects[object_name] = propagation
 
     return classes, objects
