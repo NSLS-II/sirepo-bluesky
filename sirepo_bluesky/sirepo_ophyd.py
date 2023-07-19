@@ -390,10 +390,10 @@ class PropagationConfig(SimplePropagationConfig):
         return propagation_read
 
 
-def create_classes(sirepo_data, connection, create_objects=True, extra_model_fields=[]):
+def create_classes(connection, create_objects=True, extra_model_fields=[]):
     classes = {}
     objects = {}
-    data = copy.deepcopy(sirepo_data)
+    data = copy.deepcopy(connection.data)
 
     sim_type = connection.sim_type
 
@@ -500,11 +500,11 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
                     cpt_class = SirepoSignal
 
                 if "type" in el and el["type"] not in ["undulator", "intensityReport"]:
-                    sirepo_dict = sirepo_data["models"][model_field][i]
+                    sirepo_dict = connection.data["models"][model_field][i]
                 elif sim_type == "madx" and model_field in ["rpnVariables", "commands"]:
-                    sirepo_dict = sirepo_data["models"][model_field][i]
+                    sirepo_dict = connection.data["models"][model_field][i]
                 else:
-                    sirepo_dict = sirepo_data["models"][model_field]
+                    sirepo_dict = connection.data["models"][model_field]
 
                 components[k] = Cpt(
                     cpt_class,

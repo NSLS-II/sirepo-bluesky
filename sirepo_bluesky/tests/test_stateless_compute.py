@@ -68,7 +68,7 @@ def test_stateless_compute_crl_characteristics_basic(srw_chx_simulation, RE):
     assert diff, "The browser request and expected response match, but are expected to be different."
     pprint.pprint(diff)
 
-    classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
+    classes, objects = create_classes(connection=srw_chx_simulation)
 
     crl1 = objects["crl1"]
 
@@ -86,7 +86,7 @@ def test_stateless_compute_crl_characteristics_basic(srw_chx_simulation, RE):
 
 
 def test_stateless_compute_crystal_orientation_basic(srw_tes_simulation, RE):
-    classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
+    classes, objects = create_classes(connection=srw_tes_simulation)
     globals().update(**objects)
     mc1 = mono_crystal1  # noqa
 
@@ -184,7 +184,7 @@ def test_stateless_compute_crystal_orientation_basic(srw_tes_simulation, RE):
 
 @vcr.use_cassette(f"{cassette_location}/test_crl_characteristics.yml")
 def test_stateless_compute_crl_characteristics_advanced(srw_chx_simulation, tmp_path):
-    classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
+    classes, objects = create_classes(connection=srw_chx_simulation)
 
     _generate_test_crl_file(tmp_path / "test_crl_characteristics.json", objects["crl1"], srw_chx_simulation)
 
@@ -202,7 +202,7 @@ def test_stateless_compute_crl_characteristics_advanced(srw_chx_simulation, tmp_
 
 @vcr.use_cassette(f"{cassette_location}/test_crystal_characteristics.yml")
 def test_stateless_compute_crystal_advanced(srw_tes_simulation, tmp_path):
-    classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
+    classes, objects = create_classes(connection=srw_tes_simulation)
 
     _generate_test_crystal_file(
         tmp_path / "test_compute_crystal.json", objects["mono_crystal1"], srw_tes_simulation
@@ -226,7 +226,7 @@ def test_stateless_compute_crystal_advanced(srw_tes_simulation, tmp_path):
 
 
 def test_stateless_compute_with_RE(RE, srw_chx_simulation, db):
-    classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
+    classes, objects = create_classes(connection=srw_chx_simulation)
     globals().update(**objects)
     crl1.tipRadius.kind = "hinted"  # noqa
     sample.duration.kind = "hinted"  # noqa

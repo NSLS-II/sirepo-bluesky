@@ -17,7 +17,7 @@ from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport, create_classes
 
 
 def test_beamline_elements_as_ophyd_objects(srw_tes_simulation):
-    classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
+    classes, objects = create_classes(connection=srw_tes_simulation)
 
     for name, obj in objects.items():
         pprint.pprint(obj.read())
@@ -29,7 +29,7 @@ def test_beamline_elements_as_ophyd_objects(srw_tes_simulation):
 
 
 def test_empty_simulation(srw_empty_simulation):
-    classes, objects = create_classes(srw_empty_simulation.data, connection=srw_empty_simulation)
+    classes, objects = create_classes(connection=srw_empty_simulation)
     globals().update(**objects)
 
     assert not srw_empty_simulation.data["models"]["beamline"]
@@ -39,7 +39,7 @@ def test_empty_simulation(srw_empty_simulation):
 
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_beamline_elements_set_put(srw_tes_simulation, method):
-    classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
+    classes, objects = create_classes(connection=srw_tes_simulation)
     globals().update(**objects)
 
     i = 0
@@ -66,7 +66,7 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
 
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_crl_calculation(srw_chx_simulation, method):
-    classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
+    classes, objects = create_classes(connection=srw_chx_simulation)
     globals().update(**objects)
 
     params_before = copy.deepcopy(crl1.tipRadius._sirepo_dict)  # noqa F821
@@ -95,7 +95,7 @@ def test_crl_calculation(srw_chx_simulation, method):
 
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_crystal_calculation(srw_tes_simulation, method):
-    classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
+    classes, objects = create_classes(connection=srw_tes_simulation)
     globals().update(**objects)
 
     params_before = copy.deepcopy(mono_crystal1.energy._sirepo_dict)  # noqa F821
@@ -156,7 +156,7 @@ def test_crystal_calculation(srw_tes_simulation, method):
 
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_grazing_angle_calculation(srw_tes_simulation, method):
-    classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
+    classes, objects = create_classes(connection=srw_tes_simulation)
     globals().update(**objects)
 
     params_before = copy.deepcopy(toroid.grazingAngle._sirepo_dict)  # noqa F821
@@ -190,7 +190,7 @@ def test_grazing_angle_calculation(srw_tes_simulation, method):
 
 
 def test_beamline_elements_simple_connection(srw_basic_simulation):
-    classes, objects = create_classes(srw_basic_simulation.data, connection=srw_basic_simulation)
+    classes, objects = create_classes(connection=srw_basic_simulation)
 
     for name, obj in objects.items():
         pprint.pprint(obj.read())
@@ -203,7 +203,6 @@ def test_beamline_elements_simple_connection(srw_basic_simulation):
 
 def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
     classes, objects = create_classes(
-        srw_ari_simulation.data,
         connection=srw_ari_simulation,
         extra_model_fields=["undulator", "intensityReport"],
     )
@@ -259,7 +258,7 @@ def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
 
 
 def test_srw_propagation_with_run_engine(RE, db, srw_chx_simulation, num_steps=5):
-    classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
+    classes, objects = create_classes(connection=srw_chx_simulation)
     globals().update(**objects)
 
     postPropagation.hrange_mod.kind = "hinted"  # noqa F821
@@ -284,7 +283,7 @@ def test_srw_propagation_with_run_engine(RE, db, srw_chx_simulation, num_steps=5
 
 
 def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
-    classes, objects = create_classes(shadow_tes_simulation.data, connection=shadow_tes_simulation)
+    classes, objects = create_classes(connection=shadow_tes_simulation)
     globals().update(**objects)
 
     aperture.horizontalSize.kind = "hinted"  # noqa F821
@@ -329,7 +328,7 @@ def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
 
 
 def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
-    classes, objects = create_classes(shadow_tes_simulation.data, connection=shadow_tes_simulation)
+    classes, objects = create_classes(connection=shadow_tes_simulation)
     globals().update(**objects)
 
     bsr = BeamStatisticsReport(name="bsr", connection=shadow_tes_simulation)
@@ -369,7 +368,7 @@ def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
 
 
 def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
-    classes, objects = create_classes(shadow_tes_simulation.data, connection=shadow_tes_simulation)
+    classes, objects = create_classes(connection=shadow_tes_simulation)
     globals().update(**objects)
 
     bsr = BeamStatisticsReport(name="bsr", connection=shadow_tes_simulation)
@@ -404,7 +403,7 @@ def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
 def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
     connection = madx_resr_storage_ring_simulation
     data = connection.data
-    classes, objects = create_classes(data, connection=connection)
+    classes, objects = create_classes(connection=connection)
     globals().update(**objects)
 
     for i, (k, v) in enumerate(objects.items()):
@@ -426,8 +425,7 @@ def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
 
 def test_mad_x_elements_simple_connection(madx_bl2_triplet_tdc_simulation):
     connection = madx_bl2_triplet_tdc_simulation
-    data = connection.data
-    classes, objects = create_classes(data, connection=connection)
+    classes, objects = create_classes(connection=connection)
     for name, obj in objects.items():
         pprint.pprint(obj.read())
 
@@ -439,8 +437,7 @@ def test_mad_x_elements_simple_connection(madx_bl2_triplet_tdc_simulation):
 
 def test_madx_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     connection = madx_bl2_triplet_tdc_simulation
-    data = connection.data
-    classes, objects = create_classes(data, connection=connection)
+    classes, objects = create_classes(connection=connection)
     globals().update(**objects)
 
     madx_flyer = MADXFlyer(
@@ -477,7 +474,6 @@ def test_madx_variables_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation)
     connection = madx_bl2_triplet_tdc_simulation
     data = connection.data
     classes, objects = create_classes(
-        data,
         connection=connection,
         extra_model_fields=["rpnVariables"],
     )
@@ -512,7 +508,6 @@ def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
     connection = madx_bl2_triplet_tdc_simulation
     data = connection.data
     classes, objects = create_classes(
-        data,
         connection=connection,
         extra_model_fields=["commands"],
     )
@@ -548,7 +543,6 @@ def test_madx_variables_and_commands_with_run_engine(RE, db, madx_bl2_triplet_td
     connection = madx_bl2_triplet_tdc_simulation
     data = connection.data
     classes, objects = create_classes(
-        data,
         connection=connection,
         extra_model_fields=["rpnVariables", "commands"],
     )
