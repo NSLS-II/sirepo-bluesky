@@ -4,7 +4,7 @@ import hashlib
 import json
 import logging
 import time
-from collections import deque, namedtuple
+from collections import OrderedDict, deque, namedtuple
 from pathlib import Path
 
 import inflection
@@ -371,6 +371,25 @@ class SirepoSignalCrystal(SirepoSignal):
         return NullStatus()
 
 
+SimplePropagationConfig = namedtuple(
+    "PropagationConfig",
+    "resize_before resize_after precision propagator_type "
+    + "fourier_resize hrange_mod hres_mod vrange_mod vres_mod",
+)
+
+
+class PropagationConfig(SimplePropagationConfig):
+    read_attrs = list(SimplePropagationConfig._fields)
+    component_names = SimplePropagationConfig._fields
+
+    def read(self):
+        read_attrs = self.read_attrs
+        propagation_read = OrderedDict()
+        for field in read_attrs:
+            propagation_read[field] = getattr(self, field).read()
+        return propagation_read
+
+
 def create_classes(sirepo_data, connection, create_objects=True, extra_model_fields=[]):
     classes = {}
     objects = {}
@@ -379,11 +398,6 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
     sim_type = connection.sim_type
 
     SimTypeConfig = namedtuple("SimTypeConfig", "element_location class_name_field")
-    PropagationConfig = namedtuple(
-        "PropagationConfig",
-        "resize_before resize_after precision propagator_type "
-        + "fourier_resize hrange_mod hres_mod vrange_mod vres_mod",
-    )
 
     srw_config = SimTypeConfig("beamline", "title")
     shadow_config = SimTypeConfig("beamline", "title")
@@ -510,7 +524,7 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
             if create_objects:
                 objects[object_name] = cls(name=object_name)
 
-            if sim_type == "srw":
+            if sim_type == "srw" and model_field == "beamline":
                 prop_params = connection.data["models"]["propagation"][str(el["id"])][0]
                 sirepo_propagation = []
                 object_name = object_name + "_propagation"
@@ -545,7 +559,7 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
             for i in range(9):
                 sirepo_propagation.append(
                     SirepoSignal(
-                        name=f"{object_name} {i+1}",
+                        name=f"{object_name}_{SimplePropagationConfig._fields[i]}",
                         value=post_prop_params[i],
                         sirepo_dict=post_prop_params,
                         sirepo_param=i,

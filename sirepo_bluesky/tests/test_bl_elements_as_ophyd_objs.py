@@ -33,6 +33,7 @@ def test_empty_simulation(srw_empty_simulation):
     globals().update(**objects)
 
     assert not srw_empty_simulation.data["models"]["beamline"]
+    objects.pop("postPropagation")
     assert not objects
 
 
@@ -41,7 +42,8 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
     classes, objects = create_classes(srw_tes_simulation.data, connection=srw_tes_simulation)
     globals().update(**objects)
 
-    for i, (k, v) in enumerate(objects.items()):
+    i = 0
+    for j, (k, v) in enumerate(objects.items()):
         if "element_position" in v.component_names:
             old_value = v.element_position.get()
             old_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
@@ -59,6 +61,7 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
             assert new_value == new_sirepo_value
             assert new_value != old_value
             assert abs(new_value - (old_value + 100)) < 1e-8
+            i += 1
 
 
 @pytest.mark.parametrize("method", ["set", "put"])
@@ -253,6 +256,31 @@ def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
     ax.set_title("Single-Electron Spectrum vs. Vertical Magnetic Field")
     fig.savefig("ses-vs-ampl.png")
     # plt.show()
+
+
+def test_srw_propagation_with_run_engine(RE, db, srw_chx_simulation, num_steps=5):
+    classes, objects = create_classes(srw_chx_simulation.data, connection=srw_chx_simulation)
+    globals().update(**objects)
+
+    postPropagation.hrange_mod.kind = "hinted"  # noqa F821
+
+    (uid,) = RE(bp.scan([sample], postPropagation.hrange_mod, 0.1, 0.3, num_steps))  # noqa F821
+    hdr = db[uid]
+    tbl = hdr.table(fill=True)
+    print(tbl)
+
+    # Check that the duration for each step in the simulation is positive:
+    sim_durations = np.array(tbl["sample_duration"])
+    assert (sim_durations > 0.0).all(), "Simulation steps did not properly run."
+
+    sample_image = []
+    for i in range(num_steps):
+        sample_image.append(np.array(list(hdr.data("sample_image"))[i]))
+
+    # Check the shape of the image data is right and that hrange_mod was properly changed:
+    for i, hrange_mod in zip(range(num_steps), np.linspace(0.1, 0.3, num_steps)):
+        assert json.loads(tbl["sample_sirepo_data_json"][i + 1])["models"]["postPropagation"][5] == hrange_mod
+        assert sample_image[i].shape == (294, int(hrange_mod * 1760))
 
 
 def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
