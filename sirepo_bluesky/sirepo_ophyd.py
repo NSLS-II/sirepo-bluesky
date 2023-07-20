@@ -77,7 +77,12 @@ class DeviceWithJSONData(Device):
 class SirepoWatchpoint(DeviceWithJSONData):
     image = Cpt(ExternalFileReference, kind="normal")
     shape = Cpt(Signal)
-    mean = Cpt(Signal, kind="hinted")
+    flux = Cpt(Signal, kind="hinted")
+    mean = Cpt(Signal, kind="normal")
+    x = Cpt(Signal, kind="normal")
+    y = Cpt(Signal, kind="normal")
+    fwhm_x = Cpt(Signal, kind="hinted")
+    fwhm_y = Cpt(Signal, kind="hinted")
     photon_energy = Cpt(Signal, kind="normal")
     horizontal_extent = Cpt(Signal)
     vertical_extent = Cpt(Signal)
@@ -152,7 +157,12 @@ class SirepoWatchpoint(DeviceWithJSONData):
 
         def update_components(_data):
             self.shape.put(_data["shape"])
+            self.flux.put(_data["flux"])
             self.mean.put(_data["mean"])
+            self.x.put(_data["x"])
+            self.y.put(_data["y"])
+            self.fwhm_x.put(_data["fwhm_x"])
+            self.fwhm_y.put(_data["fwhm_y"])
             self.photon_energy.put(_data["photon_energy"])
             self.horizontal_extent.put(_data["horizontal_extent"])
             self.vertical_extent.put(_data["vertical_extent"])
@@ -233,7 +243,12 @@ class SingleElectronSpectrumReport(SirepoWatchpoint):
 
         def update_components(_data):
             self.shape.put(_data["shape"])
+            self.flux.put(_data["flux"])
             self.mean.put(_data["mean"])
+            self.x.put(_data["x"])
+            self.y.put(_data["y"])
+            self.fwhm_x.put(_data["fwhm_x"])
+            self.fwhm_y.put(_data["fwhm_y"])
             self.photon_energy.put(_data["photon_energy"])
             self.horizontal_extent.put(_data["horizontal_extent"])
             self.vertical_extent.put(_data["vertical_extent"])
