@@ -43,7 +43,7 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
     globals().update(**objects)
 
     i = 0
-    for j, (k, v) in enumerate(objects.items()):
+    for k, v in objects.items():
         if "element_position" in v.component_names:
             old_value = v.element_position.get()
             old_sirepo_value = srw_tes_simulation.data["models"]["beamline"][i]["position"]
@@ -277,7 +277,7 @@ def test_srw_propagation_with_run_engine(RE, db, srw_chx_simulation, num_steps=5
         sample_image.append(np.array(list(hdr.data("sample_image"))[i]))
 
     # Check the shape of the image data is right and that hrange_mod was properly changed:
-    for i, hrange_mod in zip(range(num_steps), np.linspace(0.1, 0.3, num_steps)):
+    for i, hrange_mod in enumerate(np.linspace(0.1, 0.3, num_steps)):
         assert json.loads(tbl["sample_sirepo_data_json"][i + 1])["models"]["postPropagation"][5] == hrange_mod
         assert sample_image[i].shape == (294, int(hrange_mod * 1760))
 
