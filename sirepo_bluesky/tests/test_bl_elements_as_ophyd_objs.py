@@ -33,7 +33,7 @@ def test_empty_simulation(srw_empty_simulation):
     globals().update(**objects)
 
     assert not srw_empty_simulation.data["models"]["beamline"]
-    objects.pop("postPropagation")
+    objects.pop("post_propagation")
     assert not objects
 
 
@@ -261,9 +261,9 @@ def test_srw_propagation_with_run_engine(RE, db, srw_chx_simulation, num_steps=5
     classes, objects = create_classes(connection=srw_chx_simulation)
     globals().update(**objects)
 
-    postPropagation.hrange_mod.kind = "hinted"  # noqa F821
+    post_propagation.hrange_mod.kind = "hinted"  # noqa F821
 
-    (uid,) = RE(bp.scan([sample], postPropagation.hrange_mod, 0.1, 0.3, num_steps))  # noqa F821
+    (uid,) = RE(bp.scan([sample], post_propagation.hrange_mod, 0.1, 0.3, num_steps))  # noqa F821
     hdr = db[uid]
     tbl = hdr.table(fill=True)
     print(tbl)
