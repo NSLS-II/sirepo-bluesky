@@ -537,10 +537,8 @@ def create_classes(connection, create_objects=True, extra_model_fields=[]):
                             sirepo_param=i,
                         )
                     )
-                propagation = PropagationConfig(*sirepo_propagation[:])
-                classes[inflection.camelize(object_name)] = propagation
                 if create_objects:
-                    objects[object_name] = propagation
+                    objects[object_name] = PropagationConfig(*sirepo_propagation[:])
 
         if sim_type == "srw":
             post_prop_params = connection.data["models"]["postPropagation"]
@@ -555,9 +553,8 @@ def create_classes(connection, create_objects=True, extra_model_fields=[]):
                         sirepo_param=i,
                     )
                 )
-            propagation = PropagationConfig(*sirepo_propagation[:])
-            classes[inflection.camelize(object_name)] = propagation
+            classes["propagation_parameters"] = PropagationConfig
             if create_objects:
-                objects[object_name] = propagation
+                objects[object_name] = PropagationConfig(*sirepo_propagation[:])
 
     return classes, objects
