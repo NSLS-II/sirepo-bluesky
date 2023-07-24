@@ -6,3 +6,4 @@ Examples
 
    notebooks/elements.ipynb
    notebooks/madx.ipynb
+   notebooks/spectrumreport.ipynb
