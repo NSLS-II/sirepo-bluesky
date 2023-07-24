@@ -4,7 +4,7 @@ import hashlib
 import json
 import logging
 import time
-from collections import deque, namedtuple
+from collections import OrderedDict, deque, namedtuple
 from pathlib import Path
 
 import inflection
@@ -371,10 +371,29 @@ class SirepoSignalCrystal(SirepoSignal):
         return NullStatus()
 
 
-def create_classes(sirepo_data, connection, create_objects=True, extra_model_fields=[]):
+SimplePropagationConfig = namedtuple(
+    "PropagationConfig",
+    "resize_before resize_after precision propagator_type "
+    + "fourier_resize hrange_mod hres_mod vrange_mod vres_mod",
+)
+
+
+class PropagationConfig(SimplePropagationConfig):
+    read_attrs = list(SimplePropagationConfig._fields)
+    component_names = SimplePropagationConfig._fields
+
+    def read(self):
+        read_attrs = self.read_attrs
+        propagation_read = OrderedDict()
+        for field in read_attrs:
+            propagation_read[field] = getattr(self, field).read()
+        return propagation_read
+
+
+def create_classes(connection, create_objects=True, extra_model_fields=[]):
     classes = {}
     objects = {}
-    data = copy.deepcopy(sirepo_data)
+    data = copy.deepcopy(connection.data)
 
     sim_type = connection.sim_type
 
@@ -481,11 +500,11 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
                     cpt_class = SirepoSignal
 
                 if "type" in el and el["type"] not in ["undulator", "intensityReport"]:
-                    sirepo_dict = sirepo_data["models"][model_field][i]
+                    sirepo_dict = connection.data["models"][model_field][i]
                 elif sim_type == "madx" and model_field in ["rpnVariables", "commands"]:
-                    sirepo_dict = sirepo_data["models"][model_field][i]
+                    sirepo_dict = connection.data["models"][model_field][i]
                 else:
-                    sirepo_dict = sirepo_data["models"][model_field]
+                    sirepo_dict = connection.data["models"][model_field]
 
                 components[k] = Cpt(
                     cpt_class,
@@ -504,5 +523,38 @@ def create_classes(sirepo_data, connection, create_objects=True, extra_model_fie
             classes[object_name] = cls
             if create_objects:
                 objects[object_name] = cls(name=object_name)
+
+            if sim_type == "srw" and model_field == "beamline":
+                prop_params = connection.data["models"]["propagation"][str(el["id"])][0]
+                sirepo_propagation = []
+                object_name += "_propagation"
+                for i in range(9):
+                    sirepo_propagation.append(
+                        SirepoSignal(
+                            name=f"{object_name}_{SimplePropagationConfig._fields[i]}",
+                            value=float(prop_params[i]),
+                            sirepo_dict=prop_params,
+                            sirepo_param=i,
+                        )
+                    )
+                if create_objects:
+                    objects[object_name] = PropagationConfig(*sirepo_propagation[:])
+
+        if sim_type == "srw":
+            post_prop_params = connection.data["models"]["postPropagation"]
+            sirepo_propagation = []
+            object_name = "post_propagation"
+            for i in range(9):
+                sirepo_propagation.append(
+                    SirepoSignal(
+                        name=f"{object_name}_{SimplePropagationConfig._fields[i]}",
+                        value=float(post_prop_params[i]),
+                        sirepo_dict=post_prop_params,
+                        sirepo_param=i,
+                    )
+                )
+            classes["propagation_parameters"] = PropagationConfig
+            if create_objects:
+                objects[object_name] = PropagationConfig(*sirepo_propagation[:])
 
     return classes, objects
