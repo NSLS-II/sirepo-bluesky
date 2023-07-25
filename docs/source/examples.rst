@@ -4,6 +4,7 @@ Examples
 .. toctree::
    :maxdepth: 2
 
-   notebooks/elements.ipynb
-   notebooks/madx.ipynb
+   notebooks/srwelements.ipynb
+   notebooks/shadow3elements.ipynb
    notebooks/spectrumreport.ipynb
+   notebooks/madx.ipynb
