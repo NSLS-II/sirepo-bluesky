@@ -27,7 +27,7 @@ pip install --upgrade pip
 
 here = path.abspath(path.dirname(__file__))
 
-with open(path.join(here, "README.rst"), encoding="utf-8") as readme_file:
+with open(path.join(here, "README.md"), encoding="utf-8") as readme_file:
     readme = readme_file.read()
 
 with open(path.join(here, "requirements.txt")) as requirements_file:
@@ -41,6 +41,7 @@ setup(
     cmdclass=versioneer.get_cmdclass(),
     description="Sirepo-Bluesky interface",
     long_description=readme,
+    long_description_content_type="text/markdown",
     author="Brookhaven National Laboratory",
     author_email="mrakitin@bnl.gov",
     url="https://github.com/NSLS-II/sirepo-bluesky",
