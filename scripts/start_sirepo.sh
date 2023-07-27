@@ -78,6 +78,7 @@ cmd_start="${docker_binary} run ${arg} --init ${remove_container} --name sirepo 
     -e SIREPO_AUTH_BLUESKY_SECRET=bluesky \
     -e SIREPO_SRDB_ROOT=${SIREPO_SRDB_ROOT} \
     -e SIREPO_COOKIE_IS_SECURE=false \
+    -e SIREPO_FEATURE_CONFIG_REACT_SIM_TYPES='' \
     -p 8000:8000 \
     -v $SIREPO_SRDB_HOST_RO:/SIREPO_SRDB_ROOT:ro,z "
 
