@@ -2,6 +2,42 @@
 Release History
 ===============
 
+v0.7.0 (2023-08-04)
+-------------------
+
+New features
+............
+- Created ``.json`` and ``.yaml`` CLI exporters and added relevant tests.
+
+API
+...
+- Added ``stateless-compute`` support for CRL, Crystal, and Undulator objects in
+  the Sirepo/SRW app.
+- Implemented Ophyd support for Propagation parameters in the Sirepo/SRW app.
+- Converted integer Sirepo parameters to floats to fix the ``failed to format
+  row`` error in Bluesky's ``LiveTable``.
+- Added a lightweight method that computes the beam position and FWHM before it
+  is turned into a document for SRW and Shadow apps. The beam stats show up in
+  Bluesky's ``BestEffortCallback``.
+- Removed old API support and relevant tests.
+
+Documentation
+.............
+- Suppress Shadow3 code's stdout in notebooks/code.
+- Converted project's `README.rst` to `README.md` for better rendering on PyPI.
+
+Examples
+........
+- Added an empty beamline simulation (``sim_id="emptysim"``) to the list of
+  predefined examples.
+- Fixed MAD-X app's configuration to correctly display the UI components
+  (disabled React frontend).
+
+Linting/styling
+................
+- Added ``black`` formatter for Jupyter notebooks.
+
+
 v0.6.2 (2023-06-09)
 -------------------
 This is a maintenance release with small API, tests, packaging, and documentation updates.
