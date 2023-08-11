@@ -23,7 +23,7 @@ Sirepo.
 > M. Rakitin, A. Giles, K. Swartz, J. Lynch, P. Moeller, R. Nagler, D.B. Allan, T.A. Caswell, L. Wiegart, O. Chubar, and Y. Du _"Introduction of the Sirepo-Bluesky interface and its application to the optimization problems"_, Proc. SPIE 11493, Advances in Computational Methods for X-Ray Optics V, 1149311 (21 August 2020); https://doi.org/10.1117/12.2569000
 
 BibTeX:
-```
+```bibtex
 @InProceedings{2020.08-01:Rakitin,
   author       = {Rakitin, Maksim S. and Giles, Abigail and Swartz, Kaleb and Lynch, Joshua and Moeller, Paul and Nagler, Robert and Allan, Daniel B. and Caswell, Thomas A. and Wiegart, Lutz and Chubar, Oleg and Du, Yonghua},
   booktitle    = {Advances in Computational Methods for X-Ray Optics V},
