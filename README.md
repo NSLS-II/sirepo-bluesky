@@ -24,7 +24,7 @@ Sirepo.
 
 BibTeX:
 ```bibtex
-@InProceedings{2020.08-01:Rakitin,
+@InProceedings{Sirepo-Bluesky:2020,
   author       = {Rakitin, Maksim S. and Giles, Abigail and Swartz, Kaleb and Lynch, Joshua and Moeller, Paul and Nagler, Robert and Allan, Daniel B. and Caswell, Thomas A. and Wiegart, Lutz and Chubar, Oleg and Du, Yonghua},
   booktitle    = {Advances in Computational Methods for X-Ray Optics V},
   title        = {{Introduction of the Sirepo-Bluesky interface and its application to the optimization problems}},
@@ -36,7 +36,6 @@ BibTeX:
   publisher    = {SPIE},
   volume       = {11493},
   doi          = {10.1117/12.2569000},
-  file         = {:papers/2020.08-01_Rakitin.pdf:PDF},
   keywords     = {Sirepo, SRW, Bluesky, Databroker, Ophyd, optimization, simulations},
   url          = {https://doi.org/10.1117/12.2569000},
 }
