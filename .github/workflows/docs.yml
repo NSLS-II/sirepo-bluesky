@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10"]
+        python-version: ["3.9"]
       fail-fast: false
 
     defaults:
@@ -59,11 +59,15 @@ jobs:
       #     mamba-version: "*"
       #     channels: conda-forge
 
-      - name: Install documentation-building requirements
+      - name: Install system documentation-building requirements
         run: |
-          set -vxeo pipefail
+          set -vxeuo pipefail
           wget --progress=dot:giga "https://github.com/jgm/pandoc/releases/download/3.1.6.1/pandoc-3.1.6.1-1-amd64.deb" -O /tmp/pandoc.deb
           sudo dpkg -i /tmp/pandoc.deb
+
+      - name: Install python documentation-building requirements
+        run: |
+          set -vxeuo pipefail
           python -m pip install --upgrade pip wheel
           python -m pip install -v .
           python -m pip install -r requirements-dev.txt
