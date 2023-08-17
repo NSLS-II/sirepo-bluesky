@@ -44,30 +44,31 @@ jobs:
         with:
           docker-binary: ${{ env.DOCKER_BINARY }}
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
       # - name: Set up Python ${{ matrix.python-version }}
-      #   uses: conda-incubator/setup-miniconda@v2
+      #   uses: actions/setup-python@v4
       #   with:
-      #     activate-environment: ${{ env.REPOSITORY_NAME }}-py${{ matrix.python-version }}
-      #     auto-update-conda: true
-      #     miniconda-version: "latest"
       #     python-version: ${{ matrix.python-version }}
-      #     mamba-version: "*"
-      #     channels: conda-forge
 
-      - name: Install system documentation-building requirements
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: ${{ env.REPOSITORY_NAME }}-py${{ matrix.python-version }}
+          auto-update-conda: true
+          miniconda-version: "latest"
+          python-version: ${{ matrix.python-version }}
+          mamba-version: "*"
+          channels: conda-forge
+
+      - name: Install documentation-building requirements with conda
         run: |
           set -vxeuo pipefail
-          wget --progress=dot:giga "https://github.com/jgm/pandoc/releases/download/3.1.6.1/pandoc-3.1.6.1-1-amd64.deb" -O /tmp/pandoc.deb
-          sudo dpkg -i /tmp/pandoc.deb
+          # wget --progress=dot:giga "https://github.com/jgm/pandoc/releases/download/3.1.6.1/pandoc-3.1.6.1-1-amd64.deb" -O /tmp/pandoc.deb
+          # sudo dpkg -i /tmp/pandoc.deb
+          conda install -c conda-forge -y pandoc
           which pandoc
           pandoc --version
 
-      - name: Install python documentation-building requirements
+      - name: Install documentation-building requirements with pip
         run: |
           set -vxeuo pipefail
           python -m pip install --upgrade pip wheel
