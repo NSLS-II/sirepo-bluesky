@@ -62,7 +62,8 @@ jobs:
       - name: Install documentation-building requirements
         run: |
           set -vxeo pipefail
-          sudo apt-get update && sudo apt-get install pandoc
+          wget https://github.com/jgm/pandoc/releases/download/3.1.6.1/pandoc-3.1.6.1-1-amd64.deb -O /tmp/pandoc.deb
+          sudo dpkg -i /tmp/pandoc.deb
           python -m pip install --upgrade pip wheel
           pip install -v .
           pip install -r requirements-dev.txt
