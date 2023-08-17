@@ -68,7 +68,7 @@ def _test_sirepo_flyer(RE_no_plot, db, tmpdir, sim_id, server_name):
     hdr = db[-1]
     t = hdr.table(stream_name="sirepo_flyer")
     db_means = []
-    actual_means = [
+    expected_means = [
         36779651609602.38,
         99449330615601.89,
         149289119385413.34,
@@ -78,7 +78,9 @@ def _test_sirepo_flyer(RE_no_plot, db, tmpdir, sim_id, server_name):
     for i in range(len(t)):
         db_means.append(t.iloc[i]["sirepo_flyer_mean"])
 
-    assert set(actual_means) == set(db_means), "fly scan means do not match actual means"
+    assert np.allclose(
+        sorted(expected_means), sorted(db_means), rtol=1.0e-6
+    ), "fly scan expected means do not match actual means"
 
     durations = []
     for i in range(len(t)):
