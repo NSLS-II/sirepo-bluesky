@@ -5,6 +5,8 @@ Release History
 v0.7.1 (2023-08-18)
 -------------------
 
+This is a maintenance release with small API, tests, CI, and documentation updates.
+
 API
 ...
 
@@ -14,10 +16,6 @@ API
   imported in IPython and Jupyter notebooks (both interactively and in the docs).
   The argparser CLI args parser was added to the module so that users can
   specify the databroker config name and root path for the data files.
-
-Maintenance
-...........
-
 
 Documentation
 .............
