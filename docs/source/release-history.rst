@@ -2,8 +2,52 @@
 Release History
 ===============
 
+v0.7.1 (2023-08-18)
+-------------------
+
+API
+...
+
+- Enabled generation beamline elements from existing simulations.
+- Moved and updated the ``prepare_*_env.py`` code from the ``examples/``
+  directory of the repository to the library code, so that the new module can be
+  imported in IPython and Jupyter notebooks (both interactively and in the docs).
+  The argparser CLI args parser was added to the module so that users can
+  specify the databroker config name and root path for the data files.
+
+Maintenance
+...........
+
+
+Documentation
+.............
+
+- Pinned Sphinx to version 7.2.2+ to make it more compatible with the ``furo``
+  theme.
+
+Tests
+.....
+
+- Sorted out test failures happening due to a small numerical difference of the
+  results from the PyPI-installed ``srwpy`` in the Sirepo Docker.
+- Removed an old/irrelevant test.
+
+CI improvements
+...............
+
+- Switched from the conda action to built-in Python for CI (saves >2 minutes per
+  run).
+
+
 v0.7.0 (2023-08-04)
 -------------------
+
+This is a major release with new features to support the ``stateless-compute``
+API and propagation parameters in Sirepo/SRW and the old API used prior to
+v0.4.0 removed.
+
+This release includes many useful contributions from the SULI 2023 summer intern
+Riley Bode. Thank you!
 
 New features
 ............
