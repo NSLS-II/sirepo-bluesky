@@ -10,7 +10,7 @@ This is a maintenance release with small API, tests, CI, and documentation updat
 API
 ...
 
-- Enabled generation beamline elements from existing simulations.
+- Enabled generation of beamline elements from existing simulations.
 - Moved and updated the ``prepare_*_env.py`` code from the ``examples/``
   directory of the repository to the library code, so that the new module can be
   imported in IPython and Jupyter notebooks (both interactively and in the docs).
