@@ -27,7 +27,7 @@ Tests
 .....
 
 - Sorted out test failures happening due to a small numerical difference of the
-  results from the PyPI-installed ``srwpy`` in the Sirepo Docker.
+  results from the PyPI-installed ``srwpy`` in the Sirepo Docker image.
 - Removed an old/irrelevant test.
 
 CI improvements
