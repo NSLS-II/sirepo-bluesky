@@ -20,8 +20,8 @@ API
 Documentation
 .............
 
-- Pinned Sphinx to version 7.2.2+ to make it more compatible with the ``furo``
-  theme.
+- Pinned ``furo`` minimum version to 2023.8.17 to compatiblity with Sphinx 7.2.0
+  and 7.2.1.
 
 Tests
 .....
