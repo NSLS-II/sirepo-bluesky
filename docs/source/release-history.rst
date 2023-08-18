@@ -20,7 +20,7 @@ API
 Documentation
 .............
 
-- Pinned ``furo`` minimum version to 2023.8.17 to compatiblity with Sphinx 7.2.0
+- Pinned ``furo`` minimum version to 2023.8.17 for compatiblity with Sphinx 7.2.0
   and 7.2.1.
 
 Tests
