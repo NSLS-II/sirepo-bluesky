@@ -14,7 +14,7 @@ API
 - Moved and updated the ``prepare_*_env.py`` code from the ``examples/``
   directory of the repository to the library code, so that the new module can be
   imported in IPython and Jupyter notebooks (both interactively and in the docs).
-  The argparser CLI args parser was added to the module so that users can
+  The ``argparser`` CLI argument parser was added to the module so that users can
   specify the databroker config name and root path for the data files.
 
 Documentation
