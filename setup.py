@@ -50,7 +50,7 @@ setup(
     entry_points={
         "console_scripts": [
             # 'command = some.module:some_function',
-            "json-yaml-converter = sirepo_bluesky.utils.json_yaml_converter:cli_converter"
+            "json-yaml-converter = sirepo_bluesky.utils.json_yaml_converter:cli_converter",
         ],
     },
     include_package_data=True,

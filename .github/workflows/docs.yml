@@ -44,32 +44,43 @@ jobs:
         with:
           docker-binary: ${{ env.DOCKER_BINARY }}
 
-      - name: Set up Python ${{ matrix.python-version }} with conda
-        uses: conda-incubator/setup-miniconda@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
-          activate-environment: ${{ env.REPOSITORY_NAME }}-py${{ matrix.python-version }}
-          auto-update-conda: true
-          miniconda-version: "latest"
           python-version: ${{ matrix.python-version }}
-          mamba-version: "*"
-          channels: conda-forge
 
-      - name: Install documentation-building requirements
+      # - name: Set up Python ${{ matrix.python-version }}
+      #   uses: conda-incubator/setup-miniconda@v2
+      #   with:
+      #     activate-environment: ${{ env.REPOSITORY_NAME }}-py${{ matrix.python-version }}
+      #     auto-update-conda: true
+      #     miniconda-version: "latest"
+      #     python-version: ${{ matrix.python-version }}
+      #     mamba-version: "*"
+      #     channels: conda-forge
+
+      - name: Install documentation-building requirements with apt/dpkg
         run: |
-          set -vxeo pipefail
-          conda env list
-          mamba install -c conda-forge pandoc
-          pip install --upgrade pip wheel
-          pip install -v .
-          pip install -r requirements-dev.txt
-          pip list
-          conda list
+          set -vxeuo pipefail
+          wget --progress=dot:giga "https://github.com/jgm/pandoc/releases/download/3.1.6.1/pandoc-3.1.6.1-1-amd64.deb" -O /tmp/pandoc.deb
+          sudo dpkg -i /tmp/pandoc.deb
+          # conda install -c conda-forge -y pandoc
+          which pandoc
+          pandoc --version
+
+      - name: Install documentation-building requirements with pip
+        run: |
+          set -vxeuo pipefail
+          python -m pip install --upgrade pip wheel
+          python -m pip install -v .
+          python -m pip install -r requirements-dev.txt
+          python -m pip list
 
       - name: Copy databroker config file
         run: |
           set -vxeuo pipefail
           mkdir -v -p ~/.config/databroker/
-          cp examples/local.yml ~/.config/databroker/
+          cp -v examples/local.yml ~/.config/databroker/
 
       - name: Build Docs
         run: |

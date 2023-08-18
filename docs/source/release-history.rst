@@ -20,11 +20,13 @@ API
   is turned into a document for SRW and Shadow apps. The beam stats show up in
   Bluesky's ``BestEffortCallback``.
 - Removed old API support and relevant tests.
+- ``create_classes`` does not need the ``data`` kwarg as it obtains it via
+  ``connection``.
 
 Documentation
 .............
 - Suppress Shadow3 code's stdout in notebooks/code.
-- Converted project's `README.rst` to `README.md` for better rendering on PyPI.
+- Converted project's ``README.rst`` to ``README.md`` for better rendering on PyPI.
 
 Examples
 ........
