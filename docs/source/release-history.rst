@@ -2,6 +2,18 @@
 Release History
 ===============
 
+v0.7.2 (2023-08-19)
+-------------------
+
+This is a maintenance release with some documentation updates.
+
+Documentation
+.............
+
+- An Overview section was added to the docs.
+- External links were added to the sidebar.
+
+
 v0.7.1 (2023-08-18)
 -------------------
 
