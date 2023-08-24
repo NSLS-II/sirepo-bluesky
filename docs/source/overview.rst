@@ -35,7 +35,7 @@ turns into an Ophyd ``Device``:
 
 The Watchpoint optical element acts as a virtual detector and the scheme below
 demonstrates the code for the corresponding Ophyd class with the ``trigger``
-method and the relevant actions in the Sirepo frontent UI:
+method and the relevant actions in the Sirepo frontend UI:
 
 .. image:: _static/sirepo-ophyd-watchpoint.png
 
