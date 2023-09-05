@@ -100,16 +100,9 @@ def read_shadow_file(filename, histogram_bins=None):
         "flux": data.sum(),
         "mean": data.mean(),
         "photon_energy": photon_energy,
-<<<<<<< HEAD
-        "horizontal_extent": horizontal_extent,
-        "vertical_extent": vertical_extent,
+        "horizontal_extent": horizontal_extent.astype(float),
+        "vertical_extent": vertical_extent.astype(float),
         "units": "um",
-=======
-        "horizontal_extent": np.array(data_dict["xrange"][:2]).astype(float),
-        "vertical_extent": np.array(data_dict["yrange"][:2]).astype(float),
-        # 'labels': labels,
-        # 'units': units,
->>>>>>> 370b982 (started working on support for tiled)
     }
 
     ret.update(utils.get_beam_stats(data, horizontal_extent, vertical_extent))
