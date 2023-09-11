@@ -1,5 +1,7 @@
+import h5py
 import numpy as np
 import srwpy.uti_plot_com as srw_io
+from area_detector_handlers.handlers import HandlerBase
 
 from . import utils
 
@@ -48,3 +50,15 @@ class SRWFileHandler:
     def __call__(self):
         d = read_srw_file(self._name, ndim=self._ndim)
         return d["data"]
+
+
+class SRWHDF5FileHandler(HandlerBase):
+    specs = {"SRW_HDF5"}
+
+    def __init__(self, filename):
+        self._name = filename
+
+    def __call__(self, frame):
+        with h5py.File(self._name, "r") as f:
+            entry = f["/entry/image"]
+            return entry[frame]

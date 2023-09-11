@@ -1,6 +1,7 @@
 area-detector-handlers
 bluesky
 databroker
+h5py
 inflection
 matplotlib
 numconv

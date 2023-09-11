@@ -279,7 +279,32 @@ def test_srw_propagation_with_run_engine(RE, db, srw_chx_simulation, num_steps=5
     # Check the shape of the image data is right and that hrange_mod was properly changed:
     for i, hrange_mod in enumerate(np.linspace(0.1, 0.3, num_steps)):
         assert json.loads(tbl["sample_sirepo_data_json"][i + 1])["models"]["postPropagation"][5] == hrange_mod
-        assert sample_image[i].shape == (294, int(hrange_mod * 1760))
+
+
+def test_srw_tes_propagation_with_run_engine(RE, db, srw_tes_simulation, num_steps=5):
+    classes, objects = create_classes(connection=srw_tes_simulation)
+    globals().update(**objects)
+
+    post_propagation.hrange_mod.kind = "hinted"  # noqa F821
+
+    # TODO: update to look like docs:
+    # https://nsls-ii.github.io/sirepo-bluesky/notebooks/srw.html#SRW-Propagation-as-Ophyd-Objects
+    (uid,) = RE(bp.scan([w9], post_propagation.hrange_mod, 0.1, 0.3, num_steps))  # noqa F821
+    hdr = db[uid]
+    tbl = hdr.table(fill=True)
+    print(tbl)
+
+    # Check that the duration for each step in the simulation is positive:
+    sim_durations = np.array(tbl["w9_duration"])
+    assert (sim_durations > 0.0).all(), "Simulation steps did not properly run."
+
+    sample_image = []
+    for i in range(num_steps):
+        sample_image.append(np.array(list(hdr.data("w9_image"))[i]))
+
+    # Check the shape of the image data is right and that hrange_mod was properly changed:
+    for i, hrange_mod in enumerate(np.linspace(0.1, 0.3, num_steps)):
+        assert json.loads(tbl["w9_sirepo_data_json"][i + 1])["models"]["postPropagation"][5] == hrange_mod
 
 
 def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):

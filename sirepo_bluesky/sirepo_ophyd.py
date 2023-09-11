@@ -1,17 +1,22 @@
 import copy
 import datetime
 import hashlib
+import itertools
 import json
 import logging
+import os
 import time
 from collections import OrderedDict, deque, namedtuple
 from pathlib import Path
 
+import h5py
 import inflection
+import numpy as np
 from event_model import compose_resource
 from ophyd import Component as Cpt
 from ophyd import Device, Signal
 from ophyd.sim import NullStatus, new_uid
+from skimage.transform import resize
 
 from sirepo_bluesky.sirepo_bluesky import SirepoBluesky
 
@@ -95,6 +100,7 @@ class SirepoWatchpoint(DeviceWithJSONData):
         root_dir="/tmp/sirepo-bluesky-data",
         assets_dir=None,
         result_file=None,
+        image_shape=(1024, 1024),
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
@@ -102,39 +108,58 @@ class SirepoWatchpoint(DeviceWithJSONData):
         self._root_dir = root_dir
         self._assets_dir = assets_dir
         self._result_file = result_file
+        self._image_shape = image_shape
 
         self._asset_docs_cache = deque()
         self._resource_document = None
         self._datum_factory = None
 
-        sim_type = self.connection.data["simulationType"]
+        self._sim_type = self.connection.data["simulationType"]
         allowed_sim_types = ("srw", "shadow", "madx")
-        if sim_type not in allowed_sim_types:
+        if self._sim_type not in allowed_sim_types:
             raise RuntimeError(
-                f"Unknown simulation type: {sim_type}\nAllowed simulation types: {allowed_sim_types}"
+                f"Unknown simulation type: {self._sim_type}\nAllowed simulation types: {allowed_sim_types}"
             )
 
-    def trigger(self, *args, **kwargs):
-        logger.debug(f"Custom trigger for {self.name}")
-
+    def stage(self):
+        super().stage()
         date = datetime.datetime.now()
         self._assets_dir = date.strftime("%Y/%m/%d")
-        self._result_file = f"{new_uid()}.dat"
+        data_file = f"{new_uid()}.h5"
 
         self._resource_document, self._datum_factory, _ = compose_resource(
             start={"uid": "needed for compose_resource() but will be discarded"},
-            spec=self.connection.data["simulationType"],
+            spec=f'{self.connection.data["simulationType"]}_hdf5'.upper(),
             root=self._root_dir,
-            resource_path=str(Path(self._assets_dir) / Path(self._result_file)),
+            resource_path=str(Path(self._assets_dir) / Path(data_file)),
             resource_kwargs={},
         )
+
+        self._data_file = str(
+            Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
+        )
+
         # now discard the start uid, a real one will be added later
         self._resource_document.pop("run_start")
         self._asset_docs_cache.append(("resource", self._resource_document))
 
-        sim_result_file = str(
-            Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
+        self._h5file_desc = h5py.File(self._data_file, "x")
+        group = self._h5file_desc.create_group("/entry")
+        self._dataset = group.create_dataset(
+            "image",
+            data=np.full(fill_value=np.nan, shape=(1, *self._image_shape)),
+            maxshape=(None, *self._image_shape),
+            chunks=(1, *self._image_shape),
+            dtype="float64",
+            compression="lzf",
         )
+        self._counter = itertools.count()
+
+    def trigger(self, *args, **kwargs):
+        logger.debug(f"Custom trigger for {self.name}")
+        current_frame = next(self._counter)
+        # TODO: revisit this for shadow
+        sim_result_file = f"{os.path.splitext(self._data_file)[0]}_{self._sim_type}_{current_frame:04d}.dat"
 
         self.connection.data["report"] = f"watchpointReport{self.id._sirepo_dict['id']}"
 
@@ -151,7 +176,14 @@ class SirepoWatchpoint(DeviceWithJSONData):
         if sim_type == "srw":
             ndim = 2  # this will always be a report with 2D data.
             ret = read_srw_file(sim_result_file, ndim=ndim)
-            self._resource_document["resource_kwargs"]["ndim"] = ndim
+            # TODO: rename _image_shape to _target_image_shape?
+            data = resize(ret["data"], self._image_shape)
+            self._dataset.resize((current_frame + 1, *self._image_shape))
+
+            logger.debug(f"{self._dataset = }\n{self._dataset.shape = }")
+
+            self._dataset[current_frame, :, :] = data
+
         elif sim_type == "shadow":
             nbins = conn_data["models"][conn_data["report"]]["histogramBins"]
             ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
@@ -171,13 +203,10 @@ class SirepoWatchpoint(DeviceWithJSONData):
 
         update_components(ret)
 
-        datum_document = self._datum_factory(datum_kwargs={})
+        datum_document = self._datum_factory(datum_kwargs={"frame": current_frame})
         self._asset_docs_cache.append(("datum", datum_document))
 
         self.image.put(datum_document["datum_id"])
-
-        self._resource_document = None
-        self._datum_factory = None
 
         logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
 
@@ -200,17 +229,28 @@ class SirepoWatchpoint(DeviceWithJSONData):
             res[key].update(dict(dtype_str="<f8"))
 
         if sim_type == "shadow":
+            # TODO: dynamic watchpointReport number
             ny = nx = self.connection.data["models"]["watchpointReport12"]["histogramBins"]
             res[self.image.name].update(dict(shape=(ny, nx)))
 
         if sim_type == "srw":
-            raise ValueError("fix this later please")
+            # TODO: more fixes depending on report
+            if self.connection.data["report"].startswith("watchpointReport"):
+                res[self.image.name].update(dict(shape=self._image_shape))
+            elif self.connection.data["report"] == "intensityReport":
+                num_points = self.connection.data["models"]["intensityReport"]["photonEnergyPointCount"]
+                res[self.image.name].update(dict(shape=(num_points,)))
+            else:
+                raise ValueError(f"Unknown report type: {self.connection.data['report']}")
 
         return res
 
     def unstage(self):
         super().unstage()
         self._resource_document = None
+        self._datum_factory = None
+        del self._dataset
+        self._h5file_desc.close()
 
     def collect_asset_docs(self):
         items = list(self._asset_docs_cache)
