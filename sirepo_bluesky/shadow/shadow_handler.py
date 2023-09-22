@@ -5,7 +5,7 @@ import numpy as np
 import Shadow.ShadowLibExtensions as sd
 import Shadow.ShadowTools
 
-from . import utils
+from sirepo_bluesky import utils
 
 
 def read_shadow_file_col(filename, parameter=30):

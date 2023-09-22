@@ -7,8 +7,8 @@ from pathlib import Path
 from event_model import compose_resource
 from ophyd.sim import NullStatus, new_uid
 
+from ..srw.srw_flyer import BlueskyFlyer
 from .madx_handler import read_madx_file
-from .sirepo_flyer import BlueskyFlyer
 
 logger = logging.getLogger("sirepo-bluesky")
 

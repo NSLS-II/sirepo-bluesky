@@ -3,7 +3,7 @@ import numpy as np
 import srwpy.uti_plot_com as srw_io
 from area_detector_handlers.handlers import HandlerBase
 
-from . import utils
+from sirepo_bluesky import utils
 
 
 def read_srw_file(filename, ndim=2):

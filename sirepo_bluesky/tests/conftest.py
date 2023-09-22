@@ -8,10 +8,10 @@ from bluesky.run_engine import RunEngine
 from databroker import Broker
 from ophyd.utils import make_dir_tree
 
-from sirepo_bluesky.madx_handler import MADXFileHandler
-from sirepo_bluesky.shadow_handler import ShadowFileHandler
-from sirepo_bluesky.sirepo_bluesky import SirepoBluesky
-from sirepo_bluesky.srw_handler import SRWFileHandler
+from sirepo_bluesky.common.sirepo_client import SirepoClient
+from sirepo_bluesky.madx.madx_handler import MADXFileHandler
+from sirepo_bluesky.shadow.shadow_handler import ShadowFileHandler
+from sirepo_bluesky.srw.srw_handler import SRWFileHandler
 
 
 @pytest.fixture(scope="function")
@@ -67,76 +67,76 @@ def make_dirs():
 
 @pytest.fixture(scope="function")
 def srw_empty_simulation(make_dirs):
-    connection = SirepoBluesky("http://localhost:8000")
+    connection = SirepoClient("http://localhost:8000")
     data, _ = connection.auth("srw", "emptysim")
     return connection
 
 
 @pytest.fixture(scope="function")
 def srw_youngs_double_slit_simulation(make_dirs):
-    connection = SirepoBluesky("http://localhost:8000")
+    connection = SirepoClient("http://localhost:8000")
     data, _ = connection.auth("srw", "00000000")
     return connection
 
 
 @pytest.fixture(scope="function")
 def srw_basic_simulation(make_dirs):
-    connection = SirepoBluesky("http://localhost:8000")
+    connection = SirepoClient("http://localhost:8000")
     data, _ = connection.auth("srw", "00000001")
     return connection
 
 
 @pytest.fixture(scope="function")
 def srw_tes_simulation(make_dirs):
-    connection = SirepoBluesky("http://localhost:8000")
+    connection = SirepoClient("http://localhost:8000")
     data, _ = connection.auth("srw", "00000002")
     return connection
 
 
 @pytest.fixture(scope="function")
 def srw_ari_simulation(make_dirs):
-    connection = SirepoBluesky("http://localhost:8000")
+    connection = SirepoClient("http://localhost:8000")
     data, _ = connection.auth("srw", "00000003")
     return connection
 
 
 @pytest.fixture(scope="function")
 def srw_chx_simulation(make_dirs):
-    connection = SirepoBluesky("http://localhost:8000")
+    connection = SirepoClient("http://localhost:8000")
     data, _ = connection.auth("srw", "HXV1JQ5c")
     return connection
 
 
 @pytest.fixture(scope="function")
 def shadow_basic_simulation(make_dirs):
-    connection = SirepoBluesky("http://localhost:8000")
+    connection = SirepoClient("http://localhost:8000")
     data, _ = connection.auth("shadow", "00000001")
     return connection
 
 
 @pytest.fixture(scope="function")
 def shadow_tes_simulation(make_dirs):
-    connection = SirepoBluesky("http://localhost:8000")
+    connection = SirepoClient("http://localhost:8000")
     data, _ = connection.auth("shadow", "00000002")
     return connection
 
 
 @pytest.fixture(scope="function")
 def madx_resr_storage_ring_simulation(make_dirs):
-    connection = SirepoBluesky("http://localhost:8000")
+    connection = SirepoClient("http://localhost:8000")
     data, _ = connection.auth("madx", "00000000")
     return connection
 
 
 @pytest.fixture(scope="function")
 def madx_bl1_compton_simulation(make_dirs):
-    connection = SirepoBluesky("http://localhost:8000")
+    connection = SirepoClient("http://localhost:8000")
     data, _ = connection.auth("madx", "00000001")
     return connection
 
 
 @pytest.fixture(scope="function")
 def madx_bl2_triplet_tdc_simulation(make_dirs):
-    connection = SirepoBluesky("http://localhost:8000")
+    connection = SirepoClient("http://localhost:8000")
     data, _ = connection.auth("madx", "00000002")
     return connection

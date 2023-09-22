@@ -2,42 +2,17 @@ import datetime
 import hashlib
 import os
 import time as ttime
-from collections import deque
 from multiprocessing import Manager, Process
 from pathlib import Path
 
 from ophyd.sim import NullStatus, new_uid
 
-from sirepo_bluesky.srw_handler import read_srw_file
-
-from .sirepo_bluesky import SirepoBluesky
-
-
-class BlueskyFlyer:
-    def __init__(self):
-        self.name = "bluesky_flyer"
-        self._asset_docs_cache = deque()
-        self._resource_uids = []
-        self._datum_counter = None
-        self._datum_ids = []
-
-    def kickoff(self):
-        return NullStatus()
-
-    def complete(self):
-        return NullStatus()
-
-    def collect(self):
-        ...
-
-    def collect_asset_docs(self):
-        items = list(self._asset_docs_cache)
-        self._asset_docs_cache.clear()
-        for item in items:
-            yield item
+from sirepo_bluesky.common import BlueskyFlyer
+from sirepo_bluesky.common.sirepo_client import SirepoClient
+from sirepo_bluesky.srw.srw_handler import read_srw_file
 
 
-class SirepoFlyer(BlueskyFlyer):
+class SRWFlyer(BlueskyFlyer):
     """
     Multiprocessing "flyer" for Sirepo simulations
 
@@ -192,7 +167,7 @@ class SirepoFlyer(BlueskyFlyer):
             raise TypeError(f"invalid type: {type(value)}. Must be boolean")
 
     def kickoff(self):
-        sb = SirepoBluesky(self.server_name)
+        sb = SirepoClient(self.server_name)
         data, schema = sb.auth(self.sim_code, self.sim_id)
         self._copies = []
         self._srw_files = []

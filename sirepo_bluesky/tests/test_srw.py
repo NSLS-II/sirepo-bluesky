@@ -3,19 +3,17 @@ import json
 import os
 import pprint
 
-import bluesky.plan_stubs as bps
 import bluesky.plans as bp
 import dictdiffer
 import matplotlib.pyplot as plt
 import numpy as np
 import peakutils
 import pytest
-import tfs
 
-from sirepo_bluesky.madx_flyer import MADXFlyer
-from sirepo_bluesky.sirepo_ophyd import BeamStatisticsReport, create_classes
+from sirepo_bluesky.common import create_classes
 
 
+@pytest.mark.srw
 def test_beamline_elements_as_ophyd_objects(srw_tes_simulation):
     classes, objects = create_classes(connection=srw_tes_simulation)
 
@@ -28,6 +26,7 @@ def test_beamline_elements_as_ophyd_objects(srw_tes_simulation):
     pprint.pprint(mono_crystal1.read())  # noqa
 
 
+@pytest.mark.srw
 def test_empty_simulation(srw_empty_simulation):
     classes, objects = create_classes(connection=srw_empty_simulation)
     globals().update(**objects)
@@ -37,6 +36,7 @@ def test_empty_simulation(srw_empty_simulation):
     assert not objects
 
 
+@pytest.mark.srw
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_beamline_elements_set_put(srw_tes_simulation, method):
     classes, objects = create_classes(connection=srw_tes_simulation)
@@ -64,6 +64,7 @@ def test_beamline_elements_set_put(srw_tes_simulation, method):
             i += 1
 
 
+@pytest.mark.srw
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_crl_calculation(srw_chx_simulation, method):
     classes, objects = create_classes(connection=srw_chx_simulation)
@@ -93,6 +94,7 @@ def test_crl_calculation(srw_chx_simulation, method):
     assert not list(dictdiffer.diff(expected_values, actual_values))
 
 
+@pytest.mark.srw
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_crystal_calculation(srw_tes_simulation, method):
     classes, objects = create_classes(connection=srw_tes_simulation)
@@ -154,6 +156,7 @@ def test_crystal_calculation(srw_tes_simulation, method):
     assert not list(dictdiffer.diff(expected_values, actual_values))
 
 
+@pytest.mark.srw
 @pytest.mark.parametrize("method", ["set", "put"])
 def test_grazing_angle_calculation(srw_tes_simulation, method):
     classes, objects = create_classes(connection=srw_tes_simulation)
@@ -189,6 +192,7 @@ def test_grazing_angle_calculation(srw_tes_simulation, method):
     assert not list(dictdiffer.diff(expected_vector_values, actual_vector_values))
 
 
+@pytest.mark.srw
 def test_beamline_elements_simple_connection(srw_basic_simulation):
     classes, objects = create_classes(connection=srw_basic_simulation)
 
@@ -201,6 +205,7 @@ def test_beamline_elements_simple_connection(srw_basic_simulation):
     pprint.pprint(watchpoint.read())  # noqa F821
 
 
+@pytest.mark.srw
 def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
     classes, objects = create_classes(
         connection=srw_ari_simulation,
@@ -257,6 +262,7 @@ def test_srw_source_with_run_engine(RE, db, srw_ari_simulation, num_steps=5):
     # plt.show()
 
 
+@pytest.mark.srw
 def test_srw_propagation_with_run_engine(RE, db, srw_chx_simulation, num_steps=5):
     classes, objects = create_classes(connection=srw_chx_simulation)
     globals().update(**objects)
@@ -281,6 +287,7 @@ def test_srw_propagation_with_run_engine(RE, db, srw_chx_simulation, num_steps=5
         assert json.loads(tbl["sample_sirepo_data_json"][i + 1])["models"]["postPropagation"][5] == hrange_mod
 
 
+@pytest.mark.srw
 def test_srw_tes_propagation_with_run_engine(RE, db, srw_tes_simulation, num_steps=5):
     classes, objects = create_classes(connection=srw_tes_simulation)
     globals().update(**objects)
@@ -305,297 +312,3 @@ def test_srw_tes_propagation_with_run_engine(RE, db, srw_tes_simulation, num_ste
     # Check the shape of the image data is right and that hrange_mod was properly changed:
     for i, hrange_mod in enumerate(np.linspace(0.1, 0.3, num_steps)):
         assert json.loads(tbl["w9_sirepo_data_json"][i + 1])["models"]["postPropagation"][5] == hrange_mod
-
-
-def test_shadow_with_run_engine(RE, db, shadow_tes_simulation, num_steps=5):
-    classes, objects = create_classes(connection=shadow_tes_simulation)
-    globals().update(**objects)
-
-    aperture.horizontalSize.kind = "hinted"  # noqa F821
-
-    (uid,) = RE(bp.scan([w9], aperture.horizontalSize, 0, 2, num_steps))  # noqa F821
-    hdr = db[uid]
-    tbl = hdr.table(fill=True)
-    print(tbl)
-
-    # Check that the duration for each step in the simulation is positive:
-    sim_durations = np.array(tbl["w9_duration"])
-    assert (sim_durations > 0.0).all()
-
-    w9_image = np.array(list(hdr.data("w9_image")))
-    # Check the shape of the image data is right:
-    assert w9_image.shape == (num_steps, 100, 100)
-
-    w9_mean_from_image = w9_image.mean(axis=(1, 2))
-    w9_mean_from_table = np.array(tbl["w9_mean"])
-
-    # Check the number of elements correspond to a number of scan points:
-    assert len(w9_mean_from_table) == num_steps
-
-    # Check that an average values of the first and last images are right:
-    assert np.allclose(w9_image[0].mean(), 0.0)
-    assert np.allclose(w9_image[-1].mean(), 0.255665516042795, atol=1e-3)
-
-    # Check that the values from the table and averages from the image data are
-    # the same:
-    assert np.allclose(w9_mean_from_table, w9_mean_from_image)
-
-    # Check that the averaged intensities from the table are ascending:
-    assert np.all(np.diff(w9_mean_from_table) > 0)
-
-    resource_files = []
-    for name, doc in hdr.documents():
-        if name == "resource":
-            resource_files.append(os.path.basename(doc["resource_path"]))
-
-    # Check that all resource files are unique:
-    assert len(set(resource_files)) == num_steps
-
-
-def test_beam_statistics_report_only(RE, db, shadow_tes_simulation):
-    classes, objects = create_classes(connection=shadow_tes_simulation)
-    globals().update(**objects)
-
-    bsr = BeamStatisticsReport(name="bsr", connection=shadow_tes_simulation)
-
-    toroid.r_maj.kind = "hinted"  # noqa F821
-
-    scan_range = (10_000, 50_000, 21)
-
-    (uid,) = RE(bp.scan([bsr], toroid.r_maj, *scan_range))  # noqa F821
-    hdr = db[uid]
-    tbl = hdr.table()
-    print(tbl)
-
-    calc_durations = np.array(tbl["time"].diff(), dtype=float)[1:] / 1e9
-    print(f"Calculated durations (seconds): {calc_durations}")
-
-    # Check that the duration for each step in the simulation is non-zero:
-    cpt_durations = np.array(tbl["bsr_duration"])
-    print(f"Durations from component (seconds): {cpt_durations}")
-
-    assert (cpt_durations > 0.0).all()
-    assert (calc_durations > cpt_durations[1:]).all()
-
-    fig = plt.figure()
-    ax = fig.add_subplot()
-    ax.plot(np.linspace(*scan_range)[1:], calc_durations)
-    ax.set_ylabel("Duration of simulations [s]")
-    ax.set_xlabel("Torus Major Radius [m]")
-    title = (
-        f"Shadow TES simulation\n"
-        f"RE(bp.scan([bsr], toroid.r_maj, "
-        f"{', '.join([str(x) for x in scan_range])}))"
-    )
-    ax.set_title(title)
-    fig.savefig("TES-Shadow-timing.png")
-    # plt.show()
-
-
-def test_beam_statistics_report_and_watchpoint(RE, db, shadow_tes_simulation):
-    classes, objects = create_classes(connection=shadow_tes_simulation)
-    globals().update(**objects)
-
-    bsr = BeamStatisticsReport(name="bsr", connection=shadow_tes_simulation)
-
-    toroid.r_maj.kind = "hinted"  # noqa F821
-
-    (uid,) = RE(bp.scan([bsr, w9], toroid.r_maj, 10000, 50000, 5))  # noqa F821
-    hdr = db[uid]
-    tbl = hdr.table()
-    print(tbl)
-
-    w9_data_1 = json.loads(tbl["w9_sirepo_data_json"][1])
-    w9_data_5 = json.loads(tbl["w9_sirepo_data_json"][5])
-
-    bsr_data_1 = json.loads(tbl["bsr_sirepo_data_json"][1])
-    bsr_data_5 = json.loads(tbl["bsr_sirepo_data_json"][5])
-
-    w9_diffs = list(dictdiffer.diff(w9_data_1, w9_data_5))
-    assert w9_diffs == [("change", ["models", "beamline", 5, "r_maj"], (10000.0, 50000.0))]
-
-    bsr_diffs = list(dictdiffer.diff(bsr_data_1, bsr_data_5))
-    assert bsr_diffs == [("change", ["models", "beamline", 5, "r_maj"], (10000.0, 50000.0))]
-
-    w9_bsr_diffs = list(dictdiffer.diff(w9_data_1, bsr_data_5))
-    assert w9_bsr_diffs == [
-        ("change", ["models", "beamline", 5, "r_maj"], (10000.0, 50000.0)),
-        ("change", "report", ("watchpointReport12", "beamStatisticsReport")),
-    ]
-
-
-@pytest.mark.parametrize("method", ["set", "put"])
-def test_mad_x_elements_set_put(madx_resr_storage_ring_simulation, method):
-    connection = madx_resr_storage_ring_simulation
-    data = connection.data
-    classes, objects = create_classes(connection=connection)
-    globals().update(**objects)
-
-    for i, (k, v) in enumerate(objects.items()):
-        old_value = v.l.get()  # l is length
-        old_sirepo_value = data["models"]["elements"][i]["l"]
-
-        getattr(v.l, method)(old_value + 10)
-
-        new_value = v.l.get()
-        new_sirepo_value = data["models"]["elements"][i]["l"]
-
-        print(f"\n  Changed: {old_value} -> {new_value}\n   Sirepo: {old_sirepo_value} -> {new_sirepo_value}\n")
-
-        assert old_value == old_sirepo_value
-        assert new_value == new_sirepo_value
-        assert new_value != old_value
-        assert abs(new_value - (old_value + 10)) < 1e-8
-
-
-def test_mad_x_elements_simple_connection(madx_bl2_triplet_tdc_simulation):
-    connection = madx_bl2_triplet_tdc_simulation
-    classes, objects = create_classes(connection=connection)
-    for name, obj in objects.items():
-        pprint.pprint(obj.read())
-
-    globals().update(**objects)
-
-    print(bpm5.summary())  # noqa
-    pprint.pprint(bpm5.read())  # noqa
-
-
-def test_madx_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
-    connection = madx_bl2_triplet_tdc_simulation
-    classes, objects = create_classes(connection=connection)
-    globals().update(**objects)
-
-    madx_flyer = MADXFlyer(
-        connection=connection,
-        root_dir="/tmp/sirepo-bluesky-data",
-        report="elementAnimation250-20",
-    )
-
-    (uid,) = RE(bp.fly([madx_flyer]))  # noqa F821
-    hdr = db[uid]
-    tbl = hdr.table(stream_name="madx_flyer", fill=True)
-    print(tbl)
-
-    resource_files = []
-    for name, doc in hdr.documents():
-        if name == "resource":
-            resource_files.append(os.path.join(doc["root"], doc["resource_path"]))
-
-    # Check that we have only one resource madx file for all datum documents:
-    assert len(set(resource_files)) == 1
-
-    df = tfs.read(resource_files[0])
-    for column in df.columns:
-        if column == "NAME":
-            assert (tbl[f"madx_flyer_{column}"].astype("string").values == df[column].values).all()
-        else:
-            assert np.allclose(
-                np.array(tbl[f"madx_flyer_{column}"]).astype(float),
-                np.array(df[column]),
-            )
-
-
-def test_madx_variables_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
-    connection = madx_bl2_triplet_tdc_simulation
-    data = connection.data
-    classes, objects = create_classes(
-        connection=connection,
-        extra_model_fields=["rpnVariables"],
-    )
-
-    globals().update(**objects)
-
-    assert len(objects) == len(data["models"]["elements"]) + len(data["models"]["rpnVariables"])
-
-    madx_flyer = MADXFlyer(
-        connection=connection,
-        root_dir="/tmp/sirepo-bluesky-data",
-        report="elementAnimation250-20",
-    )
-
-    def madx_plan(parameter=ihq1, value=2.0):  # noqa F821
-        yield from bps.mv(parameter.value, value)
-        return (yield from bp.fly([madx_flyer]))
-
-    (uid,) = RE(madx_plan())  # noqa F821
-    hdr = db[uid]
-    tbl = hdr.table(stream_name="madx_flyer", fill=True)
-    print(tbl)
-
-    expected_data_len = 151
-
-    assert len(tbl["madx_flyer_S"]) == expected_data_len
-    assert len(tbl["madx_flyer_BETX"]) == expected_data_len
-    assert len(tbl["madx_flyer_BETY"]) == expected_data_len
-
-
-def test_madx_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
-    connection = madx_bl2_triplet_tdc_simulation
-    data = connection.data
-    classes, objects = create_classes(
-        connection=connection,
-        extra_model_fields=["commands"],
-    )
-
-    globals().update(**objects)
-    pprint.pprint(classes, sort_dicts=False)
-
-    assert len(objects) == len(data["models"]["elements"]) + len(data["models"]["commands"])
-
-    madx_flyer = MADXFlyer(
-        connection=connection,
-        root_dir="/tmp/sirepo-bluesky-data",
-        report="elementAnimation250-20",
-    )
-
-    def madx_plan(element=match8, value=1.0):  # noqa F821
-        yield from bps.mv(element.deltap, value)
-        return (yield from bp.fly([madx_flyer]))
-
-    (uid,) = RE(madx_plan())  # noqa F821
-    hdr = db[uid]
-    tbl = hdr.table(stream_name="madx_flyer", fill=True)
-    print(tbl)
-
-    expected_data_len = 151
-
-    assert len(tbl["madx_flyer_S"]) == expected_data_len
-    assert len(tbl["madx_flyer_BETX"]) == expected_data_len
-    assert len(tbl["madx_flyer_BETY"]) == expected_data_len
-
-
-def test_madx_variables_and_commands_with_run_engine(RE, db, madx_bl2_triplet_tdc_simulation):
-    connection = madx_bl2_triplet_tdc_simulation
-    data = connection.data
-    classes, objects = create_classes(
-        connection=connection,
-        extra_model_fields=["rpnVariables", "commands"],
-    )
-
-    globals().update(**objects)
-
-    assert len(objects) == len(data["models"]["elements"]) + len(data["models"]["rpnVariables"]) + len(
-        data["models"]["commands"]
-    )
-
-    madx_flyer = MADXFlyer(
-        connection=connection,
-        root_dir="/tmp/sirepo-bluesky-data",
-        report="elementAnimation250-20",
-    )
-
-    def madx_plan(element=match8, parameter=ihq1, value=1.0):  # noqa F821
-        yield from bps.mv(element.deltap, value)
-        yield from bps.mv(parameter.value, value)
-        return (yield from bp.fly([madx_flyer]))
-
-    (uid,) = RE(madx_plan())  # noqa F821
-    hdr = db[uid]
-    tbl = hdr.table(stream_name="madx_flyer", fill=True)
-    print(tbl)
-
-    expected_data_len = 151
-
-    assert len(tbl["madx_flyer_S"]) == expected_data_len
-    assert len(tbl["madx_flyer_BETX"]) == expected_data_len
-    assert len(tbl["madx_flyer_BETY"]) == expected_data_len
