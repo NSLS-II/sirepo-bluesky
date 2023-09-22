@@ -1,7 +1,6 @@
 import datetime
 import json
 import time as ttime
-from collections import deque
 from pathlib import Path
 
 from event_model import compose_resource
@@ -9,24 +8,12 @@ from ophyd import Component as Cpt
 from ophyd import Signal
 from ophyd.sim import NullStatus, new_uid
 
-from sirepo_bluesky.common import DeviceWithJSONData, ExternalFileReference, logger
+from sirepo_bluesky.common import logger
+from sirepo_bluesky.common.base_classes import DeviceWithJSONData, SirepoWatchpointBase
 from sirepo_bluesky.shadow.shadow_handler import read_shadow_file
-from sirepo_bluesky.srw.srw_handler import read_srw_file
 
 
-class SirepoWatchpointShadow(DeviceWithJSONData):
-    image = Cpt(ExternalFileReference, kind="normal")
-    shape = Cpt(Signal)
-    flux = Cpt(Signal, kind="hinted")
-    mean = Cpt(Signal, kind="normal")
-    x = Cpt(Signal, kind="normal")
-    y = Cpt(Signal, kind="normal")
-    fwhm_x = Cpt(Signal, kind="normal")
-    fwhm_y = Cpt(Signal, kind="normal")
-    photon_energy = Cpt(Signal, kind="normal")
-    horizontal_extent = Cpt(Signal)
-    vertical_extent = Cpt(Signal)
-
+class SirepoWatchpointShadow(SirepoWatchpointBase):
     def __init__(
         self,
         *args,
@@ -35,22 +22,8 @@ class SirepoWatchpointShadow(DeviceWithJSONData):
         result_file=None,
         **kwargs,
     ):
-        super().__init__(*args, **kwargs)
-
-        self._root_dir = root_dir
-        self._assets_dir = assets_dir
-        self._result_file = result_file
-
-        self._asset_docs_cache = deque()
-        self._resource_document = None
-        self._datum_factory = None
-
-        sim_type = self.connection.data["simulationType"]
-        allowed_sim_types = ("srw", "shadow", "madx")
-        if sim_type not in allowed_sim_types:
-            raise RuntimeError(
-                f"Unknown simulation type: {sim_type}\nAllowed simulation types: {allowed_sim_types}"
-            )
+        self._allowed_sim_types = ("shadow",)
+        super().__init__(*args, root_dir=root_dir, assets_dir=assets_dir, result_file=result_file, **kwargs)
 
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
@@ -85,15 +58,9 @@ class SirepoWatchpointShadow(DeviceWithJSONData):
             f.write(datafile)
 
         conn_data = self.connection.data
-        sim_type = conn_data["simulationType"]
-        if sim_type == "srw":
-            ndim = 2  # this will always be a report with 2D data.
-            ret = read_srw_file(sim_result_file, ndim=ndim)
-            self._resource_document["resource_kwargs"]["ndim"] = ndim
-        elif sim_type == "shadow":
-            nbins = conn_data["models"][conn_data["report"]]["histogramBins"]
-            ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
-            self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
+        nbins = conn_data["models"][conn_data["report"]]["histogramBins"]
+        ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
+        self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
 
         def update_components(_data):
             self.shape.put(_data["shape"])
@@ -126,18 +93,10 @@ class SirepoWatchpointShadow(DeviceWithJSONData):
 
     def describe(self):
         res = super().describe()
-        res[self.image.name].update(dict(external="FILESTORE"))
+        # TODO: dynamic watchpointReport number
+        ny = nx = self.connection.data["models"]["watchpointReport12"]["histogramBins"]
+        res[self.image.name].update(dict(external="FILESTORE", shape=(ny, nx)))
         return res
-
-    def unstage(self):
-        super().unstage()
-        self._resource_document = None
-
-    def collect_asset_docs(self):
-        items = list(self._asset_docs_cache)
-        self._asset_docs_cache.clear()
-        for item in items:
-            yield item
 
 
 # This is for backwards compatibility

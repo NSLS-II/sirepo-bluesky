@@ -10,7 +10,7 @@ local:
           uri: mongodb://localhost:27017/datastore
           asset_registry_uri: mongodb://localhost:27017/filestore
           handler_registry:
-            srw: sirepo_bluesky.srw_handler:SRWFileHandler
-            SRW_HDF5: sirepo_bluesky.srw_handler:SRWHDF5FileHandler
-            shadow: sirepo_bluesky.shadow_handler:ShadowFileHandler
-            SIREPO_FLYER: sirepo_bluesky.srw_handler:SRWFileHandler
+            srw: sirepo_bluesky.srw.srw_handler:SRWFileHandler
+            SIREPO_FLYER: sirepo_bluesky.srw.srw_handler:SRWFileHandler
+            SRW_HDF5: sirepo_bluesky.srw.srw_handler:SRWHDF5FileHandler
+            shadow: sirepo_bluesky.shadow.shadow_handler:ShadowFileHandler

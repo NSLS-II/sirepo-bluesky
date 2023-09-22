@@ -10,7 +10,7 @@ import numpy as np
 import peakutils
 import pytest
 
-from sirepo_bluesky.common import create_classes
+from sirepo_bluesky.common.create_classes import create_classes
 
 
 @pytest.mark.srw
