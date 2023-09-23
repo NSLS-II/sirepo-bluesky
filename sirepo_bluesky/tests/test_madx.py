@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 import tfs
 
-from sirepo_bluesky.common import create_classes
+from sirepo_bluesky.common.create_classes import create_classes
 from sirepo_bluesky.madx.madx_flyer import MADXFlyer
 
 

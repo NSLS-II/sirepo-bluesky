@@ -62,11 +62,6 @@ class SirepoWatchpointBase(DeviceWithJSONData):
                 f"Unknown simulation type: {self._sim_type}\nAllowed simulation types: {self._allowed_sim_types}"
             )
 
-    def unstage(self):
-        super().unstage()
-        self._resource_document = None
-        self._datum_factory = None
-
     def collect_asset_docs(self):
         items = list(self._asset_docs_cache)
         self._asset_docs_cache.clear()

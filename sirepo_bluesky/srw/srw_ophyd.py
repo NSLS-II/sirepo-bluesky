@@ -30,6 +30,9 @@ class SirepoWatchpointSRW(SirepoWatchpointBase):
         self._image_shape = image_shape
         super().__init__(*args, root_dir=root_dir, assets_dir=assets_dir, result_file=result_file, **kwargs)
 
+        if hasattr(self, "id"):
+            self.connection.data["report"] = f"watchpointReport{self.id._sirepo_dict['id']}"
+
     def stage(self):
         super().stage()
         date = datetime.datetime.now()
@@ -64,12 +67,25 @@ class SirepoWatchpointSRW(SirepoWatchpointBase):
         )
         self._counter = itertools.count()
 
+    def describe(self):
+        res = super().describe()
+
+        res[self.image.name].update(dict(external="FILESTORE"))
+
+        for key in [self.shape.name]:
+            res[key].update(dict(dtype_str="<i8"))
+
+        for key in [self.vertical_extent.name, self.horizontal_extent.name]:
+            res[key].update(dict(dtype_str="<f8"))
+
+        res[self.image.name].update(dict(shape=self._image_shape))
+
+        return res
+
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
         current_frame = next(self._counter)
         sim_result_file = f"{os.path.splitext(self._data_file)[0]}_{self._sim_type}_{current_frame:04d}.dat"
-
-        self.connection.data["report"] = f"watchpointReport{self.id._sirepo_dict['id']}"
 
         _, duration = self.connection.run_simulation()
         self.duration.put(duration)
@@ -115,33 +131,10 @@ class SirepoWatchpointSRW(SirepoWatchpointBase):
         super().trigger(*args, **kwargs)
         return NullStatus()
 
-    def describe(self):
-        res = super().describe()
-
-        res[self.image.name].update(dict(external="FILESTORE"))
-
-        for key in [self.shape.name]:
-            res[key].update(dict(dtype_str="<i8"))
-
-        for key in [self.vertical_extent.name, self.horizontal_extent.name]:
-            res[key].update(dict(dtype_str="<f8"))
-
-        # TODO: more fixes depending on report
-        if (
-            self.connection.data["report"].startswith("watchpointReport")
-            or self.connection.data["report"] == "initialIntensityReport"
-        ):
-            res[self.image.name].update(dict(shape=self._image_shape))
-        elif self.connection.data["report"] == "intensityReport":
-            num_points = self.connection.data["models"]["intensityReport"]["photonEnergyPointCount"]
-            res[self.image.name].update(dict(shape=(num_points,)))
-        else:
-            raise ValueError(f"Unknown report type: {self.connection.data['report']}")
-
-        return res
-
     def unstage(self):
         super().unstage()
+        self._resource_document = None
+        self._datum_factory = None
         del self._dataset
         self._h5file_desc.close()
 
@@ -151,6 +144,23 @@ SirepoWatchpoint = SirepoWatchpointSRW
 
 
 class SingleElectronSpectrumReport(SirepoWatchpointSRW):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.connection.data["report"] = "intensityReport"
+        self._image_shape = None  # placeholder
+
+    def stage(self):
+        pass
+
+    def describe(self):
+        res = super().describe()
+
+        num_points = self.connection.data["models"]["intensityReport"]["photonEnergyPointCount"]
+        res[self.image.name].update(dict(shape=(num_points,)))
+
+        return res
+
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
 
@@ -172,8 +182,6 @@ class SingleElectronSpectrumReport(SirepoWatchpointSRW):
         sim_result_file = str(
             Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
         )
-
-        self.connection.data["report"] = "intensityReport"
 
         start_time = time.monotonic()
         self.connection.run_simulation()
@@ -213,6 +221,10 @@ class SingleElectronSpectrumReport(SirepoWatchpointSRW):
         logger.debug(f"\nReport for {self.name}: {self.connection.data['report']}\n")
 
         return NullStatus()
+
+    def unstage(self):
+        self._resource_document = None
+        self._datum_factory = None
 
 
 class SirepoSignalGrazingAngle(SirepoSignal):

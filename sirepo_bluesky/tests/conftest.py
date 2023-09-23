@@ -11,7 +11,7 @@ from ophyd.utils import make_dir_tree
 from sirepo_bluesky.common.sirepo_client import SirepoClient
 from sirepo_bluesky.madx.madx_handler import MADXFileHandler
 from sirepo_bluesky.shadow.shadow_handler import ShadowFileHandler
-from sirepo_bluesky.srw.srw_handler import SRWFileHandler
+from sirepo_bluesky.srw.srw_handler import SRWFileHandler, SRWHDF5FileHandler
 
 
 @pytest.fixture(scope="function")
@@ -25,8 +25,9 @@ def db():
         pass
 
     db.reg.register_handler("srw", SRWFileHandler, overwrite=True)
-    db.reg.register_handler("shadow", ShadowFileHandler, overwrite=True)
     db.reg.register_handler("SIREPO_FLYER", SRWFileHandler, overwrite=True)
+    db.reg.register_handler("SRW_HDF5", SRWHDF5FileHandler, overwrite=True)
+    db.reg.register_handler("shadow", ShadowFileHandler, overwrite=True)
     db.reg.register_handler("madx", MADXFileHandler, overwrite=True)
 
     return db
