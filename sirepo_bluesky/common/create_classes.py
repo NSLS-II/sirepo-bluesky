@@ -6,6 +6,7 @@ from ophyd import Component as Cpt
 from ophyd import Device
 
 from sirepo_bluesky.common import RESERVED_OPHYD_TO_SIREPO_ATTRS, SirepoSignal, logger
+from sirepo_bluesky.shadow.shadow_ophyd import SirepoWatchpointShadow
 from sirepo_bluesky.srw.srw_ophyd import (
     PropagationConfig,
     SimplePropagationConfig,
@@ -23,6 +24,11 @@ def create_classes(connection, create_objects=True, extra_model_fields=[]):
     data = copy.deepcopy(connection.data)
 
     sim_type = connection.sim_type
+
+    if sim_type == "srw":
+        SirepoWatchpoint = SirepoWatchpointSRW
+    elif sim_type == "shadow":
+        SirepoWatchpoint = SirepoWatchpointShadow
 
     SimTypeConfig = namedtuple("SimTypeConfig", "element_location class_name_field")
 
@@ -82,8 +88,7 @@ def create_classes(connection, create_objects=True, extra_model_fields=[]):
             base_classes = (Device,)
             extra_kwargs = {"connection": connection}
             if "type" in el and el["type"] == "watch":
-                # TODO: fix for shadow
-                base_classes = (SirepoWatchpointSRW, Device)
+                base_classes = (SirepoWatchpoint, Device)
             elif "type" in el and el["type"] == "intensityReport":
                 base_classes = (SingleElectronSpectrumReport, Device)
 
