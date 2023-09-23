@@ -7,7 +7,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 
-from sirepo_bluesky.shadow.shadow_handler import BeamStatisticsReport, create_classes
+from sirepo_bluesky.common.create_classes import create_classes
+from sirepo_bluesky.shadow.shadow_ophyd import BeamStatisticsReport
 
 
 @pytest.mark.shadow

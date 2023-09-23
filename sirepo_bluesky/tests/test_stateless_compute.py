@@ -9,7 +9,7 @@ import numpy as np
 import vcr
 
 import sirepo_bluesky.tests
-from sirepo_bluesky.sirepo_ophyd import create_classes
+from sirepo_bluesky.common.create_classes import create_classes
 from sirepo_bluesky.utils.json_yaml_converter import dict_to_file
 
 cassette_location = os.path.join(os.path.dirname(sirepo_bluesky.tests.__file__), "vcr_cassettes")
