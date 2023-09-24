@@ -41,7 +41,7 @@ jobs:
           if [ "${{ matrix.databroker }}" == "v1" ]; then
               EXTRA_INSTALL="databroker==1.2.5"
           elif [ "${{ matrix.databroker }}" == "v2" ]; then
-              EXTRA_INSTALL="databroker>=2.0.0b tiled[all]"
+              EXTRA_INSTALL="databroker[all]>=2.0.0b tiled[all]"
           fi
           export EXTRA_INSTALL
           echo "EXTRA_INSTALL=${EXTRA_INSTALL}" >> $GITHUB_ENV
@@ -83,8 +83,13 @@ jobs:
       - name: Copy databroker config file
         run: |
           set -vxeuo pipefail
-          mkdir -v -p ~/.config/databroker/
-          cp -v examples/local.yml ~/.config/databroker/
+          if [ "${{ matrix.databroker }}" == "v1" ]; then
+              mkdir -v -p ~/.config/databroker/
+              cp -v examples/local.yml ~/.config/databroker/
+          elif [ "${{ matrix.databroker }}" == "v2" ]; then
+              mkdir -v -p ~/.config/tiled/profiles/
+              cp -v examples/local-tiled.yml ~/.config/tiled/profiles/local.yml
+          fi
 
       - name: Test with pytest
         run: |
