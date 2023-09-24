@@ -34,8 +34,10 @@ class SirepoWatchpointBase(DeviceWithJSONData):
     fwhm_x = Cpt(Signal, kind="normal")
     fwhm_y = Cpt(Signal, kind="normal")
     photon_energy = Cpt(Signal, kind="normal")
-    horizontal_extent = Cpt(Signal)
-    vertical_extent = Cpt(Signal)
+    horizontal_extent_start = Cpt(Signal)
+    horizontal_extent_end = Cpt(Signal)
+    vertical_extent_start = Cpt(Signal)
+    vertical_extent_end = Cpt(Signal)
 
     def __init__(
         self,

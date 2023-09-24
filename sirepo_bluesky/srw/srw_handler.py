@@ -17,8 +17,8 @@ def read_srw_file(filename, ndim=2):
     else:
         raise ValueError(f"The value ndim={ndim} is not supported.")
 
-    horizontal_extent = np.array(ranges[3:5])
-    vertical_extent = np.array(ranges[6:8])
+    horizontal_extent = np.array(ranges[3:5]).astype(float)
+    vertical_extent = np.array(ranges[6:8]).astype(float)
 
     ret = {
         "data": data,
@@ -26,8 +26,10 @@ def read_srw_file(filename, ndim=2):
         "flux": data.sum(),
         "mean": data.mean(),
         "photon_energy": photon_energy,
-        "horizontal_extent": horizontal_extent,
-        "vertical_extent": vertical_extent,
+        "horizontal_extent_start": horizontal_extent[0],
+        "horizontal_extent_end": horizontal_extent[1],
+        "vertical_extent_start": vertical_extent[0],
+        "vertical_extent_end": vertical_extent[1],
         "labels": labels,
         "units": units,
     }

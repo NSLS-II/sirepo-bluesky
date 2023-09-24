@@ -65,8 +65,10 @@ def read_shadow_file_col(filename, parameter=30):
         "shape": data.shape,
         "mean": mean_value,
         "photon_energy": mean_value,
-        "horizontal_extent": [0, 1],
-        "vertical_extent": [0, 1],
+        "horizontal_extent_start": 0,
+        "horizontal_extent_end": 1,
+        "vertical_extent_start": 0,
+        "vertical_extent_end": 1,
         # 'labels': labels,
         # 'units': units,
     }
@@ -91,8 +93,8 @@ def read_shadow_file(filename, histogram_bins=None):
     photon_energy = np.mean(photon_energy_list)
 
     # convert to um
-    horizontal_extent = 1e3 * np.array(data_dict["xrange"][:2])
-    vertical_extent = 1e3 * np.array(data_dict["yrange"][:2])
+    horizontal_extent = 1e3 * np.array(data_dict["xrange"][:2]).astype(float)
+    vertical_extent = 1e3 * np.array(data_dict["yrange"][:2]).astype(float)
 
     ret = {
         "data": data,
@@ -100,8 +102,10 @@ def read_shadow_file(filename, histogram_bins=None):
         "flux": data.sum(),
         "mean": data.mean(),
         "photon_energy": photon_energy,
-        "horizontal_extent": horizontal_extent.astype(float),
-        "vertical_extent": vertical_extent.astype(float),
+        "horizontal_extent_start": horizontal_extent[0],
+        "horizontal_extent_end": horizontal_extent[1],
+        "vertical_extent_start": vertical_extent[0],
+        "vertical_extent_end": vertical_extent[1],
         "units": "um",
     }
 

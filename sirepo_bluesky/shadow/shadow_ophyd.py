@@ -70,8 +70,10 @@ class SirepoWatchpointShadow(SirepoWatchpointBase):
             self.fwhm_x.put(_data["fwhm_x"])
             self.fwhm_y.put(_data["fwhm_y"])
             self.photon_energy.put(_data["photon_energy"])
-            self.horizontal_extent.put(_data["horizontal_extent"])
-            self.vertical_extent.put(_data["vertical_extent"])
+            self.horizontal_extent_start.put(_data["horizontal_extent_start"])
+            self.horizontal_extent_end.put(_data["horizontal_extent_end"])
+            self.vertical_extent_start.put(_data["vertical_extent_start"])
+            self.vertical_extent_end.put(_data["vertical_extent_end"])
 
         update_components(ret)
 

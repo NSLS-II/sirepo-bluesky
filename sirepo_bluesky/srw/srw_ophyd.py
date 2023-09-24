@@ -67,12 +67,7 @@ class SirepoWatchpointSRW(SirepoWatchpointBase):
     def describe(self):
         res = super().describe()
 
-        res[self.image.name].update(dict(external="FILESTORE"))
-
-        for key in [self.vertical_extent.name, self.horizontal_extent.name]:
-            res[key].update(dict(dtype_str="<f8"))
-
-        res[self.image.name].update(dict(shape=self._image_shape))
+        res[self.image.name].update(dict(external="FILESTORE", shape=self._image_shape))
 
         return res
 
@@ -110,8 +105,10 @@ class SirepoWatchpointSRW(SirepoWatchpointBase):
             self.fwhm_x.put(_data["fwhm_x"])
             self.fwhm_y.put(_data["fwhm_y"])
             self.photon_energy.put(_data["photon_energy"])
-            self.horizontal_extent.put(_data["horizontal_extent"])
-            self.vertical_extent.put(_data["vertical_extent"])
+            self.horizontal_extent_start.put(_data["horizontal_extent_start"])
+            self.horizontal_extent_end.put(_data["horizontal_extent_end"])
+            self.vertical_extent_start.put(_data["vertical_extent_start"])
+            self.vertical_extent_end.put(_data["vertical_extent_end"])
 
         # TODO: think about what should be passed - raw data from .dat files or the resized data?
         update_components(ret)
@@ -141,6 +138,16 @@ SirepoWatchpoint = SirepoWatchpointSRW
 
 
 class SingleElectronSpectrumReport(SirepoWatchpointSRW):
+    horizontal_extent_start = None
+    horizontal_extent_end = None
+    vertical_extent_start = None
+    vertical_extent_end = None
+    x = None
+    y = None
+    fwhm_x = None
+    fwhm_y = None
+    photon_energy = None
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -153,7 +160,7 @@ class SingleElectronSpectrumReport(SirepoWatchpointSRW):
     def describe(self):
         res = super().describe()
 
-        num_points = self.connection.data["models"]["intensityReport"]["photonEnergyPointCount"]
+        num_points = int(self.connection.data["models"]["intensityReport"]["photonEnergyPointCount"])
         res[self.image.name].update(dict(shape=(num_points,)))
 
         return res
@@ -198,13 +205,6 @@ class SingleElectronSpectrumReport(SirepoWatchpointSRW):
         def update_components(_data):
             self.flux.put(_data["flux"])
             self.mean.put(_data["mean"])
-            self.x.put(_data["x"])
-            self.y.put(_data["y"])
-            self.fwhm_x.put(_data["fwhm_x"])
-            self.fwhm_y.put(_data["fwhm_y"])
-            self.photon_energy.put(_data["photon_energy"])
-            self.horizontal_extent.put(_data["horizontal_extent"])
-            self.vertical_extent.put(_data["vertical_extent"])
 
         update_components(ret)
 
