@@ -6,7 +6,6 @@ local:
       - tree: databroker.mongo_normalized:Tree.from_uri
         path: /
         args:
-          # TODO Update to databroker.tst.... once DNS is set up.
           uri: mongodb://localhost:27017/datastore
           asset_registry_uri: mongodb://localhost:27017/filestore
           handler_registry:

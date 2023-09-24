@@ -27,7 +27,7 @@ class DeviceWithJSONData(Device):
 
 class SirepoWatchpointBase(DeviceWithJSONData):
     image = Cpt(ExternalFileReference, kind="normal")
-    shape = Cpt(Signal)
+    # shape = Cpt(Signal)
     flux = Cpt(Signal, kind="hinted")
     mean = Cpt(Signal, kind="normal")
     x = Cpt(Signal, kind="normal")
@@ -61,6 +61,10 @@ class SirepoWatchpointBase(DeviceWithJSONData):
             raise RuntimeError(
                 f"Unknown simulation type: {self._sim_type}\nAllowed simulation types: {self._allowed_sim_types}"
             )
+
+        self._report = None
+        if hasattr(self, "id"):
+            self._report = f"watchpointReport{self.id._sirepo_dict['id']}"
 
     def collect_asset_docs(self):
         items = list(self._asset_docs_cache)

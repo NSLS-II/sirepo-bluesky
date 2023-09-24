@@ -28,6 +28,8 @@ class SirepoWatchpointShadow(SirepoWatchpointBase):
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
 
+        self.connection.data["report"] = self._report
+
         date = datetime.datetime.now()
         self._assets_dir = date.strftime("%Y/%m/%d")
         self._result_file = f"{new_uid()}.dat"
@@ -47,8 +49,6 @@ class SirepoWatchpointShadow(SirepoWatchpointBase):
             Path(self._resource_document["root"]) / Path(self._resource_document["resource_path"])
         )
 
-        self.connection.data["report"] = f"watchpointReport{self.id._sirepo_dict['id']}"
-
         _, duration = self.connection.run_simulation()
         self.duration.put(duration)
 
@@ -58,12 +58,12 @@ class SirepoWatchpointShadow(SirepoWatchpointBase):
             f.write(datafile)
 
         conn_data = self.connection.data
-        nbins = conn_data["models"][conn_data["report"]]["histogramBins"]
+        nbins = conn_data["models"][self._report]["histogramBins"]
         ret = read_shadow_file(sim_result_file, histogram_bins=nbins)
         self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
 
         def update_components(_data):
-            self.shape.put(_data["shape"])
+            # self.shape.put(_data["shape"])
             self.flux.put(_data["flux"])
             self.mean.put(_data["mean"])
             self.x.put(_data["x"])
@@ -93,8 +93,7 @@ class SirepoWatchpointShadow(SirepoWatchpointBase):
 
     def describe(self):
         res = super().describe()
-        # TODO: dynamic watchpointReport number
-        ny = nx = self.connection.data["models"]["watchpointReport12"]["histogramBins"]
+        ny = nx = self.connection.data["models"][self._report]["histogramBins"]
         res[self.image.name].update(dict(external="FILESTORE", shape=(ny, nx)))
         return res
 
@@ -112,11 +111,12 @@ class BeamStatisticsReport(DeviceWithJSONData):
     def __init__(self, connection, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.connection = connection
+        self._report = "beamStatisticsReport"
 
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
 
-        self.connection.data["report"] = "beamStatisticsReport"
+        self.connection.data["report"] = self._report
 
         start_time = ttime.monotonic()
         self.connection.run_simulation()

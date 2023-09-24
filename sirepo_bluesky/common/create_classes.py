@@ -129,7 +129,6 @@ def create_classes(connection, create_objects=True, extra_model_fields=[]):
                 ):
                     cpt_class = SirepoSignalCrystal
                 else:
-                    # TODO: Cover the cases for mirror and crystal grazing angles
                     cpt_class = SirepoSignal
 
                 if "type" in el and el["type"] not in ["undulator", "intensityReport"]:

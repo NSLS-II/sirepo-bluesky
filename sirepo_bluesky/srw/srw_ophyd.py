@@ -30,9 +30,6 @@ class SirepoWatchpointSRW(SirepoWatchpointBase):
         self._image_shape = image_shape
         super().__init__(*args, root_dir=root_dir, assets_dir=assets_dir, result_file=result_file, **kwargs)
 
-        if hasattr(self, "id"):
-            self.connection.data["report"] = f"watchpointReport{self.id._sirepo_dict['id']}"
-
     def stage(self):
         super().stage()
         date = datetime.datetime.now()
@@ -84,6 +81,9 @@ class SirepoWatchpointSRW(SirepoWatchpointBase):
 
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
+
+        self.connection.data["report"] = self._report
+
         current_frame = next(self._counter)
         sim_result_file = f"{os.path.splitext(self._data_file)[0]}_{self._sim_type}_{current_frame:04d}.dat"
 
@@ -106,7 +106,7 @@ class SirepoWatchpointSRW(SirepoWatchpointBase):
         self._dataset[current_frame, :, :] = data
 
         def update_components(_data):
-            self.shape.put(_data["shape"])
+            # self.shape.put(_data["shape"])
             self.flux.put(_data["flux"])
             self.mean.put(_data["mean"])
             self.x.put(_data["x"])
@@ -117,6 +117,7 @@ class SirepoWatchpointSRW(SirepoWatchpointBase):
             self.horizontal_extent.put(_data["horizontal_extent"])
             self.vertical_extent.put(_data["vertical_extent"])
 
+        # TODO: think about what should be passed - raw data from .dat files or the resized data?
         update_components(ret)
 
         datum_document = self._datum_factory(datum_kwargs={"frame": current_frame})
@@ -147,7 +148,7 @@ class SingleElectronSpectrumReport(SirepoWatchpointSRW):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.connection.data["report"] = "intensityReport"
+        self._report = "intensityReport"
         self._image_shape = None  # placeholder
 
     def stage(self):
@@ -163,6 +164,8 @@ class SingleElectronSpectrumReport(SirepoWatchpointSRW):
 
     def trigger(self, *args, **kwargs):
         logger.debug(f"Custom trigger for {self.name}")
+
+        self.connection.data["report"] = self._report
 
         date = datetime.datetime.now()
         self._assets_dir = date.strftime("%Y/%m/%d")
@@ -197,7 +200,7 @@ class SingleElectronSpectrumReport(SirepoWatchpointSRW):
         self._resource_document["resource_kwargs"]["ndim"] = ndim
 
         def update_components(_data):
-            self.shape.put(_data["shape"])
+            # self.shape.put(_data["shape"])
             self.flux.put(_data["flux"])
             self.mean.put(_data["mean"])
             self.x.put(_data["x"])
