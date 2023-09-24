@@ -63,7 +63,6 @@ class SirepoWatchpointShadow(SirepoWatchpointBase):
         self._resource_document["resource_kwargs"]["histogram_bins"] = nbins
 
         def update_components(_data):
-            # self.shape.put(_data["shape"])
             self.flux.put(_data["flux"])
             self.mean.put(_data["mean"])
             self.x.put(_data["x"])

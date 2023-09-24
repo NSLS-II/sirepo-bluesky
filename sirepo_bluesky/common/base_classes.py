@@ -27,7 +27,6 @@ class DeviceWithJSONData(Device):
 
 class SirepoWatchpointBase(DeviceWithJSONData):
     image = Cpt(ExternalFileReference, kind="normal")
-    # shape = Cpt(Signal)
     flux = Cpt(Signal, kind="hinted")
     mean = Cpt(Signal, kind="normal")
     x = Cpt(Signal, kind="normal")

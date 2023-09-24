@@ -69,9 +69,6 @@ class SirepoWatchpointSRW(SirepoWatchpointBase):
 
         res[self.image.name].update(dict(external="FILESTORE"))
 
-        for key in [self.shape.name]:
-            res[key].update(dict(dtype_str="<i8"))
-
         for key in [self.vertical_extent.name, self.horizontal_extent.name]:
             res[key].update(dict(dtype_str="<f8"))
 
@@ -106,7 +103,6 @@ class SirepoWatchpointSRW(SirepoWatchpointBase):
         self._dataset[current_frame, :, :] = data
 
         def update_components(_data):
-            # self.shape.put(_data["shape"])
             self.flux.put(_data["flux"])
             self.mean.put(_data["mean"])
             self.x.put(_data["x"])
@@ -200,7 +196,6 @@ class SingleElectronSpectrumReport(SirepoWatchpointSRW):
         self._resource_document["resource_kwargs"]["ndim"] = ndim
 
         def update_components(_data):
-            # self.shape.put(_data["shape"])
             self.flux.put(_data["flux"])
             self.mean.put(_data["mean"])
             self.x.put(_data["x"])
