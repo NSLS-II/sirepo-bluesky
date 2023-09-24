@@ -71,15 +71,20 @@ if __name__ == "__main__":
     ret = re_env(**kwargs_re)
     globals().update(**ret)
 
-    from sirepo_bluesky.srw_handler import SRWFileHandler
+    from sirepo_bluesky.srw.srw_handler import SRWFileHandler, SRWHDF5FileHandler
 
     if args.env_type == "stepper":
-        from sirepo_bluesky.shadow_handler import ShadowFileHandler
+        from sirepo_bluesky.shadow.shadow_handler import ShadowFileHandler
 
-        handlers = {"srw": SRWFileHandler, "SIREPO_FLYER": SRWFileHandler, "shadow": ShadowFileHandler}
+        handlers = {
+            "srw": SRWFileHandler,
+            "SRW_HDF5": SRWHDF5FileHandler,
+            "SIREPO_FLYER": SRWFileHandler,
+            "shadow": ShadowFileHandler,
+        }
         plt.ion()
     elif args.env_type == "flyer":
-        from sirepo_bluesky.madx_handler import MADXFileHandler
+        from sirepo_bluesky.madx.madx_handler import MADXFileHandler
 
         handlers = {"srw": SRWFileHandler, "SIREPO_FLYER": SRWFileHandler, "madx": MADXFileHandler}
         bec.disable_plots()  # noqa: F821
