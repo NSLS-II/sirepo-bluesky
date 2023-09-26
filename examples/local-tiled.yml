@@ -13,3 +13,4 @@ local:
             SIREPO_FLYER: sirepo_bluesky.srw.srw_handler:SRWFileHandler
             SRW_HDF5: sirepo_bluesky.srw.srw_handler:SRWHDF5FileHandler
             shadow: sirepo_bluesky.shadow.shadow_handler:ShadowFileHandler
+            madx: sirepo_bluesky.madx.madx_handler:MADXFileHandler
