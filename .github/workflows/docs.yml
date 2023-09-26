@@ -32,7 +32,7 @@ jobs:
           export DOCKER_BINARY="docker"
           echo "DOCKER_BINARY=${DOCKER_BINARY}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
