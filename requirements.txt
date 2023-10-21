@@ -1,6 +1,7 @@
 area-detector-handlers
 bluesky
 databroker
+h5py
 inflection
 matplotlib
 numconv
@@ -10,6 +11,7 @@ peakutils
 pymongo
 pyqt5>=5.9
 requests
+scikit-image
 shadow3>=23.1.4
 srwpy>=4.0.0b1
 tfs-pandas

@@ -1,7 +1,9 @@
+import h5py
 import numpy as np
 import srwpy.uti_plot_com as srw_io
+from area_detector_handlers.handlers import HandlerBase
 
-from . import utils
+from sirepo_bluesky import utils
 
 
 def read_srw_file(filename, ndim=2):
@@ -15,8 +17,8 @@ def read_srw_file(filename, ndim=2):
     else:
         raise ValueError(f"The value ndim={ndim} is not supported.")
 
-    horizontal_extent = np.array(ranges[3:5])
-    vertical_extent = np.array(ranges[6:8])
+    horizontal_extent = np.array(ranges[3:5]).astype(float)
+    vertical_extent = np.array(ranges[6:8]).astype(float)
 
     ret = {
         "data": data,
@@ -24,8 +26,10 @@ def read_srw_file(filename, ndim=2):
         "flux": data.sum(),
         "mean": data.mean(),
         "photon_energy": photon_energy,
-        "horizontal_extent": horizontal_extent,
-        "vertical_extent": vertical_extent,
+        "horizontal_extent_start": horizontal_extent[0],
+        "horizontal_extent_end": horizontal_extent[1],
+        "vertical_extent_start": vertical_extent[0],
+        "vertical_extent_end": vertical_extent[1],
         "labels": labels,
         "units": units,
     }
@@ -48,3 +52,15 @@ class SRWFileHandler:
     def __call__(self):
         d = read_srw_file(self._name, ndim=self._ndim)
         return d["data"]
+
+
+class SRWHDF5FileHandler(HandlerBase):
+    specs = {"SRW_HDF5"}
+
+    def __init__(self, filename):
+        self._name = filename
+
+    def __call__(self, frame):
+        with h5py.File(self._name, "r") as f:
+            entry = f["/entry/image"]
+            return entry[frame]

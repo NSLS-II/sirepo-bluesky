@@ -6,14 +6,14 @@ import pytest
 import vcr
 
 import sirepo_bluesky.tests
-from sirepo_bluesky.sirepo_bluesky import SirepoBluesky
-from sirepo_bluesky.sirepo_flyer import SirepoFlyer
+from sirepo_bluesky.common.sirepo_client import SirepoClient
+from sirepo_bluesky.srw.srw_flyer import SRWFlyer
 
 cassette_location = os.path.join(os.path.dirname(sirepo_bluesky.tests.__file__), "vcr_cassettes")
 
 
 def _test_smoke_sirepo(sim_id, server_name):
-    sb = SirepoBluesky(server_name)
+    sb = SirepoClient(server_name)
     data, schema = sb.auth("srw", sim_id)
     assert "beamline" in data["models"]
 
@@ -54,7 +54,7 @@ def _test_sirepo_flyer(RE_no_plot, db, tmpdir, sim_id, server_name):
             }
         )
 
-    sirepo_flyer = SirepoFlyer(
+    sirepo_flyer = SRWFlyer(
         sim_id=sim_id,
         server_name=server_name,
         root_dir=root_dir,

@@ -82,6 +82,8 @@ cmd_start="${docker_binary} run ${arg} --init ${remove_container} --name sirepo 
     -p 8000:8000 \
     -v $SIREPO_SRDB_HOST_RO:/SIREPO_SRDB_ROOT:ro,z "
 
+# TODO: parametrize host port number.
+
 cmd_extra=""
 if [ ! -z "${SIREPO_SRDB_HOST}" -a ! -z "${SIREPO_SRDB_GUEST}" ]; then
     cmd_extra="-v ${SIREPO_SRDB_HOST}:${SIREPO_SRDB_GUEST}:rw,z "

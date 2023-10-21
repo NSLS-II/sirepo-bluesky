@@ -8,11 +8,11 @@ import numpy as np
 import requests
 
 
-class SirepoBlueskyClientException(Exception):
+class SirepoClientException(Exception):
     pass
 
 
-class SirepoBluesky(object):
+class SirepoClient(object):
     """
     Invoke a remote sirepo simulation with custom arguments.
 
@@ -26,7 +26,7 @@ class SirepoBluesky(object):
     # sim_id is the last section from the simulation url
     # e.g., '.../1tNWph0M'
     sim_id = '1tNWph0M'
-    sb = SirepoBluesky('http://localhost:8000')
+    sb = SirepoClient('http://localhost:8000')
     data, schema = sb.auth('srw', sim_id)
     # update the model values and choose the report
     data['models']['undulator']['verticalAmplitude'] = 0.95
@@ -75,7 +75,7 @@ class SirepoBluesky(object):
         self.cookies = None
         res = self._post_json("auth-bluesky-login", req)
         if not ("state" in res and res["state"] == "ok"):
-            raise SirepoBlueskyClientException(f"bluesky_auth failed: {res}")
+            raise SirepoClientException(f"bluesky_auth failed: {res}")
         self.sim_type = sim_type
         self.sim_id = sim_id
         self.schema = res["schema"]
@@ -83,7 +83,7 @@ class SirepoBluesky(object):
         return self.data, self.schema
 
     def copy_sim(self, sim_name):
-        """Create a copy of the current simulation. Returns a new instance of SirepoBluesky."""
+        """Create a copy of the current simulation. Returns a new instance of SirepoClient."""
         if not self.sim_id:
             raise ValueError(f"sim_id is {self.sim_id!r}")
         res = self._post_json(
@@ -95,7 +95,7 @@ class SirepoBluesky(object):
                 "name": sim_name,
             },
         )
-        copy = SirepoBluesky(self.server, self.secret)
+        copy = SirepoClient(self.server, self.secret)
         copy.cookies = self.cookies
         copy.sim_type = self.sim_type
         copy.sim_id = res["models"]["simulation"]["simulationId"]
@@ -116,7 +116,7 @@ class SirepoBluesky(object):
             },
         )
         if not res["state"] == "ok":
-            raise SirepoBlueskyClientException(f"Could not delete simulation: {res}")
+            raise SirepoClientException(f"Could not delete simulation: {res}")
         self.sim_id = None
 
     def compute_crl_characteristics(self, crl_element):
@@ -148,7 +148,7 @@ class SirepoBluesky(object):
     def compute_crystal_orientation(self, crystal_element):
         res_init = self.compute_crystal_init(crystal_element)
         if res_init.pop("state") != "completed":
-            raise SirepoBlueskyClientException("crystal_init returned error state")
+            raise SirepoClientException("crystal_init returned error state")
         res = self._post_json(
             "stateless-compute",
             {
@@ -287,13 +287,13 @@ class SirepoBluesky(object):
             time.sleep(res["nextRequestSeconds"])
             res = self._post_json("run-status", res["nextRequest"])
         if not state == "completed":
-            raise SirepoBlueskyClientException(f"simulation failed to complete: {state}")
+            raise SirepoClientException(f"simulation failed to complete: {state}")
         return res, time.monotonic() - start_time
 
     @staticmethod
     def _assert_success(response, url):
         if not response.status_code == requests.codes.ok:
-            raise SirepoBlueskyClientException(f"{url} request failed, status: {response.status_code}")
+            raise SirepoClientException(f"{url} request failed, status: {response.status_code}")
 
     def _post_json(self, url, payload):
         response = requests.post(f"{self.server}/{url}", json=payload, cookies=self.cookies)

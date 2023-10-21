@@ -1,0 +1,16 @@
+local:
+  direct:
+    authentication:
+      allow_anonymous_access: true
+    trees:
+      - tree: databroker.mongo_normalized:Tree.from_uri
+        path: /
+        args:
+          uri: mongodb://localhost:27017/datastore
+          asset_registry_uri: mongodb://localhost:27017/filestore
+          handler_registry:
+            srw: sirepo_bluesky.srw.srw_handler:SRWFileHandler
+            SIREPO_FLYER: sirepo_bluesky.srw.srw_handler:SRWFileHandler
+            SRW_HDF5: sirepo_bluesky.srw.srw_handler:SRWHDF5FileHandler
+            shadow: sirepo_bluesky.shadow.shadow_handler:ShadowFileHandler
+            madx: sirepo_bluesky.madx.madx_handler:MADXFileHandler

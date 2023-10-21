@@ -12,12 +12,17 @@ jobs:
     # pull requests are a duplicate of a branch push if within the same repo.
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
 
-    name: Test sirepo-bluesky with ${{ matrix.docker-binary }} and Python ${{ matrix.python-version }}
+    name: Test sirepo-bluesky with py${{ matrix.python-version }} and databroker ${{ matrix.databroker }} (${{ matrix.docker-binary }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10"]
-        docker-binary: ["docker", "podman"]
+        databroker: ["v1", "v2"]
+        docker-binary: ["docker"]
+        include:
+          - python-version: "3.10"
+            docker-binary: "podman"
+            databroker: "v1"
       fail-fast: false
 
     defaults:
@@ -33,8 +38,16 @@ jobs:
           export DOCKER_BINARY=${{ matrix.docker-binary }}
           echo "DOCKER_BINARY=${DOCKER_BINARY}" >> $GITHUB_ENV
 
+          if [ "${{ matrix.databroker }}" == "v1" ]; then
+              EXTRA_INSTALL="databroker==1.2.5"
+          elif [ "${{ matrix.databroker }}" == "v2" ]; then
+              EXTRA_INSTALL="databroker[all]>=2.0.0b tiled[all]"
+          fi
+          export EXTRA_INSTALL
+          echo "EXTRA_INSTALL=${EXTRA_INSTALL}" >> $GITHUB_ENV
+
       - name: Checkout the code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.6.0
@@ -63,15 +76,20 @@ jobs:
         run: |
           set -vxeo pipefail
           python -m pip install --upgrade pip wheel
-          python -m pip install -v .
+          python -m pip install -v . ${EXTRA_INSTALL}
           python -m pip install -r requirements-dev.txt
           python -m pip list
 
       - name: Copy databroker config file
         run: |
           set -vxeuo pipefail
-          mkdir -v -p ~/.config/databroker/
-          cp -v examples/local.yml ~/.config/databroker/
+          if [ "${{ matrix.databroker }}" == "v1" ]; then
+              mkdir -v -p ~/.config/databroker/
+              cp -v examples/local.yml ~/.config/databroker/
+          elif [ "${{ matrix.databroker }}" == "v2" ]; then
+              mkdir -v -p ~/.config/tiled/profiles/
+              cp -v examples/local-tiled.yml ~/.config/tiled/profiles/local.yml
+          fi
 
       - name: Test with pytest
         run: |
@@ -79,8 +97,12 @@ jobs:
           pytest -s -vv
           status=$?
           ${DOCKER_BINARY} ps -a
+
+          echo "::group::docker logs"
           echo "Sirepo ${DOCKER_BINARY} container id: ${SIREPO_DOCKER_CONTAINER_ID}"
           ${DOCKER_BINARY} logs ${SIREPO_DOCKER_CONTAINER_ID}
+          echo "::endgroup::"
+
           if [ $status -gt 0 ]; then
               exit $status
           fi
