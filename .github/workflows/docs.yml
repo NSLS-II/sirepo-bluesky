@@ -48,9 +48,12 @@ jobs:
         uses: supercharge/mongodb-github-action@1.6.0
 
       - name: Start Sirepo Docker container
-        uses: NSLS-II/start-sirepo-action@v2
+        uses: mrakitin/start-sirepo-action@add-port-parameter
         with:
           docker-binary: ${{ env.DOCKER_BINARY }}
+          sirepo-bluesky-branch: configurable-sirepo-port
+          sirepo-bluesky-repo: mrakitin/sirepo-bluesky
+          sirepo-port: 8001
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
