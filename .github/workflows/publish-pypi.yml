@@ -7,7 +7,7 @@ name: PyPI upload
 
 on:
   release:
-    types: [created]
+    types: [created, published, released]
 
 jobs:
   publish_pypi:
