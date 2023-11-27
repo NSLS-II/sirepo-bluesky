@@ -336,7 +336,7 @@ class SirepoSignalCRL(SirepoSignal):
         # want to make sure the crl element is updated properly when parameters are changed.
         ret.pop("state")
         # Update crl element
-        for cpt in ["absoluteFocusPosition", "focalDistance"]:
+        for cpt in ["absoluteFocusPosition", "focalDistance", "photonEnergy"]:
             getattr(self.parent, cpt).put(ret[cpt])
         return NullStatus()
 

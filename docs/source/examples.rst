@@ -10,3 +10,4 @@ Examples
    notebooks/srw.ipynb
    notebooks/shadow.ipynb
    notebooks/madx.ipynb
+   notebooks/optimization.ipynb
